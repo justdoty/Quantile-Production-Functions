@@ -60,7 +60,7 @@ QACF <- function(tau, va, state, free, proxy, id, time, h=0, b.init=0) {
   regvars <- data[, grepl('regvars', colnames(data)), drop = FALSE]
 
   #Sample size
-  n <- length(id)
+  n <- length(data[,"id"])
   #Number of instruments
   dZ <- ncol(Z)
   Lambda <- function(va, Xt, lX, Lagphi, b){
@@ -82,7 +82,7 @@ QACF <- function(tau, va, state, free, proxy, id, time, h=0, b.init=0) {
 ######### Second Step: Initial Consistent Estimates and Mu Estimates ########################
 
   # #Iniitial arbitrary weight matrix
-  W.init <- diag(dZ)
+  W.init <- solve(cov(repmat(as.matrix(rnorm(n)), 1, dZ)*Z))
   # #Second step estimation objective function
   ivqr.obj <- function(b, h, W) {
       L <- matrix(Lambda(va=va, Xt=Xt, lX=lX, Lagphi=Lagphi, b=b), ncol=1)
@@ -102,7 +102,7 @@ QACF <- function(tau, va, state, free, proxy, id, time, h=0, b.init=0) {
     return(g.bar)        
   }
   ##Minimize the sample moment with the initial arbitrary weight matrix W.init 
-  ivqr.gmm1 <- GenSA(par=b.init, fn=function(b) {obj.fn(b, W=W.init)}, lower=array(0, dZ), upper=array(1, dZ), control=list(max.time=20))
+  ivqr.gmm1 <- GenSA(par=b.init, fn=function(b) {obj.fn(b, W=W.init)}, lower=array(0, dZ), upper=array(2, dZ), control=list(max.time=10))
   # #Initial consistent estimator
   b1 <- ivqr.gmm1$par
   ########## Second Step: Initial Consistent Estimates and Mu Estimates ########################
@@ -131,12 +131,15 @@ QACF <- function(tau, va, state, free, proxy, id, time, h=0, b.init=0) {
     L2.Step1 <- array(data=Itilde.deriv(-L2/h),dim=dim(Z))*Z
     L1.d <- -cbind(1, regvars)
     L2.d <- -locgammamu[length(gammafirst)]*cbind(1, regvars)
-    G11 <- -t(L1.Step1)%*%L1.d
-    G21 <- -t(L2.Step1)%*%L2.d
-    #Construct the Entire G Matrix by Blocks
-    G12 <- matrix(0, nrow=(ncol(regvars)+1), ncol=length(mu.hat))
-    G22 <- matrix(-1, nrow=length(mu.hat), ncol=length(mu.hat))
-    G <- cbind(rbind(G22, G12), rbind(G21, G11))
+    
+    G11 <- matrix(-1, nrow=length(mu.hat), ncol=length(mu.hat))
+    G21 <- matrix(0, nrow=(ncol(regvars)+1), ncol=length(mu.hat))
+    G12 <- -t(L2.Step1)%*%L2.d
+    G22 <- -t(L1.Step1)%*%L1.d
+    G22 <- -t(L1.Step1)%*%L1.d
+    G21 <- matrix(0, nrow=(ncol(regvars)+1), ncol=length(mu.hat))
+    G11 <- matrix(-1, nrow=length(mu.hat), ncol=length(mu.hat))
+    G <- cbind(rbind(G11, G21), rbind(G12, G22))
     return(G)
   }
   #Now do Murphy-Topel Estimate of Variance of Mu
@@ -144,11 +147,11 @@ QACF <- function(tau, va, state, free, proxy, id, time, h=0, b.init=0) {
   G <- joint.mom.der(gammamu)
   avar <- pinv(G%*%varmat%*%t(G))*n
   weight.mat <- avar[1:length(mu.hat), 1:length(mu.hat)]
-  ivqr.gmm2 <- GenSA(par=b1, fn=function(b) {obj.fn(b, W=weight.mat)}, lower=array(0, dZ), upper=array(1, dZ), control=list(max.time=5))
+  ivqr.gmm2 <- GenSA(par=b1, fn=function(b) {obj.fn(b, W=weight.mat)}, lower=array(0, dZ), upper=array(2, dZ), control=list(max.time=10))
   b2 <- ivqr.gmm2$par
-  return(b1)
+  return(list(b2, diag(weight.mat)))
 }
-hi <- QACF(tau=0.9, va=chile$lnva, state=chile$lnk, free=cbind(chile$lnb, chile$lnw), proxy=chile$proxy_m, id=chile$ppn, time=chile$year, h=0.001, b.init=c(0,0,0,0))
+hi <- QACF(tau=0.3, va=chile$lnva, state=chile$lnk, free=cbind(chile$lnb, chile$lnw), proxy=chile$proxy_m, id=chile$ppn, time=chile$year, h=0.001, b.init=c(0.5,0.5,0.5,0.5))
 
 
 
