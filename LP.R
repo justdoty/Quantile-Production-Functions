@@ -96,18 +96,18 @@ LP <- function(va, state, free, proxy, id, time, b.init=NULL){
     return(mom)
   }
   ###Derivative of Joint Moments
-  joint.mom.der <- function(locgammamu){
-  	G11 <- -diag(length(mu.hat))
-  	G21 <- matrix(0, nrow=(ncol(regvars)+1), ncol=length(mu.hat))
-  	G12.Free <- -t(Z)%*%regvars[,1:ncol(free)]
-  	G12.Phi <- -locgammamu[length(mu.hat)]*t(Z)%*%cbind(1, regvars[,-(1:ncol(free))])
-  	G12 <- cbind(G12.Free, G12.Phi)/n
-  	G22.Free <- -t(cbind(1, regvars))%*%regvars[,1:ncol(free)]
-  	G22.Phi <-  -t(cbind(1, regvars))%*%cbind(1, regvars[,-(1:ncol(free))])
-  	G22 <- cbind(G22.Free, G22.Phi)/n
-  	G <- rbind(cbind(G22, G21), cbind(G12, G11))
-  	return(G)
-  }
+  # joint.mom.der <- function(locgammamu){
+  # 	G11 <- -diag(length(mu.hat))
+  # 	G21 <- matrix(0, nrow=(ncol(regvars)+1), ncol=length(mu.hat))
+  # 	G12.Free <- -t(Z)%*%regvars[,1:ncol(free)]
+  # 	G12.Phi <- -locgammamu[length(mu.hat)]*t(Z)%*%cbind(1, regvars[,-(1:ncol(free))])
+  # 	G12 <- cbind(G12.Free, G12.Phi)/n
+  # 	G22.Free <- -t(cbind(1, regvars))%*%regvars[,1:ncol(free)]
+  # 	G22.Phi <-  -t(cbind(1, regvars))%*%cbind(1, regvars[,-(1:ncol(free))])
+  # 	G22 <- cbind(G22.Free, G22.Phi)/n
+  # 	G <- rbind(cbind(G22, G21), cbind(G12, G11))
+  # 	return(G)
+  # }
   #Optional for numeric derivatives
   joint.deriv <- function(locgammamu){
   	return(colMeans(joint.mom(locgammamu)))
@@ -125,7 +125,11 @@ LP <- function(va, state, free, proxy, id, time, b.init=NULL){
   # # # #Take the block corresponding to the covariance matrix of mu
   weight.mat <- solve(avar[(nrow(avar)-dZ+1):nrow(avar), (ncol(avar)-dZ+1):ncol(avar)])
   #Take the block corresponding to the covariance matrix of free variables
-  avar.l <- diag(avar[1:ncol(free), 1:ncol(free)], nrow=1, ncol=1)
+  if (!is.matrix(avar[1:ncol(free), 1:ncol(free)])){
+      avar.l <- as.numeric(diag(avar[1:ncol(free), 1:ncol(free)], nrow=1, ncol=1))
+    } else {
+      avar.l <- as.numeric(diag(avar[1:ncol(free), 1:ncol(free)]))
+    }
   # # # # #Take the inverse for the weighting matrix to use in the last step
   stage2 <- suppressWarnings(solnp(pars=b1, fun=function(b){obj.fn(b, W=weight.mat)}, control=list(trace=FALSE)))
   b2 <- stage2$pars
@@ -144,8 +148,8 @@ LP <- function(va, state, free, proxy, id, time, b.init=NULL){
   return(list(c(b2[1:ncol(state)], gammal, b2[length(b2)]), c(avar.b[1:ncol(state)], avar.l, avar.b[length(avar.b)])))
 }
 
-chile_panel <- read.csv('chile_panel.csv')
-chile <- na.omit(subset(chile_panel, ciiu_3d==381))
+# chile_panel <- read.csv('chile_panel.csv')
+# chile <- na.omit(subset(chile_panel, ciiu_3d==381))
 
-results <- LP(va=chile$lnva, state=chile$lnk, free=chile$lnl, proxy=chile$proxy_e, id=chile$id, time=chile$year)
-print(results)
+# results <- LP(va=chile$lnva, state=chile$lnk, free=chile$lnl, proxy=chile$proxy_e, id=chile$id, time=chile$year)
+# print(results)
