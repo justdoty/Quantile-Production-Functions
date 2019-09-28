@@ -5,245 +5,238 @@ set.seed(123456)
 #https://faculty.missouri.edu/~kaplandm/
 
 #Some data preparation follows prodest.R (Gabrielle Rovigatti)
-
-#This version implements a Murphy-Topel Estimator for the quantile production function
 source("gmmq.R")
 source("ivqr.bw.R")
+source("LP.R")
 #Required for 1st step estimation
 require(quantreg)
-#Required for QGMM estimation
+#Required for QGMM estimation variations
 require(GenSA)
 require(pracma)
-#Optional for parallel computing
+#Optional for parallel computing (optional)
 require(snow)
 require(dplyr)
-#Required for IVQR.BW
+#Required for IVQR.BW (for two-step estimation)
 require(MASS)
-#Required for ACF estimation comparison
+#Required for various codes to check ACF and LP estimates and bootstrapping
 require(prodest)
-QACF <- function(tau, va, state, free, proxy, id, time, h=0, b.init=0){
+QLP <- function(tau, va, state, free, proxy, idvar, timevar, h=0, b.init=NULL, R=100){
   #Make all data arguments into matrices
   va <- as.matrix(va)
   state <- as.matrix(state)
   free <- as.matrix(free)
   proxy <- as.matrix(proxy)
-  id <- as.matrix(id)
-  time <- as.matrix(time)
-  #function to generated lagged variables in a panel, see prodest.R (Gabriele Rovigatti) 
-  lagPanel <- function(id, time, data){
-    df <- data.frame(id, time, data)
-    last.time <- df %>% filter(!is.na(time)) %>%
-      mutate(time=time + 1, lagged_value=data, data=NULL)
-    out <- as.matrix(df %>% left_join(last.time, by = c("id", "time")))[,4]
-    return(out)
-  }
-  #Generate lag values of state and free variable
+  idvar <- as.matrix(idvar)
+  timevar<- as.matrix(timevar)
+  snum <- ncol(state)
+  fnum <- ncol(free)
+
+  polyframe <- data.frame(state, proxy) # vars to be used in polynomial approximation
+  mod <- model.matrix( ~.^2-1, data = polyframe) # generate the polwynomial elements - this drops NAs
+  mod <- mod[match(rownames(polyframe),rownames(mod)),] # replace NAs if there was any
+  regvars <- cbind(free, mod, state^2, proxy^2)
+
+  # Generate state lags
+
   lagstate <- state
   for (lag in 1:ncol(state)){
-    lagstate[,lag] <- lagPanel(id=id, time=time, data=state[,lag])
+    lagstate[,lag] <- lagPanel(idvar=idvar, timevar=timevar, value=state[,lag])
   }
-  lagfree <- free
-  for (lag in 1:ncol(free)){
-    lagfree[,lag] <- lagPanel(id=id, time=time, data=free[,lag])
+  #Generate the matrix of data
+  data <- suppressWarnings(as.matrix(data.frame(state=state, lagstate=lagstate, free=free, va=va, idvar=idvar, timevar=timevar, Z=state, regvars=regvars)))
+
+  betas <- finalQLP(tau=tau, h=h, ind=TRUE, data=data, fnum=fnum, snum=snum, b.init=b.init, boot=FALSE)
+  boot.indices <- block.boot.resample(idvar, R)
+  boot.betas <- matrix(NA, R, (fnum+snum))
+
+  for (i in 1:R){
+    set.seed(123456+R)
+    boot.betas[i,] <- finalQLP(tau=tau, h=h, ind=boot.indices[[i]], data=data, fnum=fnum, snum=snum, b.init=b.init, boot=TRUE)
   }
-  #Variables to use in first stage regression
-  polyframe <- data.frame(state,free,proxy) # vars to be used in polynomial approximation
-  mod <- model.matrix( ~.^2-1, data = polyframe) # generate the polynomial elements - this drops NAs
-  mod <- mod[match(rownames(polyframe),rownames(mod)),] # replace NAs if there was any
-  regvars <- cbind(mod, state^2, free^2, proxy^2)
-
-  tmp.data <- suppressWarnings(as.matrix(data.frame(id=id, time=time, va=va, regvars=regvars)))
-
-  #Estimate firststage parameters (gamma) and fit model
-  firststage <- rq(tmp.data[,'va', drop = FALSE] ~ tmp.data[, grepl('regvars', colnames(tmp.data)), drop = FALSE], na.action = na.exclude, tau=tau)
-  gammafirst <- c(as.numeric(coef(firststage)))
-  numgamma <- length(gammafirst)
-  phi <- fitted(firststage)
-  lagphi <- lagPanel(id = id, time=time, data=phi)
-  data <- suppressWarnings(as.matrix(na.omit(data.frame(id=id, time=time, va=data.frame(va), Z=data.frame(state, lagfree, lagphi), 
-        Xt=data.frame(state, free), lX=data.frame(lagstate, lagfree), Lagphi=data.frame(lagphi), regvars=regvars))))
-  va <- data[,"va"]
+  #Calculate standard deviations
+  boot.errors <- apply(boot.betas, 2, sd, na.rm=TRUE)
+  return(boot.betas)
+}
+  #Function to estimate and to bootstrap QLP
+finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot){
+  if (sum(as.numeric(ind))==length(ind)){ #if the ind variable is not always TRUE
+    newid <- data[ind, 'idvar', drop = FALSE]
+  } else {
+    newid <- as.matrix(as.numeric(rownames(ind)))
+    ind <- as.matrix(ind)
+  }
+  #change the index according to bootstrapped indices
+  data <- data[ind,] 
+  first.stage <- rq(data[,'va', drop = FALSE] ~ data[, grepl('regvars', colnames(data)), drop = FALSE], na.action = na.exclude, tau=tau)
+  free <- data[,grepl('free', colnames(data)), drop = FALSE]
+  phi <- fitted(first.stage)
+  beta.free <-  as.numeric(coef(first.stage)[2:(1+fnum)])
+  #If not specified, starting points are the first stage+normal noise
+  if (is.null(b.init)){
+    b.init <- coef(first.stage)[(2 + fnum):(1 + fnum + snum)]+rnorm((snum), 0, 0.01)
+  } 
+  #Clean Phi from the effects of free variables
+  phi <- phi - (free%*%beta.free)
+  newtime <- data[,'timevar', drop = FALSE]
+  rownames(phi) <- NULL
+  rownames(newtime) <- NULL
+  #Lag Fitted Values  
+  lag.phi <- lagPanel(value=phi, idvar=newid, timevar=newtime)
+  #Clean the output from the effect of free variables
+  va <- data[,'va', drop = FALSE] - (free%*%beta.free)
+  state <- data[, grepl('state', colnames(data)), drop = FALSE]
+  lagstate <- data[, grepl('lagstate', colnames(data)), drop = FALSE]
   Z <- data[, grepl('Z', colnames(data)), drop = FALSE]
-  Xt <- data[, grepl('Xt', colnames(data)), drop = FALSE]
-  lX <- data[, grepl('lX', colnames(data)), drop = FALSE]
-  Lagphi <- data[,"lagphi"]
-  regvars <- data[, grepl('regvars', colnames(data)), drop = FALSE]
-  ##Sample size
-  n <- length(va)
-  ##Number of instruments
-  dZ <- ncol(Z)
-  #Moment function in 2nd step (plugging in fitted firststage values)
-  Lambda <- function(va, Xt, lX, Lagphi, b){
-    Moment <- va-Xt%*%b[1:(length(b)-1)]-b[length(b)]*(Lagphi-lX%*%b[1:(length(b)-1)])
-    return(Moment)
-  }
-  #Derivative of moment function in 2nd step (plugging in fitted firststage values)
-  Lambda.derivative <- function(va, Xt, lX, Lagphi, b){
-    #State Variables
-    g1 <- -Xt[,1:ncol(state)]+b[length(b)]*lX[,1:ncol(state)]
-    #Free Variables
-    g2 <- -Xt[,(ncol(state)+1):ncol(Xt)]+b[length(b)]*lX[,(ncol(state)+1):ncol(Xt)]
-    # #Productivity
-    g3 <- -(Lagphi-lX%*%b[1:(length(b)-1)])
-    # # #Combined
-    g <- cbind(g1, g2, g3, deparse.level = 0)
-    return(g)
-    }
-    #Add bandwidth as second argument to G() and G'() functions.
-    Gfn <- function(v,h){      
-    Itilde.KS17(v/h)    
-    }
-    Gpfn <- function(v,h){      
-      Itilde.deriv.KS17(v/h)    
-    }
-  #Smoothing Kernels
+  tmp.data <- na.omit(data.frame(state, lagstate, phi, lag.phi, va, Z))
+  W <- solve(tau*(1-tau)*crossprod(tmp.data$Z)/length(tmp.data$Z))
+  try.state <- optim(b.init, goQLP, method='BFGS', mZ=tmp.data$state, mW=W, mX=tmp.data$state, mlX=tmp.data$lagstate, 
+  vphi=tmp.data$phi, vlag.phi=tmp.data$lag.phi, vres=tmp.data$va, tau=tau, h=h)
+
+  beta.state <- as.numeric(try.state$par)
+  return(c(beta.free, beta.state))
+}
+
+#Smoothing Kernels
   Itilde <- Itilde.KS17
   Itilde.deriv <- Itilde.deriv.KS17
-  ivqr.obj <- function(b, h, W) {
-      L <- matrix(Lambda(va=va, Xt=Xt, lX=lX, Lagphi=Lagphi, b=b), ncol=1)
-      gni <- Z*repmat((Gfn(-L,h)-tau),1,dZ) 
-      g.bar <- as.matrix(colMeans(Z*repmat((Gfn(-L,h)-tau),1,dZ))) 
-      obj.fn <- t(g.bar)%*%W%*%g.bar
-      return(obj.fn)
-  }
-  obj.fn <- function(b, W) {
-      return(n*ivqr.obj(b, h=h, W))
-  }
-  ##Second Step Sample Moments
-  M.hat <- function(b) {
-    L <- matrix(Lambda(va=va, Xt=Xt, lX=lX, Lagphi=Lagphi, b=b), ncol=1)
-    gni <- Z*repmat((Gfn(-L,h)-tau),1,dZ) 
-    g.bar <- as.matrix(colMeans(Z*repmat((Gfn(-L,h)-tau),1,dZ))) 
-    return(g.bar)  
-  } 
-########First Stage: Initial Consistent Estimates#########################
-  #Here i use the over identified case for estimates of beta using iid weighting matrix of Kaplan and Sun (2017)
-  W.init <- solve((1-tau)*tau*t(Z)%*%Z/n)
-  ivqr.est <- GenSA(par=b.init, fn=function(b){obj.fn(b, W=W.init)}, lower=array(0, dZ), upper=array(1, dZ), control=list(max.time=5))
-  b1 <- ivqr.est$par
-  #Below implements a first stage consistent estimate using gmmq (exact identification) but does not work well
-    # ivqr.est <- gmmq(tau=tau, va=va, Xt=Xt, lX=lX, Z=Z, Lagphi=Lagphi, id=id, time=time, 
-    #   Lambda=Lambda, Lambda.derivative=Lambda.derivative, h=0, VERBOSE=TRUE, b.init=b.init)
-    # #First stage consistent estimates of beta 
-    # b1 <- ivqr.est$b
-    #First stage bandwidth
-    #   h <- ivqr.est$h
-########## Second Stage: Mu Estimates ########################      
-########### Get estimates of the mu's for fixed value of beta
-  mu.hat <- as.numeric(M.hat(b1))
-########### Collect New Parameters
-  gammamu <- c(gammafirst, mu.hat)
-##Joint Moments from 1st and 2nd step
-  joint.mom <- function(locgammamu){
-    lhhat <- cbind(1, regvars)%*%locgammamu[1:length(gammafirst)]
-    resid1 <- va-lhhat
-    resid2 <- va-Xt%*%b1[1:(length(b1)-1)]-b1[length(b1)]*(lhhat-lX%*%b1[1:(length(b1)-1)])
-    mom1 <- cbind(1,regvars)*repmat((Gfn(-resid1,h)-tau),1,(ncol(regvars)+1))
-    mom2 <- Z*repmat((Gfn(-resid2,h)-tau),1,dZ)-locgammamu[(length(gammafirst)+1):length(gammamu)] 
-    mom <- cbind(mom1, mom2)
-    return(mom)
-  }
-##Control for smoothing in G function: The smallest feasible bandwidth is too small for estimating G
-    #Plug-in bandwidth from Kaplan and Sun (2017)
-    # h.joint <- ivqr.bw(p=tau, va=va, Xt=Xt, lX=lX, Lagphi=Lagphi, b.init=b1)
-  h.joint <- n^(-1/2)
-##Derivative of Joint Moments
-  joint.mom.der <- function(locgammamu){
-    lhhat <- cbind(1, regvars)%*%locgammamu[1:length(gammafirst)]
-    L <- matrix(Lambda(va=va, Xt=Xt, lX=lX, Lagphi=lhhat, b=b1), ncol=1)
-    L1 <- va-lhhat
-    L2 <- va-Xt%*%b1[1:(length(b1)-1)]-b1[length(b1)]*(lhhat-lX%*%b1[1:(length(b1)-1)])
-    L1.Step1 <- array(data=Itilde.deriv(-L1/h.joint),dim=dim(cbind(1, regvars)))*cbind(1,regvars)
-    L2.Step1 <- array(data=Itilde.deriv(-L2/h.joint),dim=dim(Z))*Z
-    #Derivative of the first moment residual with respect to gammas
-    L1.d <- -cbind(1, regvars)
-    #Derivative of the second moment residual with respect to gammas
-    L2.d <- -locgammamu[length(gammafirst)]*cbind(1, regvars)
-    #Construct the Entire G Matrix by Blocks
-    G11 <- -diag(length(mu.hat))
-    G21 <- matrix(0, nrow=(ncol(regvars)+1), ncol=length(mu.hat))
-    G12 <- -(t(L2.Step1)%*%L2.d)
-    G22 <- -(t(L1.Step1)%*%L1.d)
-    G <- cbind(rbind(G11, G21), rbind(G12, G22))/(n*h.joint)
-    return(G)
-  }
-  #Now do Murphy-Topel Estimate of Variance of Mu
-  #The Estimate of the covariance of the joint moment restrictions
-  varmat <- t(joint.mom(gammamu))%*%joint.mom(gammamu)/n
-  # The estimate of the derivatives of the joint moment restrictions
-  G <- solve(joint.mom.der(gammamu))
-  #The estimate of the asymptotic covariance matrix of gammas and mu's
-  avar <- G%*%varmat%*%t(G)
-  #Take the block corresponding the the covariance matrix of mu
-  var <- avar[1:length(mu.hat), 1:length(mu.hat)]/n
-  # #Take the inverse for the weighting matrix to use in the last step
-  weight.mat <- solve(var)
-  ivqr.gmm2 <- GenSA(par=b1, fn=function(b){obj.fn(b, W=weight.mat)}, lower=array(0, dZ), upper=array(1, dZ), control=list(max.time=5))
-  b2 <- ivqr.gmm2$par
-  # Derivative of Moments for b
-  #Plug-in bandwidth from Kaplan and Sun (2017)
-  # h.b <- ivqr.bw(p=tau, va=va, Xt=Xt, lX=lX, Lagphi=Lagphi, b.init=b2)
-  h.b <- n^(-1/2)
-  Lambda.derivative <- function(b){
-    #State Variable
-    g1 <- -Xt[,1:ncol(state)]+b[length(b)]*lX[,1:ncol(state)]
-    #Free Variables
-    g2 <- -Xt[,(ncol(state)+1):ncol(Xt)]+b[length(b)]*lX[,(ncol(state)+1):ncol(Xt)]
-    # #Productivity
-    g3 <- -(Lagphi-lX%*%b[1:(length(b)-1)])
-    # # #Combined
-    g <- cbind(g1, g2, g3, deparse.level = 0)
-    return(g)
+#Add bandwidth as second argument to G() and G'() functions.
+  Gfn <- function(v,h){      
+    Itilde.KS17(v/h)    
     }
-  L.d <- Lambda.derivative(b2) 
-  G.temp <- -t(array(data=Itilde.deriv(-Lambda(va=va, Xt=Xt, lX=lX, Lagphi=Lagphi, b=b2)/h.b),dim=dim(Z))*Z)%*%L.d
-  G.b <- solve(G.temp)
-  avar.b <- G.b%*%weight.mat%*%t(G.b)/n
-  return(list(b2, as.numeric(diag(avar.b))))
-}
-#Load Chilean dataset
+  Gpfn <- function(v,h){      
+    Itilde.deriv.KS17(v/h)    
+    }
+
+#QLP Objective Function
+goQLP <- function(tau, h, vtheta, mZ, mW, mX, mlX, vphi, vlag.phi, vres){
+  vtheta <- as.matrix(as.numeric(vtheta))
+  Omega <- vphi-mX%*%vtheta
+  Omega_lag <- vlag.phi-mlX%*%vtheta
+  Omega_lag_pol <- cbind(1, Omega_lag, Omega_lag^2, Omega_lag^3)
+  g_b <- fitted(rq(Omega~Omega_lag+Omega_lag^2+Omega_lag^3, tau=tau))
+  # g_b <- solve(crossprod(Omega_lag_pol))%*%t(Omega_lag_pol)%*%Omega
+  Lambda <- vres-(mX%*%vtheta)-g_b
+  g.bar <- as.matrix(colMeans(mZ*repmat((Gfn(-Lambda, h)-tau), 1, 1)))
+  crit <- length(mZ)*t(g.bar)%*%mW%*%g.bar
+  return(crit) 
+}   
+
 chile_panel <- read.csv('chile_panel.csv')
-#Choose which industry to select
-industries <- c(311, 381, 321, 331)
-#Vector of quantiles
-tau <- seq(0.1, 0.9, by=0.05)
-#Store results for coefficients and standard errors
-coefficients <- replicate(length(industries), list(array(0, dim=c(length(tau), 4))))
-se <- replicate(length(industries), list(array(0, dim=c(length(tau), 4))))
-#Estimate for different industries
-#TO DO: Include Returns to Scale and test for returns to scale
-for (ISIC in 1:length(industries)){
-  print(industries[ISIC])
-  chile <- subset(chile_panel, ciiu_3d==industries[ISIC])
-  for (q in 1:length(tau)){
-    print(tau[q])
-    results <- QACF(tau=tau[q], va=chile$lnva, state=chile$lnk, free=cbind(chile$lnb, chile$lnw), proxy=chile$proxy_e, id=chile$id, time=chile$year, h=1e-6, b.init=c(0,0,0,0))
-    coefficients[[ISIC]][q,] <- results[[1]]
-    se[[ISIC]][q,] <- results[[2]]
-    print(cbind(results[[1]], results[[2]]))
-  }
-}
-#Prepare estimates for table in paper/presentation
-require(xtable)
-tau_table <- c(0.25, 0.5, 0.75)
+chile <- na.omit(subset(chile_panel, ciiu_3d==381))
 
-estimates <- data.frame(cbind(rep(tau, length(industries)), cbind(do.call(rbind, coefficients), do.call(rbind, se))[,c(rbind(c(1:4), 4+(1:4)))]))
-colnames(estimates) <- c('Tau','K',"se_K", 'Lw', "se_Lw", 'Lb', "se_Lb",'Rho', "se_Rho")
+print(QLP(tau=0.5, va=chile$lnva, state=chile$lnk, free=cbind(chile$lnw, chile$lnb), proxy=chile$proxy_e, idvar=chile$id, timevar=chile$year, h=1e-6, b.init=NULL, R=20))
+# for (q in 1:length(tau)){
+#   results <- QLP(tau=tau[q], va=chile$lnva, state=chile$lnk, free=cbind(chile$lnw, chile$lnb), proxy=chile$proxy_e, id=chile$id, time=chile$year, h=1e-6)
+#   print(results)
+# }
+#Load Chilean dataset
+# chile_panel <- read.csv('chile_panel.csv')
+# #Choose which industry to select
+# industries <- c(311, 321, 381)
+# #Industries that look best: 311, 384 (capital), 381
+# #Industries that dont work at all: 312
+# #Vector of quantiles
+# tau <- seq(0.1, 0.9, by=0.05)
+# #Store results for coefficients and standard errors
+# # LP_coefficients <- replicate(length(industries), list(array(0, dim=4)))
+# # LP_se <- replicate(length(industries), list(array(0, dim=4)))
+# LP_coefficients <- replicate(length(industries), list(array(0, dim=3)))
+# LP_se <- replicate(length(industries), list(array(0, dim=3)))
+# coefficients <- replicate(length(industries), list(array(0, dim=c(length(tau), 4))))
+# se <- replicate(length(industries), list(array(0, dim=c(length(tau), 4))))
+# #Estimate for different industries
+# #TO DO: Include Returns to Scale and test for returns to scale
+# for (ISIC in 1:length(industries)){
+#   print(industries[ISIC])
+#   chile <- subset(chile_panel, ciiu_3d==industries[ISIC])
+#   # LP_Results <- LP(va=chile$lnva, state=chile$lnk, free=cbind(chile$lnw, chile$lnb), proxy=chile$proxy_e, id=chile$id, time=chile$year, b.init=NULL)
+#   # LP_coefficients[[ISIC]] <- LP_Results[[1]]
+#   # LP_se[[ISIC]] <- LP_Results[[2]]
+#   # print(cbind(LP_Results[[1]], LP_Results[[2]]))
+#   LP_Results <- prodestLP(Y=chile$lnva, sX=chile$lnk, fX=cbind(chile$lnw, chile$lnb), pX=chile$proxy_e, idvar=chile$id, timevar=chile$year, opt='solnp')@Estimates
+#   LP_coefficients[[ISIC]] <- as.numeric(LP_Results$pars)[c(3,1,2)]
+#   LP_se[[ISIC]] <- as.numeric(LP_Results$std.errors)[c(3,1,2)]
+#   print(cbind(LP_coefficients[[ISIC]], LP_se[[ISIC]]))
+#   for (q in 1:length(tau)){
+#     print(tau[q])
+#     results <- QLP(tau=tau[q], va=chile$lnva, state=chile$lnk, free=cbind(chile$lnw, chile$lnb), proxy=chile$proxy_e, id=chile$id, time=chile$year, h=1e-6, b.init=NULL)
+#     coefficients[[ISIC]][q,] <- results[[1]]
+#     se[[ISIC]][q,] <- results[[2]]
+#     print(cbind(results[[1]], results[[2]]))
+#   }
+# }
 
-#Table Labels
-ISIC_labels <- array(NA, length(tau_table)*length(industries)); ISIC_labels[seq(1, length(tau_table)*length(industries), by=length(tau_table))] <- industries
-ISIC_labels[is.na(ISIC_labels)] <- ""
+# #Make an estimates table for Quantile GMM
+# estimates <- data.frame(cbind(rep(tau, length(industries)), cbind(do.call(rbind, coefficients), do.call(rbind, se))[,c(rbind(c(1:4), 4+(1:4)))]))
+# colnames(estimates) <- c('Tau','K',"se_K", 'Lw', "se_Lw", 'Lb', "se_Lb",'Rho', "se_Rho")
+# #Make an estimates table for LP
+# # estimates_LP <- data.frame(cbind(do.call(rbind, LP_coefficients), do.call(rbind, LP_se))[,c(rbind(c(1:4), 4+(1:4)))])
+# # colnames(estimates_LP) <- c('K', 'se_K', 'Lw', 'se_Lw', 'Lb', 'se_Lb', "Rho", "se_Rho")
 
-estimates_table <- subset(cbind(ISIC_labels, estimates[rep(tau, length(industries))%in%tau_table, ]), select=-c(Rho, se_Rho))
-colnames(estimates_table) <- c("Industry (ISIC code)", "$\\tau$", "Coef.", 's.e.', "Coef.",'s.e.', "Coef.", 's.e.')
+# estimates_LP <- data.frame(cbind(do.call(rbind, LP_coefficients), do.call(rbind, LP_se))[,c(rbind(c(1:3), 3+(1:3)))])
+# colnames(estimates_LP) <- c('K', 'se_K', 'Lw', 'se_Lw', 'Lb', 'se_Lb')
+# #Prepare estimates for table in paper/presentation
+# require(xtable)
+# tau_table <- c(0.25, 0.5, 0.75)
 
-estimates_table <- xtable(estimates_table, digits=c(0,0,2,3,4,3,4,3,4))
-align(estimates_table) <- rep('c', 9)
-addtorow <- list()
-addtorow$pos <- list(-1)
-addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Skilled Labor} & \\multicolumn{2}{c}{Unskilled Labor} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
-print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x)
+# #Table Labels
+# ISIC_labels <- array(NA, length(tau_table)*length(industries)); ISIC_labels[seq(1, length(tau_table)*length(industries), by=length(tau_table))] <- industries
+# ISIC_labels[is.na(ISIC_labels)] <- ""
 
+# estimates_table <- subset(cbind(ISIC_labels, estimates[rep(tau, length(industries))%in%tau_table, ]), select=-c(Rho, se_Rho))
+# colnames(estimates_table) <- c("Industry (ISIC code)", "$\\tau$", "Coef.", 's.e.', "Coef.",'s.e.', "Coef.", 's.e.')
+
+# estimates_table <- xtable(estimates_table, digits=c(0,0,2,3,4,3,4,3,4))
+# align(estimates_table) <- rep('c', 9)
+# addtorow <- list()
+# addtorow$pos <- list(-1)
+# addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Skilled Labor} & \\multicolumn{2}{c}{Unskilled Labor} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
+# print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x)
+
+# ############################Coefficicent Plots######################################
+# require(ggplot2)
+# require(cowplot)
+# K_plot <- list(); Lw_plot <- list(); Lb_plot <- list()
+# for (p in 1:length(industries)){
+#   #Capital
+#   ky <- split(estimates$K, ceiling(seq_along(estimates$K)/length(tau)))[[p]]
+#   ksd <- split(estimates$se_K, ceiling(seq_along(estimates$se_K)/length(tau)))[[p]]
+#   K_data <- data.frame(x=tau, y=ky, z=estimates_LP$K[p], lower=(ky-qnorm(0.95)*ksd), upper=(ky+qnorm(0.95)*ksd), lower_LP=(estimates_LP$K[p]-qnorm(0.95)*estimates_LP$se_K[p]), upper_LP=(estimates_LP$K[p]+qnorm(0.95)*estimates_LP$se_K[p]))
+#   K_plot[[p]] <- ggplot(K_data, aes(x=x, y=y)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) +  geom_hline(yintercept=K_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(K_data$lower_LP, K_data$upper_LP), linetype='dashed', color='red') + expand_limits(y=c(0,.8))
+#   #Skilled Labor
+#   lwy <- split(estimates$Lw, ceiling(seq_along(estimates$Lw)/length(tau)))[[p]]
+#   lwsd <- split(estimates$se_Lw, ceiling(seq_along(estimates$se_Lw)/length(tau)))[[p]]
+#   Lw_data <- data.frame(x=tau, y=lwy, z=estimates_LP$Lw[p], lower=(lwy-qnorm(0.95)*lwsd), upper=(lwy+qnorm(0.95)*lwsd), lower_LP=(estimates_LP$Lw[p]-qnorm(0.95)*estimates_LP$se_Lw[p]), upper_LP=(estimates_LP$Lw[p]+qnorm(0.95)*estimates_LP$se_Lw[p]))
+#   Lw_plot[[p]] <- ggplot(Lw_data, aes(x=x, y=y)) + xlab(expression('percentile-'*tau)) + ylab("Skilled Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) +  geom_hline(yintercept=Lw_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(Lw_data$lower_LP, Lw_data$upper_LP), linetype='dashed', color='red') + expand_limits(y=c(0,.8))
+#   #Unskilled Labor
+#   lby <- split(estimates$Lb, ceiling(seq_along(estimates$Lb)/length(tau)))[[p]]
+#   lbsd <- split(estimates$se_Lb, ceiling(seq_along(estimates$se_Lb)/length(tau)))[[p]]
+#   Lb_data <- data.frame(x=tau, y=lby, z=estimates_LP$Lb[p], lower=(lby-qnorm(0.95)*lbsd), upper=(lby+qnorm(0.95)*lbsd), lower_LP=(estimates_LP$Lb[p]-qnorm(0.95)*estimates_LP$se_Lb[p]), upper_LP=(estimates_LP$Lb[p]+qnorm(0.95)*estimates_LP$se_Lb[p]))
+#   Lb_plot[[p]] <- ggplot(Lb_data, aes(x=x, y=y)) + xlab(expression('percentile-'*tau)) + ylab("Unskilled Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) +  geom_hline(yintercept=Lb_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(Lb_data$lower_LP, Lb_data$upper_LP), linetype='dashed', color='red') + expand_limits(y=c(0,.8))
+# }
+# #Combine plots across industries
+# #Industry ISIC Code Plot Labels
+# Industry_1 <- ggdraw() + draw_label("Food Products (311)", fontface='plain')
+# Industry_2 <- ggdraw() + draw_label("Textiles (321)", fontface='plain')
+# Industry_3 <- ggdraw() + draw_label("Fabriacted Metals (381)", fontface='plain')
+
+# #Coefficient Plot for 1st industry
+# L_Plot_1 <- plot_grid(Lw_plot[[1]], Lb_plot[[1]], rel_heights=c(0.1, 1), ncol=2)
+# K_Plot_1 <- plot_grid(NULL, K_plot[[1]], NULL, ncol=3, rel_widths=c(0.25,0.5,0.25))
+# Coefficient_Plot_1 <- plot_grid(Industry_1, L_Plot_1, K_Plot_1, ncol=1, rel_heights=c(0.1, 1, 1))
+# save_plot("Coefficient_Plot_1.png", Coefficient_Plot_1, base_height = 8, base_width = 9)
+
+# #Coefficient Plot for 2nd industry
+# L_Plot_2 <- plot_grid(Lw_plot[[2]], Lb_plot[[2]], rel_heights=c(0.1, 1), ncol=2)
+# K_Plot_2 <- plot_grid(NULL, K_plot[[2]], NULL, ncol=3, rel_widths=c(0.25,0.5,0.25))
+# Coefficient_Plot_2 <- plot_grid(Industry_2, L_Plot_2, K_Plot_2, ncol=1, rel_heights=c(0.1, 1, 1))
+# save_plot("Coefficient_Plot_2.png", Coefficient_Plot_2, base_height = 8, base_width = 9)
+
+# #Coefficient Plot for 3rd industry
+# L_Plot_3 <- plot_grid(Lw_plot[[3]], Lb_plot[[3]], rel_heights=c(0.1, 1), ncol=2)
+# K_Plot_3 <- plot_grid(NULL, K_plot[[3]], NULL, ncol=3, rel_widths=c(0.25,0.5,0.25))
+# Coefficient_Plot_3 <- plot_grid(Industry_3, L_Plot_3, K_Plot_3, ncol=1, rel_heights=c(0.1, 1, 1))
+# save_plot("Coefficient_Plot_3.png", Coefficient_Plot_3, base_height = 8, base_width = 9)
 
 
 
