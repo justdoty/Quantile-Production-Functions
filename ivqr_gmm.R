@@ -20,7 +20,7 @@ require(dplyr)
 require(MASS)
 #Required for various codes to check ACF and LP estimates and bootstrapping
 require(prodest)
-QLP <- function(tau, va, state, free, proxy, idvar, timevar, h=0, b.init=NULL, R=100){
+QLP <- function(tau, va, state, free, proxy, idvar, timevar, h=0, b.init=NULL, R=20){
   #Make all data arguments into matrices
   va <- as.matrix(va)
   state <- as.matrix(state)
@@ -32,33 +32,43 @@ QLP <- function(tau, va, state, free, proxy, idvar, timevar, h=0, b.init=NULL, R
   fnum <- ncol(free)
 
   polyframe <- data.frame(state, proxy) # vars to be used in polynomial approximation
-  mod <- model.matrix( ~.^2-1, data = polyframe) # generate the polwynomial elements - this drops NAs
+  mod <- model.matrix( ~.^2-1, data = polyframe) # generate the polynomial elements - this drops NAs
   mod <- mod[match(rownames(polyframe),rownames(mod)),] # replace NAs if there was any
   regvars <- cbind(free, mod, state^2, proxy^2)
 
-  # Generate state lags
-
+  #Generate state lags
   lagstate <- state
   for (lag in 1:ncol(state)){
     lagstate[,lag] <- lagPanel(idvar=idvar, timevar=timevar, value=state[,lag])
   }
+  #Generate free lags
+  lagfree <- free
+  for (lag in 1:ncol(free)){
+    lagfree[,lag] <- lagPanel(idvar=idvar, timevar=timevar, value=free[,lag])
+  }
   #Generate the matrix of data
-  data <- suppressWarnings(as.matrix(data.frame(state=state, lagstate=lagstate, free=free, va=va, idvar=idvar, timevar=timevar, Z=state, regvars=regvars)))
+  data <- suppressWarnings(as.matrix(data.frame(state=state, lagState=lagstate, free=free, lagFree=lagfree, va=va, idvar=idvar, timevar=timevar, regvars=regvars)))
 
-  betas <- finalQLP(tau=tau, h=h, ind=TRUE, data=data, fnum=fnum, snum=snum, b.init=b.init, boot=FALSE)
+  noboot <- finalQLP(tau=tau, h=h, ind=TRUE, data=data, fnum=fnum, snum=snum, b.init=b.init, boot=FALSE, gbar=TRUE)
+  beta <- noboot[[1]]
+  truegbar <- noboot[[2]]
   boot.indices <- block.boot.resample(idvar, R)
   boot.betas <- matrix(NA, R, (fnum+snum))
 
   for (i in 1:R){
-    set.seed(123456+R)
-    boot.betas[i,] <- finalQLP(tau=tau, h=h, ind=boot.indices[[i]], data=data, fnum=fnum, snum=snum, b.init=b.init, boot=TRUE)
+    print(i)
+    boot.betas[i,] <- finalQLP(tau=tau, h=h, ind=boot.indices[[i]], data=data, fnum=fnum, snum=snum, b.init=b.init, boot=TRUE, gbar=truegbar)
   }
   #Calculate standard deviations
-  boot.errors <- apply(boot.betas, 2, sd, na.rm=TRUE)
-  return(boot.betas)
+  boot.beta <- apply(boot.betas, 2, mean)
+  boot.errors <- apply(boot.betas, 2, sd)
+  boot.CI<- apply(boot.betas, 2, function(x) quantile(x, c(0.025, 0.975)))
+  #This returns the non-bootstrapped estimates, the matrix of bootstrapped estimates
+  #The bootstrapped standard errors and the bootstrapped CI
+  return(list(beta, boot.betas, boot.beta, boot.errors, boot.CI))
 }
   #Function to estimate and to bootstrap QLP
-finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot){
+finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot, gbar){
   if (sum(as.numeric(ind))==length(ind)){ #if the ind variable is not always TRUE
     newid <- data[ind, 'idvar', drop = FALSE]
   } else {
@@ -68,7 +78,7 @@ finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot){
   #change the index according to bootstrapped indices
   data <- data[ind,] 
   first.stage <- rq(data[,'va', drop = FALSE] ~ data[, grepl('regvars', colnames(data)), drop = FALSE], na.action = na.exclude, tau=tau)
-  free <- data[,grepl('free', colnames(data)), drop = FALSE]
+  free <- data[, grepl('free', colnames(data), ignore.case=FALSE), drop = FALSE]
   phi <- fitted(first.stage)
   beta.free <-  as.numeric(coef(first.stage)[2:(1+fnum)])
   #If not specified, starting points are the first stage+normal noise
@@ -85,15 +95,25 @@ finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot){
   #Clean the output from the effect of free variables
   va <- data[,'va', drop = FALSE] - (free%*%beta.free)
   state <- data[, grepl('state', colnames(data)), drop = FALSE]
-  lagstate <- data[, grepl('lagstate', colnames(data)), drop = FALSE]
-  Z <- data[, grepl('Z', colnames(data)), drop = FALSE]
-  tmp.data <- na.omit(data.frame(state, lagstate, phi, lag.phi, va, Z))
-  W <- solve(tau*(1-tau)*crossprod(tmp.data$Z)/length(tmp.data$Z))
-  try.state <- optim(b.init, goQLP, method='BFGS', mZ=tmp.data$state, mW=W, mX=tmp.data$state, mlX=tmp.data$lagstate, 
-  vphi=tmp.data$phi, vlag.phi=tmp.data$lag.phi, vres=tmp.data$va, tau=tau, h=h)
+  lagState <- data[, grepl('lagState', colnames(data)), drop = FALSE]
+  lagFree <- data[, grepl('lagFree', colnames(data)), drop = FALSE]
+  tmp.data <- na.omit(data.frame(state, lagState, lagFree, phi, lag.phi, va))
+  lagFree <- tmp.data[, grepl('lagFree', colnames(tmp.data)), drop = FALSE]
+  lagState <- tmp.data[, grepl('lagState', colnames(tmp.data)), drop = FALSE]
+  Z <- as.matrix(cbind(tmp.data$state, lagState, lagFree))
+  W <- solve(tau*(1-tau)*crossprod(Z)/nrow(Z))
 
+  try.state <- GenSA(par=b.init, fn=goQLP, mZ=Z, mW=W, mX=tmp.data$state, mlX=tmp.data$lagState, 
+  vphi=tmp.data$phi, vlag.phi=tmp.data$lag.phi, vres=tmp.data$va, tau=tau, h=h, gbar=gbar, lower=0, upper=1, control=list(max.time=5))
   beta.state <- as.numeric(try.state$par)
-  return(c(beta.free, beta.state))
+
+  if (gbar==TRUE){
+    gbartrue <- g.bar(tau=tau, h=h, vtheta=beta.state, mZ=Z, mW=W, mX=tmp.data$state, mlX=tmp.data$lagState, 
+      vphi=tmp.data$phi, vlag.phi=tmp.data$lag.phi, vres=tmp.data$va)
+    return(list(c(beta.state, beta.free), gbartrue))
+  } else {
+    return(c(beta.free, beta.state))
+  }
 }
 
 #Smoothing Kernels
@@ -107,24 +127,33 @@ finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot){
     Itilde.deriv.KS17(v/h)    
     }
 
-#QLP Objective Function
-goQLP <- function(tau, h, vtheta, mZ, mW, mX, mlX, vphi, vlag.phi, vres){
+g.bar <- function(tau, h, vtheta, mZ, mW, mX, mlX, vphi, vlag.phi, vres){
   vtheta <- as.matrix(as.numeric(vtheta))
   Omega <- vphi-mX%*%vtheta
   Omega_lag <- vlag.phi-mlX%*%vtheta
   Omega_lag_pol <- cbind(1, Omega_lag, Omega_lag^2, Omega_lag^3)
   g_b <- fitted(rq(Omega~Omega_lag+Omega_lag^2+Omega_lag^3, tau=tau))
-  # g_b <- solve(crossprod(Omega_lag_pol))%*%t(Omega_lag_pol)%*%Omega
   Lambda <- vres-(mX%*%vtheta)-g_b
-  g.bar <- as.matrix(colMeans(mZ*repmat((Gfn(-Lambda, h)-tau), 1, 1)))
-  crit <- length(mZ)*t(g.bar)%*%mW%*%g.bar
-  return(crit) 
+  g.bar <- as.matrix(colMeans(mZ*repmat((Gfn(-Lambda, h)-tau), 1, ncol(mZ))))
+  return(g.bar)
+}
+
+#QLP Objective Function
+goQLP <- function(tau, h, vtheta, mZ, mW, mX, mlX, vphi, vlag.phi, vres, gbar){
+  if (gbar==TRUE){
+    g.bar <- g.bar(tau=tau, h=h, vtheta, mZ=mZ, mW=mW, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi, vres=vres)
+    crit <- nrow(mZ)*t(g.bar)%*%mW%*%g.bar
+    return(crit)
+  } else {
+    g.bar.boot <- g.bar(tau=tau, h=h, vtheta, mZ=mZ, mW=mW, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi, vres=vres)-gbar
+    return(nrow(mZ)*t(g.bar.boot)%*%mW%*%g.bar.boot)
+  }
 }   
 
 chile_panel <- read.csv('chile_panel.csv')
 chile <- na.omit(subset(chile_panel, ciiu_3d==381))
 
-print(QLP(tau=0.5, va=chile$lnva, state=chile$lnk, free=cbind(chile$lnw, chile$lnb), proxy=chile$proxy_e, idvar=chile$id, timevar=chile$year, h=1e-6, b.init=NULL, R=20))
+results <- QLP(tau=0.5, va=chile$lnva, state=chile$lnk, free=cbind(chile$lnw, chile$lnb), proxy=chile$proxy_e, idvar=chile$id, timevar=chile$year, h=1e-6, b.init=NULL, R=20)
 # for (q in 1:length(tau)){
 #   results <- QLP(tau=tau[q], va=chile$lnva, state=chile$lnk, free=cbind(chile$lnw, chile$lnb), proxy=chile$proxy_e, id=chile$id, time=chile$year, h=1e-6)
 #   print(results)
