@@ -10,8 +10,8 @@ setwd('/Users/justindoty/Documents/Research/Structural_Estimation/Production/Het
 Itilde.KS17 <- function(u) {  ifelse(u >= 1, 1, ifelse(u > -1, 1/2 + (105/64)*(u-(5/3)*u^3+(7/5)*u^5 -(3/7)*u^7), 0)) }
 Itilde.deriv.KS17 <- function(u) { ifelse(u > -1 & u < 1, (105/64)*(1-5*u^2+7*u^4-3*u^6), 0) }
 #########################
-gmmq <- function(tau, Y, mX, mlX, mZ, vlag.phi, Lambda=function(theta, Y, mZ, mX, mlX, vlag.phi){Y-mX%*%theta}, 
-  Lambda.derivative=function(tau, theta, h, Y, mZ, mX, mlX, vlag.phi){Y-mX%*%theta[1:(ncol(mX))]-theta[length(theta)]*(vlag.phi-mlX%*%theta[1:(ncol(mX))])}, h=0, VERBOSE=FALSE, theta.init=0) {
+gmmq <- function(tau, Y, mX, mlX, mZ, vphi, vlag.phi, Lambda=function(tau, theta, Y, mZ, mX, mlX, vphi, vlag.phi){Y-mX%*%theta}, 
+  Lambda.derivative=function(tau, theta, h, Y, mZ, mX, mlX, vphi, vlag.phi){Y-mX%*%theta[1:(ncol(mX))]-theta[length(theta)]*(vlag.phi-mlX%*%theta[1:(ncol(mX))])}, h=0, VERBOSE=FALSE, theta.init=0) {
   #Sample Size
   dZ <- ncol(mZ)
   n <- dim(Y)[1]
@@ -20,13 +20,13 @@ gmmq <- function(tau, Y, mX, mlX, mZ, vlag.phi, Lambda=function(theta, Y, mZ, mX
   Itilde.deriv <- Itilde.deriv.KS17
   #Objective Function
   obj.fn <- function(theta,h) { #objective function
-    L <- matrix(Lambda(theta=theta, Y=Y, mX=mX, mlX=mlX, vlag.phi=vlag.phi), ncol=1)
+    L <- matrix(Lambda(tau=tau, theta=theta, Y=Y, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi), ncol=1)
     return(colMeans(mZ*array(data=Itilde(-L/h)-tau, dim=dim(mZ))))
   }
   if (!is.null(Lambda.derivative)) {
     jac.fn <- function(theta,h) {
-      L <- Lambda(theta=theta, Y=Y, mX=mX, mlX=mlX, vlag.phi=vlag.phi)
-      Lp <- Lambda.derivative(theta=theta, Y=Y, mX=mX, mlX=mlX, vlag.phi=vlag.phi)
+      L <- Lambda(tau=tau, theta=theta, Y=Y, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi)
+      Lp <- Lambda.derivative(tau=tau,theta=theta, Y=Y, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi)
       return((t(mZ)%*%(Lp*array(data=Itilde.deriv(-L/h),dim=dim(mZ))*(-1/h)))/n)
     }
   }
@@ -92,7 +92,7 @@ uniform.ST.fn <- function(alpha2,n) 0.6611*(alpha2*n)^(1/5) #footnote 5
 alpha2.fn <- function(rhos,sigmas,ws=1) sum(ws*4*rhos^2*sigmas^4/(1-rhos)^8) / sum(ws*sigmas^4/(1-rhos)^4)
 alpha1.fn <- function(rhos,sigmas,ws=1) sum(ws*4*rhos^2*sigmas^4/((1-rhos)^6*(1+rhos)^2)) / sum(ws*sigmas^4/(1-rhos)^4)
 #
-LRV.est.fn <- function(tau, Y, mX, mlX, mZ, vlag.phi, Lambda, theta.hat, Itilde, h, structure=c('iid','ts','cluster'), cluster.X.col, LRV.kernel=c('QS','Bartlett','uniform'), LRV.ST=NA, VERBOSE=FALSE) {
+LRV.est.fn <- function(tau, Y, mX, mlX, mZ, vphi, vlag.phi, Lambda, theta.hat, Itilde, h, structure=c('iid','ts','cluster'), cluster.X.col, LRV.kernel=c('QS','Bartlett','uniform'), LRV.ST=NA, VERBOSE=FALSE) {
   # if (missing(structure) || !is.character(structure)) stop("Argument structure must be 'iid' or 'ts' or 'cluster'")
   structure <- match.arg(structure)
   LRV.kernel <- match.arg(LRV.kernel)
@@ -104,7 +104,7 @@ LRV.est.fn <- function(tau, Y, mX, mlX, mZ, vlag.phi, Lambda, theta.hat, Itilde,
     if (missing(LRV.kernel) || !is.character(LRV.kernel)) stop("LRV.kernel must be 'uniform' or 'Bartlett' or 'QS' when structure is 'ts'")
     if (LRV.kernel=='uniform') weight.fn <- uniform.fn else if (LRV.kernel=='Bartlett') weight.fn <- Bartlett.fn else if (LRV.kernel=='QS') weight.fn <- QS.fn else stop(sprintf("LRV.kernel must be 'uniform' or 'Bartlett' or 'QS'; not %s",LRV.kernel))
     # Compute gni() matrix
-    gni.mat <- mZ*array(data=Itilde(-Lambda(theta=theta.hat, Y=Y, mX=mX, mlX=mlX, vlag.phi=vlag.phi)/h)-tau,dim=dim(mZ))
+    gni.mat <- mZ*array(data=Itilde(-Lambda(tau=tau, theta=theta.hat, Y=Y, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi)/h)-tau,dim=dim(mZ))
     #
     if (is.na(LRV.ST)) { # Set ST automatically
       rho.hats <- sigma.hats <- rep(NA,dim(mZ)[2])

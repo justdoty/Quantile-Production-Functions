@@ -1,0 +1,460 @@
+\documentclass{beamer}
+
+\mode<presentation> {
+
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes} 
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\graphicspath{{/Users/justindoty/Documents/Reading/Presentations/Spring_2019/Presentations/ACF_2015/}}
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{bbm} 
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Quantile Production Functions]{Heterogeneity in Firms:\\
+A Proxy Variable Approach to Quantile Production Functions}
+
+\author{Justin Doty and Suyong Song} % 
+\institute[] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+\\  
+\medskip % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+\section{First Section} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
+%------------------------------------------------
+
+\subsection{Subsection Example} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
+
+\begin{frame}
+\frametitle{Introduction}
+\begin{itemize}
+\item Identification issues: optimal input choices are functions of unobserved productivity leads to transmission bias
+\item Popular control function approaches and issues
+\begin{itemize}
+	\item OP (1994): Simultaneity and selection, investment policy proxy, application to telecommunications industry
+	\item LP (2003): Intermediate input proxy, gross-output production, application to Chilean manufacturing firms
+	\item \textbf{ACF (2015)}: Value-Added production with material Input Proxy, identification under different DGPs
+\end{itemize}
+\item Previous approaches have focused on estimates of output elasticities on location of conditional output distribution
+\item Similarly, productivity heterogeneity are estimated average TFP measurements, there could be considerable heterogeneity not captured by quantile estimates
+
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Ackerberg, Caves, Frazer (2015)}
+\begin{itemize}
+	\item ACF consider the following value-added production function (subscript $i$ omitted)
+	\begin{equation}
+	y_{t}=\beta_{0}+\beta_{k}k_{t}+\beta_{l}l_{t}+\omega_{t}+\varepsilon_{t}
+	\end{equation}
+
+	Where $\omega_{t}$ is productivity observed by the firm, but unobserved by the researcher (e.g, management quality, expected defect rates, etc.) and $\varepsilon_{t}$ represents iid shocks to production after making input choices at time $t$
+	With the following assumptions
+	\medskip
+	\begin{enumerate}
+		\item Information Set: $\mathcal{I}_{t}$ includes current and past productivity shocks, but not future productivity. $\mathbb{E}[\varepsilon_{t}|\mathcal{I}_{t}]=0$
+		\item First Order Markov: Productivity shocks evolve according to the distribution $p(\omega_{t}|\omega_{t-1})$
+		\item Capital Accumulation: $k_{t}=\kappa(k_{t-1}, l_{t-1})$
+		\item Scalar Unobservability: $m_{t}=\tilde{f}_{t}(k_{t}, l_{t}, \omega_{t})$
+		\item Strict Monotonicity: $\tilde{f}_{t}(k_{t}, l_{t}, \omega_{t})$ is strictly increasing in $\omega_{t}$
+	\end{enumerate}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Ackerberg, Caves, Frazer (2015)}
+\begin{itemize}
+	\item Given these assumptions intermediate input demand can be inverted $\omega_{t}=\tilde{f}_{t}^{-1}(k_{t}, l_{t}, m_{t})$ and substituted into the production function
+	\begin{equation}
+		y_{t}=\beta_{0}+\beta_{k}k_{t}+\beta_{l}l_{t}+\tilde{f}_{t}^{-1}(k_{t}, l_{t}, m_{t})+\varepsilon_{t}=\tilde{\Phi}(k_{t}, l_{t}, m_{t})+\varepsilon_{t}
+	\end{equation}
+	The first stage moment conditions
+	\begin{equation}
+		\mathbb{E}[\varepsilon_{t}|\mathcal{I}_{t}]=\mathbb{E}[y_{t}-\tilde{\Phi}(k_{t}, l_{t}, m_{t})|\mathcal{I}_{t}]=0
+	\end{equation}
+	For the second stage moment condition we need the following from assumption $2$
+	\begin{equation}
+		\omega_{t}=\mathbb{E}[\omega_{t}|\mathcal{I}_{t-1}]+\xi_{t}=g(\omega_{t-1})+\xi_{t}
+	\end{equation}
+	Where $\xi_{t}$ represents innovation in productivity and by construction $\mathbb{E}[\xi_{t}|\mathcal{I}_{t-1}]=0$
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Ackerberg, Caves, Frazer (2015)}
+\begin{itemize}
+	\item So we arrive at the second stage moment condition
+	\begin{equation}
+		\begin{split}
+			&\mathbb{E}[\xi_{t}+\varepsilon_{t}]\\
+			&=\mathbb{E}[y_{t}-\beta_{0}-\beta_{k}k_{t}-\beta_{l}l_{t}\\
+			& \quad -g(\tilde{\Phi}_{t-1}(k_{t-1}, l_{t-1}, m_{t-1})-\beta_{0}-\beta_{k}k_{t-1}-\beta_{l}l_{t-1})|\mathcal{I}_{t-1}]=0
+		\end{split}
+	\end{equation}
+	\item Estimate by approximating $\tilde{\Phi}(k_{t}, l_{t}, m_{t})$ with a high-order polynomial
+	\item A simple model, $\omega_{t}=\rho \omega_{t-1}+\xi_{t}$
+	\item Translate into a set of unconditional moment restrictions
+	\scriptsize
+	\begin{equation}
+		\begin{split}
+			&=\mathbb{E}\Bigg[y_{t}-\beta_{0}-\beta_{k}k_{t}-\beta_{l}l_{t}\\
+			& \quad -\rho(\tilde{\Phi}_{t-1}(k_{t-1}, l_{t-1}, m_{t-1})-\beta_{0}-\beta_{k}k_{t-1}-\beta_{l}l_{t-1})\otimes
+			\begin{pmatrix}
+			1\\
+			k_{t}\\
+			l_{t-1}\\
+			\tilde{\Phi}_{t-1}(k_{t-1}, l_{t-1}, m_{t-1})
+			\end{pmatrix}\Bigg]=0
+			\normalsize
+		\end{split}
+	\end{equation}
+\end{itemize}
+\end{frame}
+
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function}
+Consider the following production function
+\begin{equation}
+	Q_{\tau}(y_{t}|k_{t}, l_{t})=\beta_{k}(\tau)k_{t}+\beta_{l}(\tau)l_{t}+\omega_{t}
+\end{equation}
+\begin{itemize}
+	\item $l_{t}$ is a freely variable input like labor and $k_{t}$ denotes the state variable as capital input
+	\item $\omega_{t}$ is an unobserved state variable to the econometrician that impacts firm's optimal input decisions
+	\item We allow for inputs to affect quantiles of the output distribution
+	\item We stick with the value-added production function for two main reasons:
+	\begin{enumerate}
+		\item The OP dynamic programming problem is too complicated for a proxy in a quantile production function
+		\item We avoid identification issues of using intermediate input demand in a gross-output production function (Gandhi, Navarro, Rivers, 2016)
+	\end{enumerate}
+\end{itemize}
+\end{frame}
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Assumptions}
+We maintain assumptions that are similar to ACF (2015)
+\begin{enumerate}
+	\item Information Set: $\mathcal{I}_{t}$ includes current and past productivity shocks, but not future productivity. $Q_{\tau}(\varepsilon_{t}|\mathcal{I}_{t})=0$
+	\item Firm's productivity follows a a Quantile Autoregressive(1) Process
+	\begin{equation}
+		Q_{\alpha}(\omega_{t}|\mathcal{I}_{t-1})=Q_{\alpha}(\omega_{t}|\omega_{t-1})=\rho(\alpha)\omega_{t-1}
+	\end{equation}
+	where $Q_{\alpha}(\xi_{t}|\mathcal{I}_{t-1})=0$
+	\item Capital Accumulation: $k_{t}=\kappa(k_{t-1}, l_{t-1})$
+	\item Scalar Unobservability: $m_{t}=\tilde{f}_{t}(k_{t}, l_{t}, \omega_{t};\tau)$
+	\item Strict Monotonicity: $\tilde{f}_{t}(k_{t}, l_{t}, \omega_{t}; \tau)$ is strictly increasing in $\omega_{t}, \forall \tau \in (0,1]$
+\end{enumerate}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Estimation}
+We maintain assumptions that are similar to ACF (2015)
+\begin{itemize}
+	\item Given these assumptions we invert intermediate input demand $\omega_{t}=f^{-1}(k_{t}, l_{t}, m_{t}; \tau)$ and substitute into the production function
+	\begin{equation}
+	Q_{\tau}(y_{t}|k_{t}, l_{t})=\beta_{l}(\tau)l_{t}+\beta_{k}(\tau)k_{t}+f_{t}^{-1}(k_{t}, l_{t}, m_{t}; \tau)=\tilde{\Phi}_{t}(k_{t}, l_{t}, m_{t}; \tau)
+	\end{equation}
+	\item The first stage moment restrictions comes from our assumption $Q_{\tau}(\varepsilon_{t}|\mathcal{I}_{t})=0$
+	\begin{equation}
+	Q_{\tau}(\varepsilon_{t}|\mathcal{I}_{t})=\mathbb{E}[\mathbbm{1}\{y_{t}-\tilde{\Phi}_{t}(k_{t}, l_{t}, m_{t};\tau)\leq 0 \}-\tau|\mathcal{I}_{t}]=0
+	\end{equation}
+	\item We estimate the parameters of the unconditional quantile restrictions implied by $(10)$ using the feasible estimators of the smoothed moments (de Castro, Galvao, Kaplan, and Liu, 2018)
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Smoothed GMM for Quantile Models}
+\begin{itemize}
+	\item Develops theory for feasible estimators of parameters in general conditional quantile restrictions that include non-linear IVQR
+	\item Borrowing their notation, they consider a non-linear conditional quantile model
+	\begin{equation}
+		Q_{\tau}(\Lambda(Y_{i}, X_{i}, \beta_{0}\tau)|Z_{t})=0
+	\end{equation}
+	Which is represented by the conditional moment restriction
+	\begin{equation}
+		\mathbb{E}[\mathbbm{1}\{\Lambda(Y_{i}, X_{i}, \beta_{0\tau})\leq0\}-\tau|Z_{t}]=0
+	\end{equation}
+	\item They estimate the parameters of the unconditional moment restrictions implied by (12) and a smoothed version of the discontinuous indicator function
+	\item Establish local identification of $\beta_{0\tau}$ as well as large-sample properties, consistency and asymptotic normality
+	\item This will is a useful application to the possibly non-linear approximation in the first step, and the (non-linear) second step (next slide)
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Estimation}
+\begin{itemize}
+		\item The first step moment produces estimates of $\tilde{\Phi}_{t}(k_{t}, l_{t}, m_{t}; \tau)$
+		\item To write the second stage moment restrictions we recall $Q_{\tau}(\varepsilon_{t}|\mathcal{I}_{t-1})=0$ and $Q_{\alpha}(\xi_{t}|\mathcal{I}_{t-1})=0$
+		\item One caveat of forming the second stage restrictions is that only under certain assumptions:
+			\begin{equation}
+				Q_{\tau}(\xi_{t} + \varepsilon_{t}|\mathcal{I}_{t-1})=Q_{\tau}(\xi_{t}|\mathcal{I}_{t-1})+Q_{\tau}(\varepsilon_{t}|\mathcal{I}_{t-1})=0
+			\end{equation}
+		Definition: \textit{Comonotonicity}\\
+		\smallskip
+		Two random variables $X,Y: \Omega \to \mathbb{R}$ if there exists a random variable $Z: \Omega \to \mathbb{R}$ and increasing functions $f$ and $g$ such that $X=f(Z)$ and $Y=g(Z)$
+		\item An important consequence of comonotonicity is that the sum of the $\tau$-quantiles of $X$ and $Y$ can be written as the $\tau$-quantile of their sum 
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Estimation}
+\begin{itemize}
+	\item Essentially, assuming comonotonicty requires a strong assumption about the random shocks $\xi_{t}$ and $\varepsilon_{t}$ being entirely dependent on some increasing transformation of some other random shock, say $\eta_{t}$
+	\item Can firm-specific innovations in productivity and the ex-post output shocks be entirely determined by some other random shock? Perhaps
+	\item This also restricts us to look at when the quantiles of the conditional output distribution and the individual-firm productivity process match
+	\item Need to explore this assumption further for economic context
+	\item Is it possible to re-parameterize the model so that the variables are comonotonic?
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Estimation}
+\begin{itemize}
+	\item With comonotonicity, the second stage moment restrictions are
+	\scriptsize
+	\begin{equation}
+		\begin{split}
+			&Q_{\tau}(\xi_{t}+\varepsilon_{t}|\mathcal{I}_{t-1})\\
+			&=\mathbb{E}[\mathbbm{1}\{y_{t}-\beta_{k}(\tau)k_{t}-\beta_{l}(\tau)l_{t}\\
+			& \quad -\rho(\tau)(\tilde{\Phi}_{t-1}(k_{t-1}, l_{t-1}, m_{t-1};\tau)-\beta_{k}(\tau)k_{t-1}-\beta_{l}(\tau)l_{t-1})\leq 0\}-\tau|\mathcal{I}_{t-1}]=0
+		\end{split}
+	\end{equation}
+	\normalsize
+	Which is translated to
+	\scriptsize
+	\begin{equation}
+		\begin{split}
+			&=\mathbb{E}\Bigg[\Bigg(\mathbbm{1}\{y_{t}-\beta_{k}(\tau)k_{t}-\beta_{l}(\tau)l_{t}\\
+						& \quad -\rho(\tau)(\hat{\tilde{\Phi}}_{t-1}(k_{t-1}, l_{t-1}, m_{t-1};\tau)-\beta_{k}(\tau)k_{t-1}-\beta_{l}(\tau)l_{t-1})\leq 0\}-\tau\Bigg) \\
+						&\otimes
+			\begin{pmatrix}
+			k_{t}\\
+			l_{t-1}\\
+			\hat{\tilde{\Phi}}_{t-1}(k_{t-1}, l_{t-1}, m_{t-1})
+			\end{pmatrix}\Bigg]=0
+			\normalsize
+		\end{split}
+	\end{equation}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Estimation}
+\begin{itemize}
+	\item Possible issues with sample selection bias of $\hat{\Phi}_{t-1}(k_{t-1}, l_{t-1}, m_{t-1}; \tau)$ entering the second stage moment restriction
+	\item Searching for solutions similar to Lee (2007) and Buchinksy (1998)
+	\item Estimation (like in ACF (2015)) may have the ``spurious minimum'' problem
+	\item Can be addressed with solutions proposed by Kim and Luo (2018) using additional instruments or a sequential search algorithm
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Simulation}
+\begin{itemize}
+	\item Simulations follow a location-scale model of ACF (2015) original set of DGPs 
+	\item Parameters are chosen to match a couple of key moments in the Chilean data used by LP
+	\item Productivity follows a ARCH process
+	\item Firms make optimal choices of investment in the capital stock to maximize the expected discounted value of future profits
+	\item Convex capital adjustment costs
+	\item Labor input $l_{t}$ is chosen either at $t$ or $t-b$ (if this is the case then labor is chosen only knowledge of $\omega_{t-b}$)
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Simulation}
+\begin{itemize}
+	\item Production function is assumed Leontief in materials
+	\begin{equation}
+		y_{t}=\beta_{k}k_{t}+\beta_{l}l_{t}+\omega_{t}+(\gamma_{0}+\gamma_{1}k_{t})\varepsilon_{t}
+	\end{equation}
+	\item $\beta_{k}=0.4$, $\beta_{l}=0.6$, $\gamma_{0}=1$, $\gamma_{1}=\frac{1}{2}$
+	\item Productivity follows an autoregressive conditional heteroskedastic process
+	\begin{equation}
+		\omega_{t}=\rho\omega_{t-1}+\xi_{t}
+	\end{equation}
+	\item $\text{Var}(\xi_{t})=\lambda_{0}+\lambda_{1}\text{Var}(\xi_{t-1})$
+	where $\rho=0.7$, $\lambda_{0}=0.2$, $\lambda_{1}=0.5$
+	\item Also allow a wage process for each firm determined by an AR(1) process
+	\item Labor is chosen at time $t-b$ where $b=0.5$
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------
+
+
+
+\begin{frame}
+\frametitle{Quantile Production Function: Simulation}
+\begin{table}[ht]
+\centering
+\caption{No Heteroskedasticity}
+\begin{tabular}{rrrrrrr}
+  \hline
+$\tau$ & $\beta_{k}$ &  & $\beta_{l}$ &  & $\rho$ &  \\ 
+  \hline
+0.1 & 0.399 & (0.0293) & 0.601 & (0.0174) & 0.699 & (0.017) \\ 
+0.2 & 0.4 & (0.023) & 0.599 & (0.0141) & 0.7 & (0.0143) \\ 
+0.3 & 0.399 & (0.0224) & 0.6 & (0.0133) & 0.7 & (0.0135) \\ 
+0.4 & 0.4 & (0.022) & 0.599 & (0.0126) & 0.7 & (0.0131) \\ 
+0.5 & 0.399 & (0.0217) & 0.6 & (0.0126) & 0.7 & (0.0127) \\ 
+0.6 & 0.4 & (0.0217) & 0.6 & (0.0124) & 0.699 & (0.0128) \\ 
+0.7 & 0.4 & (0.0218) & 0.6 & (0.0125) & 0.699 & (0.0129) \\ 
+0.8 & 0.399 & (0.0245) & 0.601 & (0.0142) & 0.698 & (0.014) \\ 
+0.9 & 0.401 & (0.0291) & 0.6 & (0.0166) & 0.699 & (0.0175) \\ 
+   \hline
+\end{tabular}
+\caption{1000 replications. Standard deviations reported are of parameter estimates across the 1000 replications}
+\end{table}
+
+\end{frame}
+
+%----------------------------------------------------------------------------------
+
+
+
+\begin{frame}
+\frametitle{Quantile Production Function: Simulation}
+\begin{table}[ht]
+\centering
+\caption{Location Scale Model $(1+\frac{k_{it}}{2})$, No ARCH Process}
+\begin{tabular}{rrrrrrrr}
+  \hline
+$\tau$ & $\beta_{k}$ &  & $\beta_{l}$ &  & $\rho$ &  \\ 
+  \hline
+0.1 & 0.028 & (0.0885) & 0.597 & (0.0271) & 0.746 & (0.0337) \\ 
+0.2 & 0.176 & (0.052) & 0.598 & (0.0228) & 0.729 & (0.0255) \\ 
+0.3 & 0.268 & (0.0407) & 0.598 & (0.0211) & 0.717 & (0.0229) \\ 
+0.4 & 0.339 & (0.0361) & 0.599 & (0.0212) & 0.708 & (0.0216) \\ 
+0.5 & 0.399 & (0.0344) & 0.6 & (0.0207) & 0.699 & (0.0208) \\ 
+0.6 & 0.455 & (0.0347) & 0.602 & (0.0208) & 0.691 & (0.021) \\ 
+0.7 & 0.511 & (0.0379) & 0.603 & (0.0223) & 0.683 & (0.0221) \\
+0.8 & 0.574 & (0.0475) & 0.605 & (0.0275) & 0.672 & (0.0308) \\
+0.9 & 0.656 & (0.0578) & 0.607 & (0.0318) & 0.661 & (0.0301) \\ 
+   \hline
+\end{tabular}
+\caption{1000 replications. Standard deviations reported are of parameter estimates across the 1000 replications}
+\end{table}
+
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Simulation}
+\begin{itemize}
+	\item Productivity can be estimated in the standard way
+	\begin{equation}
+	p_{t}=\exp(\omega_{t}+\varepsilon_{t})=\exp(y_{t}-\hat{\beta_{k}}(\tau)k_{t}-\hat{\beta_{l}}(\tau)l_{t})
+	\end{equation}
+	\item Aggregate productivity can be calculated as the share-weighted average of firm-level productivity, using firm-level output shares as weights at time $t$ (OP, 1996)
+	\item Can also construct measures of dispersion as in Syverson (2004), Hsieh and Klenow (2009), Gandhi, Navarro, Rivers (2014), and many others
+	\item Example, 75/25, 90/10 ratio tells us with the same amount of inputs how much more productive a 75th percentile plant is over a 25th percentile plant
+	\item How do we compare dispersion of productivity from our estimates? Interpretation?
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Function: Simulation}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.3]{TFP_Dispersion}
+\end{figure}
+	
+\end{frame}
+
+\end{document}
+

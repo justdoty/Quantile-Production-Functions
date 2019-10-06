@@ -2,14 +2,14 @@ setwd('/Users/justindoty/Documents/Research/Structural_Estimation/Production/Het
 #This code is a modified version of Smoothed GMM for Quantile Models, de Castro, Galvao,
 #Kaplan, and Liu (2018). See David Kaplan's website for more details
 #https://faculty.missouri.edu/~kaplandm/
-source("gmmq.R")
+source("gmmq_data.R")
 
 IDENTITY.FLAG <- FALSE
 ZZ.FLAG <- FALSE
 
-ivqr.gmm <- function(tau, Y, mX, mlX, mZ, vlag.phi, h=0, max.time, upper, lower, weight.mtx, 
+ivqr.gmm <- function(tau, Y, mX, mlX, mZ, vphi, vlag.phi, h=0, max.time, upper, lower, weight.mtx, 
                      structure=c('iid','ts'), LRV.kernel=c('QS','Bartlett','uniform'), 
-                     Lambda=function(theta, Y, mZ, mX, mlX, vlag.phi){Y-mX%*%theta[1:(ncol(mX))]-theta[length(theta)]*(vlag.phi-mlX%*%theta[1:(ncol(mX))])}, 
+                     Lambda=function(tau, theta, Y, mZ, mX, mlX, vphi, vlag.phi){Y-mX%*%theta[1:(ncol(mX))]-theta[length(theta)]*(vlag.phi-mlX%*%theta[1:(ncol(mX))])}, 
                      theta.init=0 ) {
     
     n <- dim(Y)[1]
@@ -31,7 +31,7 @@ ivqr.gmm <- function(tau, Y, mX, mlX, mZ, vlag.phi, h=0, max.time, upper, lower,
     if(length(theta.init)!=length(upper)){stop("upper bound doesn't have right dimension.")}
     
     
-    LRV.hat <- LRV.est.fn(tau=tau, Y=Y, mX=mX, mlX=mlX, mZ=mZ, vlag.phi=vlag.phi, 
+    LRV.hat <- LRV.est.fn(tau=tau, Y=Y, mX=mX, mlX=mlX, mZ=mZ, vphi=vphi, vlag.phi=vlag.phi, 
                           Lambda=Lambda, theta.hat=theta.init, Itilde=Itilde.KS17, h=h, 
                           structure=structure, LRV.kernel=LRV.kernel)   
     if (IDENTITY.FLAG==TRUE){
@@ -44,7 +44,7 @@ ivqr.gmm <- function(tau, Y, mX, mlX, mZ, vlag.phi, h=0, max.time, upper, lower,
       W.hat <- weight.mtx
     }
     ivqr.obj <- function(theta, h, W.hat) {
-        L <- matrix(Lambda(theta=theta, Y=Y, mX=mX, mlX=mlX, vlag.phi=vlag.phi), ncol=1)
+        L <- matrix(Lambda(tau=tau, theta=theta, Y=Y, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi), ncol=1)
         gni <- mZ*repmat((Gfn(-L,h)-tau),1,dZ) 
         g.bar <- as.matrix(colMeans(mZ*repmat((Gfn(-L,h)-tau),1,dZ))) 
         obj.fn <- t(g.bar)%*% W.hat %*%g.bar
@@ -56,7 +56,7 @@ ivqr.gmm <- function(tau, Y, mX, mlX, mZ, vlag.phi, h=0, max.time, upper, lower,
  
      
      M.hat <- function(theta) {
-       L <- matrix(Lambda(theta=theta, Y=Y, mX=mX, mlX=mlX, vlag.phi=vlag.phi), ncol=1)
+       L <- matrix(Lambda(tau=tau, theta=theta, Y=Y, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi), ncol=1)
        gni <- mZ*repmat((Gfn(-L,h)-tau),1,dZ) 
        g.bar <- as.matrix(colMeans(mZ*repmat((Gfn(-L,h)-tau),1,dZ))) 
        return(g.bar)        
