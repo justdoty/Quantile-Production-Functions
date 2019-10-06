@@ -10,8 +10,16 @@ load("simulation_ACF.Rdata")
 #####################Compute Estimates and Standard Errors##################
 tau_table <- c(0.1, 0.25, 0.5, 0.75, 0.9)
 dB <- 3
-beta <- rbind(alpha1, alpha2)
+beta <- alpha
 
+#Need to remove spurious minumum problem 0 capital coefficient and 1 for labor coefficient
+tol <- 0.05
+spurious_ACF <- list()
+for (i in 1:length(DGPs)){
+	k0 <- resmat_ACF[,,i][,1][(abs(resmat_ACF[,,i][,1])>tol)|(abs(resmat_ACF[,,i][,2]-1)>tol)]
+	l0 <- resmat_ACF[,,i][,2][(abs(resmat_ACF[,,i][,1])>tol)|(abs(resmat_ACF[,,i][,2]-1)>tol)]
+	spurious_ACF[[i]] <- cbind(k0, l0)
+}
 #Coefficients
 QACF_coef <- replicate(length(DGPs), list(array(0, dim=c(length(tau), dB))))
 QLP_coef <- replicate(length(DGPs), list(array(0, dim=c(length(tau), dB))))
@@ -36,16 +44,16 @@ LP_Upper <- replicate(length(DGPs), list(array(0, dim=2)))
 #Calculations
 for (d in 1:length(DGPs)){
 	#ACF and LP Coefficients
-	ACF_coef[[d]] <- round(apply(resmat_ACF[,,d], 2, mean), digits=3)
+	ACF_coef[[d]] <- round(apply(spurious_ACF[[d]], 2, mean), digits=3)
 	LP_coef[[d]] <- round(apply(resmat_LP[,,d], 2, mean), digits=3)
 	#ACF and LP Standard Deviations
-	ACF_se[[d]] <- round(apply(resmat_ACF[,,d], 2, sd), digits=4)
+	ACF_se[[d]] <- round(apply(spurious_ACF[[d]], 2, sd), digits=4)
 	LP_se[[d]] <- round(apply(resmat_LP[,,d], 2, sd), digits=4)
 	#ACF and LP Lower Confidence Band (90%)
-	ACF_Lower[[d]] <- round(apply(resmat_ACF[,,d], 2, function(x) quantile(x, 0.05)), digits=3)
+	ACF_Lower[[d]] <- round(apply(spurious_ACF[[d]], 2, function(x) quantile(x, 0.05)), digits=3)
 	LP_Lower[[d]] <- round(apply(resmat_LP[,,d], 2, function(x) quantile(x, 0.05)), digits=3)
 	#ACF and LP Upper Confidence Band (90%)
-	ACF_Upper[[d]] <- round(apply(resmat_ACF[,,d], 2, function(x) quantile(x, 0.95)), digits=3)
+	ACF_Upper[[d]] <- round(apply(spurious_ACF[[d]], 2, function(x) quantile(x, 0.95)), digits=3)
 	LP_Upper[[d]] <- round(apply(resmat_LP[,,d], 2, function(x) quantile(x, 0.95)), digits=3)
 	for (q in 1:length(tau)){
 	  #QACF and QLP Coefficients

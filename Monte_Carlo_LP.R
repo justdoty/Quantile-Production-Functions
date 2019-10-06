@@ -1,4 +1,4 @@
-setwd('/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterogeneity_in_Firms/R_Code')
+# setwd('/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterogeneity_in_Firms/R_Code')
 source('gmmq.R')
 source('ivqr_gmm.R')
 #For Paralelization
@@ -270,7 +270,7 @@ for (d in 1:length(DGPs)){
       firststage <- rq(Output~Capital+Labor+Materials, tau=tau[q])
       LP_Labor <- as.matrix(firststage$coefficients[3])
       resmat_LPQ[,,,d][,,q][j,][2] <- LP_Labor
-      phiacf <- cbind(1, Capital, Materials)%*%firststage$coefficients[-3]
+      phiacf <- fitted(firststage)-as.matrix(Labor_Con)%*%LP_Labor)
       dim(phiacf) <- c(t, n)
       phiacf_Lag_1 <- c(phiacf[1:(t-1),])
       phiacf_Con <- c(phiacf[2:t,])
@@ -283,7 +283,7 @@ for (d in 1:length(DGPs)){
       X <- as.matrix(cbind(Capital_Con))
       #Lag Values
       lX <- as.matrix(cbind(Capital_Lag_1))
-      results <- ivqr.gmm(tau=tau[q], Y=Y, mX=X, mlX=lX, mZ=Z, vphi=phiacf_Con, vlag.phi=phiacf_Lag_1, h=0.001, max.time=5, upper=c(1,1), lower=c(0,0), structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=c(alphak0[q], 0.7))
+      results <- ivqr.gmm(tau=tau[q], Y=Y, mX=X, mlX=lX, mZ=Z, vlag.phi=phiacf_Lag_1, h=0.001, max.time=1, upper=c(1,1), lower=c(0,0), structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=c(alphak0[q], 0.7))
       #############################################################
       resmat_LPQ[,,,d][,,q][j,][-2] <- t(results$theta)
       return(resmat_LPQ[,,,d][,,q][j,])
@@ -308,7 +308,7 @@ alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(ta
 alpha2 <- cbind(alphak2, alphal2)
 alpha <- rbind(alpha1, alpha2)
 # #Save Results
-# save(nreps, DGPs, resmat_LP, resmat_LPQ, alpha1, alpha2, tau, dB, file="simulation_LP.Rdata")
+save(nreps, DGPs, resmat_LP, resmat_LPQ, alpha, tau, file="simulation_LP.Rdata")
 
 
 
