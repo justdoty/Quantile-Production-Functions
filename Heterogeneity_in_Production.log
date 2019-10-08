@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  7 OCT 2019 19:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  8 OCT 2019 12:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -680,20 +680,20 @@ LaTeX Font Info:    Overwriting math alphabet `\mathbbmss' in version `bold'
 neity_in_Firms/R_Code/Heterogeneity_in_Production.aux)
 \openout1 = `Heterogeneity_in_Production.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -757,7 +757,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 )) ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box54
-Package hyperref Info: Link coloring OFF on input line 78.
+Package hyperref Info: Link coloring OFF on input line 79.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
@@ -765,9 +765,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count167
 )
-LaTeX Info: Redefining \ref on input line 78.
-LaTeX Info: Redefining \pageref on input line 78.
-LaTeX Info: Redefining \nameref on input line 78.
+LaTeX Info: Redefining \ref on input line 79.
+LaTeX Info: Redefining \pageref on input line 79.
+LaTeX Info: Redefining \nameref on input line 79.
 
 (/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heteroge
 neity_in_Firms/R_Code/Heterogeneity_in_Production.out)
@@ -777,57 +777,57 @@ neity_in_Firms/R_Code/Heterogeneity_in_Production.out)
 \openout5 = `Heterogeneity_in_Production.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 78.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 79.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 78.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 79.
 \symnumbers=\mathgroup7
 \sympureletters=\mathgroup8
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 78.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 78.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 79.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 78.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 78.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 78.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 79.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 78.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 78.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 78.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 79.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 78.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 78.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 78.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 79.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 78.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 78.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 79.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 78.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 79.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 78.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 78.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 78.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 78.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 78.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 79.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 78.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 78.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 79.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 79.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
 (Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 7
-8.
+9.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/cmss/bx/it --> OT1/mathkerncmss/m/sl on input line 
-78.
+79.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 78.
+ut line 79.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/beamer/translator/dicts/translato
 r-basic-dictionary/translator-basic-dictionary-English.dict
@@ -853,7 +853,7 @@ Dictionary: translator-numbers-dictionary, Language: English
 r-theorem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \includegraphics on input line 78.
+LaTeX Info: Redefining \includegraphics on input line 79.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
@@ -861,36 +861,36 @@ Package caption Info: End \AtBeginDocument code.
 neity_in_Firms/R_Code/Heterogeneity_in_Production.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 82.
+(Font)              size <5> substituted on input line 83.
 
 [1
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2
 
+] [3
+
+] [4
+
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 132.
+LaTeX Font Info:    Try loading font information for U+msa on input line 138.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 132.
+LaTeX Font Info:    Try loading font information for U+msb on input line 138.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 132.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 138.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 132.
+line 138.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
-) [3
-
-] [4
-
-] [5
+) [5
 
 ] [6
 
@@ -902,12 +902,42 @@ thkerncmss.
 
 ] [10
 
+] [11
+
+] [12
+
+] [13
+
+] [14
+
+] [15
+
+] [16
+
+] [17
+
+] [18
+
+] [19
+
+] [20
+
+] [21
+
+] [22
+
+] [23
+
+] [24
+
+] [25
+
 ]
-LaTeX Font Info:    Try loading font information for U+bbm on input line 286.
+LaTeX Font Info:    Try loading font information for U+bbm on input line 304.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 )
-Overfull \hbox (1.34969pt too wide) detected at line 286
+Overfull \hbox (1.34969pt too wide) detected at line 304
 \U/msb/m/n/10 E\OT1/cmss/m/n/10 [\OT1/mathkerncmss/m/sl/10 Z[]\OT1/cmss/m/n/10 
 (\U/bbm/m/n/10 1\OMS/cmsy/m/n/10 f\OT1/mathkerncmss/m/sl/10 y[] \OMS/cmsy/m/n/1
 0 ^^@ \OML/cmm/m/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n
@@ -920,90 +950,140 @@ rncmss/m/sl/10 k[]\OT1/cmss/m/n/10 ) \OMS/cmsy/m/n/10 ^^T \OT1/cmss/m/n/10 0\OM
 S/cmsy/m/n/10 g ^^@ \OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )] = 0
  []
 
-[11
-
-] [12
-
-] [13
-
-] [14
-
-] [15
-
-] [16
+[26
 
 ]
-Overfull \vbox (12.29288pt too high) detected at line 402
+Overfull \hbox (1.34969pt too wide) detected at line 304
+\U/msb/m/n/10 E\OT1/cmss/m/n/10 [\OT1/mathkerncmss/m/sl/10 Z[]\OT1/cmss/m/n/10 
+(\U/bbm/m/n/10 1\OMS/cmsy/m/n/10 f\OT1/mathkerncmss/m/sl/10 y[] \OMS/cmsy/m/n/1
+0 ^^@ \OML/cmm/m/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n
+/10 )\OT1/mathkerncmss/m/sl/10 k[] \OMS/cmsy/m/n/10 ^^@ []\OT1/cmss/m/n/10 (\OM
+L/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )\OT1/mathkerncmss/m/sl/10 l[] \OMS/cmsy/m/n/
+10 ^^@ \OT1/mathkerncmss/m/sl/10 g\OT1/cmss/m/n/10 ([](\OT1/mathkerncmss/m/sl/1
+0 k[]\OML/cmm/m/it/10 ; ^^S[]\OT1/cmss/m/n/10 ) \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m
+/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )\OT1/mathke
+rncmss/m/sl/10 k[]\OT1/cmss/m/n/10 ) \OMS/cmsy/m/n/10 ^^T \OT1/cmss/m/n/10 0\OM
+S/cmsy/m/n/10 g ^^@ \OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )] = 0
  []
 
-[17
+[27
 
-] <ACF_MSE_Plot.png, id=499, 2710.125pt x 2409.0pt>
+]
+Overfull \hbox (1.34969pt too wide) detected at line 304
+\U/msb/m/n/10 E\OT1/cmss/m/n/10 [\OT1/mathkerncmss/m/sl/10 Z[]\OT1/cmss/m/n/10 
+(\U/bbm/m/n/10 1\OMS/cmsy/m/n/10 f\OT1/mathkerncmss/m/sl/10 y[] \OMS/cmsy/m/n/1
+0 ^^@ \OML/cmm/m/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n
+/10 )\OT1/mathkerncmss/m/sl/10 k[] \OMS/cmsy/m/n/10 ^^@ []\OT1/cmss/m/n/10 (\OM
+L/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )\OT1/mathkerncmss/m/sl/10 l[] \OMS/cmsy/m/n/
+10 ^^@ \OT1/mathkerncmss/m/sl/10 g\OT1/cmss/m/n/10 ([](\OT1/mathkerncmss/m/sl/1
+0 k[]\OML/cmm/m/it/10 ; ^^S[]\OT1/cmss/m/n/10 ) \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m
+/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )\OT1/mathke
+rncmss/m/sl/10 k[]\OT1/cmss/m/n/10 ) \OMS/cmsy/m/n/10 ^^T \OT1/cmss/m/n/10 0\OM
+S/cmsy/m/n/10 g ^^@ \OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )] = 0
+ []
+
+[28
+
+] [29
+
+] [30
+
+] [31
+
+] [32
+
+] [33
+
+] [34
+
+] [35
+
+] [36
+
+] [37
+
+] [38
+
+] [39
+
+]
+Overfull \vbox (12.29288pt too high) detected at line 426
+ []
+
+[40
+
+] <ACF_MSE_Plot.png, id=1107, 2710.125pt x 2409.0pt>
 File: ACF_MSE_Plot.png Graphic file (type png)
 <use ACF_MSE_Plot.png>
-Package pdftex.def Info: ACF_MSE_Plot.png used on input line 413.
+Package pdftex.def Info: ACF_MSE_Plot.png used on input line 437.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[18
+[41
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
 eneity_in_Firms/R_Code/ACF_MSE_Plot.png>]
-Overfull \vbox (12.29288pt too high) detected at line 440
+Overfull \vbox (12.29288pt too high) detected at line 464
  []
 
-[19
+[42
 
-] <LP_MSE_Plot.png, id=555, 2710.125pt x 2409.0pt>
+] <LP_MSE_Plot.png, id=1162, 2710.125pt x 2409.0pt>
 File: LP_MSE_Plot.png Graphic file (type png)
 <use LP_MSE_Plot.png>
-Package pdftex.def Info: LP_MSE_Plot.png used on input line 451.
+Package pdftex.def Info: LP_MSE_Plot.png used on input line 475.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[20
+[43
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/LP_MSE_Plot.png>] [21
+eneity_in_Firms/R_Code/LP_MSE_Plot.png>] [44
 
 ]
-Overfull \vbox (3.7719pt too high) detected at line 497
+Overfull \vbox (3.7719pt too high) detected at line 521
  []
 
-[22
+[45
 
-] <Coefficient_Plot_1.png, id=636, 2710.125pt x 2409.0pt>
+] <Coefficient_Plot_1.png, id=1244, 2710.125pt x 2409.0pt>
 File: Coefficient_Plot_1.png Graphic file (type png)
 <use Coefficient_Plot_1.png>
-Package pdftex.def Info: Coefficient_Plot_1.png used on input line 508.
+Package pdftex.def Info: Coefficient_Plot_1.png used on input line 532.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[23
+[46
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/Coefficient_Plot_1.png>] <Coefficient_Plot_2.png, id=664
-, 2710.125pt x 2409.0pt>
+eneity_in_Firms/R_Code/Coefficient_Plot_1.png>] <Coefficient_Plot_2.png, id=127
+2, 2710.125pt x 2409.0pt>
 File: Coefficient_Plot_2.png Graphic file (type png)
 <use Coefficient_Plot_2.png>
-Package pdftex.def Info: Coefficient_Plot_2.png used on input line 519.
+Package pdftex.def Info: Coefficient_Plot_2.png used on input line 543.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[24
+[47
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/Coefficient_Plot_2.png>] <Coefficient_Plot_3.png, id=693
-, 2710.125pt x 2409.0pt>
+eneity_in_Firms/R_Code/Coefficient_Plot_2.png>] <Coefficient_Plot_3.png, id=130
+0, 2710.125pt x 2409.0pt>
 File: Coefficient_Plot_3.png Graphic file (type png)
 <use Coefficient_Plot_3.png>
-Package pdftex.def Info: Coefficient_Plot_3.png used on input line 530.
+Package pdftex.def Info: Coefficient_Plot_3.png used on input line 554.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[25
+[48
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/Coefficient_Plot_3.png>] <Coefficient_Plot_4.png, id=722
-, 2710.125pt x 2409.0pt>
+eneity_in_Firms/R_Code/Coefficient_Plot_3.png>] <Coefficient_Plot_4.png, id=132
+9, 2710.125pt x 2409.0pt>
 File: Coefficient_Plot_4.png Graphic file (type png)
 <use Coefficient_Plot_4.png>
-Package pdftex.def Info: Coefficient_Plot_4.png used on input line 541.
+Package pdftex.def Info: Coefficient_Plot_4.png used on input line 565.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[26
+[49
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [27
+eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [50
+
+] [51
+
+] [52
+
+] [53
 
 ]
 \tf@nav=\write6
@@ -1015,13 +1095,13 @@ eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [27
 \tf@snm=\write8
 \openout8 = `Heterogeneity_in_Production.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 556.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 556.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 637.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 637.
 
 (/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heteroge
 neity_in_Firms/R_Code/Heterogeneity_in_Production.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 556.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 556.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 637.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 637.
 Package rerunfilecheck Info: File `Heterogeneity_in_Production.out' has not cha
 nged.
 (rerunfilecheck)             Checksum: 3C5FD6708A4C706BEEF71C47501622BB;115.
@@ -1031,35 +1111,37 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 18484 strings out of 492995
- 355890 string characters out of 6132704
- 432415 words of memory out of 5000000
- 21536 multiletter control sequences out of 15000+600000
+ 18543 strings out of 492995
+ 356447 string characters out of 6132704
+ 432429 words of memory out of 5000000
+ 21543 multiletter control sequences out of 15000+600000
  16722 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,16n,57p,893b,650s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,20n,57p,893b,677s stack positions out of 5000i,500n,10000p,200000b,80000s
  </Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour/public/bbm
 /bbm10.657pk> </Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour
 /public/bbm/bbm10.600pk></usr/local/texlive/2017/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmex10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmss10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmss12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmss8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmssi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmssi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmsy7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols
-/msbm10.pfb>
+sfonts/cm/cmmi5.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmss10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmss12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmss8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmssi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmssi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/c
+msy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy5.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.
+pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msb
+m10.pfb>
 Output written on /Users/justindoty/Documents/Research/Structural_Estimation/Pr
-oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (27 page
-s, 1294314 bytes).
+oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (53 page
+s, 1385221 bytes).
 PDF statistics:
- 841 PDF objects out of 1000 (max. 8388607)
- 765 compressed objects within 8 object streams
- 57 named destinations out of 1000 (max. 500000)
+ 1549 PDF objects out of 1728 (max. 8388607)
+ 1438 compressed objects within 15 object streams
+ 109 named destinations out of 1000 (max. 500000)
  119 words of extra memory for PDF output out of 10000 (max. 10000000)
 
