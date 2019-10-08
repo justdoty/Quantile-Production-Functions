@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  5 OCT 2019 11:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  7 OCT 2019 19:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -868,20 +868,20 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2
 
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 131.
+LaTeX Font Info:    Try loading font information for U+msa on input line 132.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 131.
+LaTeX Font Info:    Try loading font information for U+msb on input line 132.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 131.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 132.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 131.
+line 132.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
@@ -890,48 +890,39 @@ thkerncmss.
 
 ] [4
 
-]
-
-LaTeX Font Warning: Command \normalsize invalid in math mode on input line 185.
-
-
-
-LaTeX Font Warning: Command \normalsize invalid in math mode on input line 185.
-
-
-
-Overfull \hbox (21.90005pt too wide) detected at line 185
-[]
- []
-
-[5
+] [5
 
 ] [6
 
 ] [7
 
-]
-LaTeX Font Info:    Try loading font information for U+bbm on input line 241.
-(/usr/local/texlive/2017/texmf-dist/tex/latex/bbm-macros/ubbm.fd
-File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
-) [8
+] [8
 
 ] [9
 
 ] [10
 
-] [11
-
 ]
+LaTeX Font Info:    Try loading font information for U+bbm on input line 286.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/bbm-macros/ubbm.fd
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+)
+Overfull \hbox (1.34969pt too wide) detected at line 286
+\U/msb/m/n/10 E\OT1/cmss/m/n/10 [\OT1/mathkerncmss/m/sl/10 Z[]\OT1/cmss/m/n/10 
+(\U/bbm/m/n/10 1\OMS/cmsy/m/n/10 f\OT1/mathkerncmss/m/sl/10 y[] \OMS/cmsy/m/n/1
+0 ^^@ \OML/cmm/m/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n
+/10 )\OT1/mathkerncmss/m/sl/10 k[] \OMS/cmsy/m/n/10 ^^@ []\OT1/cmss/m/n/10 (\OM
+L/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )\OT1/mathkerncmss/m/sl/10 l[] \OMS/cmsy/m/n/
+10 ^^@ \OT1/mathkerncmss/m/sl/10 g\OT1/cmss/m/n/10 ([](\OT1/mathkerncmss/m/sl/1
+0 k[]\OML/cmm/m/it/10 ; ^^S[]\OT1/cmss/m/n/10 ) \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m
+/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )\OT1/mathke
+rncmss/m/sl/10 k[]\OT1/cmss/m/n/10 ) \OMS/cmsy/m/n/10 ^^T \OT1/cmss/m/n/10 0\OM
+S/cmsy/m/n/10 g ^^@ \OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )] = 0
+ []
 
-LaTeX Font Warning: Command \normalsize invalid in math mode on input line 325.
+[11
 
-
-
-LaTeX Font Warning: Command \normalsize invalid in math mode on input line 325.
-
-
-[12
+] [12
 
 ] [13
 
@@ -941,25 +932,80 @@ LaTeX Font Warning: Command \normalsize invalid in math mode on input line 325.
 
 ] [16
 
-] [17
-
-] [18
-
 ]
-</Users/justindoty/Documents/Reading/Presentations/Spring_2019/Presentations/AC
-F_2015/TFP_Dispersion.png, id=526, 618.31pt x 628.3475pt>
-File: /Users/justindoty/Documents/Reading/Presentations/Spring_2019/Presentatio
-ns/ACF_2015/TFP_Dispersion.png Graphic file (type png)
+Overfull \vbox (12.29288pt too high) detected at line 402
+ []
 
-<use /Users/justindoty/Documents/Reading/Presentations/Spring_2019/Presentation
-s/ACF_2015/TFP_Dispersion.png>
-Package pdftex.def Info: /Users/justindoty/Documents/Reading/Presentations/Spri
-ng_2019/Presentations/ACF_2015/TFP_Dispersion.png used on input line 457.
-(pdftex.def)             Requested size: 185.49443pt x 188.50569pt.
+[17
+
+] <ACF_MSE_Plot.png, id=499, 2710.125pt x 2409.0pt>
+File: ACF_MSE_Plot.png Graphic file (type png)
+<use ACF_MSE_Plot.png>
+Package pdftex.def Info: ACF_MSE_Plot.png used on input line 413.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[18
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/ACF_MSE_Plot.png>]
+Overfull \vbox (12.29288pt too high) detected at line 440
+ []
+
 [19
 
- </Users/justindoty/Documents/Reading/Presentations/Spring_2019/Presentations/A
-CF_2015/TFP_Dispersion.png>]
+] <LP_MSE_Plot.png, id=555, 2710.125pt x 2409.0pt>
+File: LP_MSE_Plot.png Graphic file (type png)
+<use LP_MSE_Plot.png>
+Package pdftex.def Info: LP_MSE_Plot.png used on input line 451.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[20
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/LP_MSE_Plot.png>] [21
+
+]
+Overfull \vbox (3.7719pt too high) detected at line 497
+ []
+
+[22
+
+] <Coefficient_Plot_1.png, id=636, 2710.125pt x 2409.0pt>
+File: Coefficient_Plot_1.png Graphic file (type png)
+<use Coefficient_Plot_1.png>
+Package pdftex.def Info: Coefficient_Plot_1.png used on input line 508.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[23
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/Coefficient_Plot_1.png>] <Coefficient_Plot_2.png, id=664
+, 2710.125pt x 2409.0pt>
+File: Coefficient_Plot_2.png Graphic file (type png)
+<use Coefficient_Plot_2.png>
+Package pdftex.def Info: Coefficient_Plot_2.png used on input line 519.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[24
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/Coefficient_Plot_2.png>] <Coefficient_Plot_3.png, id=693
+, 2710.125pt x 2409.0pt>
+File: Coefficient_Plot_3.png Graphic file (type png)
+<use Coefficient_Plot_3.png>
+Package pdftex.def Info: Coefficient_Plot_3.png used on input line 530.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[25
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/Coefficient_Plot_3.png>] <Coefficient_Plot_4.png, id=722
+, 2710.125pt x 2409.0pt>
+File: Coefficient_Plot_4.png Graphic file (type png)
+<use Coefficient_Plot_4.png>
+Package pdftex.def Info: Coefficient_Plot_4.png used on input line 541.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[26
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [27
+
+]
 \tf@nav=\write6
 \openout6 = `Heterogeneity_in_Production.nav'.
 
@@ -969,13 +1015,13 @@ CF_2015/TFP_Dispersion.png>]
 \tf@snm=\write8
 \openout8 = `Heterogeneity_in_Production.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 459.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 459.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 556.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 556.
 
 (/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heteroge
 neity_in_Firms/R_Code/Heterogeneity_in_Production.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 459.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 459.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 556.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 556.
 Package rerunfilecheck Info: File `Heterogeneity_in_Production.out' has not cha
 nged.
 (rerunfilecheck)             Checksum: 3C5FD6708A4C706BEEF71C47501622BB;115.
@@ -985,37 +1031,35 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 18425 strings out of 492995
- 355392 string characters out of 6132704
- 425415 words of memory out of 5000000
- 21497 multiletter control sequences out of 15000+600000
- 16314 words of font info for 65 fonts, out of 8000000 for 9000
+ 18484 strings out of 492995
+ 355890 string characters out of 6132704
+ 432415 words of memory out of 5000000
+ 21536 multiletter control sequences out of 15000+600000
+ 16722 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,26n,57p,893b,650s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,16n,57p,893b,650s stack positions out of 5000i,500n,10000p,200000b,80000s
  </Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour/public/bbm
-/bbm8.600pk> </Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour/
-public/bbm/bbm10.657pk></usr/local/texlive/2017/texmf-dist/fonts/type1/public/a
-msfonts/cmextra/cmex8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmmi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmss10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmss12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmss8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmssbx10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmssi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmssi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmsy6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmsy8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbo
-ls/msbm10.pfb>
+/bbm10.657pk> </Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour
+/public/bbm/bbm10.600pk></usr/local/texlive/2017/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmex10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmss10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmss12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmss8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmssi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmssi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmsy7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols
+/msbm10.pfb>
 Output written on /Users/justindoty/Documents/Research/Structural_Estimation/Pr
-oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (19 page
-s, 219752 bytes).
+oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (27 page
+s, 1294314 bytes).
 PDF statistics:
- 625 PDF objects out of 1000 (max. 8388607)
- 567 compressed objects within 6 object streams
- 41 named destinations out of 1000 (max. 500000)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 841 PDF objects out of 1000 (max. 8388607)
+ 765 compressed objects within 8 object streams
+ 57 named destinations out of 1000 (max. 500000)
+ 119 words of extra memory for PDF output out of 10000 (max. 10000000)
 
