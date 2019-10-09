@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  8 OCT 2019 12:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  9 OCT 2019 12:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1095,13 +1095,13 @@ eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [50
 \tf@snm=\write8
 \openout8 = `Heterogeneity_in_Production.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 637.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 637.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 636.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 636.
 
 (/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heteroge
 neity_in_Firms/R_Code/Heterogeneity_in_Production.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 637.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 637.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 636.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 636.
 Package rerunfilecheck Info: File `Heterogeneity_in_Production.out' has not cha
 nged.
 (rerunfilecheck)             Checksum: 3C5FD6708A4C706BEEF71C47501622BB;115.
@@ -1138,7 +1138,7 @@ pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msb
 m10.pfb>
 Output written on /Users/justindoty/Documents/Research/Structural_Estimation/Pr
 oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (53 page
-s, 1385221 bytes).
+s, 1387072 bytes).
 PDF statistics:
  1549 PDF objects out of 1728 (max. 8388607)
  1438 compressed objects within 15 object streams
