@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  9 OCT 2019 12:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  10 OCT 2019 08:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1037,7 +1037,7 @@ Package pdftex.def Info: LP_MSE_Plot.png used on input line 475.
 eneity_in_Firms/R_Code/LP_MSE_Plot.png>] [44
 
 ]
-Overfull \vbox (3.7719pt too high) detected at line 521
+Overfull \vbox (3.7719pt too high) detected at line 520
  []
 
 [45
@@ -1045,7 +1045,7 @@ Overfull \vbox (3.7719pt too high) detected at line 521
 ] <Coefficient_Plot_1.png, id=1244, 2710.125pt x 2409.0pt>
 File: Coefficient_Plot_1.png Graphic file (type png)
 <use Coefficient_Plot_1.png>
-Package pdftex.def Info: Coefficient_Plot_1.png used on input line 532.
+Package pdftex.def Info: Coefficient_Plot_1.png used on input line 531.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [46
 
@@ -1054,7 +1054,7 @@ eneity_in_Firms/R_Code/Coefficient_Plot_1.png>] <Coefficient_Plot_2.png, id=127
 2, 2710.125pt x 2409.0pt>
 File: Coefficient_Plot_2.png Graphic file (type png)
 <use Coefficient_Plot_2.png>
-Package pdftex.def Info: Coefficient_Plot_2.png used on input line 543.
+Package pdftex.def Info: Coefficient_Plot_2.png used on input line 542.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [47
 
@@ -1063,7 +1063,7 @@ eneity_in_Firms/R_Code/Coefficient_Plot_2.png>] <Coefficient_Plot_3.png, id=130
 0, 2710.125pt x 2409.0pt>
 File: Coefficient_Plot_3.png Graphic file (type png)
 <use Coefficient_Plot_3.png>
-Package pdftex.def Info: Coefficient_Plot_3.png used on input line 554.
+Package pdftex.def Info: Coefficient_Plot_3.png used on input line 553.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [48
 
@@ -1072,7 +1072,7 @@ eneity_in_Firms/R_Code/Coefficient_Plot_3.png>] <Coefficient_Plot_4.png, id=132
 9, 2710.125pt x 2409.0pt>
 File: Coefficient_Plot_4.png Graphic file (type png)
 <use Coefficient_Plot_4.png>
-Package pdftex.def Info: Coefficient_Plot_4.png used on input line 565.
+Package pdftex.def Info: Coefficient_Plot_4.png used on input line 564.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [49
 
@@ -1085,7 +1085,42 @@ eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [50
 
 ] [53
 
-]
+] <LP_311.png, id=1467, 2710.125pt x 2409.0pt>
+File: LP_311.png Graphic file (type png)
+<use LP_311.png>
+Package pdftex.def Info: LP_311.png used on input line 642.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[54
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/LP_311.png>] <LP_381.png, id=1495, 2710.125pt x 2409.0pt
+>
+File: LP_381.png Graphic file (type png)
+<use LP_381.png>
+Package pdftex.def Info: LP_381.png used on input line 653.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[55
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/LP_381.png>] <LP_321.png, id=1524, 2710.125pt x 2409.0pt
+>
+File: LP_321.png Graphic file (type png)
+<use LP_321.png>
+Package pdftex.def Info: LP_321.png used on input line 664.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[56
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/LP_321.png>] <LP_331.png, id=1552, 2710.125pt x 2409.0pt
+>
+File: LP_331.png Graphic file (type png)
+<use LP_331.png>
+Package pdftex.def Info: LP_331.png used on input line 675.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[57
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/LP_331.png>]
 \tf@nav=\write6
 \openout6 = `Heterogeneity_in_Production.nav'.
 
@@ -1095,13 +1130,13 @@ eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [50
 \tf@snm=\write8
 \openout8 = `Heterogeneity_in_Production.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 636.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 636.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 677.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 677.
 
 (/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heteroge
 neity_in_Firms/R_Code/Heterogeneity_in_Production.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 636.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 636.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 677.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 677.
 Package rerunfilecheck Info: File `Heterogeneity_in_Production.out' has not cha
 nged.
 (rerunfilecheck)             Checksum: 3C5FD6708A4C706BEEF71C47501622BB;115.
@@ -1111,10 +1146,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 18543 strings out of 492995
- 356447 string characters out of 6132704
+ 18579 strings out of 492995
+ 356863 string characters out of 6132704
  432429 words of memory out of 5000000
- 21543 multiletter control sequences out of 15000+600000
+ 21567 multiletter control sequences out of 15000+600000
  16722 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,20n,57p,893b,677s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1124,24 +1159,26 @@ Here is how much of TeX's memory you used:
 amsfonts/cm/cmex10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmmi5.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmss10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmss12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmss8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmssi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmssi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/c
-msy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy5.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.
-pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msb
-m10.pfb>
+onts/cm/cmmi6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmmi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmss10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmss12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmss8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+ssi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+ssi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+5.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.
+pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pf
+b></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.
+pfb>
 Output written on /Users/justindoty/Documents/Research/Structural_Estimation/Pr
-oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (53 page
-s, 1387072 bytes).
+oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (57 page
+s, 2111404 bytes).
 PDF statistics:
- 1549 PDF objects out of 1728 (max. 8388607)
- 1438 compressed objects within 15 object streams
- 109 named destinations out of 1000 (max. 500000)
- 119 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1672 PDF objects out of 1728 (max. 8388607)
+ 1546 compressed objects within 16 object streams
+ 117 named destinations out of 1000 (max. 500000)
+ 139 words of extra memory for PDF output out of 10000 (max. 10000000)
 
