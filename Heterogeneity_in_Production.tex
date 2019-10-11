@@ -105,7 +105,6 @@ A Proxy Variable Approach to Quantile Production Functions}
 \end{itemize}
 \pause
 \item These approaches have focused on estimates of output elasticities on location of conditional firm-size distribution
-\item Also, productivity heterogeneity are estimated average TFP measurements, typical dispersion measurements (e.g. 90-10 range) are average measurements.
 \item There could be considerable heterogeneity not captured by average estimates
 
 \end{itemize}
@@ -183,7 +182,7 @@ A Proxy Variable Approach to Quantile Production Functions}
 	\item The control function approaches of OP, LP, and ACF estimate homogeneous output elasticities
 	\item Many interesting questions can be asked if we consider production functions that are heterogeneous between firms
 	\item Kasahara, Schrimpf and Suzuki (2015) propose two methods to estimate a random coefficient production function and find evidence of unobserved heterogeneity beyond a Hicks-neutral technology term
-	\item Balat, Brambilla, and Sasaki (2015) extend the control function approach to infinitely supported coefficients with an application to international trade
+	\item Balat, Brambilla, and Sasaki (2015) extend the control function approach to multi-dimensional coefficients with an application to international trade
 	\item Li and Sasaki (2017) develop an identification strategy for heterogeneous elasticities using first order conditions for intermediate inputs
 \end{itemize}
 \end{frame}
@@ -194,7 +193,7 @@ A Proxy Variable Approach to Quantile Production Functions}
 \begin{itemize}
 	\item Allowing firm technology to vary over the conditional output distribution is also valid for estimating a production function with unobserved heterogeneity
 	\item Applications of quantile regression are however limited due to simultaneity bias
-	\item Typical IV approaches such as Chernozhukov and Hansen (2005) are also limited due to availability of instruments (input prices) and arguing for the monotonicity of the unobserved heterogeneity
+	\item Typical IV approaches such as Chernozhukov and Hansen (2005) are also limited due to the normal arguments of using input prices as IVs
 	\item Possible to exploit the panel data structure and use fixed effects (Koenker, 2004), Lamarche (2010), or Canay (2011)
 	\item The fixed effect shifts the location of the conditional distribution (not the quantiles)
 	\item Incidental Parameters (Koenker, 2004)
@@ -349,9 +348,11 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \frametitle{Smoothed GMM for Quantile Models}
 \begin{itemize}
 	\item The optimal weighting matrix is the estimator of the inverse long-run variance of the sample moment $\hat{W}^{*}=\bar{\Omega}^{-1}\overset{p}{\to}\Omega^{-1}$
-	\item In simulation and in application we use the long-run variance estimator as in Newey and West (1987) with a truncated kernel. We find this helps with scaling the moment conditions
+	\item In simulation and in application we use an estimate of the long-run variance using a truncated kernel with bandwidth choice of Andrews (1991). We find this helps with scaling.
+	\pause
 	\item The asymptotic results for this estimator cannot be applied here due to the semi-parametric nature of the two-step procedure
 	\item We are working to see if the asymptotic results of Ai and Chen (2007) can be applied here. This gives us extra conditions to show what rate gives an asymptotically negligible bandwidth. The smoothed sample moments are differentiable so we can take a Taylor expansion around $\beta(\tau)$, but the bandwidth problem remains
+	\pause
 	\item We use bootstrap for our empirical application
 \end{itemize}
 \end{frame}
@@ -570,8 +571,8 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{itemize}
 	\item Working on new data from Chile manufacturing 
 	\item Still working on asymptotic results and a numerically feasible implementation such as Ackerberg, Chen, Hahn, and Liao (2014)
-	\item Implications for TFP measurements, a new way to look at TFP dispersion
-	\item Working on implementing additional tests: Wald test for constant effects across quantiles, over-identification tests and an alternative model specification
+	\item Implications for TFP measurements
+	\item Working on implementing additional tests: constant effects across quantiles, over-identification tests and an alternative model specification (next slides)
 \end{itemize}
 \end{frame}
 

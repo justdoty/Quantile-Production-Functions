@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  10 OCT 2019 08:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  10 OCT 2019 23:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -872,20 +872,20 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 ] [4
 
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 138.
+LaTeX Font Info:    Try loading font information for U+msa on input line 137.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 138.
+LaTeX Font Info:    Try loading font information for U+msb on input line 137.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 138.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 137.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 138.
+line 137.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
@@ -933,11 +933,11 @@ thkerncmss.
 ] [25
 
 ]
-LaTeX Font Info:    Try loading font information for U+bbm on input line 304.
+LaTeX Font Info:    Try loading font information for U+bbm on input line 303.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 )
-Overfull \hbox (1.34969pt too wide) detected at line 304
+Overfull \hbox (1.34969pt too wide) detected at line 303
 \U/msb/m/n/10 E\OT1/cmss/m/n/10 [\OT1/mathkerncmss/m/sl/10 Z[]\OT1/cmss/m/n/10 
 (\U/bbm/m/n/10 1\OMS/cmsy/m/n/10 f\OT1/mathkerncmss/m/sl/10 y[] \OMS/cmsy/m/n/1
 0 ^^@ \OML/cmm/m/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n
@@ -953,7 +953,7 @@ S/cmsy/m/n/10 g ^^@ \OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )] = 0
 [26
 
 ]
-Overfull \hbox (1.34969pt too wide) detected at line 304
+Overfull \hbox (1.34969pt too wide) detected at line 303
 \U/msb/m/n/10 E\OT1/cmss/m/n/10 [\OT1/mathkerncmss/m/sl/10 Z[]\OT1/cmss/m/n/10 
 (\U/bbm/m/n/10 1\OMS/cmsy/m/n/10 f\OT1/mathkerncmss/m/sl/10 y[] \OMS/cmsy/m/n/1
 0 ^^@ \OML/cmm/m/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n
@@ -969,7 +969,7 @@ S/cmsy/m/n/10 g ^^@ \OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )] = 0
 [27
 
 ]
-Overfull \hbox (1.34969pt too wide) detected at line 304
+Overfull \hbox (1.34969pt too wide) detected at line 303
 \U/msb/m/n/10 E\OT1/cmss/m/n/10 [\OT1/mathkerncmss/m/sl/10 Z[]\OT1/cmss/m/n/10 
 (\U/bbm/m/n/10 1\OMS/cmsy/m/n/10 f\OT1/mathkerncmss/m/sl/10 y[] \OMS/cmsy/m/n/1
 0 ^^@ \OML/cmm/m/it/10 ^^L[]\OT1/cmss/m/n/10 (\OML/cmm/m/it/10 ^^\\OT1/cmss/m/n
@@ -1006,118 +1006,122 @@ S/cmsy/m/n/10 g ^^@ \OML/cmm/m/it/10 ^^\\OT1/cmss/m/n/10 )] = 0
 
 ] [39
 
+] [40
+
+] [41
+
 ]
-Overfull \vbox (12.29288pt too high) detected at line 426
- []
-
-[40
-
-] <ACF_MSE_Plot.png, id=1107, 2710.125pt x 2409.0pt>
-File: ACF_MSE_Plot.png Graphic file (type png)
-<use ACF_MSE_Plot.png>
-Package pdftex.def Info: ACF_MSE_Plot.png used on input line 437.
-(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[41
-
- </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/ACF_MSE_Plot.png>]
-Overfull \vbox (12.29288pt too high) detected at line 464
+Overfull \vbox (12.29288pt too high) detected at line 427
  []
 
 [42
 
-] <LP_MSE_Plot.png, id=1162, 2710.125pt x 2409.0pt>
-File: LP_MSE_Plot.png Graphic file (type png)
-<use LP_MSE_Plot.png>
-Package pdftex.def Info: LP_MSE_Plot.png used on input line 475.
+] <ACF_MSE_Plot.png, id=1159, 2710.125pt x 2409.0pt>
+File: ACF_MSE_Plot.png Graphic file (type png)
+<use ACF_MSE_Plot.png>
+Package pdftex.def Info: ACF_MSE_Plot.png used on input line 438.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [43
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/LP_MSE_Plot.png>] [44
-
-]
-Overfull \vbox (3.7719pt too high) detected at line 520
+eneity_in_Firms/R_Code/ACF_MSE_Plot.png>]
+Overfull \vbox (12.29288pt too high) detected at line 465
  []
 
+[44
+
+] <LP_MSE_Plot.png, id=1216, 2710.125pt x 2409.0pt>
+File: LP_MSE_Plot.png Graphic file (type png)
+<use LP_MSE_Plot.png>
+Package pdftex.def Info: LP_MSE_Plot.png used on input line 476.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [45
 
-] <Coefficient_Plot_1.png, id=1244, 2710.125pt x 2409.0pt>
-File: Coefficient_Plot_1.png Graphic file (type png)
-<use Coefficient_Plot_1.png>
-Package pdftex.def Info: Coefficient_Plot_1.png used on input line 531.
-(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[46
-
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/Coefficient_Plot_1.png>] <Coefficient_Plot_2.png, id=127
-2, 2710.125pt x 2409.0pt>
-File: Coefficient_Plot_2.png Graphic file (type png)
-<use Coefficient_Plot_2.png>
-Package pdftex.def Info: Coefficient_Plot_2.png used on input line 542.
-(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+eneity_in_Firms/R_Code/LP_MSE_Plot.png>] [46
+
+]
+Overfull \vbox (3.7719pt too high) detected at line 521
+ []
+
 [47
 
- </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/Coefficient_Plot_2.png>] <Coefficient_Plot_3.png, id=130
-0, 2710.125pt x 2409.0pt>
-File: Coefficient_Plot_3.png Graphic file (type png)
-<use Coefficient_Plot_3.png>
-Package pdftex.def Info: Coefficient_Plot_3.png used on input line 553.
+] <Coefficient_Plot_1.png, id=1296, 2710.125pt x 2409.0pt>
+File: Coefficient_Plot_1.png Graphic file (type png)
+<use Coefficient_Plot_1.png>
+Package pdftex.def Info: Coefficient_Plot_1.png used on input line 532.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [48
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/Coefficient_Plot_3.png>] <Coefficient_Plot_4.png, id=132
-9, 2710.125pt x 2409.0pt>
-File: Coefficient_Plot_4.png Graphic file (type png)
-<use Coefficient_Plot_4.png>
-Package pdftex.def Info: Coefficient_Plot_4.png used on input line 564.
+eneity_in_Firms/R_Code/Coefficient_Plot_1.png>] <Coefficient_Plot_2.png, id=132
+5, 2710.125pt x 2409.0pt>
+File: Coefficient_Plot_2.png Graphic file (type png)
+<use Coefficient_Plot_2.png>
+Package pdftex.def Info: Coefficient_Plot_2.png used on input line 543.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [49
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [50
+eneity_in_Firms/R_Code/Coefficient_Plot_2.png>] <Coefficient_Plot_3.png, id=135
+4, 2710.125pt x 2409.0pt>
+File: Coefficient_Plot_3.png Graphic file (type png)
+<use Coefficient_Plot_3.png>
+Package pdftex.def Info: Coefficient_Plot_3.png used on input line 554.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[50
 
-] [51
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/Coefficient_Plot_3.png>] <Coefficient_Plot_4.png, id=138
+2, 2710.125pt x 2409.0pt>
+File: Coefficient_Plot_4.png Graphic file (type png)
+<use Coefficient_Plot_4.png>
+Package pdftex.def Info: Coefficient_Plot_4.png used on input line 565.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[51
 
-] [52
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/Coefficient_Plot_4.png>] [52
 
 ] [53
 
-] <LP_311.png, id=1467, 2710.125pt x 2409.0pt>
+] [54
+
+] [55
+
+] <LP_311.png, id=1520, 2710.125pt x 2409.0pt>
 File: LP_311.png Graphic file (type png)
 <use LP_311.png>
-Package pdftex.def Info: LP_311.png used on input line 642.
-(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[54
-
- </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/LP_311.png>] <LP_381.png, id=1495, 2710.125pt x 2409.0pt
->
-File: LP_381.png Graphic file (type png)
-<use LP_381.png>
-Package pdftex.def Info: LP_381.png used on input line 653.
-(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[55
-
- </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/LP_381.png>] <LP_321.png, id=1524, 2710.125pt x 2409.0pt
->
-File: LP_321.png Graphic file (type png)
-<use LP_321.png>
-Package pdftex.def Info: LP_321.png used on input line 664.
+Package pdftex.def Info: LP_311.png used on input line 643.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [56
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
-eneity_in_Firms/R_Code/LP_321.png>] <LP_331.png, id=1552, 2710.125pt x 2409.0pt
+eneity_in_Firms/R_Code/LP_311.png>] <LP_381.png, id=1549, 2710.125pt x 2409.0pt
+>
+File: LP_381.png Graphic file (type png)
+<use LP_381.png>
+Package pdftex.def Info: LP_381.png used on input line 654.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[57
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/LP_381.png>] <LP_321.png, id=1577, 2710.125pt x 2409.0pt
+>
+File: LP_321.png Graphic file (type png)
+<use LP_321.png>
+Package pdftex.def Info: LP_321.png used on input line 665.
+(pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
+[58
+
+ </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
+eneity_in_Firms/R_Code/LP_321.png>] <LP_331.png, id=1604, 2710.125pt x 2409.0pt
 >
 File: LP_331.png Graphic file (type png)
 <use LP_331.png>
-Package pdftex.def Info: LP_331.png used on input line 675.
+Package pdftex.def Info: LP_331.png used on input line 676.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
-[57
+[59
 
  </Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterog
 eneity_in_Firms/R_Code/LP_331.png>]
@@ -1130,13 +1134,13 @@ eneity_in_Firms/R_Code/LP_331.png>]
 \tf@snm=\write8
 \openout8 = `Heterogeneity_in_Production.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 677.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 677.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 678.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 678.
 
 (/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heteroge
 neity_in_Firms/R_Code/Heterogeneity_in_Production.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 677.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 677.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 678.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 678.
 Package rerunfilecheck Info: File `Heterogeneity_in_Production.out' has not cha
 nged.
 (rerunfilecheck)             Checksum: 3C5FD6708A4C706BEEF71C47501622BB;115.
@@ -1146,8 +1150,8 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 18579 strings out of 492995
- 356863 string characters out of 6132704
+ 18583 strings out of 492995
+ 356901 string characters out of 6132704
  432429 words of memory out of 5000000
  21567 multiletter control sequences out of 15000+600000
  16722 words of font info for 66 fonts, out of 8000000 for 9000
@@ -1174,11 +1178,11 @@ b></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.
 pfb>
 Output written on /Users/justindoty/Documents/Research/Structural_Estimation/Pr
-oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (57 page
-s, 2111404 bytes).
+oduction/Heterogeneity_in_Firms/R_Code/Heterogeneity_in_Production.pdf (59 page
+s, 2116045 bytes).
 PDF statistics:
- 1672 PDF objects out of 1728 (max. 8388607)
- 1546 compressed objects within 16 object streams
- 117 named destinations out of 1000 (max. 500000)
+ 1725 PDF objects out of 1728 (max. 8388607)
+ 1597 compressed objects within 16 object streams
+ 121 named destinations out of 1000 (max. 500000)
  139 words of extra memory for PDF output out of 10000 (max. 10000000)
 
