@@ -1,4 +1,4 @@
-# setwd('/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterogeneity_in_Firms/R_Code')
+# setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
 source('gmmq.R')
 source('ivqr_gmm.R')
 #For Paralelization
@@ -270,13 +270,13 @@ for (d in 1:length(DGPs)){
       firststage <- rq(Output~Capital+Labor+Materials, tau=tau[q])
       LP_Labor <- as.matrix(firststage$coefficients[3])
       resmat_LPQ[,,,d][,,q][j,][2] <- LP_Labor
-      phiacf <- fitted(firststage)-as.matrix(Labor_Con)%*%LP_Labor)
+      phiacf <- fitted(firststage)-as.matrix(Labor)%*%LP_Labor
       dim(phiacf) <- c(t, n)
       phiacf_Lag_1 <- c(phiacf[1:(t-1),])
       phiacf_Con <- c(phiacf[2:t,])
       #Quantile GMM
       #Output Net of Labor
-      Y <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
+      Y <- as.matrix(phiacf_Con)
       #Matrix of Instruments
       Z <- as.matrix(cbind(Capital_Con, phiacf_Lag_1))
       #Contemporary Values
