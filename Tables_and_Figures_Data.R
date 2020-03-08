@@ -1,4 +1,4 @@
-setwd('/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterogeneity_in_Firms/R_Code')
+setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
 require(abind)
 R <- 500
 tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)

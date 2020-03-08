@@ -1,4 +1,4 @@
-setwd('/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterogeneity_in_Firms/R_Code')
+setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
 source('gmmq.R')
 source('ivqr_gmm.R')
 #For Paralelization
@@ -19,9 +19,9 @@ cl <- makeCluster(4)
 #Specifications for Error Distributions
 DGPs <- c("normal", "laplace")
 #MC Replications
-nreps <- 1000
+nreps <- 2
 #Vector of quantiles
-tau <- seq(0.1, 0.9, by=0.05)
+tau <- seq(0.25, 0.75, by=0.25)
 #Standard deviation of log wage process
 siglnw <- 0.1
 #Labor chosen at time timeb
@@ -273,14 +273,14 @@ for (d in 1:length(DGPs)){
       phiacf_Con <- c(phiacf[2:t,])
       #Quantile GMM
       #Output
-      Y <- as.matrix(Output_Con)
+      Y <- as.matrix(phiacf_Con)
       #Matrix of Instruments
       Z <- as.matrix(cbind(Capital_Con, Labor_Lag_1, phiacf_Lag_1))
       #Contemporary Values
       X <- as.matrix(cbind(Capital_Con, Labor_Con))
       #Lag Values
       lX <- as.matrix(cbind(Capital_Lag_1, Labor_Lag_1))
-      results <- ivqr.gmm(tau=tau[q], Y=Y, mX=X, mlX=lX, mZ=Z, vphi=phiacf_Con, vlag.phi=phiacf_Lag_1, h=0.001, max.time=5, upper=c(1,1,1), lower=c(0,0,0), structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=c(alphak0[q], alphal0[q], 0.7))
+      results <- ivqr.gmm(tau=tau[q], Y=Y, mX=X, mlX=lX, mZ=Z, vlag.phi=phiacf_Lag_1, h=0.001, max.time=5, upper=c(1,1,1), lower=c(0,0,0), structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=c(alphak0[q], alphal0[q], 0.7))
       #############################################################
       resmat_ACFQ[,,,d][,,q][j,] <- t(results$theta)
       return(resmat_ACFQ[,,,d][,,q][j,])

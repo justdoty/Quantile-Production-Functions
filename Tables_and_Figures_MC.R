@@ -1,4 +1,4 @@
-setwd('/Users/justindoty/Documents/Research/Structural_Estimation/Production/Heterogeneity_in_Firms/R_Code')
+setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
 require(xtable)
 require(ggplot2)
 require(cowplot)
