@@ -1,4 +1,4 @@
-setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
+# setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
 source('gmmq.R')
 source('ivqr_gmm.R')
 #For Paralelization
@@ -19,9 +19,9 @@ cl <- makeCluster(4)
 #Specifications for Error Distributions
 DGPs <- c("normal", "laplace")
 #MC Replications
-nreps <- 2
+nreps <- 1000
 #Vector of quantiles
-tau <- seq(0.25, 0.75, by=0.25)
+tau <- seq(0.1, 0.9, by=0.05)
 #Standard deviation of log wage process
 siglnw <- 0.1
 #Labor chosen at time timeb
@@ -42,13 +42,10 @@ Lambda <- function(theta, Y, mX, mlX, vlag.phi){
       Lambda <- Y-mX%*%theta[1:(ncol(mX))]-theta[length(theta)]*(vlag.phi-mlX%*%theta[1:(ncol(mX))])
       return(Lambda)
     }
-############# ACF Moment Equations (Concentrated)############################
+############# ACF Moment Equations ############################
 ACF_GMM <- function(x,z,b){
-  omega2 <- x[,1]-x[,2]*b[1]-x[,3]*b[2]
-  omega1 <- x[,4]-x[,5]*b[1]-x[,6]*b[2]
-  omega.fit <- lm(omega2~omega1)
-  Moment <- omega2-fitted(omega.fit)
-  Obj <- z*array(data=-Moment, dim=dim(z))
+  xi <- x[,1]-b[1]*x[,2]-b[2]*x[,3]-b[3]*(x[,4]-b[1]*x[,5]-b[2]*x[,6])
+  Obj <- z*array(data=-xi, dim=dim(z))
   return(Obj)
 } 
 ##################################################################################
@@ -243,16 +240,16 @@ for (d in 1:length(DGPs)){
     dim(phiacf_ACF) <- c(t, n)
     phiacf_Lag_1_ACF <- c(phiacf_ACF[1:(t-1),])
     phiacf_Con_ACF <- c(phiacf_ACF[2:t,])
-    ACF_Z <- cbind(Capital_Con, Labor_Lag_1)
+    ACF_Z <- cbind(Capital_Con, Labor_Lag_1, phiacf_Lag_1_ACF)
     ACF_X <- cbind(phiacf_Con_ACF, Capital_Con, Labor_Con, phiacf_Lag_1_ACF, Capital_Lag_1, Labor_Lag_1)
     obj.fn_ACF <- function(b){
       momi <- ACF_GMM(x=ACF_X, z=ACF_Z, b)
       return(nrow(momi)*colMeans(momi)%*%inv(var(momi))%*%as.matrix(colMeans(momi)))
     }
-    results_ACF <- GenSA(par=c(alphak, alphal), fn=obj.fn_ACF, lower=c(0,0),
-      upper=c(1, 1), control=list(max.time=5))$par
+    results_ACF <- GenSA(par=c(alphak, alphal, rho), fn=obj.fn_ACF, lower=c(0,0,0),
+      upper=c(1, 1, 1), control=list(max.time=5))$par
     ############################################################
-    resmat_ACF[,,d][j,] <- results_ACF
+    resmat_ACF[,,d][j,] <- results_ACF[1:2]
     print("ACF Estimates")
     print(resmat_ACF[,,d][j,])
     ##################################Estimation############################################
@@ -305,7 +302,7 @@ alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(ta
 alpha2 <- cbind(alphak2, alphal2)
 alpha <- rbind(alpha1, alpha2)
 # #Save Results
-# save(nreps, DGPs, resmat_ACF, resmat_ACFQ, alpha1, alpha2, tau, dB, file="simulation_ACF.Rdata")
+save(nreps, DGPs, resmat_ACF, resmat_ACFQ, alpha1, alpha2, tau, dB, file="simulation_ACF.Rdata")
 
 
 

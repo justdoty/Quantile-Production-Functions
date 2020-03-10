@@ -43,12 +43,9 @@ Lambda <- function(theta, Y, mX, mlX, vlag.phi){
       return(Lambda)
     }
 ############ LP Moment Equations############################
-LP_GMM <- function(x,bl,bk){
-  omega2 <- x[,1]-x[,2]*bk
-  omega1 <- x[,3]-x[,4]*bk
-  omega.fit <- lm(omega2~omega1)
-  xsipluseps <- x[,5]-bl*x[,6]-bk*x[,2]-fitted(omega.fit)
-  Obj <- sum(xsipluseps^2)
+LP_GMM <- function(x, z, b){
+  xi <- x[,1]-b[1]*x[,2]-b[2]*(x[,3]-b[1]*x[,4])
+  Obj <- z*array(data=-xi, dim=dim(z))
   return(Obj)
 }
 ##################################################################################
@@ -246,14 +243,15 @@ for (d in 1:length(DGPs)){
     phiacf_Lag_1_LP <- c(phiacf_LP[1:(t-1),])
     phiacf_Con_LP <- c(phiacf_LP[2:t,])
     LP_X <- cbind(phiacf_Con_LP, Capital_Con, phiacf_Lag_1_LP, Capital_Lag_1, Output_Con, Labor_Con)
-    obj.fn_LP <- function(bk){
-      momi <- LP_GMM(x=LP_X, bl=LP_Labor, bk)
-      return(momi)
+    LP_Z <- cbind(Capital_Con, phiacf_Lag_1_LP)
+    obj.fn_LP <- function(b){
+      momi <- LP_GMM(x=LP_X, z=LP_Z, b)
+      return(nrow(momi)*colMeans(momi)%*%inv(var(momi))%*%as.matrix(colMeans(momi)))
     }
-    results_LP <- GenSA(par=alphak, fn=obj.fn_LP, lower=0,
-      upper=1, control=list(max.time=5))$par
+    results_LP <- GenSA(par=c(alphak, rho), fn=obj.fn_LP, lower=c(0,0),
+      upper=c(1,1), control=list(max.time=5))$par
     ############################################################
-    resmat_LP[,,d][j,][1] <- results_LP
+    resmat_LP[,,d][j,][1] <- results_LP[1]
     print("LP Estimates")
     print(resmat_LP[,,d][j,])
     ##################################Estimation############################################
