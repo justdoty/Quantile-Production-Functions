@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  11 MAR 2020 11:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  28 MAR 2020 15:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Text/Pa
-per/Production_QR_Proxy_Paper.tex
+**/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Te
+xt/Production_QR_Proxy_Paper.tex
 
-(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Text/Pap
-er/Production_QR_Proxy_Paper.tex
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Tex
+t/Production_QR_Proxy_Paper.tex
 LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/base/article.cls
@@ -246,11 +246,22 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibsep=\skip61
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count117
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count118
+\FV@InFile=\read1
+\FV@TabBox=\box34
+\c@FancyVerbLine=\count119
+\FV@StepNumber=\count120
+\FV@OutFile=\write3
 ) (/usr/local/texlive/2017/texmf-dist/tex/latex/footmisc/footmisc.sty
 Package: footmisc 2011/06/06 v5.5b a miscellany of footnote facilities
 \FN@temptoken=\toks26
 \footnotemargin=\dimen145
-\c@pp@next@reset=\count118
+\c@pp@next@reset=\count121
 Package footmisc Info: Declaring symbol style bringhurst on input line 855.
 Package footmisc Info: Declaring symbol style chicago on input line 863.
 Package footmisc Info: Declaring symbol style wiley on input line 872.
@@ -260,34 +271,38 @@ Package footmisc Info: Declaring symbol style lamport* on input line 903.
 Package footmisc Info: Declaring symbol style lamport*-robust on input line 924
 .
 )
-(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Text/Pap
-er/Production_QR_Proxy_Paper.aux)
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Tex
+t/Production_QR_Proxy_Paper.aux
+
+LaTeX Warning: Label `MSE_plot' multiply defined.
+
+)
 \openout1 = `Production_QR_Proxy_Paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
 (/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count119
+\scratchcounter=\count122
 \scratchdimen=\dimen146
-\scratchbox=\box34
-\nofMPsegments=\count120
-\nofMParguments=\count121
+\scratchbox=\box35
+\nofMPsegments=\count123
+\nofMParguments=\count124
 \everyMPshowfont=\toks27
-\MPscratchCnt=\count122
+\MPscratchCnt=\count125
 \MPscratchDim=\dimen147
-\MPnumerator=\count123
-\makeMPintoPDFobject=\count124
+\MPnumerator=\count126
+\makeMPintoPDFobject=\count127
 \everyMPtoPDFconversion=\toks28
 ) (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
@@ -332,35 +347,35 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 59.
+LaTeX Font Info:    Try loading font information for U+msa on input line 61.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 59.
+LaTeX Font Info:    Try loading font information for U+msb on input line 61.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 59.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 61.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 59.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 61.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 59.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 61.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 59.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 61.
 [1
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
 [4]
-LaTeX Font Info:    Try loading font information for U+bbm on input line 205.
+LaTeX Font Info:    Try loading font information for U+bbm on input line 207.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 ) [5] [6] [7]
-Overfull \hbox (44.2687pt too wide) in paragraph at lines 255--256
+Overfull \hbox (44.2687pt too wide) in paragraph at lines 257--258
 \OT1/cmr/m/n/10.95 stru-ments $\OML/cmm/m/it/10.95 Z[] \OT1/cmr/m/n/10.95 = \OM
 S/cmsy/m/n/10.95 f\OML/cmm/m/it/10.95 k[]; []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/
 10.95 k[]; m[]\OT1/cmr/m/n/10.95 )\OMS/cmsy/m/n/10.95 g$ \OT1/cmr/m/n/10.95 for
@@ -378,138 +393,165 @@ e/ACF_Coefficient_Plot.png Graphic file (type png)
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /ACF_Coefficient_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/ACF_Coefficient_Plot.png used on input line 282.
+uction_QR_Proxy/Code/ACF_Coefficient_Plot.png used on input line 265.
 (pdftex.def)             Requested size: 312.96045pt x 256.05855pt.
 [8]
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/ACF
+_MSE_Plot.png, id=50, 2710.125pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/ACF_MSE_Plot.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/ACF_MSE_Plot.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/ACF_MSE_Plot.png used on input line 272.
+(pdftex.def)             Requested size: 312.96045pt x 256.05855pt.
+
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/LP_
-Coefficient_Plot.png, id=50, 2710.125pt x 2409.0pt>
+Coefficient_Plot.png, id=51, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/LP_Coefficient_Plot.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /LP_Coefficient_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/LP_Coefficient_Plot.png used on input line 308.
+uction_QR_Proxy/Code/LP_Coefficient_Plot.png used on input line 279.
 (pdftex.def)             Requested size: 312.96045pt x 256.05855pt.
 [9 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/
-ACF_Coefficient_Plot.png>]
+ACF_Coefficient_Plot.png> </Users/justindoty/Documents/Research/Dissertation/Pr
+oduction_QR_Proxy/Code/ACF_MSE_Plot.png>]
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/LP_
+MSE_Plot.png, id=57, 2710.125pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/LP_MSE_Plot.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/LP_MSE_Plot.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/LP_MSE_Plot.png used on input line 287.
+(pdftex.def)             Requested size: 312.96045pt x 256.05855pt.
+
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/QAC
-F_Box_Plot.png, id=55, 2710.125pt x 2409.0pt>
+F_Box_Plot.png, id=58, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/QACF_Box_Plot.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /QACF_Box_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/QACF_Box_Plot.png used on input line 328.
+uction_QR_Proxy/Code/QACF_Box_Plot.png used on input line 297.
 (pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
 [10 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/LP_Coefficient_Plot.png>]
+/LP_Coefficient_Plot.png> </Users/justindoty/Documents/Research/Dissertation/Pr
+oduction_QR_Proxy/Code/LP_MSE_Plot.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/QLP
-_Box_Plot.png, id=60, 2710.125pt x 2409.0pt>
+_Box_Plot.png, id=64, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/QLP_Box_Plot.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /QLP_Box_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/QLP_Box_Plot.png used on input line 335.
+uction_QR_Proxy/Code/QLP_Box_Plot.png used on input line 304.
 (pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
 [11 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /QACF_Box_Plot.png>]
-Overfull \hbox (12.50673pt too wide) in paragraph at lines 343--364
+Overfull \hbox (12.50673pt too wide) in paragraph at lines 312--333
  [][] 
  []
 
 
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Coe
-fficient_Plot_1.png, id=65, 2710.125pt x 2409.0pt>
+fficient_Plot_1.png, id=69, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Coefficient_Plot_1.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Coefficient_Plot_1.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Coefficient_Plot_1.png used on input line 369.
+uction_QR_Proxy/Code/Coefficient_Plot_1.png used on input line 338.
 (pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
 [12 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /QLP_Box_Plot.png>] [13 </Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Coefficient_Plot_1.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Coe
-fficient_Plot_2.png, id=75, 2710.125pt x 2409.0pt>
+fficient_Plot_2.png, id=79, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Coefficient_Plot_2.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Coefficient_Plot_2.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Coefficient_Plot_2.png used on input line 375.
+uction_QR_Proxy/Code/Coefficient_Plot_2.png used on input line 344.
 (pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
 
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Coe
-fficient_Plot_3.png, id=76, 2710.125pt x 2409.0pt>
+fficient_Plot_3.png, id=80, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Coefficient_Plot_3.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Coefficient_Plot_3.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Coefficient_Plot_3.png used on input line 381.
+uction_QR_Proxy/Code/Coefficient_Plot_3.png used on input line 350.
 (pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
 [14 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Coefficient_Plot_2.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Coe
-fficient_Plot_4.png, id=81, 2710.125pt x 2409.0pt>
+fficient_Plot_4.png, id=85, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Coefficient_Plot_4.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Coefficient_Plot_4.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Coefficient_Plot_4.png used on input line 387.
+uction_QR_Proxy/Code/Coefficient_Plot_4.png used on input line 356.
 (pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
 [15 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Coefficient_Plot_3.png>] [16 </Users/justindoty/Documents/Research/Dissertatio
 n/Production_QR_Proxy/Code/Coefficient_Plot_4.png>]
-(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Text/Pap
-er/Production_QR_Proxy_Paper.bbl [17]) [18]
-(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Text/Pap
-er/Production_QR_Proxy_Paper.aux) ) 
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Tex
+t/Production_QR_Proxy_Paper.bbl [17]) [18]
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Tex
+t/Production_QR_Proxy_Paper.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4619 strings out of 492995
- 72674 string characters out of 6132704
- 143162 words of memory out of 5000000
- 8027 multiletter control sequences out of 15000+600000
+ 4997 strings out of 492995
+ 79237 string characters out of 6132704
+ 145637 words of memory out of 5000000
+ 8399 multiletter control sequences out of 15000+600000
  20960 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,19n,39p,1519b,303s stack positions out of 5000i,500n,10000p,200000b,80000s
- </Users/justindoty/Library/texlive/2017/tex
-mf-var/fonts/pk/ljfour/public/bbm/bbm10.657pk></usr/local/texlive/2017/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2017/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2017/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2017/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2017/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2017/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2017/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2017/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2017/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr9.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmsy8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmti10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmtt9.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/sy
-mbols/msbm10.pfb>
+ 39i,19n,39p,1518b,303s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour/public/bbm
+/bbm10.657pk></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmbx12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mcsc10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mex10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8
+.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.p
+fb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
+></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><
+/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></u
+sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
+local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
+al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/
+texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
+exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texli
+ve/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texliv
+e/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/
+2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 Output written on /Users/justindoty/Documents/Research/Dissertation/Production_
-QR_Proxy/Text/Paper/Production_QR_Proxy_Paper.pdf (18 pages, 1660576 bytes).
+QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf (18 pages, 2071161 bytes).
 PDF statistics:
- 165 PDF objects out of 1000 (max. 8388607)
+ 169 PDF objects out of 1000 (max. 8388607)
  106 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

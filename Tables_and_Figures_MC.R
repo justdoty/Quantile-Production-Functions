@@ -121,7 +121,7 @@ align(QACF_estimates_table) <- rep('c', 7)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{$\\beta_{k}$}  & \\multicolumn{2}{c}{$\\beta_{l}$} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6}'
-print(QACF_estimates_table, hline.after=c(0,nrow(QACF_estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x)
+print(QACF_estimates_table, hline.after=c(0,nrow(QACF_estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, file="Text/QACF_Sim_Estimates.txt")
 #For QLP and LP
 QLP_estimates_table <- subset(cbind(DGP_labels, QLP_estimates[rep(tau, length(DGPs))%in%tau_table, ]), select=-c(Rho, sd_Rho))
 colnames(QLP_estimates_table) <- c("DGP", "$\\tau$","Coef.", 'Std. Dev.', "Coef.",'Std. Dev.')
@@ -130,7 +130,7 @@ align(QLP_estimates_table) <- rep('c', 7)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{$\\beta_{k}$}  & \\multicolumn{2}{c}{$\\beta_{l}$} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6}'
-print(QLP_estimates_table, hline.after=c(0,nrow(QLP_estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x)
+print(QLP_estimates_table, hline.after=c(0,nrow(QLP_estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, file="Text/QLP_Sim_Estimates.txt")
 #######################For Bias and MSE########################################
 #For QACF and ACF
 ACF_Bias_MSE_table <- cbind(DGP_labels, ACF_Bias_MSE[rep(tau, length(DGPs))%in%tau_table, ])
@@ -140,7 +140,7 @@ align(ACF_Bias_MSE_table) <- rep('c', 11)
 addtorow_ACF_Bias_MSE <- list()
 addtorow_ACF_Bias_MSE$pos <- list(-1)
 addtorow_ACF_Bias_MSE$command <- '\\hline\\hline & & \\multicolumn{4}{c}{QACF} & \\multicolumn{4}{c}{ACF} \\\\ \\cmidrule(lr){3-6} \\cmidrule(lr){7-10} \\\\& & \\multicolumn{2}{c}{$\\beta_{k}$}  & \\multicolumn{2}{c}{$\\beta_{l}$} &\\multicolumn{2}{c}{$\\beta_{k}$} & \\multicolumn{2}{c}{$\\beta_{l}$}  \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
-print(ACF_Bias_MSE_table, hline.after=c(0,nrow(ACF_Bias_MSE_table)), add.to.row=addtorow_ACF_Bias_MSE, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x)
+print(ACF_Bias_MSE_table, hline.after=c(0,nrow(ACF_Bias_MSE_table)), add.to.row=addtorow_ACF_Bias_MSE, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, file="Text/QACF_Sim_Bias_MSE.txt")
 #For QLP and LP
 LP_Bias_MSE_table <- cbind(DGP_labels, LP_Bias_MSE[rep(tau, length(DGPs))%in%tau_table, ])
 colnames(LP_Bias_MSE_table) <- c("DGP", "$\\tau$","Bias", 'MSE', "Bias",'MSE',"Bias",'MSE', 'Bias', 'MSE')
@@ -149,7 +149,7 @@ align(LP_Bias_MSE_table) <- rep('c', 11)
 addtorow_LP_Bias_MSE <- list()
 addtorow_LP_Bias_MSE$pos <- list(-1)
 addtorow_LP_Bias_MSE$command <- '\\hline\\hline & & \\multicolumn{4}{c}{QLP} & \\multicolumn{4}{c}{LP} \\\\ \\cmidrule(lr){3-6} \\cmidrule(lr){7-10} \\\\& & \\multicolumn{2}{c}{$\\beta_{k}$}  & \\multicolumn{2}{c}{$\\beta_{l}$} &\\multicolumn{2}{c}{$\\beta_{k}$} & \\multicolumn{2}{c}{$\\beta_{l}$}  \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
-print(LP_Bias_MSE_table, hline.after=c(0,nrow(LP_Bias_MSE_table)), add.to.row=addtorow_LP_Bias_MSE, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x)
+print(LP_Bias_MSE_table, hline.after=c(0,nrow(LP_Bias_MSE_table)), add.to.row=addtorow_LP_Bias_MSE, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, file="Text/QLP_Sim_Bias_MSE.txt")
 ############################# Box Plots #############################################
 tau_box <- c(0.1, 0.25, 0.5, 0.75, 0.9)
 ACF_K_Box_Plot <- list(); ACF_L_Box_Plot <- list()
