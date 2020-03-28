@@ -1,0 +1,6 @@
+PWD /Users/justindoty/Documents/Research/Structural_Estimation/Production/Quantile_GMM/Write_Ups
+INPUT /usr/local/texlive/2017/texmf.cnf
+INPUT /usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT /Users/justindoty/Documents/Research/Structural_Estimation/Production/Quantile_GMM/Write_Ups/references.bib
+OUTPUT /Users/justindoty/Documents/Research/Structural_Estimation/Production/Quantile_GMM/Write_Ups/references.log

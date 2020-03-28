@@ -1,0 +1,107 @@
+\begin{thebibliography}{21}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
+\textsc{Abrevaya, J.} and \textsc{Dahl, C.~M.} (2008). The effects of birth
+  inputs on birthweight. \textit{Journal of Business {\&} Economic Statistics},
+  \textbf{26}~(4), 379--397.
+
+\bibitem[{Ackerberg \textit{et~al.}(2015)Ackerberg, Caves and
+  Frazer}]{Ackerberg2015}
+\textsc{Ackerberg, D.}, \textsc{Caves, K.} and \textsc{Frazer, G.} (2015).
+  Identification properties of recent production function estimators.
+  \textit{Econometrica}, \textbf{83}~(6), 2411--2451.
+
+\bibitem[{Bache \textit{et~al.}(2012)Bache, Dahl and Kristensen}]{Bache2012}
+\textsc{Bache, S. H.~M.}, \textsc{Dahl, C.~M.} and \textsc{Kristensen, J.~T.}
+  (2012). Headlights on tobacco road to low birthweight outcomes.
+  \textit{Empirical Economics}, \textbf{44}~(3), 1593--1633.
+
+\bibitem[{Balat \textit{et~al.}(2018)Balat, Brambilla and Sasaki}]{balat}
+\textsc{Balat, J.}, \textsc{Brambilla, I.} and \textsc{Sasaki, Y.} (2018).
+  {Heterogeneous firms: skilled-labor productivity and the destination of
+  exports}, {Working paper}.
+
+\bibitem[{Borchers(2015)}]{pracma}
+\textsc{Borchers, H.~W.} (2015). {Pracma: practical numerical math functions}.
+  R package version 2.25.
+
+\bibitem[{Canay(2011)}]{Canay2011}
+\textsc{Canay, I.~A.} (2011). A simple approach to quantile regression for
+  panel data. \textit{The Econometrics Journal}, \textbf{14}~(3), 368--386.
+
+\bibitem[{Chamberlain(1984)}]{Chamberlain1984}
+\textsc{Chamberlain, G.} (1984). {Panel data. In: Griliches Z, Intriligator MD
+  (eds) Handbook of econometrics}. vol.~2, Elsevier Science B.V., New York, pp.
+  1247--1318.
+
+\bibitem[{de~Castro \textit{et~al.}(2018)de~Castro, Galvao, Kaplan and
+  Liu}]{qgmm}
+\textsc{de~Castro, L.}, \textsc{Galvao, A.~F.}, \textsc{Kaplan, D.~M.} and
+  \textsc{Liu, X.} (2018). Smoothed {GMM} for quantile models. \textit{Journal
+  of Econometrics}, forthcoming.
+
+\bibitem[{Griliches and Hausman(1986)}]{Griliches1986}
+\textsc{Griliches, Z.} and \textsc{Hausman, J.~A.} (1986). Errors in variables
+  in panel data. \textit{Journal of Econometrics}, \textbf{31}~(1), 93--118.
+
+\bibitem[{Horowitz(1998)}]{Horowitz1998}
+\textsc{Horowitz, J.~L.} (1998). Bootstrap methods for median regression
+  models. \textit{Econometrica}, \textbf{66}~(6), 1327.
+
+\bibitem[{Kaplan and Sun(2016)}]{Kaplan2016}
+\textsc{Kaplan, D.~M.} and \textsc{Sun, Y.} (2016). Smoothed estimating
+  equations for instrumental variables quantile regression. \textit{Econometric
+  Theory}, \textbf{33}~(1), 105--157.
+
+\bibitem[{Kasahara \textit{et~al.}(2017)Kasahara, Schrimpf and
+  Suzuki}]{Kasahara2015}
+\textsc{Kasahara, H.}, \textsc{Schrimpf, P.} and \textsc{Suzuki, M.} (2017).
+  Identification and estimation of production function with unobserved
+  heterogeneity, {Working paper}.
+
+\bibitem[{Koenker(2004)}]{Koenker2004}
+\textsc{Koenker, R.} (2004). Quantile regression for longitudinal data.
+  \textit{Journal of Multivariate Analysis}, \textbf{91}~(1), 74--89.
+
+\bibitem[{Lamarche(2010)}]{Lamarche2010}
+\textsc{Lamarche, C.} (2010). Robust penalized quantile regression estimation
+  for panel data. \textit{Journal of Econometrics}, \textbf{157}~(2), 396--408.
+
+\bibitem[{Levinsohn and Petrin(2003)}]{Levinsohn2003}
+\textsc{Levinsohn, J.} and \textsc{Petrin, A.} (2003). Estimating production
+  functions using inputs to control for unobservables. \textit{Review of
+  Economic Studies}, \textbf{70}~(2), 317--341.
+
+\bibitem[{Li and Sasaki(2017)}]{Li2017}
+\textsc{Li, T.} and \textsc{Sasaki, Y.} (2017). Constructive identification of
+  heterogeneous elasticities in the cobb-douglas production function, {Working
+  paper}.
+
+\bibitem[{Montresor and Vezzani(2015)}]{Montresor2015}
+\textsc{Montresor, S.} and \textsc{Vezzani, A.} (2015). The production function
+  of top r{\&}d investors: Accounting for size and sector heterogeneity with
+  quantile estimations. \textit{Research Policy}, \textbf{44}~(2), 381--393.
+
+\bibitem[{Newey and McFadden(1994)}]{Newey1994}
+\textsc{Newey, W.~K.} and \textsc{McFadden, D.} (1994). {Large sample
+  estimation and hypothesis testing. In: R. F. Engle and D. L. McFadden (eds)
+  Handbook of econometrics}. vol.~4, ~\textit{36}, Elsevier, pp. 2111--2245.
+
+\bibitem[{Olley and Pakes(1996)}]{Olley1996}
+\textsc{Olley, G.~S.} and \textsc{Pakes, A.} (1996). The dynamics of
+  productivity in the telecommunications equipment industry.
+  \textit{Econometrica}, \textbf{64}~(6), 1263.
+
+\bibitem[{Whang(2006)}]{Whang2006}
+\textsc{Whang, Y.-J.} (2006). Smoothed empirical likelihood methods for
+  quantile regression models. \textit{Econometric Theory}, \textbf{22}~(02).
+
+\bibitem[{Xiang \textit{et~al.}(2013)Xiang, Gubian, Suomela and
+  Hoeng}]{Xiang2013}
+\textsc{Xiang, Y.}, \textsc{Gubian, S.}, \textsc{Suomela, B.} and
+  \textsc{Hoeng, J.} (2013). Generalized simulated annealing for global
+  optimization: The {GenSA} package. \textit{The R Journal}, \textbf{5}~(1),
+  13.
+
+\end{thebibliography}
