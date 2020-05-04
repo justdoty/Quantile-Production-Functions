@@ -191,7 +191,7 @@ K_Plot_3 <- plot_grid(NULL, K_plot[[3]], NULL, ncol=3, rel_widths=c(0.25,0.5,0.2
 Coefficient_Plot_3 <- plot_grid(Industry_3, L_Plot_3, K_Plot_3, ncol=1, rel_heights=c(0.1, 1, 1))
 save_plot("Coefficient_Plot_3.png", Coefficient_Plot_3, base_height = 8, base_width = 9)
 
-#Coefficient Plot for 3rd industry
+#Coefficient Plot for 4th industry
 L_Plot_4 <- plot_grid(Lw_plot[[4]], Lb_plot[[4]], rel_heights=c(0.1, 1), ncol=2)
 K_Plot_4 <- plot_grid(NULL, K_plot[[4]], NULL, ncol=3, rel_widths=c(0.25,0.5,0.25))
 Coefficient_Plot_4 <- plot_grid(Industry_4, L_Plot_4, K_Plot_4, ncol=1, rel_heights=c(0.1, 1, 1))

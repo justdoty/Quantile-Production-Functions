@@ -274,7 +274,7 @@ for (d in 1:length(DGPs)){
       phiacf_Con <- c(phiacf[2:t,])
       #Quantile GMM
       #Output Net of Labor
-      Y <- as.matrix(phiacf_Con)
+      Y <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
       #Matrix of Instruments
       Z <- as.matrix(cbind(Capital_Con, phiacf_Lag_1))
       #Contemporary Values

@@ -135,8 +135,11 @@ Then, the production function parameters can be estimated from the moment restri
 &-g(\hat{\Phi}_{t-1}(k_{it-1}, \iota_{it-1})-\beta_{k}k_{it-1}-\beta_{\iota}\iota_{it-1})|\mathcal{I}_{it-1}]=0,
 \end{split}
 \end{equation}
-where $\tilde{y}_{it}=y_{it}-\hat{\beta}_{l}$ and $\hat{\Phi}$ denotes estimates from the first stage. LP proceed by using instuments from $\mathcal{I}_{it-1}$ and minimize a GMM criterion function. Standard errors are obtained via bootstrap.
+where $\tilde{y}_{it}=y_{it}-\hat{\beta}_{l}$ and $\hat{\Phi}$ denotes estimates from the first stage. LP proceed by using instruments from $\mathcal{I}_{it-1}$ and minimize a GMM criterion function. Standard errors are obtained via bootstrap.
+
 \subsection{Panel Data Quantile Regression}
+
+\textcolor{red}{Include the paragraph below after discussing limitations of control function approach and conditional quantile restrictions}
 
 Estimating the conditional quantiles of panel data models such as the one presented here is an ongoing area of research. Panel data models allow for flexible interactions between unobserved heterogeneity and the quantiles of the conditional response function. Some well known approaches assume a time-invariant fixed effect such as \cite{Koenker2004}, \cite{Lamarche2010}, \cite{Canay2011} which acts as a pure location shifter of the conditional quantile function. This approach may have two main disadvantages. First, assuming the unobservable is time-invariant is restrictive and \cite{Griliches1986} has shown to leads to low estimates of $\beta_{k}$. Secondly, a pure location effect on the conditional quantile function restricts firms from moving across quantiles over time. For example, \cite{Montresor2015} estimate an augmented production function using the EU Industrial R\&D Investment Scoreboard and argue that given the short time-span of their panel and high mobility of companies such as Google and HTC across quantiles, these recent fixed effect approaches assumptions do not coincide with the available data. Nevertheless, the fixed effect approaches for quantile panel data have proven to be popular, especially \cite{Canay2011} who develops a computationally simple approach that has been used to control for firm heterogeneity in the industrial organization literature.
 
@@ -144,15 +147,16 @@ An alternative to fixed effect estimation is to model the unobserved heterogenei
 
 
 \section{Quantile Production Function\label{sec:OP-and-LP}}
-For a fixed $\tau \in (0, 1]$, consider the $\tau$-th conditional quantile of the value-added production function in logs as\footnote{We drop the constant term $\beta_{0}(\tau)$ and let $\omega_{it}$
+We specify the \textit{value-added} production function as a random coefficient model:
+\footnote{We drop the constant term $\beta_{0}$ and let $\omega_{it}$
 subsume it because it is not separately identified without location
 normalization on $\omega_{it}$.}
-\begin{equation}
-    y_{it}=\beta_{k}(\tau)k_{it}+\beta_{l}(\tau)l_{it}+\omega_{it}+\eta_{it}(\tau)
+\begin{equation} \label{pfrc}
+    y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}
 \end{equation}
 We make the assumption that we can approximate the conditional quantiles of the production function by a linear-in-parameters specification and require $Q_{\tau}(\eta_{it}|\mathcal{I}_{it})=0$
 
-A special case of Equation $1$ is the location scale model,
+A special case of \eqref{pfrc} is the location scale model,
 
 \begin{equation}
     y_{it}=\beta_{l}l_{it}+\beta_{k}k_{it}+\omega_{it}+(\gamma_{l}l_{it}+\gamma_{k}k_{it}+\gamma_{\omega}\omega_{it})\eta_{it}
@@ -160,11 +164,23 @@ A special case of Equation $1$ is the location scale model,
 Which implies that the $\tau$th conditional quantile of $y_{it}$ is given by
 
 \begin{equation}
-Q_{y_{it}}(\tau|\mathcal{I}_{it})=\beta_{l}l_{it}+\beta_{k}k_{it}+\omega_{it}+(\gamma_{l}l_{it}+\gamma{k}k_{it}+\gamma_{\omega}\omega_{it})F^{-1}(\tau)
+Q_{y_{it}}(\tau|\mathcal{I}_{it})=\beta_{l}l_{it}+\beta_{k}k_{it}+\omega_{it}+(\gamma_{l}l_{it}+\gamma_{k}k_{it}+\gamma_{\omega}\omega_{it})F^{-1}(\tau)
 \end{equation}
-where $F^{-1}(\tau)$ is the quantile function of production shocks $\eta_{it}$
+where $F^{-1}(\tau)$ is the quantile function of production shocks $\eta_{it}$.
 
-We follow LP in the usual set of assumptions on timing of input choices and scalar unobservability. That is we assume firm's intermediate input demand is given by $m_{it}=h(k_{it}, \omega_{it})$ and is strictly increasing in $\omega_{it}$.
+This formulation is not new to the production function literature. The assumption that input choices can impact firm's production beyond the conditional mean has important consequences for firm's attitude towards production risk. A volume of literature that originated in the late 1970's challenged the standard stochastic specifications of production functions \citep{Just1978,Just1979} by considering a specification that allowed firm's inputs to both increase or decrease the marginal variability of final output.
+
+The framework presented here introduces a new model of firm behavior under production uncertainty. As we explain below, a firm who maximizes the $\tau$ level of utility of profits could explain heterogeneity in the output distribution. Unlike risk-neutral firms, we allow for firms to have a utility function that is represented by preferences of the firm manager(s) who decides the optimal expenditure on inputs. Different managers may have different preferences for risk. \textcolor{red}{Explain the link between quantiles and risk}. Quantile utility maximization is not a new concept. A short list of papers have considered quantile utility maximization such as \cite{Manski1988}, \cite{ROSTEK2009}, \cite{Chambers2007}, and \cite{Bhattacharya2009}. Dynamic input choices such as investment are much more difficult to solve using the quantile utility framework and the reader can refer to \cite{Castro2017} for a treatment of dynamic quantile utility models. As far as we know, the quantile utility framework has not been applied to firm decision problems and a more thorough treatment of such is outside the scope of this paper.
+
+
+
+We follow LP in the usual set of assumptions on timing of input choices and scalar unobservability. \textcolor{red}{However, we make a slight deviation in deriving the intermediate input demand equation. The firm chooses the intermediate input that maximizes the $\tau$ level of utility:}
+
+\begin{equation} \label{qmaxinput}
+\textcolor{red}{\mathbb{M}_{it}(K_{it}, \omega_{it}; \tau)=\underset{M_{it}}{\operatorname{argmax}}\,Q_{\tau}\Big[U\big(P_{y_{t}}(K_{it}^{\beta_{k}(\eta_{it})}L_{it}^{\beta_{l}(\eta_{it})}e^{\omega_{it}})-P_{m_{t}}M_{it}\big)|\mathcal{I}_{it}\Big]}
+\end{equation}
+
+\textcolor{red}{where $U(\cdot)$ is the utility function of the firm, $P_{y_{t}}$ is the price of output and $P_{m_{t}}$ is the price of the intermediate input. The operator, $Q_{\tau}[\cdot]$, refers to the $\tau$-th quantile of the random variable $U(\cdot)$, conditional on the firm's informations set at time $t$.} 
 
 We assume the following standard model primitives:
 
@@ -178,40 +194,49 @@ p(\omega_{it}|\mathcal{I}_{it-1})=p(\omega_{it}|\omega_{it-1})
 
 Assumption 3. \textit{Firms accumulate capital according to}
 \begin{equation}
-    k_{it}=\kappa(i_{it-1}, k_{it-1}).
+    k_{it}=\kappa(i_{it-1}, k_{it-1}; \textcolor{red}{\tau}).
 \end{equation}
 
-Given these assumptions, we invert intermediate input demand $\omega_{it}=h^{-1}(k_{it}, m_{it})$ and substitute into the production function. We treat $h_{t}^{-1}$ as a nonparametric function of the input decisions. Then we have
-\begin{equation}
-y_{it}=\beta_{k}(\tau)k_{it}+\beta_{l}(\tau)l_{it}+h_{t}^{-1}(k_{it}, m_{it})+\eta_{it}(\tau)=\beta_{l}(\tau)l_{it}+\tilde{\Phi}_{\tau}(k_{it}, m_{it})+\eta_{it}(\tau).
+\textcolor{red}{To guarantee invertibility of the intermediate demand function in \eqref{qmaxinput} we require the following additional assumptions (proof will be provided in appendix will require shape assumptions on production function and utility:}
+
+\textcolor{red}{Assumption 4: Invertibility conditions (to be provided)}
+
+Given these assumptions, we invert intermediate input demand $\omega_{it}=h^{-1}(k_{it}, m_{it}; \tau)$ and substitute into the production function. We treat $h_{t}^{-1}$ as a nonparametric function of the input decisions. Then we have
+\begin{equation} \label{qpf1st}
+y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+h_{t}^{-1}(k_{it}, m_{it}; \tau)=\beta_{l}(\eta_{it})l_{it}+\tilde{\Phi}_{\tau}(k_{it}, m_{it}, \eta_{it}).
 \end{equation}
 
-The first two terms are not identified so we use a linear approximation $\tilde{\Phi}_{\tau}(k_{it}, m_{it})=\beta_{k}(\tau)k_{it}+\beta_{m}(\tau)m_{it}$.
+\textcolor{red}{Does the notation in \eqref{qpf1st} make sense?}
 
-We propose to estimate $\tilde{\Phi}_{\tau}(k_{it}, m_{it})$ using linear quantile regression.
-With estimates $\hat{\tilde{\Phi}}_{\tau}(k_{it}, m_{it})$ in hand we use this to approximate productivity in the second stage. We have
-\begin{equation}
+The first two terms are not identified so we use a linear approximation $\tilde{\Phi}_{\tau}(k_{it}, m_{it}, \eta_{it})=\beta_{k}(\eta_{it})k_{it}+\beta_{m}(\eta_{it})m_{it}$.
+
+We propose to estimate $\beta_{l}(\eta_{it})l_{it}+\tilde{\Phi}_{\tau}(k_{it}, m_{it}, \eta_{it})$ using linear quantile regression.
+
+With estimates $\hat{\tilde{\Phi}}(k_{it}, m_{it}; \tau)$ in hand we use this to approximate productivity in the second stage. We have
+\begin{equation} \label{qpf2nd}
 \begin{split}
-\tilde{y}_{it}&=\beta_{k}(\tau)k_{it}+\omega_{it}+\eta_{it}(\tau)\\
-&=\beta_{k}(\tau)k_{it}+g(\omega_{it-1})+\xi_{it}+\eta_{it}(\tau)\\
-&=\beta_{k}(\tau)k_{it}+g(\hat{\tilde{\Phi}}_{\tau}(k_{it-1}, m_{it-1})-\beta_{k}(\tau)k_{it-1}).
+\tilde{y}_{it}&=\beta_{k}(\eta_{it})k_{it}+\omega_{it}\\
+&=\beta_{k}(\eta_{it})k_{it}+g(\omega_{it-1})+\xi_{it}\\
+&=\beta_{k}(\eta_{it})k_{it}+g(\hat{\tilde{\Phi}}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1})+\xi_{it}.
 \end{split}
 \end{equation}
 
-A second stage moment restriction can then be written:
+\textcolor{red}{In the LP/ACF approach we plug in for $\omega_{it-1}=y_{it}-\beta_{l}l_{it}-\beta_{k}k_{it}-\eta_{it}=\phi_{t-1}(k_{it-1}, m_{it-1})-\beta_{k}k_{it-1}$. Does the second stage control function change due to the fact that the model is no longer separable in $\eta_{it}$?}
+
+With the assumption that $Q_{\tau}(\xi_{it}|\mathcal{I}_{it-1})=0$, a second stage moment restriction can then be written:
 \begin{equation}
 \begin{split}
-Q_{\tau}(y_{it}|\mathcal{I}_{it-1})&=\\
+Q_{\tau}(\xi_{it}|\mathcal{I}_{it-1})&=\\
 \mathbb{E}\Big[\mathbbm{1}\{&\tilde{y}_{it}-\beta_{k}(\tau)k_{it}\\
-&-\rho(\tau)(\tilde{\Phi}_{\tau}(k_{it-1}, m_{it-1})-\beta_{k}(\tau)k_{it-1})\leq 0\}-\tau|\mathcal{I}_{it-1}\Big]=0.
+&-\rho(\tau)(\tilde{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})\leq 0\}-\tau|\mathcal{I}_{it-1}\Big]=0.
 \end{split}
 \end{equation}
-To estimate $\beta_{k}(\tau)$ and $\rho(\tau)$ we use the unconditional moment restrictions implied by $(10)$ as following: 
+Where we have used an AR(1) process to estimate $g(\omega_{it-1})$. To estimate $\beta_{k}(\tau)$ and $\rho(\tau)$ we use the unconditional moment restrictions implied by $(10)$ as following: 
 
 \begin{equation}
 \begin{split}
 \mathbb{E}\Bigg\{Z_{it-1} \Big[\mathbbm{1}\{&\tilde{y}_{it}-\beta_{k}(\tau)k_{it}\\
-&-\rho(\tau)(\tilde{\Phi}_{\tau}(k_{it-1}, m_{it-1})-\beta_{k}(\tau)k_{it-1})\leq 0\}-\tau\Big]=0
+&-\rho(\tau)(\tilde{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})\leq 0\}-\tau\Big]=0
 \end{split}
 \end{equation}
 where $Z_{it-1}$ includes the instruments used in the firm's information set at time $t-1$.
