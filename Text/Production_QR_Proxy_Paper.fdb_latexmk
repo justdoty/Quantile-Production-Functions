@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex Production_QR_Proxy_Paper"] 1588555209 "Production_QR_Proxy_Paper.aux" "Production_QR_Proxy_Paper.bbl" "Production_QR_Proxy_Paper" 1588555215
+["bibtex Production_QR_Proxy_Paper"] 1588555209 "Production_QR_Proxy_Paper.aux" "Production_QR_Proxy_Paper.bbl" "Production_QR_Proxy_Paper" 1588555444
   "Production_QR_Proxy_Paper.aux" 1588555215 5406 4741978d9efeb8918c661288dd4466d0 ""
   "ecca.bst.bst" 0 -1 0 ""
   "references.bib" 1588181614 13197 265904ff0feb89e3255f004fefb5961d ""
   (generated)
-  "Production_QR_Proxy_Paper.blg"
   "Production_QR_Proxy_Paper.bbl"
-["pdflatex"] 1588555209 "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.tex" "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf" "Production_QR_Proxy_Paper" 1588555215
+  "Production_QR_Proxy_Paper.blg"
+["pdflatex"] 1588555209 "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.tex" "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf" "Production_QR_Proxy_Paper" 1588555444
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/ACF_Coefficient_Plot.png" 1588554830 351727 0d77d1c77345b08aac19d8536d9478eb ""
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/ACF_MSE_Plot.png" 1588554833 363271 5bf26a655ab43bc1c23d4ba3e1ad08c7 ""
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Coefficient_Plot_1.png" 1583612803 341185 91586b78669db208dd63d61836383d85 ""
@@ -152,8 +152,8 @@
   "Production_QR_Proxy_Paper.bbl" 1588555209 6419 d614ee5e989c100c8748b07c543699e6 "bibtex Production_QR_Proxy_Paper"
   "Production_QR_Proxy_Paper.tex" 1588555196 28732 b17c8a09daae2465fd124c4da0221c59 ""
   (generated)
-  "Production_QR_Proxy_Paper.aux"
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.log"
+  "Production_QR_Proxy_Paper.aux"
+  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf"
   "Production_QR_Proxy_Paper.log"
   "Production_QR_Proxy_Paper.pdf"
-  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf"
