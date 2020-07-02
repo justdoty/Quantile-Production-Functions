@@ -96,14 +96,14 @@ A Proxy Variable Approach to Quantile Production Functions}
 \frametitle{Introduction}
 \begin{itemize}
 \item Identification issues: optimal input choices are functions of unobserved productivity leads to transmission bias
-\pause
+
 \item Popular control function approaches
 \begin{itemize}
 	\item OP (1994): Simultaneity and selection, investment policy proxy, application to telecommunications industry
 	\item LP (2003): Intermediate input proxy, application to Chilean manufacturing firms
 	\item ACF (2015): Structural value-Added production with intermediate input Proxy, identification under different DGPs
 \end{itemize}
-\pause
+
 \item These approaches have focused on estimates of output elasticities on location of conditional firm-size distribution
 \item There could be considerable heterogeneity not captured by average estimates
 
@@ -116,17 +116,17 @@ A Proxy Variable Approach to Quantile Production Functions}
 \frametitle{Levinsohn and Petrin (2003)}
 \begin{itemize}
 	\item Brief review of LP approach
-	\pause
+	
 	\item LP consider the following gross output production function (subscript $i$ omitted)
 	\begin{equation}
 	y_{t}=\beta_{0}+\beta_{k}k_{t}+\beta_{l}l_{t}+\beta_{\iota}\iota_{t}+\omega_{t}+\varepsilon_{t}
 	\end{equation}
-	\pause
+	
 	Where $\omega_{t}$ is productivity observed by the firm, but unobserved by the researcher (e.g, management quality, expected defect rates, etc.) and $\varepsilon_{t}$ represents iid shocks to production after making input choices at time $t$
 	With the following assumptions
 	\medskip
 	\begin{enumerate}
-		\pause
+		
 		\item Information Set: $\mathcal{I}_{t}$ includes current and past productivity shocks, but not future productivity. $\mathbb{E}[\varepsilon_{t}|\mathcal{I}_{t}]=0$
 		\item First Order Markov: Productivity shocks evolve according to the distribution $p(\omega_{t}|\omega_{t-1})$
 		\item Capital Accumulation: $k_{t}=\kappa(k_{t-1}, l_{t-1})$
@@ -146,7 +146,7 @@ A Proxy Variable Approach to Quantile Production Functions}
 		y_{t}=\beta_{0}+\beta_{k}k_{t}+\beta_{l}l_{t}+\omega_{t}(k_{t}, \iota_{t})+\varepsilon_{t}=\beta_{l}l_{t}+\Phi(k_{t}, \iota_{t})+\varepsilon_{t}
 	\end{equation}
 	where $\Phi(k_{t}, \iota_{t})=\beta_{0}+\beta_{k}k_{t}+\beta_{\iota}\iota_{t}+\omega_{t}(k_{t}, \iota_{t})$
-	\pause
+	
 	\item $\Phi(k_{t}, \iota_{t})$ can be estimated nonparametrically
 	\item Labor coefficient and other variable coefficients are identified in the first stage
 	\item First stage estimates are $\hat{\beta}_{l}$ and $\hat{\Phi}(k_{t}, \iota_{t})$ 
@@ -162,11 +162,11 @@ A Proxy Variable Approach to Quantile Production Functions}
 	\item Two moment conditions identify $\beta_{k}$ and $\beta_{\iota}$
 	\item Capital does not respond to the innovation in productivity 
 	\item Last period's input choice should not be correlated with the innovation in productivity this period
-	\pause
+	
 	\begin{equation}
 	\mathbb{E}[(\varepsilon_{t}+\eta_{t})Z_{t-1}]=\mathbb{E}[(y_{t}^{*}-\beta_{k}k_{t}-\beta_{\iota}\iota_{t}-\hat{\mathbb{E}}[\omega_{t}|\omega_{t-1}])Z_{t-1}]
 	\end{equation}
-	\pause
+	
 	\item $\hat{\mathbb{E}}[\omega_{t}|\omega_{t-1}]$ can be estimated using the estimates of $\omega_{t}$ from first stage estimates evaluated at $(\beta_{k}, \beta_{\iota})$
 	\item $Z_{t-1}$ includes $k_{t}$ and $\iota_{t-1}$ as well as additional instruments
 	\item LP minimize GMM criterion function and bootstrap standard errors 
@@ -211,17 +211,17 @@ We seek to extend the control function approach to a quantile value-production f
 \begin{equation}
 	Q_{\tau}(y_{t}|k_{t}, l_{t})=\beta_{k}(\tau)k_{t}+\beta_{l}(\tau)l_{t}+\omega_{t}
 \end{equation}
-\pause
+
 \begin{itemize}
 	\item $l_{t}$ is a freely variable input like labor and $k_{t}$ denotes the state variable as capital input
 	\item $\omega_{t}$ is an unobserved state variable to the econometrician that impacts firm's optimal input decisions
 	\item We allow for inputs to affect quantiles of the output distribution
 	\item A special case of this quantile production function is the location scale model
-	\pause
+	
 	\begin{equation}
 	 y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\eta_{k}k_{it}+\eta_{l}l_{it}+\eta_{\omega}\omega_{it})\varepsilon_{it}
 	\end{equation}
-	\pause
+	
 	which implies that the $\tau$-th conditional quantile of $y_{it}$ is given by
 	\begin{equation}
 	Q_{\tau}(y_{it}|\mathcal{I}_{it})=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\eta_{k}k_{it}+\eta_{l}l_{it}+\eta_{\omega}\omega_{it})F^{-1}(\tau)
@@ -235,7 +235,7 @@ We seek to extend the control function approach to a quantile value-production f
 We maintain several timing assumptions that are standard in the control function literature\\
 
 We use the set of assumptions for LP estimation, but can be easily altered for ACF as we do both in simulations\\
-\pause
+
 
 \begin{enumerate}
 	\item Information Set: $\mathcal{I}_{t}$ includes current and past productivity shocks, but not future productivity. $Q_{\tau}(\varepsilon_{t}|\mathcal{I}_{t})=0$
@@ -258,15 +258,15 @@ We use the set of assumptions for LP estimation, but can be easily altered for A
 	\begin{equation}
 	Q_{\tau}(y_{t}|k_{t}, l_{t})=\beta_{l}(\tau)l_{t}+\beta_{k}(\tau)k_{t}+\omega_{t}(k_{t}, \iota_{t})=\beta_{l}(\tau)l_{t}+\Phi_{\tau}(k_{t}, \iota_{t})
 	\end{equation}
-	\pause
+	
 	\item First stage parameters $\beta_{l}(\tau)$ and $\Phi_{\tau}(k_{t}, \iota_{t})$ are estimated here
 	\item If one uses a polynomial approximation to $\Phi_{\tau}(k_{t}, \iota_{t})$, $\hat{\beta}_{l}(\tau)$ and $\hat{\Phi}_{\tau}(k_{t}, \iota_{t})$ can be estimated using a polynomial quantile regression
-	\pause
+	
 	\item Substituting into the production
 	\begin{equation}
 	Q_{\tau}(y_{t}|k_{t}, l_{t})=\beta_{k}(\tau)k_{t}+\hat{\beta}_{l}(\tau)l_{t}+g(\hat{\Phi}_{\tau}(k_{t-1}, \iota_{t-1})-\beta_{k}(\tau)k_{t-1})+\xi_{t}
 	\end{equation}
-	\pause
+	
 	\item This equation is complicated by the unobservable $\xi_{t}$, we will assume that its sum with the production function shock $\varepsilon_{t}$ is conditional quantile zero, but this may not be valid
 \end{itemize}
 \end{frame}
@@ -281,7 +281,7 @@ We can write a second stage conditional quantile restriction as
 Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\tau}(k_{t-1}, \iota_{t-1})-\beta_{k}(\tau)k_{t-1})|\mathcal{I}_{it-1}]=0
 \end{equation}
 \normalsize
-\pause
+
 \begin{itemize}
 	\item The model in (10) can be represented by conditional moment restrictions
 	\small
@@ -290,7 +290,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 	\end{equation}
 	\normalsize
 	where $\mathbbm{1}\{\cdot\}$ is the indicator function
-	\pause
+	
 	\item To estimate the production function parameters we use the unconditional moments
 	\small
 	\begin{equation}
@@ -310,7 +310,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 	\item We smooth the indicator function and rely on estimation procedure of Kaplan and Sun (2017)
 	\item de Castro, Galvao, Kaplan, and Liu (2018) develop theory for feasible estimators of parameters in general conditional quantile restrictions that include non-linear IVQR
 	\item This approach is computationally attractive compared to approaches such as the MCMC approach proposed by Chernozhukov and Hong (2003)
-	\pause
+	
 	\item To fix notation let
 	\begin{itemize}
 		\item $Z_{t-1}$ the set of instruments discussed earlier
@@ -329,12 +329,12 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 	\begin{equation}
     \hat{M}_{n}(\beta, \tau)=\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}Z_{it}\Bigg[\tilde{I}\Bigg(\frac{\Lambda(y_{it}, x_{it}, \beta(\tau))}{h_{n}}\Bigg)-\tau\Bigg],
 	\end{equation}
-	\pause
+	
 	where $h_{n}$ is a bandwidth (sequence) and $\tilde{I}(\cdot)$ is a smoothed version of the indicator function $\mathbbm{1}\{\cdot \leq 0\}$ used by Horowitz (1998), Whang (2006), and Kaplan and Sun (2016):
 	\begin{equation}
 	    \tilde{I}(u)=\mathbbm{1}\{-1\leq u \leq 1\}\big[0.5+\frac{105}{64}\big(u-\frac{5}{3}u^{3}+\frac{7}{5}u^{5}- \frac{3}{7}u^{7}\big)\big]+\mathbbm{1}\{u>1\}.
 	\end{equation}
-	\pause
+	
 	The smoothed GMM estimator minimizes a weighted quadratic norm of the smoothed sample moment vector
 	\begin{equation}
 		\hat{\beta}_{GMM}=\underset{\beta}{\operatorname{argmin}}\hat{M}_{n}(\beta, \tau)^{\top}\hat{W}\hat{M}_{n}(\beta, \tau).
@@ -349,10 +349,10 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{itemize}
 	\item The optimal weighting matrix is the estimator of the inverse long-run variance of the sample moment $\hat{W}^{*}=\bar{\Omega}^{-1}\overset{p}{\to}\Omega^{-1}$
 	\item In simulation and in application we use an estimate of the long-run variance using a truncated kernel with bandwidth choice of Andrews (1991). We find this helps with scaling.
-	\pause
+	
 	\item The asymptotic results for this estimator cannot be applied here due to the semi-parametric nature of the two-step procedure
 	\item We are working to see if the asymptotic results of Ai and Chen (2007) can be applied here. This gives us extra conditions to show what rate gives an asymptotically negligible bandwidth. The smoothed sample moments are differentiable so we can take a Taylor expansion around $\beta(\tau)$, but the bandwidth problem remains
-	\pause
+	
 	\item We use bootstrap for our empirical application
 \end{itemize}
 \end{frame}
@@ -382,19 +382,19 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 		y_{t}=\beta_{k}k_{t}+\beta_{l}l_{t}+\omega_{t}+(0.7k_{t}+0.6l_{t}+0.1\omega_{t})\varepsilon_{t}
 	\end{equation}
 	with $\beta_{k}=0.4$, $\beta_{l}=0.6$\\
-	\pause
+	
 	Simulation 1: ACF Estimated Quantile Production Function
 	\begin{itemize}
 		\item Firms face different wages, where the wage process following an AR(1) process
 		\item Assume labor is chosen at time $t-b$ where $b=0.5$
 	\end{itemize}
-	\pause
+	
 	Simulation 2: LP Estimation Quantile Production Function
 	\begin{itemize}
 		\item No wage variation across firms and labor chosen at time $t$
 		\item Added optimization error in labor
 	\end{itemize}
-	\pause
+	
 	\item Both simulations include 2 DGP's for the error term $\varepsilon_{t}$. In DGP 1 $\varepsilon_{t} \sim N(0,0.1)$ and in DGP 2 $\varepsilon_{t} \sim \textit{Laplace}(0,0.1)$
 \end{itemize}
 \end{frame}
@@ -565,115 +565,6 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \end{frame}
 
 %----------------------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Quantile Production Function: Conclusion}
-\begin{itemize}
-	\item Working on new data from Chile manufacturing 
-	\item Still working on asymptotic results and a numerically feasible implementation such as Ackerberg, Chen, Hahn, and Liao (2014)
-	\item Implications for TFP measurements
-	\item Working on implementing additional tests: constant effects across quantiles, over-identification tests and an alternative model specification (next slides)
-\end{itemize}
-\end{frame}
-
-%----------------------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Alternative Estimator: Integrated Moment Condition}
-We have the following moment condition from earlier (now including $\xi$ ($i,t$ omitted))
-\begin{equation}
-	\mathbb{E}[Z(\mathbbm{1}\{y-\beta_{k}(\tau)k-\hat{\beta}_{l}(\tau)l-g(\hat{\Phi}_{\tau}(k, \iota)-\beta_{k}(\tau)k)-\xi\leq 0\}-\tau)]=0
-	\end{equation}
-	or 
-\begin{equation}
-	\mathbb{E}[Z(\mathbbm{1}\{y-\beta_{k}(\tau)k-\hat{\beta}_{l}(\tau)l-g(\hat{\Phi}_{\tau}(k, \iota)-\beta_{k}(\tau)k)\leq \xi\}-\tau)]=0
-\end{equation}
-Assume $\xi \sim N(0,\sigma^{2})$. Applying law of iterated expectations we obtain the following integrated moment condition
-\small
-\begin{equation}
-	\mathbb{E}[\frac{1}{\sqrt{2\pi}\sigma}\int_{-\infty}^{\infty}Z(\mathbbm{1}\{y-\beta_{k}(\tau)k-\hat{\beta}_{l}(\tau)-g(\hat{\Phi}_{\tau}(k, \iota)-\beta_{k}(\tau)k)\leq \xi\}-\tau)e^{\frac{-\xi^{2}}{2\sigma^{2}}}d\xi]=0
-\end{equation}
-\end{frame}
-
-%----------------------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Alternative Estimator: Integrated Moment Condition}
-The integral of the indicator function
-\begin{equation}
-	\frac{1}{\sqrt{2\pi}\sigma}\int_{-\infty}^{\infty}\mathbbm{1}\{y-\beta_{k}(\tau)k-\hat{\beta}_{l}(\tau)l-g(\hat{\Phi}_{\tau}(k, \iota)-\beta_{k}(\tau)k)\leq \xi\}e^{\frac{-\xi^{2}}{2\sigma^{2}}}d\xi
-\end{equation}
-When $\Lambda(y, x, \beta(\tau))\geq 0$
-\begin{equation}
-	1-\phi\Big(\frac{\Lambda(y, x, \beta(\tau))}{\sigma}\Big)
-\end{equation}
-Similarly when $\Lambda(y, x, \beta(\tau))<0$ we obtain
-\begin{equation}
-	\phi\Big(\frac{\Lambda(y, x, \beta(\tau))}{\sigma}\Big)
-\end{equation}
-where $\Lambda(y, x, \beta(\tau))$ is the residual function defined earlier (without $\xi$) and $\phi(\cdot)$ is the CDF of standard normal
-\end{frame}
-
-%----------------------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Alternative Estimator: Integrated Moment Condition}
-The integrated moment function becomes
-\begin{equation}
-\begin{split}
-	\mathbb{E}\Bigg[Z\Bigg(&\mathbbm{1}\{\Lambda(y, x, \beta(\tau))\geq0\}\Bigg(1-\phi\Big(\frac{\Lambda(y, x, \beta(\tau))}{\sigma}\Big)\Bigg)+
-	\\&\mathbbm{1}\{\Lambda(y, x, \beta(\tau))<0\}\Bigg(\phi\Big(\frac{\Lambda(y, x, \beta(\tau))}{\sigma}\Big)\Bigg)-\tau \Bigg)\Bigg]=0
-	\end{split}
-\end{equation}
-\begin{itemize}
-	\item This removes the needs for smoothing since this function is continuous 
-	\item With standard assumptions we can use GMM and iteratively solve for the production function parameters for optimal values of the nuisance parameter $\sigma$
-\end{itemize}
-\end{frame}
-
-%----------------------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Appendix}
-\begin{figure}[H]
-\centering
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\includegraphics[width=12cm, height=6cm, keepaspectratio]{LP_311.png}
-\end{figure}
-\end{frame}
-
-%----------------------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Appendix}
-\begin{figure}[H]
-\centering
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\includegraphics[width=12cm, height=6cm, keepaspectratio]{LP_381.png}
-\end{figure}
-\end{frame}
-
-%----------------------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Appendix}
-\begin{figure}[H]
-\centering
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\includegraphics[width=12cm, height=6cm, keepaspectratio]{LP_321.png}
-\end{figure}
-\end{frame}
-
-%----------------------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Appendix}
-\begin{figure}[H]
-\centering
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\includegraphics[width=12cm, height=6cm, keepaspectratio]{LP_331.png}
-\end{figure}
-\end{frame}
 
 \end{document}
 
