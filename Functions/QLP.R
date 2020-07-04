@@ -1,9 +1,12 @@
+setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical')
 set.seed(123456)
 #This code is a modified version of Smoothed GMM for Quantile Models, de Castro, Galvao,
 #Kaplan, and Liu (2018). See David Kaplan's website for more details
 #https://faculty.missouri.edu/~kaplandm/
 
 #Some data preparation follows prodest.R (Gabrielle Rovigatti)
+source("gmmq_data.R")
+source("ivqr_gmm_data.R")
 #Required for 1st step estimation
 require(quantreg)
 #Required for QGMM estimation variations
@@ -163,7 +166,6 @@ Lambda <- function(tau, theta, Y, mX, mlX, vphi, vlag.phi){
   Lambda <- Y-(mX%*%theta)-g_b
   return(Lambda)
 }  
-
 
 
 
