@@ -1,10 +1,9 @@
-setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data')
 library(dplyr)
 library(stringr)
 library(reshape2)
 library(purrr)
 #Data for output, materials, and labor deflators from NBER Manufacturing Productivity Database
-nberprod <- read.csv('naicsdef.csv', header=TRUE)
+nberprod <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/naicsdef.csv', header=TRUE)
 #Data for capital deflators from the BLS: start date 1987 and 2010 base year. 
 # blsprod <- read.csv('cap_details.csv', header=TRUE, check.names=FALSE)
 #See which industries have NA's in the NBER database
@@ -40,7 +39,7 @@ nberdeflators <- select(nberprod, naics, year, emp, pay, invest, cap, piship, pi
 ####################################################################################################
 
 #Cleaning and merging computstat data with price deflator data
-compstat <- read.csv('Compustat.csv', header=TRUE) %>% rename(year=fyear, employ=emp) %>% 
+compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Compustat.csv', header=TRUE) %>% rename(year=fyear, employ=emp) %>% 
 	select(gvkey, year, sale, employ, ppegt, ppent, cogs, dpact, dp, xsga, capx, naics, fic) %>% group_by(gvkey) %>%
 	#remove firms with nonpositive values
 	filter(!any(sale<=0), !any(employ<0.01), !any(ppegt<=0), !any(ppent<=0), !any(cogs<=0), !any(xsga<=0), !any(dp<=0), !any(capx<=0)) %>%
