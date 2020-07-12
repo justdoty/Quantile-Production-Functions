@@ -1,6 +1,44 @@
 setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US')
+library(qwraps2)
+library(stringr)
+library(dplyr)
+#Load US dataset
+USdata <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/USdata.csv') %>% 
+  select(id, year, Y, K, L, M, naics3) %>% transmute(id=id, year=year, Y=Y/1e6, K=K/1e6, L=L, M=M/1e6, naics3=as.character(naics3), naics2=as.numeric(str_extract(as.character(naics3), "^.{2}")))
+#Industries as listed in Estimation_US.R file
+All <- "^3"
+industries <- c("311|312", "313|314|315|316", "^31", "321", "322|323", "324|325", "326|327", "^32", "331", "332", "333", "334", "335", "336", "337|339", "^33", All)
+  #Formatting for summary statistics using the package qwraps2
+format <- 
+  list("Output" =
+       list("mean" = ~ round(mean(.data$Y), 2),
+            "median" = ~ round(median(.data$Y), 2),
+            "sd" = ~ round(sd(.data$Y), 2)),
+       "Capital" =
+       list("mean" = ~ round(mean(.data$K), 2),
+            "median" = ~ round(median(.data$K), 2),
+            "sd" = ~ round(sd(.data$K), 2)),
+       "Labor" =
+       list("mean" = ~ round(mean(.data$L)),
+            "median" = ~ round(median(.data$L)),
+            "sd" = ~ round(sd(.data$L), 2)),
+       "Materials" =
+       list("mean" = ~ round(mean(.data$M), 2),
+            "median" = ~ round(median(.data$M), 2),
+            "sd" = ~ round(sd(.data$M), 2)),
+       "Size"=
+       list("Firms"= ~length(unique(.data$id)),
+            "Total"= ~n())
+       ) 
+sumind <- c("^31", "^32", "^33", All)
+summary <- do.call(cbind, lapply(sumind, function(x) summary_table(dplyr::filter(USdata, str_detect(naics3, x)), format)))
+sumnames <- sumind %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
+sumnames[length(sumnames)] <- "All"
+print(summary, cnames=sumnames, rtitle="NAICS", align=c("l", rep("c", length(sumind))))
+#Industry size breakdown
+naicssize <- group_by(USdata, naics2) %>% summarise(Firms=length(unique(id)), Total=n())
+print(data.frame(naicssize))
 #Choose which industry to select
-industries <- c(31, 32, 33)
 #Vector of quantiles
 tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)
 #Number of parameters
@@ -23,9 +61,8 @@ for (i in 1:length(industries)){
 	LP_results[[i]] <- results
   LP_true[[i]] <- true.beta.LP
 }
-#Load the results from OLS, output is a list of estimates over industries
-OLS_results <- load('OLS_Estimates_US.Rdata')
-
+#Load the results from OLS and QR, output is a list of estimates over industries
+QR_OLS_results <- load('US_QR_OLS.Rdata')
 #Prepare estimates for QLP: Outputs a list of quantile estimates over industry (columns)
 #and estimates (rows)
 #Bootstrapped QLP Coefficient Estimates
@@ -87,6 +124,8 @@ LP_Coef <- lapply(seq(dim(LP_Coef)[2]), function(x) LP_Coef[,x])
 LP_SE <- lapply(seq(dim(LP_SE)[2]), function(x) LP_SE[,x])
 LP_Upper <- lapply(seq(dim(LP_Upper)[2]), function(x) LP_Upper[,x])
 LP_Lower <- lapply(seq(dim(LP_Lower)[2]), function(x) LP_Lower[,x])
+#For Quantile Regression
+QR_Coef <- lapply(seq(dim(qr.soln)[3]), function(x) qr.soln[ , , x])
 
 
 #Make an estimates table for Quantile GMM
@@ -99,15 +138,18 @@ colnames(QLP_CI) <- c('Tau', 'Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
 #Make an estimates table for LP
 estimates_LP <- data.frame(cbind(do.call(rbind, LP_Coef), do.call(rbind, LP_SE))[,c(rbind(c(1:2), 2+(1:2)))])
 colnames(estimates_LP) <- c('K', 'se_K', 'L', 'se_L')
-#Make a Confidence Interval Table for Quantile GMM
+#Make a Confidence Interval Table for LP
 LP_CI <- data.frame(cbind(do.call(rbind, LP_Lower), do.call(rbind, LP_Upper))[,c(rbind(c(1:2), 2+(1:2)))])
 colnames(LP_CI) <- c('Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
-#Make an estimates table for LP
+#Make an estimates table for OLS
 estimates_OLS <- data.frame(do.call(rbind, OLS_Coef))
 colnames(estimates_OLS) <- c('K', 'L')
-#Make a Confidence Interval Table for Quantile GMM
+#Make a Confidence Interval Table for OLS
 OLS_CI <- data.frame(cbind(do.call(rbind, OLS_Lower), do.call(rbind, OLS_Upper))[,c(rbind(c(1:2), 2+(1:2)))])
 colnames(OLS_CI) <- c('Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
+#Make an estimates table for QR
+estimates_QR <- data.frame(cbind(rep(tau, length(industries)), do.call(rbind, QR_Coef)))
+colnames(estimates_QR) <- c("Tau", "K", "L")
 #Prepare estimates for table in paper/presentation
 require(xtable)
 tau_table <- c(0.1, 0.25, 0.5, 0.75)
@@ -131,7 +173,6 @@ require(ggplot2)
 require(cowplot)
 K_plot <- list(); L_plot <- list()
 for (p in 1:length(industries)){
-  #Capital
   ky <- split(estimates$K, ceiling(seq_along(estimates$K)/length(tau)))[[p]]
   klow <- split(QLP_CI$Lower_K, ceiling(seq_along(QLP_CI$Lower_K)/length(tau)))[[p]]
   klow_LP <- LP_CI$Lower_K[p]
@@ -139,8 +180,9 @@ for (p in 1:length(industries)){
   kup <- split(QLP_CI$Upper_K, ceiling(seq_along(QLP_CI$Upper_K)/length(tau)))[[p]]
   kup_LP <- LP_CI$Upper_K[p]
   # kup_LP <- kcoef[p]+qnorm(0.95)*kse[p]
-  K_data <- data.frame(x=tau, y=ky, z=estimates_LP$K[p], lower=klow, upper=kup, lower_LP=klow_LP, upper_LP=kup_LP)
-  K_plot[[p]] <- ggplot(K_data, aes(x=x, y=y)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) +  geom_hline(yintercept=K_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(K_data$lower_LP, K_data$upper_LP), linetype='dashed', color='red')
+  kqr <- split(estimates_QR$K, ceiling(seq_along(estimates_QR$K)/length(tau)))[[p]]
+  K_data <- data.frame(x=tau, y=ky, z=estimates_LP$K[p], qr=kqr, lower=klow, upper=kup, lower_LP=klow_LP, upper_LP=kup_LP)
+  K_plot[[p]] <- ggplot(K_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_line(aes(y=kqr), linetype="twodash") +  geom_hline(yintercept=K_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(K_data$lower_LP, K_data$upper_LP), linetype='dashed', color='red')
   #Labor
   ly <- split(estimates$L, ceiling(seq_along(estimates$L)/length(tau)))[[p]]
   llow <- split(QLP_CI$Lower_L, ceiling(seq_along(QLP_CI$Lower_L)/length(tau)))[[p]]
@@ -149,8 +191,9 @@ for (p in 1:length(industries)){
   lup <- split(QLP_CI$Upper_L, ceiling(seq_along(QLP_CI$Upper_L)/length(tau)))[[p]]
   lup_LP <- LP_CI$Upper_L[p]
   # lwup_LP <- wcoef[p]+qnorm(0.95)*wse[p]
-  L_data <- data.frame(x=tau, y=ly, z=estimates_LP$L[p], lower=llow, upper=lup, lower_LP=llow_LP, upper_LP=lup_LP)
-  L_plot[[p]] <- ggplot(L_data, aes(x=x, y=y)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) +  geom_hline(yintercept=L_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(L_data$lower_LP, L_data$upper_LP), linetype='dashed', color='red')
+  lqr <- split(estimates_QR$L, ceiling(seq_along(estimates_QR$L)/length(tau)))[[p]]
+  L_data <- data.frame(x=tau, y=ly, z=estimates_LP$L[p], qr=lqr, lower=llow, upper=lup, lower_LP=llow_LP, upper_LP=lup_LP)
+  L_plot[[p]] <- ggplot(L_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) +  geom_line(aes(y=lqr), linetype="twodash") +  geom_hline(yintercept=L_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(L_data$lower_LP, L_data$upper_LP), linetype='dashed', color='red')
 
 }
 #Combine plots across industries

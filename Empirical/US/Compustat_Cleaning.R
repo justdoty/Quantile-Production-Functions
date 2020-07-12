@@ -56,7 +56,7 @@ compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Producti
 	mutate(Yratio=ifelse(year==first(year), 0, abs((Y-lag(Y))/lag(Y))), Kratio=ifelse(year==first(year), 0, abs((K-lag(Y))/lag(K))), Lratio=ifelse(year==first(year), 0, abs((L-lag(L))/lag(L))), Mratio=ifelse(year==first(year), 0, abs((M-lag(M))/lag(M))), Iratio=ifelse(year==first(year), 0, abs((I-lag(I))/lag(I)))) %>%
 	#Year-to-year changes for total input/output ratio, firms with values extremely different from one are dropped
 	mutate(IOratio=ifelse(year==first(year), 0, ((K+L+M-lag(K+L+M))/lag(K+L+M))/((Y-lag(Y))/lag(Y)))) %>%
-	filter(!any(M<=0), !any(VA<=0), !any(abs(IOratio)>500),!any(Yratio>500), !any(Kratio>500), !any(Lratio>500), !any(Mratio>500)) %>% ungroup() %>%
+	filter(!any(M<=0), !any(VA<=0)) %>% ungroup() %>%
 	select(id, year, Y, VA, K, L, M, I, naics3)
 ####################################################################################################
 #Summary statistics for the cleaned data set
@@ -73,4 +73,7 @@ print(panelT)
 #Total observations
 print(nrow(compstat))
 #Save clean data
-USdata <- write.csv(compstat, 'USdata.csv', row.names=FALSE)
+path_out <- '/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US'
+fileName <- paste(path_out, 'USdata.csv',sep = '')
+write.csv(compstat,fileName, row.names=FALSE)
+

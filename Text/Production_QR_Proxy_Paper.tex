@@ -82,52 +82,6 @@ This paper extends the proxy variable approach for estimating production functio
 
 \section{Introduction}
 
-\begin{tabular}{l|l|l|l|l}
-\hline
- & NAICS 31 & NAICS 32 & NAICS 33 & All\\
-\hline
-\bf{Output} & ~ & ~ & ~ & ~\\
-\hline
-~~ mean & 2584.22 & 3453.28 & 1431.04 & 2184.02\\
-\hline
-~~ median & 579.01 & 701.04 & 178.96 & 302.27\\
-\hline
-~~ sd & 5903.62 & 8372.06 & 5133.08 & 6425.87\\
-\hline
-\bf{Capital} & ~ & ~ & ~ & ~\\
-\hline
-~~ mean & 124.03 & 289.2 & 83.43 & 149.94\\
-\hline
-~~ median & 23.18 & 38.74 & 8.1 & 13.97\\
-\hline
-~~ sd & 280.45 & 883.04 & 308.63 & 552.17\\
-\hline
-\bf{Labor} & ~ & ~ & ~ & ~\\
-\hline
-~~ mean & 15404.35 & 14384.96 & 9207.17 & 11562.38\\
-\hline
-~~ median & 5000 & 3900 & 1508 & 2321\\
-\hline
-~~ sd & 32226.96 & 24143.87 & 22565.9 & 24662.9\\
-\hline
-\bf{Materials} & ~ & ~ & ~ & ~\\
-\hline
-~~ mean & 1642.2 & 2229.68 & 914.02 & 1401\\
-\hline
-~~ median & 369.83 & 419.87 & 110.02 & 190.12\\
-\hline
-~~ sd & 3838.9 & 6008.09 & 3820.05 & 4620.58\\
-\hline
-\bf{} & ~ & ~ & ~ & ~\\
-\hline
-~~ Firms & 158 & 330 & 715 & 1203\\
-\hline
-\bf{} & ~ & ~ & ~ & ~\\
-\hline
-~~ Total & 3496 & 7892 & 15161 & 26549\\
-\hline
-\end{tabular}
-
 Production function estimation is an ongoing and historical empirical research topic that links firm's input to output decisions. Estimation of the output elasticities and consequently the distribution of firm-level productivity is hampered by endogeneity issues. This is because productivity is unobserved by the econometrician, but observed by the firm when making input decisions. 
 
 A popular approach to address this issue is to introduce a proxy variable such as investment \citep{Olley1996} or an intermediate material input \citep{Levinsohn2003} /\citep*{Ackerberg2015} (ACF) as a function of a state variable such as capital and strictly increasing in its scalar unobserved productivity component. Inverting this demand function controls for unobserved productivity and the production function parameters can be estimated with a simple two-stage estimator.
@@ -333,21 +287,21 @@ We compare the LP and ACF estimation procedure with the two-step procedure using
 \begin{figure}[H]
 \centering
 \caption{QACF estimated coefficients of  $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is ACF estimator}
-\includegraphics[width=11cm, height=9cm]{ACF_Coefficient_Plot.png}
+\includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/ACF_Coefficient_Plot.png}
 \label{ACF_coefficient_plot}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Simulated precision of QACF estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s. Dotted line is ACF estimator.}
-\includegraphics[width=11cm, height=9cm]{ACF_MSE_Plot.png}
+\includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/ACF_MSE_Plot.png}
 \label{MSE_plot}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{QLP estimated coefficients of  $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is LP estimator}
-\includegraphics[width=11cm, height=9cm]{LP_Coefficient_Plot.png}
+\includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png}
 \label{LP_coefficient_plot}
 \end{figure}
 
@@ -355,7 +309,7 @@ We compare the LP and ACF estimation procedure with the two-step procedure using
 \begin{figure}[H]
 \centering
 \caption{Simulated precision of  QLP estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s. Dotted line is LP estimator.}
-\includegraphics[width=11cm, height=9cm]{LP_MSE_Plot.png}
+\includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png}
 \label{MSE_plot}
 \end{figure}
 
@@ -365,20 +319,67 @@ The next figure summarizes distributional information from our Monte Carlo exper
 \begin{figure}[H]
 \centering
 \caption{ACF Box Plots for estimated coefficients from 1000 replications of Monte Carlo}
-\includegraphics[width=12cm]{QACF_Box_Plot.png}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QACF_Box_Plot.png}
 \label{ACF_Box Plot}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{LP Box Plots for estimated coefficients from 1000 replications of Monte Carlo}
-\includegraphics[width=12cm]{QLP_Box_Plot.png}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png}
 \label{LP_Box Plot}
 \end{figure}
 
 \section{Application}
-
-\begin{table}[ht]
+\subsection{US Compustat}
+\begin{table}[H]
+\centering
+\begin{tabular}{l|c|c|c|c}
+NAICS & 31 & 32 & 33 & All\\
+\hline
+\bf{Output} & ~ & ~ & ~ & ~\\
+\hline
+~~ mean & 2584.22 & 3453.28 & 1431.04 & 2184.02\\
+\hline
+~~ median & 579.01 & 701.04 & 178.96 & 302.27\\
+\hline
+~~ sd & 5903.62 & 8372.06 & 5133.08 & 6425.87\\
+\hline
+\bf{Capital} & ~ & ~ & ~ & ~\\
+\hline
+~~ mean & 124.03 & 289.2 & 83.43 & 149.94\\
+\hline
+~~ median & 23.18 & 38.74 & 8.1 & 13.97\\
+\hline
+~~ sd & 280.45 & 883.04 & 308.63 & 552.17\\
+\hline
+\bf{Labor} & ~ & ~ & ~ & ~\\
+\hline
+~~ mean & 15404 & 14385 & 9207 & 11562\\
+\hline
+~~ median & 5000 & 3900 & 1508 & 2321\\
+\hline
+~~ sd & 32226.96 & 24143.87 & 22565.9 & 24662.9\\
+\hline
+\bf{Materials} & ~ & ~ & ~ & ~\\
+\hline
+~~ mean & 1642.2 & 2229.68 & 914.02 & 1401\\
+\hline
+~~ median & 369.83 & 419.87 & 110.02 & 190.12\\
+\hline
+~~ sd & 3838.9 & 6008.09 & 3820.05 & 4620.58\\
+\hline
+\bf{Size} & ~ & ~ & ~ & ~\\
+\hline
+~~ Firms & 158 & 330 & 715 & 1203\\
+\hline
+~~ Total & 3496 & 7892 & 15161 & 26549\\
+\hline
+\end{tabular}
+\end{table}
+\normalsize
+\subsection{Chilean Manufacturing}
+\begin{table}[H]
 \centering
 \begin{tabular}{cccccccccc}
   \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Skilled Labor} & \multicolumn{2}{c}{Unskilled Labor} & \multicolumn{2}{c}{Returns to Scale} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}Industry (ISIC code) & $\tau$ & Coef. & s.e. & Coef. & s.e. & Coef. & s.e. & Coef. & s.e \\ 
@@ -406,25 +407,25 @@ The next figure summarizes distributional information from our Monte Carlo exper
 \begin{figure}[H]
 \centering
 \caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\includegraphics[width=12cm]{Coefficient_Plot_1.png}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_1.png}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\includegraphics[width=12cm]{Coefficient_Plot_2.png}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_2.png}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\includegraphics[width=12cm]{Coefficient_Plot_3.png}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_3.png}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\includegraphics[width=12cm]{Coefficient_Plot_4.png}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_4.png}
 \end{figure}
 
 \section{Conclusions}
