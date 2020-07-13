@@ -1,6 +1,7 @@
 library(dplyr)
 COL_data <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/Raw Data/data.csv") %>%
-	select(firm, time, ind, Y, K, L, M) %>% transmute(id=firm, year=time, Y=Y, K=K, L=L, M=M)
+	select(firm, time, ind, Y, K, L, M, ind) %>% transmute(id=firm, year=time, lny=Y, lnva=log(exp(Y)-exp(M)), lnk=K, lnl=L, lnm=M, isic3=ind) %>%
+	group_by(id) %>% filter(!is.na(lnva))
 
 #Average number of firms per year
 avg_firms <- round(as.numeric(colMeans(group_by(COL_data, year) %>% summarise(firms=n()))[2]))

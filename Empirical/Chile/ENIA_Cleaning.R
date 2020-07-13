@@ -1,8 +1,6 @@
-
 library(readstata13)
 library(dplyr)
-setwd("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/Raw Data")
-chile_data <- read.dta13("chile_data.dta") %>% select(plantID, year, isic3, salesDeflTotal, whitecnt, bluecnt, totalEmp, matDeflTotal, capDeflTotal) %>%
+chile_data <- read.dta13("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/Raw Data/chile_data.dta") %>% select(plantID, year, isic3, salesDeflTotal, whitecnt, bluecnt, totalEmp, matDeflTotal, capDeflTotal) %>%
 	transmute(id=plantID, year=year, isic3=isic3, Y=salesDeflTotal, VA=salesDeflTotal-matDeflTotal, Lw=whitecnt, Lb=bluecnt, L=totalEmp, M=matDeflTotal, K=capDeflTotal) %>%
 	group_by(id) %>% filter(!any(VA<=0), !any(L<10), !any(M<=0), !any(K<=0))
 
@@ -16,7 +14,7 @@ print(unique_firms)
 panelT <- max(chile_data$year)-min(chile_data$year)
 print(panelT)
 
-
+write.csv(chile_data, "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/CHLdata.csv", row.names=FALSE)
 
 
 

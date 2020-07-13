@@ -1,12 +1,11 @@
 library(qwraps2)
 library(stringr)
 library(dplyr)
-#Load US dataset
-USdata <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/USdata.csv') %>% 
-  select(id, year, Y, K, L, M, naics3) %>% transmute(id=id, year=year, Y=Y/1e6, K=K/1e6, L=L, M=M/1e6, naics3=as.character(naics3), naics2=as.numeric(str_extract(as.character(naics3), "^.{2}")))
+#Load COL dataset
+COLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/COLdata.csv")
 #Industries as listed in Estimation_US.R file
 All <- "^3"
-NAICS <- c(All, "^31", "311|312", "313|314|315|316", "^32", "321", "322|323", "324|325", "326|327", "^33", "331", "332", "333", "334", "335", "336", "337|339")
+industries <- c("311", "381", "321", All)
   #Formatting for summary statistics using the package qwraps2
 format <- 
   list("Output" =
@@ -29,14 +28,14 @@ format <-
        list("Firms"= ~length(unique(.data$id)),
             "Total"= ~n())
        ) 
-sumind <- c("^31", "^32", "^33", All)
-summary <- do.call(cbind, lapply(sumind, function(x) summary_table(dplyr::filter(USdata, str_detect(naics3, x)), format)))
+sumind <- ISIC
+summary <- do.call(cbind, lapply(sumind, function(x) summary_table(dplyr::filter(COLdata, str_detect(isic3, x)), format)))
 sumnames <- sumind %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
 sumnames[length(sumnames)] <- "All"
-print(summary, cnames=sumnames, rtitle="NAICS", align=c("l", rep("c", length(sumind))))
+print(summary, cnames=sumnames, rtitle="ISIC", align=c("l", rep("c", length(sumind))))
 #Industry size breakdown
-naicssize <- group_by(USdata, naics2) %>% summarise(Firms=length(unique(id)), Total=n())
-print(data.frame(naicssize))
+isicsize <- group_by(COLdata, isic3) %>% summarise(Firms=length(unique(id)), Total=n())
+print(data.frame(isicsize))
 #Choose which industry to select
 #Vector of quantiles
 tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)
@@ -47,7 +46,7 @@ require(abind)
 QLP_results <- list()
 QLP_true <- list()
 for (i in 1:length(tau)){
-	load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QLP_Estimation_US%s.RData", i))
+	load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/QLP_COL_Q%s.RData", i))
 	QLP_results[[i]] <- results
   QLP_true[[i]] <- true.beta
 
@@ -55,26 +54,26 @@ for (i in 1:length(tau)){
 #Load the results from LP, output is a list of estimates over industries
 LP_results <- list()
 LP_true <- list()
-for (i in 1:length(NAICS)){
-	load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/US_LP_Estimation%s.RData", i))
+for (i in 1:length(ISIC)){
+	load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/LP_COL_ISIC_%s.RData", i))
 	LP_results[[i]] <- results
   LP_true[[i]] <- true.beta.LP
 }
 #Load the results from OLS and QR, output is a list of estimates over industries
-QR_OLS_results <- load('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/US_QR_OLS.Rdata')
+QR_OLS_results <- load('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/COL_QR_OLS.Rdata')
 #Prepare estimates for QLP: Outputs a list of quantile estimates over industry (columns)
 #and estimates (rows)
 #Bootstrapped QLP Coefficient Estimates
-QLP_Coef <- array(0, dim=c(2, length(NAICS), length(tau)))
+QLP_Coef <- array(0, dim=c(2, length(ISIC), length(tau)))
 # QLP_Coef <- lapply(QLP_true, function(x) t(x))
-QLP_SE <- array(0, dim=c(2, length(NAICS), length(tau)))
+QLP_SE <- array(0, dim=c(2, length(ISIC), length(tau)))
 # QLP_RtS <- lapply(QLP_results, colSums)
-QLP_RtS <- array(0, dim=c(length(tau), length(NAICS)))
-QLP_RtS_SE <- array(0, dim=c(length(tau), length(NAICS)))
-QLP_Lower <- array(0, dim=c(2, length(NAICS), length(tau)))
-QLP_Upper <- array(0, dim=c(2, length(NAICS), length(tau)))
+QLP_RtS <- array(0, dim=c(length(tau), length(ISIC)))
+QLP_RtS_SE <- array(0, dim=c(length(tau), length(ISIC)))
+QLP_Lower <- array(0, dim=c(2, length(ISIC), length(tau)))
+QLP_Upper <- array(0, dim=c(2, length(ISIC), length(tau)))
 for (i in 1:length(tau)){
-	for (j in 1:length(NAICS)){
+	for (j in 1:length(ISIC)){
 		QLP_Coef[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, mean)
 		QLP_SE[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, sd)
     QLP_RtS[i,j] <- mean(apply(QLP_results[[i]][,,j], 1, sum))
@@ -88,18 +87,18 @@ for (i in 1:length(tau)){
 QLP_Coef <- aperm(QLP_Coef, c(3, 1, 2))
 # QLP_Coef <- array(as.numeric(unlist(QLP_Coef)), dim=c(3, 2, 10))
 QLP_SE <- aperm(QLP_SE, c(3, 1, 2))
-QLP_RtS <- c(t(array(as.numeric(unlist(QLP_RtS)), dim=c(length(NAICS), length(tau)))))
+QLP_RtS <- c(t(array(as.numeric(unlist(QLP_RtS)), dim=c(length(ISIC), length(tau)))))
 QLP_RtS_SE <- c(QLP_RtS_SE)
 QLP_Lower <- aperm(QLP_Lower, c(3, 1, 2))
 QLP_Upper <- aperm(QLP_Upper, c(3, 1, 2))
 #Prepare estimates for LP
 #Bootstrapped LP Coefficient Estimates
-LP_Coef <- array(0, dim=c(2, length(NAICS)))
+LP_Coef <- array(0, dim=c(2, length(ISIC)))
 # LP_Coef <- array(as.numeric(unlist(LP_true)), dim=c(2,3))
-LP_SE <- array(0, dim=c(2, length(NAICS)))
-LP_Lower <- array(0, dim=c(2, length(NAICS)))
-LP_Upper <- array(0, dim=c(2, length(NAICS)))
-for (i in 1:length(NAICS)){
+LP_SE <- array(0, dim=c(2, length(ISIC)))
+LP_Lower <- array(0, dim=c(2, length(ISIC)))
+LP_Upper <- array(0, dim=c(2, length(ISIC)))
+for (i in 1:length(ISIC)){
 	LP_Coef[,i] <- colMeans(LP_results[[i]]) 
 	LP_SE[,i] <- apply(LP_results[[i]], 2, sd) 
 	LP_Lower[,i] <- apply(LP_results[[i]], 2, function(x) quantile(x, 0.05))
@@ -128,11 +127,11 @@ QR_Coef <- lapply(seq(dim(qr.soln)[3]), function(x) qr.soln[ , , x])
 
 
 #Make an estimates table for Quantile GMM
-estimates <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QLP_Coef), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
+estimates <- data.frame(cbind(rep(tau, length(ISIC)), cbind(do.call(rbind, QLP_Coef), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
 estimates <- cbind(estimates, QLP_RtS, QLP_RtS_SE)
 colnames(estimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RtS', 'RtS_SE')
 #Make a Confidence Interval Table for Quantile GMM
-QLP_CI <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QLP_Lower), do.call(rbind, QLP_Upper))[,c(rbind(c(1:2), 2+(1:2)))]))
+QLP_CI <- data.frame(cbind(rep(tau, length(ISIC)), cbind(do.call(rbind, QLP_Lower), do.call(rbind, QLP_Upper))[,c(rbind(c(1:2), 2+(1:2)))]))
 colnames(QLP_CI) <- c('Tau', 'Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
 #Make an estimates table for LP
 estimates_LP <- data.frame(cbind(do.call(rbind, LP_Coef), do.call(rbind, LP_SE))[,c(rbind(c(1:2), 2+(1:2)))])
@@ -147,20 +146,20 @@ colnames(LP_CI) <- c('Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
 # OLS_CI <- data.frame(cbind(do.call(rbind, OLS_Lower), do.call(rbind, OLS_Upper))[,c(rbind(c(1:2), 2+(1:2)))])
 # colnames(OLS_CI) <- c('Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
 #Make an estimates table for QR
-estimates_QR <- data.frame(cbind(rep(tau, length(NAICS)), do.call(rbind, QR_Coef)))
+estimates_QR <- data.frame(cbind(rep(tau, length(ISIC)), do.call(rbind, QR_Coef)))
 colnames(estimates_QR) <- c("Tau", "K", "L")
 #Prepare estimates for table in paper/presentation
 require(xtable)
 tau_table <- c(0.1, 0.25, 0.5, 0.75)
 
 #Table Labels
-NAICS[1] <- "All"
-NAICS_relabel <- NAICS %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
-NAICS_labels <- array(NA, length(tau_table)*length(NAICS)); NAICS_labels[seq(1, length(tau_table)*length(NAICS), by=length(tau_table))] <- NAICS_relabel
-NAICS_labels[is.na(NAICS_labels)] <- ""
+ISIC[length(ISIC)] <- "All"
+ISIC_relabel <- ISIC %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
+ISIC_labels <- array(NA, length(tau_table)*length(ISIC)); ISIC_labels[seq(1, length(tau_table)*length(ISIC), by=length(tau_table))] <- ISIC_relabel
+ISIC_labels[is.na(ISIC_labels)] <- ""
 
-estimates_table <- cbind(NAICS_labels, estimates[rep(tau, length(NAICS))%in%tau_table, ])
-colnames(estimates_table) <- c("Industry (NAICS code)", "$\\tau$", "Coef.", 's.e.', "Coef.", 's.e.', "Coef.", "s.e")
+estimates_table <- cbind(ISIC_labels, estimates[rep(tau, length(ISIC))%in%tau_table, ])
+colnames(estimates_table) <- c("Industry (ISIC code)", "$\\tau$", "Coef.", 's.e.', "Coef.", 's.e.', "Coef.", "s.e")
 
 estimates_table <- xtable(estimates_table, digits=c(0,0,2,3,4,3,4,3,4))
 align(estimates_table) <- rep('c', 9)
@@ -172,9 +171,9 @@ print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtor
 ############################Coefficicent Plots######################################
 require(ggplot2)
 require(cowplot)
-#Industry NAICS Code Plot Labels
+#Industry ISIC Code Plot Labels
 K_plot <- list(); L_plot <- list()
-for (p in 1:length(NAICS)){
+for (p in 1:length(ISIC)){
   ky <- split(estimates$K, ceiling(seq_along(estimates$K)/length(tau)))[[p]]
   klow <- split(QLP_CI$Lower_K, ceiling(seq_along(QLP_CI$Lower_K)/length(tau)))[[p]]
   klow_LP <- LP_CI$Lower_K[p]
@@ -196,9 +195,9 @@ for (p in 1:length(NAICS)){
   lqr <- split(estimates_QR$L, ceiling(seq_along(estimates_QR$L)/length(tau)))[[p]]
   L_data <- data.frame(x=tau, y=ly, z=estimates_LP$L[p], qr=lqr, lower=llow, upper=lup, lower_LP=llow_LP, upper_LP=lup_LP)
   L_plot[[p]] <- ggplot(L_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) +  geom_line(aes(y=lqr), linetype="twodash") +  geom_hline(yintercept=L_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(L_data$lower_LP, L_data$upper_LP), linetype='dashed', color='red')
-  NAICS_plots <- ggdraw() + draw_label(paste("NAICS", NAICS_relabel[p], sep=""), fontface="plain")
-  Coef_Plot <- plot_grid(NAICS_plots, L_plot[[p]], K_plot[[p]], ncol=1)
-  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_", NAICS_relabel[p], ".png", sep=""), Coef_Plot, base_height=10, base_width=5)
+  ISIC_plots <- ggdraw() + draw_label(paste("ISIC", ISIC_relabel[p], sep=""), fontface="plain")
+  Coef_Plot <- plot_grid(ISIC_plots, L_plot[[p]], K_plot[[p]], ncol=1)
+  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_", ISIC_relabel[p], ".png", sep=""), Coef_Plot, base_height=10, base_width=5)
 }
 
 
