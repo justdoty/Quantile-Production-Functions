@@ -13,13 +13,20 @@ All <- "^3"
 industries <- c(All, "^31", "311|312", "313|314|315|316", "^32", "321", "322|323", "324|325", "326|327", "^33", "331", "332", "333", "334", "335", "336", "337|339")
 tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)
 dZ <- 2
-lm.soln <- array(0, dim=c(length(industries), dZ))
-qr.soln <- array(0, dim=c(length(tau), dZ, length(industries)))
+lm.coef <- array(0, dim=c(length(industries), dZ))
+lm.CI <- array(0, dim=c(length(industries), 2*dZ))
+qr.coef <- array(0, dim=c(length(tau), dZ, length(industries)))
+qr.CI <- array(0, dim=c(length(tau), 2*dZ, length(industries)))
 for (naics in 1:length(industries)){
 	US <- filter(USdata, str_detect(naics3, industries[naics]))
-	lm.soln[naics,] <-lm(US$lnva~US$lnk+US$lnl)$coef[-1]
+	linear <-lm(US$lnva~US$lnk+US$lnl)
+	lm.coef[naics,] <- linear$coef[-1]
+	lm.CI[naics,] <- c(t(confint(linear, level=c(0.9))[-1,]))
 	for (q in 1:length(tau)){
-		qr.soln[,,naics][q,] <- rq(US$lnva~US$lnk+US$lnl, tau=tau[q])$coef[2:3]
+		quantile <- rq(US$lnva~US$lnk+US$lnl, tau=tau[q], ci=TRUE)
+		qr.coef[,,naics][q,] <- quantile$coef[-1,1]
+		qr.CI[,,naics][q,] <- c(t(quantile$coef[-1,2:3]))
+		
 	}
 }
-save(lm.soln, qr.soln, file='/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/US_QR_OLS.Rdata')
+save(lm.coef, lm.CI, qr.coef, qr.CI, file='/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/US_QR_OLS.Rdata')

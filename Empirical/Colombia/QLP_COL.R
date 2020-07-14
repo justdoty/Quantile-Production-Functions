@@ -31,7 +31,7 @@ for (isic in 1:length(industries)){
   results[,,isic] <- soln[[1]]
   true.beta[,isic] <- soln[[2]]
 }
-filename <- paste("QLP_COL_Q", tau[id], ".RData", sep="")
+filename <- paste("QLP_COL_Q", id, ".RData", sep="")
 save(results, true.beta, file=filename)
 
 
