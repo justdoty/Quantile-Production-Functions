@@ -6,40 +6,40 @@ USdata <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production
   select(id, year, Y, K, L, M, naics3) %>% transmute(id=id, year=year, Y=Y/1e6, K=K/1e6, L=L, M=M/1e6, naics3=as.character(naics3), naics2=as.numeric(str_extract(as.character(naics3), "^.{2}")))
 #Industries as listed in Estimation_US.R file
 All <- "^3"
-NAICS <- c(All, "^31", "311|312", "313|314|315|316", "^32", "321", "322|323", "324|325", "326|327", "^33", "331", "332", "333", "334", "335", "336", "337|339")
+NAICS <- c("^31", "^32", "^33", All)
 ########################################################################################################
 ##########################################Summary Statistics############################################
 ########################################################################################################
 #Formatting for summary statistics using the package qwraps2
-# format <- 
-#   list("Output" =
-#        list("mean" = ~ round(mean(.data$Y), 2),
-#             "median" = ~ round(median(.data$Y), 2),
-#             "sd" = ~ round(sd(.data$Y), 2)),
-#        "Capital" =
-#        list("mean" = ~ round(mean(.data$K), 2),
-#             "median" = ~ round(median(.data$K), 2),
-#             "sd" = ~ round(sd(.data$K), 2)),
-#        "Labor" =
-#        list("mean" = ~ round(mean(.data$L)),
-#             "median" = ~ round(median(.data$L)),
-#             "sd" = ~ round(sd(.data$L), 2)),
-#        "Materials" =
-#        list("mean" = ~ round(mean(.data$M), 2),
-#             "median" = ~ round(median(.data$M), 2),
-#             "sd" = ~ round(sd(.data$M), 2)),
-#        "Size"=
-#        list("Firms"= ~length(unique(.data$id)),
-#             "Total"= ~n())
-#        ) 
-# sumind <- NAICS
-# summary <- do.call(cbind, lapply(sumind, function(x) summary_table(dplyr::filter(USdata, str_detect(naics3, x)), format)))
-# sumnames <- sumind %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
-# sumnames[length(sumnames)] <- "All"
-# print(summary, cnames=sumnames, rtitle="NAICS", align=c("l", rep("c", length(sumind))))
-# #Industry size breakdown
-# naicssize <- group_by(USdata, naics2) %>% summarise(Firms=length(unique(id)), Total=n())
-# print(data.frame(naicssize))
+format <- 
+  list("Output" =
+       list("mean" = ~ round(mean(.data$Y), 2),
+            "median" = ~ round(median(.data$Y), 2),
+            "sd" = ~ round(sd(.data$Y), 2)),
+       "Capital" =
+       list("mean" = ~ round(mean(.data$K), 2),
+            "median" = ~ round(median(.data$K), 2),
+            "sd" = ~ round(sd(.data$K), 2)),
+       "Labor" =
+       list("mean" = ~ round(mean(.data$L)),
+            "median" = ~ round(median(.data$L)),
+            "sd" = ~ round(sd(.data$L), 2)),
+       "Materials" =
+       list("mean" = ~ round(mean(.data$M), 2),
+            "median" = ~ round(median(.data$M), 2),
+            "sd" = ~ round(sd(.data$M), 2)),
+       "Size"=
+       list("Firms"= ~length(unique(.data$id)),
+            "Total"= ~n())
+       ) 
+sumind <- NAICS
+summary <- do.call(cbind, lapply(sumind, function(x) summary_table(dplyr::filter(USdata, str_detect(naics3, x)), format)))
+sumnames <- sumind %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
+sumnames[length(sumnames)] <- "All"
+print(summary, cnames=sumnames, rtitle="NAICS", align=c("l", rep("c", length(sumind))))
+#Industry size breakdown
+naicssize <- group_by(USdata, naics2) %>% summarise(Firms=length(unique(id)), Total=n())
+print(data.frame(naicssize))
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
@@ -47,6 +47,7 @@ NAICS <- c(All, "^31", "311|312", "313|314|315|316", "^32", "321", "322|323", "3
 tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)
 #Number of parameters
 dZ <- 2
+R <- 500
 require(abind)
 #Load the results from QLP, output is a list of estimates over quantiles for each industry
 QLP_results <- list()
@@ -245,6 +246,19 @@ for (p in 1:length(NAICS)){
   Krow <- plot_grid(QLP_K_plot[[p]], QR_K_plot[[p]])
   Coef_Plot <- plot_grid(NAICS_plots, Lrow, Krow, ncol=1, align="h", rel_heights = c(0.3, 1, 1))
   save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_", NAICS_relabel[p], ".png", sep=""), Coef_Plot, base_height=8, base_width=7)
+}
+##################################Prepare Plots over Time##############################
+tau_t <- c(0.1, 0.3, 0.5, 0.7, 0.9)
+T <- 5
+time <- seq(min(USdata$year), max(USdata$year), by=T)
+QLPT_Coef <- array(0, dim=c(length(tau), dZ, length(time)))
+QLPT_True <- array(0, dim=c(length(tau), dZ, length(time)))
+for (t in 1:length(time)){
+  for (q in 1:length(tau)){
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QLP_US_Q%s.RData", q))
+    QLPT_Coef[,,t][q,] <- colMeans(results_T[,,t])
+    QLPT_True[,,t][q,] <- true.beta_T[,t]
+  }
 }
 
 

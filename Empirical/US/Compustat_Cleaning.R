@@ -3,7 +3,7 @@ library(stringr)
 library(reshape2)
 library(purrr)
 #Data for output, materials, and labor deflators from NBER Manufacturing Productivity Database
-nberprod <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/naicsdef.csv', header=TRUE)
+nberprod <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/naicsdef.csv', header=TRUE)
 #Data for capital deflators from the BLS: start date 1987 and 2010 base year. 
 # blsprod <- read.csv('cap_details.csv', header=TRUE, check.names=FALSE)
 #See which industries have NA's in the NBER database
@@ -39,12 +39,12 @@ nberdeflators <- select(nberprod, naics, year, emp, pay, invest, cap, piship, pi
 ####################################################################################################
 
 #Cleaning and merging computstat data with price deflator data
-compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Compustat.csv', header=TRUE) %>% rename(year=fyear, employ=emp) %>% 
+compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/Compustat.csv', header=TRUE) %>% rename(year=fyear, employ=emp) %>% 
 	select(gvkey, year, sale, employ, ppegt, ppent, cogs, dpact, dp, xsga, capx, naics, fic) %>% group_by(gvkey) %>%
 	#remove firms with nonpositive values
 	filter(!any(sale<=0), !any(employ<0.01), !any(ppegt<=0), !any(ppent<=0), !any(cogs<=0), !any(xsga<=0), !any(dp<=0), !any(capx<=0)) %>%
 	#Only manufacturing firms
-	ungroup() %>% filter(str_detect(naics, "^31|^32|^33"), fic=="USA", year>=1961) %>%
+	ungroup() %>% filter(str_detect(naics, "^31|^32|^33"), fic=="USA", year>=1961, year<=2010) %>%
 	#Merge with NBER price deflator data
 	mutate(naics=str_extract(as.character(naics), "^.{3}")) %>% inner_join(nberdeflators, c("naics", "year")) %>%
 	#Use PPI method to calculate capital stocks
@@ -56,7 +56,7 @@ compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Producti
 	mutate(Yratio=ifelse(year==first(year), 0, abs((Y-lag(Y))/lag(Y))), Kratio=ifelse(year==first(year), 0, abs((K-lag(Y))/lag(K))), Lratio=ifelse(year==first(year), 0, abs((L-lag(L))/lag(L))), Mratio=ifelse(year==first(year), 0, abs((M-lag(M))/lag(M))), Iratio=ifelse(year==first(year), 0, abs((I-lag(I))/lag(I)))) %>%
 	#Year-to-year changes for total input/output ratio, firms with values extremely different from one are dropped
 	mutate(IOratio=ifelse(year==first(year), 0, ((K+L+M-lag(K+L+M))/lag(K+L+M))/((Y-lag(Y))/lag(Y)))) %>%
-	filter(!any(M<=0), !any(VA<=0)) %>% ungroup() %>%
+	filter(!any(M<=0), !any(VA<=0), !any(abs(IOratio)>500),!any(Yratio>500), !any(Kratio>500), !any(Lratio>500), !any(Mratio>500)) %>% ungroup() %>%
 	select(id, year, Y, VA, K, L, M, I, naics3)
 ####################################################################################################
 #Summary statistics for the cleaned data set
@@ -73,7 +73,7 @@ print(panelT)
 #Total observations
 print(nrow(compstat))
 #Save clean data
-path_out <- '/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US'
+path_out <- '/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/'
 fileName <- paste(path_out, 'USdata.csv',sep = '')
 write.csv(compstat,fileName, row.names=FALSE)
 

@@ -29,4 +29,4 @@ for (naics in 1:length(industries)){
 		
 	}
 }
-save(lm.coef, lm.CI, qr.coef, qr.CI, file='/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/US_QR_OLS.Rdata')
+save(lm.coef, lm.CI, qr.coef, qr.CI, file='/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/US_QR_OLS.Rdata')

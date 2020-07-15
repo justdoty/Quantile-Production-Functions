@@ -11,7 +11,7 @@ US_panel <- read.csv("USdata.csv")
 USdata <- transmute(US_panel, id=id, year=year, lny=log(Y), lnva=log(VA), lnk=log(K), lnl=log(L), lnm=log(M), naics3=naics3, naics2=as.numeric(str_extract(as.character(naics3), "^.{2}")))
 #Choose which industry to select
 All <- "^3"
-industries <- c("^31", "^32", "^33", All)
+industries <- c("31", "32", "33", All)
 id <- as.numeric(commandArgs(TRUE)[1])
 industries <- industries[id]
 #The number of bootstrap replications to be used in QLP defined below
@@ -21,7 +21,7 @@ dZ <- 2
 #Store results for bootstrap replications across quantiles across industries
 results <- array(0, dim=c(R, dZ))
 
-US <- filter(USdata, str_detect(naics3, industries))
+US <- filter(USdata, str_detect(naics2, industries))
 soln <- tryCatch(LP(Y=US$lnva, sX=US$lnk, fX=US$lnl, pX=US$lnm, idvar=US$id, timevar=US$year, theta0=NULL, R=R))
 results <- soln[[1]]
 true.beta.LP <- soln[[2]]
