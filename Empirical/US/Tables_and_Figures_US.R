@@ -1,45 +1,34 @@
-library(qwraps2)
 library(stringr)
 library(dplyr)
+library(xtable)
 #Load US dataset
 USdata <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/USdata.csv') %>% 
-  select(id, year, Y, K, L, M, naics3) %>% transmute(id=id, year=year, Y=Y/1e6, K=K/1e6, L=L, M=M/1e6, naics3=as.character(naics3), naics2=as.numeric(str_extract(as.character(naics3), "^.{2}")))
+  select(id, year, Y, K, L, M, naics3) %>% transmute(id=id, year=year, Y=log(Y), K=log(K), L=log(L), M=log(M), naics3=as.character(naics3), naics2=as.numeric(str_extract(as.character(naics3), "^.{2}")))
 #Industries as listed in Estimation_US.R file
-All <- "^3"
-NAICS <- c("^31", "^32", "^33", All)
+NAICS <- c("31", "32", "33", "All")
 ########################################################################################################
 ##########################################Summary Statistics############################################
 ########################################################################################################
-#Formatting for summary statistics using the package qwraps2
-format <- 
-  list("Output" =
-       list("mean" = ~ round(mean(.data$Y), 2),
-            "median" = ~ round(median(.data$Y), 2),
-            "sd" = ~ round(sd(.data$Y), 2)),
-       "Capital" =
-       list("mean" = ~ round(mean(.data$K), 2),
-            "median" = ~ round(median(.data$K), 2),
-            "sd" = ~ round(sd(.data$K), 2)),
-       "Labor" =
-       list("mean" = ~ round(mean(.data$L)),
-            "median" = ~ round(median(.data$L)),
-            "sd" = ~ round(sd(.data$L), 2)),
-       "Materials" =
-       list("mean" = ~ round(mean(.data$M), 2),
-            "median" = ~ round(median(.data$M), 2),
-            "sd" = ~ round(sd(.data$M), 2)),
-       "Size"=
-       list("Firms"= ~length(unique(.data$id)),
-            "Total"= ~n())
-       ) 
-sumind <- NAICS
-summary <- do.call(cbind, lapply(sumind, function(x) summary_table(dplyr::filter(USdata, str_detect(naics3, x)), format)))
-sumnames <- sumind %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
-sumnames[length(sumnames)] <- "All"
-print(summary, cnames=sumnames, rtitle="NAICS", align=c("l", rep("c", length(sumind))))
-#Industry size breakdown
-naicssize <- group_by(USdata, naics2) %>% summarise(Firms=length(unique(id)), Total=n())
-print(data.frame(naicssize))
+#Create table for all relevant summary statistics
+sumNAICS <- group_by(USdata, naics2) %>% summarise_at(c("Y", "K", "L", "M"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE) 
+sumALL <- cbind("All", summarise_at(USdata, c("Y", "K", "L", "M"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE))
+colnames(sumALL)[1] <- "naics2"
+sizeNAICS <- group_by(USdata, naics2) %>% summarise(Firms=length(unique(id)), Total=n())
+sizeALL <- c("All", sum(sizeNAICS$Firms), sum(sizeNAICS$Total))
+size <- rbind(sizeNAICS, sizeALL)
+sumstat <- round(matrix(as.numeric(as.matrix(rbind(sumNAICS, sumALL))[,-1]), nrow=16, ncol=5), 2)
+#Some pretty formatting
+NAICS_labels <- array(NA, 4*length(NAICS)); NAICS_labels[seq(1, 4*length(NAICS), by=4)] <- paste(NAICS, paste("(N=", size$Total, ")", sep=""))
+NAICS_labels[is.na(NAICS_labels)] <- ""
+summary_table <- cbind(NAICS_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
+colnames(summary_table) <- c("Industry (NAICS code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")
+
+summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex")
+align(summary_table) <- rep('c', 8)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline '
+print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex")
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
@@ -48,6 +37,7 @@ tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)
 #Number of parameters
 dZ <- 2
 R <- 500
+alpha <- .1
 require(abind)
 #Load the results from QLP, output is a list of estimates over quantiles for each industry
 QLP_results <- list()
@@ -71,37 +61,60 @@ QR_OLS_results <- load('/Users/justindoty/Documents/Research/Dissertation/Produc
 #Prepare estimates for QLP: Outputs a list of quantile estimates over industry (columns)
 #and estimates (rows)
 #Bootstrapped QLP Coefficient Estimates
-QLP_Coef <- array(0, dim=c(2, length(NAICS), length(tau)))
-# QLP_Coef <- lapply(QLP_true, function(x) t(x))
+QLP_Boot <- array(0, dim=c(2, length(NAICS), length(tau)))
+#Matrix to store Bootstrap Bias estimates
+QLP_Bias <- array(0, dim=c(2, length(NAICS), length(tau)))
+#Matrix to store logical whether bias correction is needed
+QLP_Test <- array(0, dim=c(2, length(NAICS), length(tau)))
+#Estimates corrected for bias
+QLP_BC <- array(0, dim=c(2, length(NAICS), length(tau)))
+#Bootstrapped Standard Errors
 QLP_SE <- array(0, dim=c(2, length(NAICS), length(tau)))
+#Estimates of Returns to Scale
 # QLP_RtS <- lapply(QLP_results, colSums)
 QLP_RtS <- array(0, dim=c(length(tau), length(NAICS)))
+#Estimates of Standard Error Returns to Scale
 QLP_RtS_SE <- array(0, dim=c(length(tau), length(NAICS)))
+#Lower and Upper bounds of CI
 QLP_Lower <- array(0, dim=c(2, length(NAICS), length(tau)))
 QLP_Upper <- array(0, dim=c(2, length(NAICS), length(tau)))
 for (i in 1:length(tau)){
 	for (j in 1:length(NAICS)){
-		QLP_Coef[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, mean)
+		QLP_Boot[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, mean)
+    QLP_Bias[,,i][,j] <- QLP_Boot[,,i][,j]-QLP_true[[i]][,j]
 		QLP_SE[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, sd)
-    QLP_RtS[i,j] <- mean(apply(QLP_results[[i]][,,j], 1, sum))
+    BC <- QLP_true[[i]][,j]-QLP_Bias[,,i][,j]
+    QLP_Test[,,i][,j] <- QLP_Bias[,,i][,j]<0.25*QLP_SE[,,i][,j]
+    for (z in 1:dZ){
+        QLP_BC[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]} else {BC[z]} 
+        #Bias centered student T confidence intervals
+        QLP_Lower[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]+qt(alpha/2, R)*QLP_SE[,,i][z,j]} else {QLP_true[[i]][z,j]+qt(alpha/2, R)*QLP_SE[,,i][z,j]}
+        QLP_Upper[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]+qt(1-alpha/2, R)*QLP_SE[,,i][z,j]} else {QLP_true[[i]][z,j]+qt(1-alpha/2, R)*QLP_SE[,,i][z,j]}
+        #Bias Corrected Percentile Method
+        # z0 <- qnorm(mean(QLP_results[[i]][,,j][,z]<QLP_true[[i]][z,j]))
+        # QLP_Lower[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {quantile(QLP_results[[i]][,,j][,z], alpha/2)} else {quantile(QLP_results[[i]][,,j][,z], pnorm(2*z0+qnorm(alpha/2)))}
+        # QLP_Upper[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {quantile(QLP_results[[i]][,,j][,z], 1-alpha/2)} else {quantile(QLP_results[[i]][,,j][,z], pnorm(2*z0-qnorm(alpha/2)))}
+      }
+    QLP_RtS[i,j] <- sum(QLP_BC[,,i][,j])
     QLP_RtS_SE[i,j] <- sd(apply(QLP_results[[i]][,,j], 1, sum))
-		QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 0.05))
-		QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 0.95))
 	}
 }
 #A little bit of reformating to obtain estimates over industries instead of quantiles
 #Bootstrapped QLP Coefficient Estimates
-QLP_Coef <- aperm(QLP_Coef, c(3, 1, 2))
-# QLP_Coef <- array(as.numeric(unlist(QLP_Coef)), dim=c(3, 2, 10))
+QLP_Boot <- aperm(QLP_Boot, c(3, 1, 2))
+QLP_Bias <- aperm(QLP_Bias, c(3, 1, 2))
+QLP_BC <- aperm(QLP_BC, c(3, 1, 2))
+QLP_Test <- aperm(QLP_Test, c(3, 1, 2))
+# QLP_Coef <- aperm(array(as.numeric(unlist(QLP_Coef)), dim=c(dZ, length(NAICS), length(tau))), c(3, 1, 2))
 QLP_SE <- aperm(QLP_SE, c(3, 1, 2))
-QLP_RtS <- c(t(array(as.numeric(unlist(QLP_RtS)), dim=c(length(NAICS), length(tau)))))
+QLP_RtS <- c(QLP_RtS)
 QLP_RtS_SE <- c(QLP_RtS_SE)
 QLP_Lower <- aperm(QLP_Lower, c(3, 1, 2))
 QLP_Upper <- aperm(QLP_Upper, c(3, 1, 2))
 #Prepare estimates for LP
 #Bootstrapped LP Coefficient Estimates
 LP_Coef <- array(0, dim=c(2, length(NAICS)))
-# LP_Coef <- array(as.numeric(unlist(LP_true)), dim=c(2,3))
+# LP_Coef <- array(as.numeric(unlist(LP_true)), dim=c(dZ,length(NAICS)))
 LP_SE <- array(0, dim=c(2, length(NAICS)))
 LP_Lower <- array(0, dim=c(2, length(NAICS)))
 LP_Upper <- array(0, dim=c(2, length(NAICS)))
@@ -113,10 +126,12 @@ for (i in 1:length(NAICS)){
 }
 #Listed by Industry
 #For QLP
-QLP_Coef <- lapply(seq(dim(QLP_Coef)[3]), function(x) QLP_Coef[ , , x])
+QLP_Boot <- lapply(seq(dim(QLP_Boot)[3]), function(x) QLP_Boot[ , , x])
+QLP_BC <- lapply(seq(dim(QLP_BC)[3]), function(x) QLP_BC[ , , x])
 QLP_SE <- lapply(seq(dim(QLP_SE)[3]), function(x) QLP_SE[ , , x])
 QLP_Upper <- lapply(seq(dim(QLP_Upper)[3]), function(x) QLP_Upper[ , , x])
 QLP_Lower <- lapply(seq(dim(QLP_Lower)[3]), function(x) QLP_Lower[ , , x])
+
 #For LP
 LP_Coef <- lapply(seq(dim(LP_Coef)[2]), function(x) LP_Coef[,x])
 LP_SE <- lapply(seq(dim(LP_SE)[2]), function(x) LP_SE[,x])
@@ -130,9 +145,8 @@ QR_Coef <- lapply(seq(dim(qr.coef)[3]), function(x) qr.coef[ , , x])
 QR_Lower <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(1, ncol(qr.CI), by=2)])
 QR_Upper <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(2, ncol(qr.CI), by=2)])
 
-
 #Make an estimates table for Quantile GMM
-estimates <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QLP_Coef), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
+estimates <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QLP_BC), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
 estimates <- cbind(estimates, QLP_RtS, QLP_RtS_SE)
 colnames(estimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RtS', 'RtS_SE')
 #Make a Confidence Interval Table for Quantile GMM
@@ -157,28 +171,26 @@ colnames(estimates_QR) <- c("Tau", "K", "L")
 QR_CI <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QR_Lower), do.call(rbind, QR_Upper))[,c(rbind(c(1:2), 2+(1:2)))]))
 colnames(QR_CI) <- c('Tau', 'Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
 #Prepare estimates for table in paper/presentation
-require(xtable)
 tau_table <- c(0.1, 0.25, 0.5, 0.75)
 
 #Table Labels
-NAICS[length(NAICS)] <- "All"
-NAICS_relabel <- NAICS %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
-NAICS_labels <- array(NA, length(tau_table)*length(NAICS)); NAICS_labels[seq(1, length(tau_table)*length(NAICS), by=length(tau_table))] <- NAICS_relabel
+NAICS_labels <- array(NA, length(tau_table)*length(NAICS)); NAICS_labels[seq(1, length(tau_table)*length(NAICS), by=length(tau_table))] <- NAICS
 NAICS_labels[is.na(NAICS_labels)] <- ""
 
 estimates_table <- cbind(NAICS_labels, estimates[rep(tau, length(NAICS))%in%tau_table, ])
 colnames(estimates_table) <- c("Industry (NAICS code)", "$\\tau$", "Coef.", 's.e.', "Coef.", 's.e.', "Coef.", "s.e")
 
-estimates_table <- xtable(estimates_table, digits=c(0,0,2,3,4,3,4,3,4))
+estimates_table <- xtable(estimates_table, digits=c(0,0,2,3,4,3,4,3,4), type="latex")
 align(estimates_table) <- rep('c', 9)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
-print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x)
+print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Estimates.tex")
 
 ############################Coefficicent Plots######################################
 require(ggplot2)
 require(cowplot)
+require(reshape2)
 #Industry NAICS Code Plot Labels
 QLP_K_plot <- list(); QLP_L_plot <- list()
 QR_K_plot <- list(); QR_L_plot <- list()
@@ -241,30 +253,38 @@ for (p in 1:length(NAICS)){
   QR_L_plot[[p]] <- ggplot(QRL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRL_data$lower_OLS, QRL_data$upper_OLS), linetype='dashed', color='red')
   ###############################Combine Plots ##############################################
   ############################################################################################
-  NAICS_plots <- ggdraw() + draw_label(paste("NAICS", NAICS_relabel[p], sep=" "), fontface="plain") + theme(plot.title = element_text(hjust = 0.5))
+  NAICS_plots <- ggdraw() + draw_label(paste("NAICS", NAICS[p], sep=" "), fontface="bold") + theme(plot.title = element_text(hjust = 0.5))
   Lrow <- plot_grid(QLP_L_plot[[p]], QR_L_plot[[p]])
   Krow <- plot_grid(QLP_K_plot[[p]], QR_K_plot[[p]])
   Coef_Plot <- plot_grid(NAICS_plots, Lrow, Krow, ncol=1, align="h", rel_heights = c(0.3, 1, 1))
-  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_", NAICS_relabel[p], ".png", sep=""), Coef_Plot, base_height=8, base_width=7)
+  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_", NAICS[p], ".png", sep=""), Coef_Plot, base_height=8, base_width=7)
 }
 ##################################Prepare Plots over Time##############################
 tau_t <- c(0.1, 0.3, 0.5, 0.7, 0.9)
 T <- 5
+dZ <- 2
 time <- seq(min(USdata$year), max(USdata$year), by=T)
-QLPT_Coef <- array(0, dim=c(length(tau), dZ, length(time)))
-QLPT_True <- array(0, dim=c(length(tau), dZ, length(time)))
+QLPT_Coef <- array(0, dim=c(length(tau_t), dZ, length(time)))
+QLPT_True <- array(0, dim=c(length(tau_t), dZ, length(time)))
 for (t in 1:length(time)){
-  for (q in 1:length(tau)){
-    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QLP_US_Q%s.RData", q))
+  for (q in 1:length(tau_t)){
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QLPT_US_Q%s.RData", q))
     QLPT_Coef[,,t][q,] <- colMeans(results_T[,,t])
     QLPT_True[,,t][q,] <- true.beta_T[,t]
   }
 }
-
-
-
-
-
+pcolour <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442")
+KT <- data.frame(cbind(time, t(QLPT_True[,1,][,])))
+colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "))
+KT <- melt(KT, "Year")
+KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Time") + ylab("Capital") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
+LT <- data.frame(cbind(time, t(QLPT_True[,2,][,])))
+colnames(LT) <- c("Year", paste("Q", tau_t, sep=""))
+LT <- melt(LT, "Year")
+LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Time") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
+Plot_Title <- ggdraw() + draw_label("Trends in Output Elasticities", fontface="bold") 
+Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)
 
 
 

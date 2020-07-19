@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  9 JUL 2020 15:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  19 JUL 2020 17:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -457,68 +457,181 @@ Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png used on input line 329.
 (pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
 [12 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/Monte_Carlo/QACF_Box_Plot.png>] [13 </Users/justindoty/Documents/Research/Diss
-ertation/Production_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png>]
-Overfull \hbox (12.50673pt too wide) in paragraph at lines 384--405
- [][] 
- []
+/Monte_Carlo/QACF_Box_Plot.png>]
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/US/Estimates/US_Summary.tex)
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/US/Estimates/US_Estimates.tex [13 </Users/justindoty/Documents/Research/
+Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png>])
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/US/Plots/Coef_Plot_NAICS_31.png, id=77, 2107.875pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/Empirical/US/Plots/Coef_Plot_NAICS_31.png Graphic file (type png)
 
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/US/Plots/Coef_Plot_NAICS_31.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_31.png used on input li
+ne 343.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
 [14]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Coefficient_Plot_1.png, id=80, 2710.125pt x 2409.0pt>
+irical/US/Plots/Coef_Plot_NAICS_32.png, id=81, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
-e/Empirical/Chile/Coefficient_Plot_1.png Graphic file (type png)
+e/Empirical/US/Plots/Coef_Plot_NAICS_32.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/Empirical/Chile/Coefficient_Plot_1.png>
+/Empirical/US/Plots/Coef_Plot_NAICS_32.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_1.png used on input line 
-410.
-(pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
-[15]
+uction_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_32.png used on input li
+ne 349.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[15 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/US/Plots/Coef_Plot_NAICS_31.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Coefficient_Plot_2.png, id=84, 2710.125pt x 2409.0pt>
+irical/US/Plots/Coef_Plot_NAICS_33.png, id=86, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
-e/Empirical/Chile/Coefficient_Plot_2.png Graphic file (type png)
+e/Empirical/US/Plots/Coef_Plot_NAICS_33.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/Empirical/Chile/Coefficient_Plot_2.png>
+/Empirical/US/Plots/Coef_Plot_NAICS_33.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_2.png used on input line 
-416.
-(pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
+uction_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_33.png used on input li
+ne 355.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
 [16 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/Empirical/Chile/Coefficient_Plot_1.png>]
+/Empirical/US/Plots/Coef_Plot_NAICS_32.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Coefficient_Plot_3.png, id=89, 2710.125pt x 2409.0pt>
+irical/US/Plots/Coef_Plot_NAICS_All.png, id=91, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
-e/Empirical/Chile/Coefficient_Plot_3.png Graphic file (type png)
+e/Empirical/US/Plots/Coef_Plot_NAICS_All.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/Empirical/Chile/Coefficient_Plot_3.png>
+/Empirical/US/Plots/Coef_Plot_NAICS_All.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_3.png used on input line 
-422.
-(pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
+uction_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_All.png used on input l
+ine 361.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
 [17 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/Empirical/Chile/Coefficient_Plot_2.png>]
+/Empirical/US/Plots/Coef_Plot_NAICS_33.png>]
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Chile/Estimates/CHL_Summary.tex)
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Chile/Estimates/CHL_Estimates.tex [18 </Users/justindoty/Documents/Resea
+rch/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_Al
+l.png>])
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Coefficient_Plot_4.png, id=94, 2710.125pt x 2409.0pt>
+irical/Chile/Plots/Coef_Plot_ISIC_311.png, id=100, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
-e/Empirical/Chile/Coefficient_Plot_4.png Graphic file (type png)
+e/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png Graphic file (type png)
 
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/Empirical/Chile/Coefficient_Plot_4.png>
+/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_4.png used on input line 
-428.
-(pdftex.def)             Requested size: 341.43306pt x 303.47679pt.
-[18 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
-/Empirical/Chile/Coefficient_Plot_3.png>] [19 </Users/justindoty/Documents/Rese
-arch/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Coefficient_Plot_4.p
-ng>]
+uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png used on input
+ line 372.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[19]
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Chile/Plots/Coef_Plot_ISIC_321.png, id=105, 2107.875pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png used on input
+ line 378.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[20 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png>]
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Chile/Plots/Coef_Plot_ISIC_381.png, id=110, 2107.875pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png used on input
+ line 384.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[21 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png>]
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Chile/Plots/Coef_Plot_ISIC_All.png, id=115, 2107.875pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png used on input
+ line 390.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[22 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png>]
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Colombia/Estimates/COL_Summary.tex)
+(/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Colombia/Estimates/COL_Estimates.tex [23 </Users/justindoty/Documents/Re
+search/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_IS
+IC_All.png>])
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Colombia/Plots/Coef_Plot_ISIC_311.png, id=124, 2107.875pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png used on in
+put line 401.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[24]
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Colombia/Plots/Coef_Plot_ISIC_322.png, id=128, 2107.875pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png used on in
+put line 407.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[25 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png>]
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Colombia/Plots/Coef_Plot_ISIC_381.png, id=134, 2107.875pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png used on in
+put line 413.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[26 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png>]
+</Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
+irical/Colombia/Plots/Coef_Plot_ISIC_All.png, id=139, 2107.875pt x 2409.0pt>
+File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
+e/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png Graphic file (type png)
+
+<use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png>
+Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
+uction_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png used on in
+put line 419.
+(pdftex.def)             Requested size: 341.43306pt x 390.1897pt.
+[27 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
+/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png>] [28 </Users/justindoty/Docum
+ents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Co
+ef_Plot_ISIC_All.png>] [29]
 (/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Tex
-t/Production_QR_Proxy_Paper.bbl [20]) [21]
+t/Production_QR_Proxy_Paper.bbl [30]) [31]
 (/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Tex
 t/Production_QR_Proxy_Paper.aux)
 
@@ -526,10 +639,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 5024 strings out of 492995
- 80316 string characters out of 6132704
- 149891 words of memory out of 5000000
- 8425 multiletter control sequences out of 15000+600000
+ 5084 strings out of 492995
+ 86472 string characters out of 6132704
+ 148891 words of memory out of 5000000
+ 8457 multiletter control sequences out of 15000+600000
  20960 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,19n,39p,1518b,303s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -555,10 +668,10 @@ ve/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texliv
 e/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/
 2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 Output written on /Users/justindoty/Documents/Research/Dissertation/Production_
-QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf (21 pages, 2066632 bytes).
+QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf (31 pages, 3614131 bytes).
 PDF statistics:
- 179 PDF objects out of 1000 (max. 8388607)
- 113 compressed objects within 2 object streams
+ 227 PDF objects out of 1000 (max. 8388607)
+ 135 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 91 words of extra memory for PDF output out of 10000 (max. 10000000)
 

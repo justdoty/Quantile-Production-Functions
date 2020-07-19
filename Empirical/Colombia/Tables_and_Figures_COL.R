@@ -1,41 +1,34 @@
-library(qwraps2)
 library(stringr)
 library(dplyr)
+library(xtable)
 #Load COL dataset
 COLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/COLdata.csv")
 #Industries as listed in QLP_COL.R file
-All <- "^3"
-ISIC <- c("311", "381", "321", All)
-  #Formatting for summary statistics using the package qwraps2
-format <- 
-  list("Output" =
-       list("mean" = ~ round(mean(.data$Y), 2),
-            "median" = ~ round(median(.data$Y), 2),
-            "sd" = ~ round(sd(.data$Y), 2)),
-       "Capital" =
-       list("mean" = ~ round(mean(.data$K), 2),
-            "median" = ~ round(median(.data$K), 2),
-            "sd" = ~ round(sd(.data$K), 2)),
-       "Labor" =
-       list("mean" = ~ round(mean(.data$L)),
-            "median" = ~ round(median(.data$L)),
-            "sd" = ~ round(sd(.data$L), 2)),
-       "Materials" =
-       list("mean" = ~ round(mean(.data$M), 2),
-            "median" = ~ round(median(.data$M), 2),
-            "sd" = ~ round(sd(.data$M), 2)),
-       "Size"=
-       list("Firms"= ~length(unique(.data$id)),
-            "Total"= ~n())
-       ) 
-sumind <- ISIC
-summary <- do.call(cbind, lapply(sumind, function(x) summary_table(dplyr::filter(COLdata, str_detect(isic3, x)), format)))
-sumnames <- sumind %>% str_replace_all("[|]", ",") %>% str_replace_all("[\\.^]", "")
-sumnames[length(sumnames)] <- "All"
-print(summary, cnames=sumnames, rtitle="ISIC", align=c("l", rep("c", length(sumind))))
-#Industry size breakdown
-isicsize <- group_by(COLdata, isic3) %>% summarise(Firms=length(unique(id)), Total=n())
-print(data.frame(isicsize))
+ISIC <- c("311", "322", "381", "All")
+ISIC_str <- c("311|322|381|^3")
+########################################################################################################
+##########################################Summary Statistics############################################
+########################################################################################################
+#Create table for all relevant summary statistics
+sumISIC <- filter(COLdata, isic3==ISIC_str) %>% group_by(isic3) %>% summarise_at(c("lny", "lnk", "lnl", "lnm"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE) 
+sumALL <- cbind("All", summarise_at(COLdata, c("lny", "lnk", "lnl", "lnm"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE))
+colnames(sumALL)[1] <- "isic3"
+sizeISIC <- filter(COLdata, isic3==ISIC_str) %>% group_by(isic3) %>% summarise(Firms=length(unique(id)), Total=n())
+sizeALL <- c("All", sum(sizeISIC$Firms), sum(sizeISIC$Total))
+size <- rbind(sizeISIC, sizeALL)
+sumstat <- round(matrix(as.numeric(as.matrix(rbind(sumISIC, sumALL))[,-1]), nrow=16, ncol=5), 2)
+#Some pretty formatting
+ISIC_labels <- array(NA, 4*length(ISIC)); ISIC_labels[seq(1, 4*length(ISIC), by=4)] <- paste(ISIC, paste("(N=", size$Total, ")", sep=""))
+ISIC_labels[is.na(ISIC_labels)] <- ""
+summary_table <- cbind(ISIC_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
+colnames(summary_table) <- c("Industry (ISIC code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")
+
+summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex")
+align(summary_table) <- rep('c', 8)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline '
+print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Summary.tex")
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
@@ -169,7 +162,7 @@ align(estimates_table) <- rep('c', 9)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
-print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x)
+print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Estimates.tex")
 
 ############################Coefficicent Plots######################################
 require(ggplot2)
