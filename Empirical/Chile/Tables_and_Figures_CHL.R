@@ -229,7 +229,7 @@ for (p in 1:length(ISIC)){
   QR_L_plot[[p]] <- ggplot(QRL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRL_data$lower_OLS, QRL_data$upper_OLS), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpllow, qrllow), max(qlplup, qrlup)))
   ###############################Combine Plots ##############################################
   ############################################################################################
-  ISIC_plots <- ggdraw() + draw_label(paste("ISIC", ISIC_relabel[p], sep=" "), fontface="plain") + theme(plot.title = element_text(hjust = 0.5))
+  ISIC_plots <- ggdraw() + draw_label(paste("ISIC", ISIC_relabel[p], sep=" "), fontface="plain", size=22) + theme(plot.title = element_text(hjust = 0.5))
   Lrow <- plot_grid(QLP_L_plot[[p]], QR_L_plot[[p]])
   Krow <- plot_grid(QLP_K_plot[[p]], QR_K_plot[[p]])
   Coef_Plot <- plot_grid(ISIC_plots, Lrow, Krow, ncol=1, align="h", rel_heights = c(0.3, 1, 1))
