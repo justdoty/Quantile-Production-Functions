@@ -6,15 +6,14 @@ CHLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Productio
   transmute(id=id, year=year, isic3=isic3, Y=log(Y), K=log(K), L=log(L), M=log(M))
 #Industries as listed in Estimation_US.R file
 ISIC <- c("311", "381", "321", "All")
-ISIC_str <- c("311|381|321|^3")
 ########################################################################################################
 ##########################################Summary Statistics############################################
 ########################################################################################################
 #Create table for all relevant summary statistics
-sumISIC <- filter(CHLdata, isic3==ISIC_str) %>% group_by(isic3) %>% summarise_at(c("Y", "K", "L", "M"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE) 
+sumISIC <- filter(CHLdata, isic3==311|isic3==381|isic3==321) %>% group_by(isic3) %>% summarise_at(c("Y", "K", "L", "M"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE) 
 sumALL <- cbind("All", summarise_at(CHLdata, c("Y", "K", "L", "M"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE))
 colnames(sumALL)[1] <- "isic3"
-sizeISIC <- filter(CHLdata, isic3==ISIC_str) %>% group_by(isic3) %>% summarise(Firms=length(unique(id)), Total=n())
+sizeISIC <- filter(CHLdata, isic3==311|isic3==381|isic3==321) %>% group_by(isic3) %>% summarise(Firms=length(unique(id)), Total=n())
 sizeALL <- c("All", sum(sizeISIC$Firms), sum(sizeISIC$Total))
 size <- rbind(sizeISIC, sizeALL)
 sumstat <- round(matrix(as.numeric(as.matrix(rbind(sumISIC, sumALL))[,-1]), nrow=16, ncol=5), 2)

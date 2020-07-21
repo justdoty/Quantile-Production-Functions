@@ -5,15 +5,14 @@ library(xtable)
 COLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/COLdata.csv")
 #Industries as listed in QLP_COL.R file
 ISIC <- c("311", "322", "381", "All")
-ISIC_str <- c("311|322|381|^3")
 ########################################################################################################
 ##########################################Summary Statistics############################################
 ########################################################################################################
 #Create table for all relevant summary statistics
-sumISIC <- filter(COLdata, isic3==ISIC_str) %>% group_by(isic3) %>% summarise_at(c("lny", "lnk", "lnl", "lnm"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE) 
+sumISIC <- filter(COLdata, isic3==311|isic3==322|isic3==381) %>% group_by(isic3) %>% summarise_at(c("lny", "lnk", "lnl", "lnm"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE) 
 sumALL <- cbind("All", summarise_at(COLdata, c("lny", "lnk", "lnl", "lnm"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE))
 colnames(sumALL)[1] <- "isic3"
-sizeISIC <- filter(COLdata, isic3==ISIC_str) %>% group_by(isic3) %>% summarise(Firms=length(unique(id)), Total=n())
+sizeISIC <- filter(COLdata, isic3==311|isic3==322|isic3==381) %>% group_by(isic3) %>% summarise(Firms=length(unique(id)), Total=n())
 sizeALL <- c("All", sum(sizeISIC$Firms), sum(sizeISIC$Total))
 size <- rbind(sizeISIC, sizeALL)
 sumstat <- round(matrix(as.numeric(as.matrix(rbind(sumISIC, sumALL))[,-1]), nrow=16, ncol=5), 2)
