@@ -195,7 +195,6 @@ require(reshape2)
 QLP_K_plot <- list(); QLP_L_plot <- list()
 QR_K_plot <- list(); QR_L_plot <- list()
 for (p in 1:length(NAICS)){
-  ###################################Plots for QLP and LP ############################
   #Capital Plot for QLP/LP######################################################
   #Capital Coefficient Values for QLP
   qlpk <- split(estimates$K, ceiling(seq_along(estimates$K)/length(tau)))[[p]]
@@ -209,7 +208,21 @@ for (p in 1:length(NAICS)){
   lpkup <- LP_CI$Upper_K[p]
   #Plotting Data
   QLPK_data <- data.frame(x=tau, y=qlpk, z=estimates_LP$K[p], lower=qlpklow, upper=qlpkup, lower_LP=lpklow, upper_LP=lpkup)
-  QLP_K_plot[[p]] <- ggplot(QLPK_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QLPK_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QLPK_data$lower_LP, QLPK_data$upper_LP), linetype='dashed', color='red')
+  #Capital Plot for QR/OLS######################################################
+  qrk <- split(estimates_QR$K, ceiling(seq_along(estimates_QR$K)/length(tau)))[[p]]
+  #Lower bound CI for QR
+  qrklow <- split(QR_CI$Lower_K, ceiling(seq_along(QR_CI$Lower_K)/length(tau)))[[p]]
+  #Lower bound CI for OLS
+  lmklow <- OLS_CI$Lower_K[p]
+  #Upper bound CI for QR
+  qrkup <- split(QR_CI$Upper_K, ceiling(seq_along(QR_CI$Upper_K)/length(tau)))[[p]]
+  #Upper bound CI for OLS
+  lmkup <- OLS_CI$Upper_K[p]
+  #Plotting Data
+  QRK_data <- data.frame(x=tau, y=qrk, z=estimates_OLS$K[p], lower=qrklow, upper=qrkup, lower_OLS=lmklow, upper_OLS=lmkup)
+  #Capital Plots
+  QLP_K_plot[[p]] <- ggplot(QLPK_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QLPK_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QLPK_data$lower_LP, QLPK_data$upper_LP), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpklow, qrklow), max(qlpkup, qrkup)))
+  QR_K_plot[[p]] <- ggplot(QRK_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRK_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRK_data$lower_OLS, QRK_data$upper_OLS), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpklow, qrklow), max(qlpkup, qrkup)))
   #Labor Plot for QLP/LP#########################################################
   #Labor Coefficient Values for QLP
   qlpl <- split(estimates$L, ceiling(seq_along(estimates$L)/length(tau)))[[p]]
@@ -223,21 +236,6 @@ for (p in 1:length(NAICS)){
   lplup <- LP_CI$Upper_L[p]
   #Plotting Data
   QLPL_data <- data.frame(x=tau, y=qlpl, z=estimates_LP$L[p], lower=qlpllow, upper=qlplup, lower_LP=lpllow, upper_LP=lplup)
-  QLP_L_plot[[p]] <- ggplot(QLPL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QLPL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QLPL_data$lower_LP, QLPL_data$upper_LP), linetype='dashed', color='red')
-  ###################################Plots for QR and OLS ############################
-  #Capital Plot for QR/OLS######################################################
-  qrk <- split(estimates_QR$K, ceiling(seq_along(estimates_QR$K)/length(tau)))[[p]]
-  #Lower bound CI for QR
-  qrklow <- split(QR_CI$Lower_K, ceiling(seq_along(QR_CI$Lower_K)/length(tau)))[[p]]
-  #Lower bound CI for OLS
-  lmklow <- OLS_CI$Lower_K[p]
-  #Upper bound CI for QR
-  qrkup <- split(QR_CI$Upper_K, ceiling(seq_along(QR_CI$Upper_K)/length(tau)))[[p]]
-  #Upper bound CI for OLS
-  lmkup <- OLS_CI$Upper_K[p]
-  #Plotting Data
-  QRK_data <- data.frame(x=tau, y=qrk, z=estimates_OLS$K[p], lower=qrklow, upper=qrkup, lower_OLS=lmklow, upper_OLS=lmkup)
-  QR_K_plot[[p]] <- ggplot(QRK_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRK_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRK_data$lower_OLS, QRK_data$upper_OLS), linetype='dashed', color='red')
   #Labor Plot for QR/OLS######################################################
   qrl <- split(estimates_QR$L, ceiling(seq_along(estimates_QR$L)/length(tau)))[[p]]
   #Lower bound CI for QR
@@ -250,10 +248,12 @@ for (p in 1:length(NAICS)){
   lmlup <- OLS_CI$Upper_L[p]
   #Plotting Data
   QRL_data <- data.frame(x=tau, y=qrl, z=estimates_OLS$L[p], lower=qrllow, upper=qrlup, lower_OLS=lmllow, upper_OLS=lmlup)
-  QR_L_plot[[p]] <- ggplot(QRL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRL_data$lower_OLS, QRL_data$upper_OLS), linetype='dashed', color='red')
-  ###############################Combine Plots ##############################################
+  #Labor Plots
+  QLP_L_plot[[p]] <- ggplot(QLPL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QLPL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QLPL_data$lower_LP, QLPL_data$upper_LP), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpllow, qrllow), max(qlplup, qrlup)))
+  QR_L_plot[[p]] <- ggplot(QRL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRL_data$lower_OLS, QRL_data$upper_OLS), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpllow, qrllow), max(qlplup, qrlup)))
+###############################Combine Plots ##############################################
   ############################################################################################
-  NAICS_plots <- ggdraw() + draw_label(paste("NAICS", NAICS[p], sep=" "), fontface="bold") + theme(plot.title = element_text(hjust = 0.5))
+  NAICS_plots <- ggdraw() + draw_label(paste("NAICS", NAICS[p], sep=" "), fontface="plain", size=22) + theme(plot.title = element_text(hjust = 0.5))
   Lrow <- plot_grid(QLP_L_plot[[p]], QR_L_plot[[p]])
   Krow <- plot_grid(QLP_K_plot[[p]], QR_K_plot[[p]])
   Coef_Plot <- plot_grid(NAICS_plots, Lrow, Krow, ncol=1, align="h", rel_heights = c(0.3, 1, 1))
@@ -282,7 +282,7 @@ LT <- data.frame(cbind(time, t(QLPT_True[,2,][,])))
 colnames(LT) <- c("Year", paste("Q", tau_t, sep=""))
 LT <- melt(LT, "Year")
 LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Time") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
-Plot_Title <- ggdraw() + draw_label("Trends in Output Elasticities", fontface="bold") 
+Plot_Title <- ggdraw() + draw_label("Trends in Output Elasticities", fontface="plain", size=22) 
 Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)
 
