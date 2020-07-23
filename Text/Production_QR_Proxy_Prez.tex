@@ -61,6 +61,9 @@
 \usepackage{subcaption}
 \usepackage{bbm} 
 \usepackage{xcolor}
+% \usepackage{natbib}
+\usepackage[backend=biber, citestyle=apa, bibstyle=authoryear]{biblatex}
+\addbibresource{references.bib}
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -96,17 +99,14 @@ A Proxy Variable Approach to Quantile Production Functions}
 \frametitle{Introduction}
 \begin{itemize}
 \item Identification issues: optimal input choices are functions of unobserved productivity leads to transmission bias
-
 \item Popular control function approaches
 \begin{itemize}
-	\item OP (1994): Simultaneity and selection, investment policy proxy, application to telecommunications industry
-	\item LP (2003): Intermediate input proxy, application to Chilean manufacturing firms
-	\item ACF (2015): Structural value-Added production with intermediate input Proxy, identification under different DGPs
+	\item \textcite{Olley1996}: Simultaneity and selection, investment policy proxy, application to telecommunications industry
+	\item \textcite{Levinsohn2003}: Intermediate input proxy, application to Chilean manufacturing firms
+	\item \textcite{Ackerberg2015}: Structural value-Added production with intermediate input Proxy, identification under different DGPs
 \end{itemize}
-
 \item These approaches have focused on estimates of output elasticities on location of conditional firm-size distribution
 \item There could be considerable heterogeneity not captured by average estimates
-
 \end{itemize}
 \end{frame}
 
@@ -115,23 +115,20 @@ A Proxy Variable Approach to Quantile Production Functions}
 \begin{frame}
 \frametitle{Levinsohn and Petrin (2003)}
 \begin{itemize}
-	\item Brief review of LP approach
-	
-	\item LP consider the following gross output production function (subscript $i$ omitted)
+	\item Brief review of LP approach	
+	\item LP consider the following gross output production function
 	\begin{equation}
-	y_{t}=\beta_{0}+\beta_{k}k_{t}+\beta_{l}l_{t}+\beta_{\iota}\iota_{t}+\omega_{t}+\varepsilon_{t}
+	y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\beta_{\iota}\iota_{it}+\omega_{it}+\eta_{it}
 	\end{equation}
-	
-	Where $\omega_{t}$ is productivity observed by the firm, but unobserved by the researcher (e.g, management quality, expected defect rates, etc.) and $\varepsilon_{t}$ represents iid shocks to production after making input choices at time $t$
+	Where $\omega_{it}$ is productivity observed by the firm, but unobserved by the researcher (e.g, management quality, expected defect rates, etc.) and $\eta_{it}$ represents iid shocks to production after making input choices at time $t$
 	With the following assumptions
 	\medskip
 	\begin{enumerate}
-		
-		\item Information Set: $\mathcal{I}_{t}$ includes current and past productivity shocks, but not future productivity. $\mathbb{E}[\varepsilon_{t}|\mathcal{I}_{t}]=0$
-		\item First Order Markov: Productivity shocks evolve according to the distribution $p(\omega_{t}|\omega_{t-1})$
-		\item Capital Accumulation: $k_{t}=\kappa(k_{t-1}, l_{t-1})$
-		\item Scalar Unobservability: $\iota_{t}=\iota_{t}(k_{t}, \omega_{t})$
-		\item Strict Monotonicity: $\iota_{t}=\iota_{t}(k_{t}, \omega_{t})$ is strictly increasing in $\omega_{t}$
+		\item Information Set: $\mathcal{I}_{it}$ includes current and past productivity shocks, but not future productivity. $\mathbb{E}[\eta_{it}|\mathcal{I}_{it}]=0$
+		\item First Order Markov: Productivity shocks evolve according to the distribution $p(\omega_{it}|\omega_{it-1})$
+		\item Capital Accumulation: $k_{it}=\kappa(k_{it-1}, l_{it-1})$
+		\item Scalar Unobservability: $\iota_{it}=\iota_{t}(k_{it}, \omega_{it})$
+		\item Strict Monotonicity: $\iota_{it}=\iota_{t}(k_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
 	\end{enumerate}
 \end{itemize}
 \end{frame}
@@ -141,16 +138,15 @@ A Proxy Variable Approach to Quantile Production Functions}
 \begin{frame}
 \frametitle{Levinsohn and Petrin (2003)}
 \begin{itemize}
-	\item Given these assumptions intermediate input demand can be inverted $\omega_{t}=\omega_{t}(k_{t}, \iota_{t})$ and substituted into the production function
+	\item Given these assumptions intermediate input demand can be inverted $\omega_{it}=\omega_{t}(k_{it}, \iota_{it})$ and substituted into the production function
 	\begin{equation}
-		y_{t}=\beta_{0}+\beta_{k}k_{t}+\beta_{l}l_{t}+\omega_{t}(k_{t}, \iota_{t})+\varepsilon_{t}=\beta_{l}l_{t}+\Phi(k_{t}, \iota_{t})+\varepsilon_{t}
+		y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{t}(k_{it}, \iota_{t})+\eta_{it}=\beta_{l}l_{it}+\Phi(k_{it}, \iota_{it})+\eta_{it}
 	\end{equation}
-	where $\Phi(k_{t}, \iota_{t})=\beta_{0}+\beta_{k}k_{t}+\beta_{\iota}\iota_{t}+\omega_{t}(k_{t}, \iota_{t})$
-	
-	\item $\Phi(k_{t}, \iota_{t})$ can be estimated nonparametrically
+	where $\Phi(k_{it}, \iota_{it})=\beta_{0}+\beta_{k}k_{it}+\beta_{\iota}\iota_{it}+\omega_{t}(k_{it}, \iota_{it})$
+	\item $\Phi(k_{it}, \iota_{it})$ can be estimated nonparametrically
 	\item Labor coefficient and other variable coefficients are identified in the first stage
-	\item First stage estimates are $\hat{\beta}_{l}$ and $\hat{\Phi}(k_{t}, \iota_{t})$ 
-	\item Let $y^{*}=y-\hat{\beta}_{l}l_{t}$ denote the output net of labor contribution
+	\item First stage estimates are $\hat{\beta}_{l}$ and $\hat{\Phi}(k_{it}, \iota_{it})$ 
+	\item Let $y^{*}=y-\hat{\beta}_{l}l_{it}$ denote the output net of labor contribution
 \end{itemize}
 \end{frame}
 
@@ -162,13 +158,11 @@ A Proxy Variable Approach to Quantile Production Functions}
 	\item Two moment conditions identify $\beta_{k}$ and $\beta_{\iota}$
 	\item Capital does not respond to the innovation in productivity 
 	\item Last period's input choice should not be correlated with the innovation in productivity this period
-	
 	\begin{equation}
-	\mathbb{E}[(\varepsilon_{t}+\eta_{t})Z_{t-1}]=\mathbb{E}[(y_{t}^{*}-\beta_{k}k_{t}-\beta_{\iota}\iota_{t}-\hat{\mathbb{E}}[\omega_{t}|\omega_{t-1}])Z_{t-1}]
+	\mathbb{E}[(\eta_{it}+\xi_{it})Z_{it-1}]=\mathbb{E}[(y_{it}^{*}-\beta_{k}k_{it}-\beta_{\iota}\iota_{it}-\hat{\mathbb{E}}[\omega_{it}|\omega_{it-1}])Z_{it-1}]
 	\end{equation}
-	
-	\item $\hat{\mathbb{E}}[\omega_{t}|\omega_{t-1}]$ can be estimated using the estimates of $\omega_{t}$ from first stage estimates evaluated at $(\beta_{k}, \beta_{\iota})$
-	\item $Z_{t-1}$ includes $k_{t}$ and $\iota_{t-1}$ as well as additional instruments
+	\item $\hat{\mathbb{E}}[\omega_{it}|\omega_{it-1}]$ can be estimated using the estimates of $\omega_{it}$ from first stage estimates evaluated at $(\beta_{k}, \beta_{\iota})$
+	\item $Z_{it-1}$ includes $k_{it}$ and $\iota_{it-1}$ as well as additional instruments
 	\item LP minimize GMM criterion function and bootstrap standard errors 
 \end{itemize}
 \end{frame}
@@ -179,11 +173,11 @@ A Proxy Variable Approach to Quantile Production Functions}
 \begin{frame}
 \frametitle{Heterogeneous Coefficient Models}
 \begin{itemize}
-	\item The control function approaches of OP, LP, and ACF estimate homogeneous output elasticities
-	\item Many interesting questions can be asked if we consider production functions that are heterogeneous between firms
-	\item Kasahara, Schrimpf and Suzuki (2015) propose two methods to estimate a random coefficient production function and find evidence of unobserved heterogeneity beyond a Hicks-neutral technology term
-	\item Balat, Brambilla, and Sasaki (2015) extend the control function approach to multi-dimensional coefficients with an application to international trade
-	\item Li and Sasaki (2017) develop an identification strategy for heterogeneous elasticities using first order conditions for intermediate inputs
+	\item \textcite{Kasahara2015} propose two methods to estimate a random coefficient production function and find evidence of unobserved heterogeneity beyond a Hicks-neutral technology term
+	\item \textcite{balat} extend the control function approach to multi-dimensional coefficients with an application to international trade
+	\item \textcite{Li2017} develop an identification strategy for heterogeneous elasticities using first order conditions for intermediate inputs
+	\item \textcite{Gandhi2020} consider a nonparametric production function and a new identification argument in critique of OP/LP and explore heterogeneity in resulting TFP estimates
+	\item \textcite{mert} uses a similar control variable approach to estimate output elasticities and markups. He finds that markup estimates using standard approaches are biased when both heterogeneity and factor-augmenting productivity are ignored
 \end{itemize}
 \end{frame}
 %------------------------------------------------------------------------------------
@@ -193,12 +187,25 @@ A Proxy Variable Approach to Quantile Production Functions}
 \begin{itemize}
 	\item Allowing firm technology to vary over the conditional output distribution is also valid for estimating a production function with unobserved heterogeneity
 	\item Applications of quantile regression are however limited due to simultaneity bias
-	\item Typical IV approaches such as Chernozhukov and Hansen (2005) are also limited due to the normal arguments of using input prices as IVs
-	\item Possible to exploit the panel data structure and use fixed effects (Koenker, 2004), Lamarche (2010), or Canay (2011)
+	\item Typical IV approaches such as \textcite{Chernozhukov2005} are also limited due to the normal arguments of using input prices as IVs
+	\item Possible to exploit the panel data structure and use fixed effects or correlated random effects such as \textcite{Koenker2004}, \textcite{Lamarche2010}, or \textcite{Canay2011}
 	\item The fixed effect shifts the location of the conditional distribution (not the quantiles)
-	\item Incidental Parameters (Koenker, 2004)
-	\item Independence of unobserved heterogeneity and productivity (Canay, 2011)
-	
+	\item Incidental Parameters 
+	\item Independence of unobserved heterogeneity and productivity 
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Production Functions and Quantile Regression}
+\begin{itemize}
+	\item Quantile regression and production function estimation is not entirely new and has been used in the frontier literature
+	\item Production frontier models assume firms are not always efficient, but there is a frontier of maximal production in which they deviate from
+	\item More specifically, stochastic frontier (SFA) models assume this frontier is stochastic (inefficiency + iid noise). These models are often characterized by strong distributional assumptions on these variables
+	\item Firms can vary in production technology for different levels of inefficiency making this model a strong candidate for quantile regression analysis \parencite{Bernini2004}, \parencite{Liu2008}
+	\item Some difficulties of this approach is determining which quantiles correspond to the efficient frontier
+	\item We believe we are the first to explore quantile regression in the standard production function literature, while also considering simultaneity bias
 \end{itemize}
 \end{frame}
 
@@ -206,46 +213,74 @@ A Proxy Variable Approach to Quantile Production Functions}
 %------------------------------------------------------------------------------------
 
 \begin{frame}
-\frametitle{Quantile Production Function}
-We seek to extend the control function approach to a quantile value-production function for a fixed $\tau\in(0,1]$ defined as
-\begin{equation}
-	Q_{\tau}(y_{t}|k_{t}, l_{t})=\beta_{k}(\tau)k_{t}+\beta_{l}(\tau)l_{t}+\omega_{t}
+\frametitle{A Nonseparable Production Function}
+We seek to extend the control function approach to a random coefficient value-production function defined as
+\begin{equation} \label{qpf}
+	y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}
 \end{equation}
-
 \begin{itemize}
-	\item $l_{t}$ is a freely variable input like labor and $k_{t}$ denotes the state variable as capital input
-	\item $\omega_{t}$ is an unobserved state variable to the econometrician that impacts firm's optimal input decisions
-	\item We allow for inputs to affect quantiles of the output distribution
-	\item A special case of this quantile production function is the location scale model
-	
+	\item The constant $\beta_{0}(\eta_{it})$ is subsumed into $\omega_{it}$
+	\item The interpretations of the variables in the above equation are the same as the LP model introduced earlier
+	\item In this specification, the unobservable ranking variable, $\eta_{it}$ is responsible for heterogeneity in output conditional on firms using the same input combinations and latent productivity $\omega_{it}$
+	\item If we had valid instruments, say $Z_{it}$ and the conditions of \textcite{Chernozhukov2005} are met, we could use quantile IV approaches using the identification condition
 	\begin{equation}
-	 y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\eta_{k}k_{it}+\eta_{l}l_{it}+\eta_{\omega}\omega_{it})\varepsilon_{it}
-	\end{equation}
-	
-	which implies that the $\tau$-th conditional quantile of $y_{it}$ is given by
-	\begin{equation}
-	Q_{\tau}(y_{it}|\mathcal{I}_{it})=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\eta_{k}k_{it}+\eta_{l}l_{it}+\eta_{\omega}\omega_{it})F^{-1}(\tau)
+	P(y_{it}\leq\beta_{0}(\tau)+\beta_{k}(\tau)k_{it}+\beta_{l}(\tau)l_{it}|k_{it}, l_{it}, Z_{it})=\tau
 	\end{equation}
 \end{itemize}
 \end{frame}
+
 %------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Quantile Production Functions}
+\begin{itemize}
+	\item A special case of \eqref{qpf} is the location-scale model
+	\begin{equation} \label{ls}
+	y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it}+\mu_{\omega}\omega_{it})\eta_{it}
+	\end{equation}
+	\item So the conditional quantiles of $y_{it}$ are given by
+	\begin{equation}
+	Q(y_{it}|k_{it}, l_{it}, \omega_{it})=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it}+\mu_{\omega}\omega_{it})F^{-1}(\tau)
+	\end{equation}
+	\item Equation \eqref{ls} is not new to the production function literature and is often used as a model for production risk \parencite{Just1978}
+	\item They provide a set of postulates for which the above specification is empirically valid
+	\item The quantile specification could be seen as an extension of the higher-order moment estimation of risk initiated by \textcite{Antle1983}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Production Risk and Quantiles}
+\begin{itemize}
+	\item We do not seek to develop new theories of firm behavior under risk
+	\item If one wanted to use production risk as an explanation of firm heterogeneity then it would be possible to use quantile utility maximization as the framework \parencite{Manski1988}, \parencite{Bhattacharya2009}, \parencite{ROSTEK2009}, \parencite{Chambers2007}, \parencite{Castro2017}
+	\item It would then be possible to use the first order condition approach to estimate production function parameters using quantile regression techniques
+	\item This approach would be more difficult to synthesize in the proxy variable approach
+	\item Which is why we consider production variation in $\eta_{it}$ to be an econometric misspecification issue rather than one that has any economic meaning
+	\item Since most econometric tests would not be able to differentiate production risk from misspecification, we believe our interpretation to be equally as valid
+\end{itemize}
+\end{frame}
+
+%---------------------------------------------------{}---------------------------------
 
 \begin{frame}
 \frametitle{Quantile Production Function: Assumptions}
-We maintain several timing assumptions that are standard in the control function literature\\
-
-We use the set of assumptions for LP estimation, but can be easily altered for ACF as we do both in simulations\\
-
-
+\begin{itemize}
+	\item We proceed with this interpretation and consider the production function specified in equation \eqref{qpf}
+	\item We maintain several timing assumptions that are standard in the control function literature
+\end{itemize}
+\textbf{Assumption 1}
 \begin{enumerate}
-	\item Information Set: $\mathcal{I}_{t}$ includes current and past productivity shocks, but not future productivity. $Q_{\tau}(\varepsilon_{t}|\mathcal{I}_{t})=0$
+	\item Information Set: $\mathcal{I}_{it}$ includes current and past productivity shocks, but not future productivity. $\eta_{it}$ is independent of $\mathcal{I}_{it}$
 	\item Firm's productivity follows an AR(1) process
 	\begin{equation}
-		\omega_{t}=\mathbb{E}[\omega_{t}|\omega_{t-1}]+\xi_{t}=g(\omega_{t-1})+\xi_{t}
+		\omega_{it}=g(\omega_{it-1}, \xi_{it})
 	\end{equation}
-	\item Capital Accumulation: $k_{t}=\kappa(k_{t-1}, i_{t-1})$
-	\item Scalar Unobservability: $\iota_{t}=\iota_{t}(k_{t}, \omega_{t})$
-	\item Strict Monotonicity: $\iota_{t}=\iota_{t}(k_{t}, \omega_{t})$ is strictly increasing in $\omega_{t}$
+	where $\xi_{it}$ are iid productivity innovations that is independent of $\mathcal{I}_{it-1}$
+	\item Capital Accumulation: $k_{it}=\kappa(k_{it-1}, i_{it-1})$
+	\item Scalar Unobservability: $\iota_{it}=\iota_{t}(k_{it}, \omega_{it})$
+	\item Strict Monotonicity: $\iota_{it}=\iota_{t}(k_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
 \end{enumerate}
 \end{frame}
 
@@ -254,20 +289,19 @@ We use the set of assumptions for LP estimation, but can be easily altered for A
 \begin{frame}
 \frametitle{Quantile Production Function: Estimation}
 \begin{itemize}
-	\item Given these assumptions we invert intermediate input demand $\omega_{t}=\omega_{t}(k_{t}, \iota_{t})$ and substitute into the production function
+	\item Given these assumptions we invert intermediate input demand $\omega_{it}=\omega_{t}(k_{it}, \iota_{it})$ and substitute into the production function
 	\begin{equation}
-	Q_{\tau}(y_{t}|k_{t}, l_{t})=\beta_{l}(\tau)l_{t}+\beta_{k}(\tau)k_{t}+\omega_{t}(k_{t}, \iota_{t})=\beta_{l}(\tau)l_{t}+\Phi_{\tau}(k_{t}, \iota_{t})
+	y_{it}=\beta_{l}(\eta_{it})l_{it}+\beta_{k}(\eta_{it})k_{it}+\omega_{t}(k_{it}, \iota_{it})=\beta_{l}(\eta_{it})l_{it}+\Phi(k_{it}, \iota_{it}, \eta_{it})
 	\end{equation}
-	
-	\item First stage parameters $\beta_{l}(\tau)$ and $\Phi_{\tau}(k_{t}, \iota_{t})$ are estimated here
-	\item If one uses a polynomial approximation to $\Phi_{\tau}(k_{t}, \iota_{t})$, $\hat{\beta}_{l}(\tau)$ and $\hat{\Phi}_{\tau}(k_{t}, \iota_{t})$ can be estimated using a polynomial quantile regression
-	
+	\item Using Assumption 1 we have:
+	\begin{equation}
+	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, \iota_{it}; \tau)\big|\mathcal{I}_{it})=\tau
+	\end{equation}
+	\item If one uses a polynomial approximation to $\Phi_{\tau}(k_{t}, \iota_{t}; \tau)$, $\hat{\beta}_{l}(\tau)$ and $\hat{\Phi}(k_{t}, \iota_{t}; \tau)$ can be estimated using a polynomial quantile regression
 	\item Substituting into the production
 	\begin{equation}
-	Q_{\tau}(y_{t}|k_{t}, l_{t})=\beta_{k}(\tau)k_{t}+\hat{\beta}_{l}(\tau)l_{t}+g(\hat{\Phi}_{\tau}(k_{t-1}, \iota_{t-1})-\beta_{k}(\tau)k_{t-1})+\xi_{t}
+	y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, \iota_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1}, \xi_{it})
 	\end{equation}
-	
-	\item This equation is complicated by the unobservable $\xi_{t}$, we will assume that its sum with the production function shock $\varepsilon_{t}$ is conditional quantile zero, but this may not be valid
 \end{itemize}
 \end{frame}
 
@@ -275,30 +309,26 @@ We use the set of assumptions for LP estimation, but can be easily altered for A
 
 \begin{frame}
 \frametitle{Quantile Production Function: Estimation}
-We can write a second stage conditional quantile restriction as
-\small
+We can write a second stage restriction as
 \begin{equation}
-Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\tau}(k_{t-1}, \iota_{t-1})-\beta_{k}(\tau)k_{t-1})|\mathcal{I}_{it-1}]=0
+P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, \iota_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)|\mathcal{I}_{it-1}\big)=\tau
 \end{equation}
-\normalsize
-
-\begin{itemize}
-	\item The model in (10) can be represented by conditional moment restrictions
-	\small
+This can be represented by conditional moment restrictions
 	\begin{equation}
-	\mathbb{E}[\mathbbm{1}\{y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\tau}(k_{t-1}, \iota_{t-1})-\beta_{k}(\tau)k_{t-1})\leq 0\}-\tau|\mathcal{I}_{it-1}]=0
+	\begin{split}
+	\mathbb{E}[\mathbbm{1}\{y_{it}&-\beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}\\
+	&+g(\hat{\Phi}(k_{it-1}, \iota_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)\leq 0\}-\tau|\mathcal{I}_{it-1}]=0
+	\end{split}
 	\end{equation}
-	\normalsize
 	where $\mathbbm{1}\{\cdot\}$ is the indicator function
-	
-	\item To estimate the production function parameters we use the unconditional moments
-	\small
+To estimate the production function parameters we use the unconditional moments
 	\begin{equation}
-	\mathbb{E}[Z_{t-1}(\mathbbm{1}\{y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\tau}(k_{t-1}, \iota_{t-1})-\beta_{k}(\tau)k_{t-1})\leq 0\}-\tau)]=0
+	\begin{split}
+	\mathbb{E}[Z_{it-1}(\mathbbm{1}\{y_{it}&-\beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}\\
+	&+g(\hat{\Phi}(k_{it-1}, \iota_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)\leq 0\}-\tau)]=0
+	\end{split}
 	\end{equation}
-	\normalsize
-	where $Z_{t-1}$ includes the instruments used in the firm's information set at time $t-1$
-\end{itemize}
+	where $Z_{it-1}$ includes the instruments used in the firm's information set at time $t-1$
 	
 \end{frame}
 %------------------------------------------------------------------------------------
@@ -307,14 +337,13 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \frametitle{Smoothed GMM for Quantile Models}
 \begin{itemize}
 	\item The indicator function makes estimation of the production function parameters intractable
-	\item We smooth the indicator function and rely on estimation procedure of Kaplan and Sun (2017)
-	\item de Castro, Galvao, Kaplan, and Liu (2018) develop theory for feasible estimators of parameters in general conditional quantile restrictions that include non-linear IVQR
-	\item This approach is computationally attractive compared to approaches such as the MCMC approach proposed by Chernozhukov and Hong (2003)
-	
+	\item We smooth the indicator function and rely on estimation procedure of \textcite{Kaplan2016}
+	\item \textcite{qgmm} develop theory for feasible estimators of parameters in general conditional quantile restrictions that include non-linear IVQR
+	\item This approach is computationally attractive compared to approaches such as the MCMC approach proposed by \textcite{Chernozhukov2003}
 	\item To fix notation let
 	\begin{itemize}
-		\item $Z_{t-1}$ the set of instruments discussed earlier
-		\item $x_{t}$ the set of exogenous and endogenous covariates
+		\item $Z_{it-1}$ the set of instruments discussed earlier
+		\item $x_{it}$ the set of exogenous and endogenous covariates
 		\item $\Lambda(\cdot)$ denote the residual function that defines the conditional quantile restriction that is known up to $\beta_{k}(\tau)$
 	\end{itemize}
 	
@@ -329,12 +358,10 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 	\begin{equation}
     \hat{M}_{n}(\beta, \tau)=\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}Z_{it}\Bigg[\tilde{I}\Bigg(\frac{\Lambda(y_{it}, x_{it}, \beta(\tau))}{h_{n}}\Bigg)-\tau\Bigg],
 	\end{equation}
-	
 	where $h_{n}$ is a bandwidth (sequence) and $\tilde{I}(\cdot)$ is a smoothed version of the indicator function $\mathbbm{1}\{\cdot \leq 0\}$ used by Horowitz (1998), Whang (2006), and Kaplan and Sun (2016):
 	\begin{equation}
 	    \tilde{I}(u)=\mathbbm{1}\{-1\leq u \leq 1\}\big[0.5+\frac{105}{64}\big(u-\frac{5}{3}u^{3}+\frac{7}{5}u^{5}- \frac{3}{7}u^{7}\big)\big]+\mathbbm{1}\{u>1\}.
 	\end{equation}
-	
 	The smoothed GMM estimator minimizes a weighted quadratic norm of the smoothed sample moment vector
 	\begin{equation}
 		\hat{\beta}_{GMM}=\underset{\beta}{\operatorname{argmin}}\hat{M}_{n}(\beta, \tau)^{\top}\hat{W}\hat{M}_{n}(\beta, \tau).
@@ -349,11 +376,11 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{itemize}
 	\item The optimal weighting matrix is the estimator of the inverse long-run variance of the sample moment $\hat{W}^{*}=\bar{\Omega}^{-1}\overset{p}{\to}\Omega^{-1}$
 	\item In simulation and in application we use an estimate of the long-run variance using a truncated kernel with bandwidth choice of Andrews (1991). We find this helps with scaling.
-	
 	\item The asymptotic results for this estimator cannot be applied here due to the semi-parametric nature of the two-step procedure
-	\item We are working to see if the asymptotic results of Ai and Chen (2007) can be applied here. This gives us extra conditions to show what rate gives an asymptotically negligible bandwidth. The smoothed sample moments are differentiable so we can take a Taylor expansion around $\beta(\tau)$, but the bandwidth problem remains
-	
-	\item We use bootstrap for our empirical application
+	\item The asymptotic results of Ai and Chen (2007) could be applied here. 
+	\item This gives us extra conditions to show what rate gives an asymptotically negligible bandwidth. The smoothed sample moments are differentiable so we can take a Taylor expansion around $\beta(\tau)$. We leave this for future research agenda
+	\item We use bootstrap for our empirical application to be discussed later
+	\item Optimal choice of bandwidth is an ongoing research topic for these types of estimators
 \end{itemize}
 \end{frame}
 
@@ -362,12 +389,12 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{frame}
 \frametitle{Quantile Production Function: Simulation}
 \begin{itemize}
-	\item Simulations follow a location-scale version of LP (2003) and ACF (2015) using ACF's original set of DGPs 
+	\item Simulations follow a location-scale version of LP and ACF using ACF's original set of DGPs 
 	\item Parameters are chosen to match a couple of key moments in the Chilean data used by LP
 	\item Productivity follows a first order AR(1) process with persistence $\rho=0.7$
 	\item Firms make optimal choices of investment in the capital stock to maximize the expected discounted value of future profits
 	\item Convex capital adjustment costs
-	\item Labor input $l_{t}$ is chosen either at $t$ or $t-b$
+	\item Labor input $l_{it}$ is chosen either at $t$ or $t-b$
 	\item Possible optimization error in labor input decision
 \end{itemize}
 \end{frame}
@@ -375,34 +402,31 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 %------------------------------------------------------------------------------------
 
 \begin{frame}
-\frametitle{Quantile Production Function: Simulation}
+\frametitle{Monte Carlo Simulation}
 \begin{itemize}
 	\item Production function is assumed Leontief in materials, the location-scale specification is
 	\begin{equation}
-		y_{t}=\beta_{k}k_{t}+\beta_{l}l_{t}+\omega_{t}+(0.7k_{t}+0.6l_{t}+0.1\omega_{t})\varepsilon_{t}
+		y_{t}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(0.7k_{it}+0.6l_{it}+0.1\omega_{it})\eta_{it}
 	\end{equation}
 	with $\beta_{k}=0.4$, $\beta_{l}=0.6$\\
-	
 	Simulation 1: ACF Estimated Quantile Production Function
 	\begin{itemize}
 		\item Firms face different wages, where the wage process following an AR(1) process
 		\item Assume labor is chosen at time $t-b$ where $b=0.5$
 	\end{itemize}
-	
 	Simulation 2: LP Estimation Quantile Production Function
 	\begin{itemize}
 		\item No wage variation across firms and labor chosen at time $t$
 		\item Added optimization error in labor
 	\end{itemize}
-	
-	\item Both simulations include 2 DGP's for the error term $\varepsilon_{t}$. In DGP 1 $\varepsilon_{t} \sim N(0,0.1)$ and in DGP 2 $\varepsilon_{t} \sim \textit{Laplace}(0,0.1)$
+	\item Both simulations include 2 DGP's for the error term $\eta_{t}$. In DGP 1 $\eta_{it} \sim N(0,0.1)$ and in DGP 2 $\eta_{it} \sim \textit{Laplace}(0,0.1)$
 \end{itemize}
 \end{frame}
 
 %----------------------------------------------------------------------------------
 
 \begin{frame}
-\frametitle{Quantile Production Function: Simulation 1}
+\frametitle{Monte Carlo Simulation 1}
 \begin{figure}[H]
 \centering
 \caption{Simulated estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is ACF estimator}
@@ -413,7 +437,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 %----------------------------------------------------------------------------------
 
 \begin{frame}
-\frametitle{Quantile Production Function: Simulation 1}
+\frametitle{Monte Carlo Simulation 1}
 \begin{figure}[H]
 \centering
 \caption{Simulated precision estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is ACF estimator}
@@ -423,7 +447,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 %----------------------------------------------------------------------------------
 
 \begin{frame}
-\frametitle{Quantile Production Function: Simulation 2}
+\frametitle{Monte Carlo: Simulation 2}
 \begin{figure}[H]
 \centering
 \caption{Simulated estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is LP estimator}
@@ -435,7 +459,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 
 
 \begin{frame}
-\frametitle{Quantile Production Function: Simulation 2}
+\frametitle{Monte Carlo: Simulation 2}
 \begin{figure}[H]
 \centering
 \caption{Simulated precision of estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is LP estimator}
@@ -447,12 +471,14 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 
 
 \begin{frame}
-\frametitle{Quantile Production Function: Application}
+\frametitle{Application}
 \begin{itemize}
-	\item We apply this estimator to an 10-year panel (1987-1996) from Chile (ENIA) provided by Amil Petrin 
-	\item Focus on the four largest industries (ISIC codes in parentheses): Food Products (311), Metals (381), Textiles (321) and Wood Products (331)
-	\item We use the QLP estimator for a value-added specification of the production function
-	\item Standard errors are obtained from the bootstrapping method outlined by Levinsohn and Petrin (2003)
+	\item We apply this estimator to three country manufacturing datasets: US, Chile, and Colombia
+	\item The US data comes from Compustat which contains data on sales, capital expenditure, number of employees, and other items from firm's financial statements
+	\item Compustat has been used in prior production function estimation although the data is of lower quality compared to the Census of Manufactures which is restricted data
+	\item Our Compustat sample contains publicly traded manufacturing firms between 1961 and 2011
+	\item Manufacturing data from Chile is collected by the Instituto Nacional de Estad\'{i}stica (INE) which contains plant level data from 1979 to 1996
+	\item Manufacturing data from Colombia come from the manufacturing census which contains plant level data from 1981 to 1991 
 \end{itemize}
 \end{frame}
 
@@ -477,7 +503,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_31.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -487,7 +513,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_32.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -497,7 +523,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_33.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -507,7 +533,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_All.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -516,8 +542,8 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \frametitle{US Manufacturing: Compustat}
 \begin{figure}[ht]
 \centering
-\includegraphics[width=12cm, height=7cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png}
-\caption{Estimated values of production function coefficients over time}
+\includegraphics[width=11cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png}
+\caption{Estimated values of production function coefficients over time. Estimated at 5 year intervals}
 \end{figure}
 \end{frame}
 
@@ -543,17 +569,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
-\end{figure}
-\end{frame}
-
-%----------------------------------------------------------------------------------
-\begin{frame}
-\frametitle{Chilean Manufacturing}
-\begin{figure}[ht]
-\centering
-\includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -563,7 +579,17 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
+\end{figure}
+\end{frame}
+
+%----------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Chilean Manufacturing}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -573,7 +599,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -598,7 +624,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -608,7 +634,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -618,7 +644,7 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
@@ -628,11 +654,33 @@ Q_{\tau}[y_{t}-\beta_{k}(\tau)k_{t}-\hat{\beta}_{l}(\tau)l_{t}-g(\hat{\Phi}_{\ta
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm, height=6cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png}
-\caption{Estimated values of production function coefficients and their 90\% confidence interval}
+\caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates}
 \end{figure}
 \end{frame}
 
+%----------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Conclusion}
+\begin{itemize}
+	\item Most estimates are consistent with prior empirical results and economic theory
+	\item Output elasticity of labor decreases with firm size
+	\item Output elasticity of capital increases with firm size
+		\begin{itemize}
+			\item \textcite{mert}
+			\item \textcite{Holmes2008}
+			\item \textcite{Rajan1999}
+		\end{itemize}
+	\item Without controlling for productivity, estimates tend to be biased upwards
+	\item Still exploring implications for TFP estimates
+	\item Still working on better bandwidth selection mechanisms
+\end{itemize}
+\end{frame}
 
+%----------------------------------------------------------------------------------------------
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+\printbibliography
+\end{frame}
 
 
 

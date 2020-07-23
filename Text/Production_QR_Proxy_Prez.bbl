@@ -1,0 +1,941 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nyt/global/}
+    \entry{Ackerberg2015}{article}{}
+      \name{author}{3}{}{%
+        {{hash=270526c6193d3f3fb9569b27bef43684}{%
+           family={Ackerberg},
+           familyi={A\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+        {{hash=8f2b5e0056c7bb194a4352e886bd2ee7}{%
+           family={Caves},
+           familyi={C\bibinitperiod},
+           given={Kevin},
+           giveni={K\bibinitperiod}}}%
+        {{hash=fb0a61cad4f95fc6d25fb72a5b25670c}{%
+           family={Frazer},
+           familyi={F\bibinitperiod},
+           given={Garth},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The Econometric Society}%
+      }
+      \strng{namehash}{714fd92cc2150aaabb831fe1162dff1c}
+      \strng{fullhash}{714fd92cc2150aaabb831fe1162dff1c}
+      \strng{authornamehash}{714fd92cc2150aaabb831fe1162dff1c}
+      \strng{authorfullhash}{714fd92cc2150aaabb831fe1162dff1c}
+      \field{sortinit}{A}
+      \field{sortinithash}{3248043b5fe8d0a34dab5ab6b8d4309b}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{number}{6}
+      \field{title}{Identification Properties of Recent Production Function Estimators}
+      \field{volume}{83}
+      \field{year}{2015}
+      \field{pages}{2411\bibrangedash 2451}
+      \range{pages}{41}
+      \verb{doi}
+      \verb 10.3982/ecta13408
+      \endverb
+    \endentry
+    \entry{Antle1983}{article}{}
+      \name{author}{1}{}{%
+        {{hash=fe2b19808c958ef71a6b8a851e58eb86}{%
+           family={Antle},
+           familyi={A\bibinitperiod},
+           given={John\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Informa {UK} Limited}%
+      }
+      \strng{namehash}{fe2b19808c958ef71a6b8a851e58eb86}
+      \strng{fullhash}{fe2b19808c958ef71a6b8a851e58eb86}
+      \strng{authornamehash}{fe2b19808c958ef71a6b8a851e58eb86}
+      \strng{authorfullhash}{fe2b19808c958ef71a6b8a851e58eb86}
+      \field{sortinit}{A}
+      \field{sortinithash}{3248043b5fe8d0a34dab5ab6b8d4309b}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Business {\&} Economic Statistics}
+      \field{month}{7}
+      \field{number}{3}
+      \field{title}{Testing the Stochastic Structure of Production: A Flexible Moment-Based Approach}
+      \field{volume}{1}
+      \field{year}{1983}
+      \field{pages}{192\bibrangedash 201}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1080/07350015.1983.10509339
+      \endverb
+    \endentry
+    \entry{balat}{unpublished}{}
+      \name{author}{3}{}{%
+        {{hash=8f0d81a6f6a49820368b337f150559fa}{%
+           family={Balat},
+           familyi={B\bibinitperiod},
+           given={Jorge},
+           giveni={J\bibinitperiod}}}%
+        {{hash=f5f063f8fe3a2f6129606e4df983695b}{%
+           family={Brambilla},
+           familyi={B\bibinitperiod},
+           given={Irene},
+           giveni={I\bibinitperiod}}}%
+        {{hash=8f3e1a938254111f039b4d72874f49e2}{%
+           family={Sasaki},
+           familyi={S\bibinitperiod},
+           given={Yuya},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{2c4d67bb489a99bca4b98933281113b1}
+      \strng{fullhash}{2c4d67bb489a99bca4b98933281113b1}
+      \strng{authornamehash}{2c4d67bb489a99bca4b98933281113b1}
+      \strng{authorfullhash}{2c4d67bb489a99bca4b98933281113b1}
+      \field{sortinit}{B}
+      \field{sortinithash}{5f6fa000f686ee5b41be67ba6ff7962d}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper studies a systematic link between the choice of export destinations and technology differences across firms. Our premise is that firms differ in the relative efficiency with which they can utilize skilled labor. In a context in which quality provision is skill-intensive and consumers in high-income countries are more willing to pay for quality, exporting firms that are more efficient in the use of skilled labor export relatively more to high-income destinations. The contribution of the paper is twofold. First, we propose a new estimation method of production functions that allows for heterogeneity in the production function coefficients across firms and addresses the aggregation problem when firms are multiproduct. The estimation strategy is based on an extension of the structural control variable approach (Olley and Pakes (1996); Levinsohn and Petrin (2003)) to multi-dimensional heterogeneous parameters. Second, we provide an empirical measure of capability of quality production and show that it is a determinant of the choice of exports, export destinations, and quality using firm-level data from Chile.}
+      \field{note}{{Working paper}}
+      \field{title}{{Heterogeneous firms: skilled-labor productivity and the destination of exports}}
+      \field{year}{2018}
+    \endentry
+    \entry{Bernini2004}{article}{}
+      \name{author}{3}{}{%
+        {{hash=ac8c0de91b9d1bcd82b7dfc88bb42a85}{%
+           family={Bernini},
+           familyi={B\bibinitperiod},
+           given={Cristina},
+           giveni={C\bibinitperiod}}}%
+        {{hash=0100789f577e1c0b27c4d176293f4368}{%
+           family={Freo},
+           familyi={F\bibinitperiod},
+           given={Marzia},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6432daed65f9c8834eac69f6d82db2b8}{%
+           family={Gardini},
+           familyi={G\bibinitperiod},
+           given={Attilio},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Springer Science}%
+        {Business Media {LLC}}%
+      }
+      \strng{namehash}{045de866f5d6d5fd63879490f7da6e30}
+      \strng{fullhash}{045de866f5d6d5fd63879490f7da6e30}
+      \strng{authornamehash}{045de866f5d6d5fd63879490f7da6e30}
+      \strng{authorfullhash}{045de866f5d6d5fd63879490f7da6e30}
+      \field{sortinit}{B}
+      \field{sortinithash}{5f6fa000f686ee5b41be67ba6ff7962d}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Empirical Economics}
+      \field{month}{5}
+      \field{number}{2}
+      \field{title}{Quantile estimation of frontier production function}
+      \field{volume}{29}
+      \field{year}{2004}
+      \field{pages}{373\bibrangedash 381}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1007/s00181-003-0173-5
+      \endverb
+    \endentry
+    \entry{Bhattacharya2009}{article}{}
+      \name{author}{1}{}{%
+        {{hash=2ef30bcb0debb47dcae9e362536461d4}{%
+           family={Bhattacharya},
+           familyi={B\bibinitperiod},
+           given={Debopam},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Informa {UK} Limited}%
+      }
+      \strng{namehash}{2ef30bcb0debb47dcae9e362536461d4}
+      \strng{fullhash}{2ef30bcb0debb47dcae9e362536461d4}
+      \strng{authornamehash}{2ef30bcb0debb47dcae9e362536461d4}
+      \strng{authorfullhash}{2ef30bcb0debb47dcae9e362536461d4}
+      \field{sortinit}{B}
+      \field{sortinithash}{5f6fa000f686ee5b41be67ba6ff7962d}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{month}{6}
+      \field{number}{486}
+      \field{title}{Inferring Optimal Peer Assignment From Experimental Data}
+      \field{volume}{104}
+      \field{year}{2009}
+      \field{pages}{486\bibrangedash 500}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1198/jasa.2009.0015
+      \endverb
+    \endentry
+    \entry{Canay2011}{article}{}
+      \name{author}{1}{}{%
+        {{hash=8a478ad8287eea31bf490fc997ae51b7}{%
+           family={Canay},
+           familyi={C\bibinitperiod},
+           given={Ivan\bibnamedelima A.},
+           giveni={I\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press ({OUP})}%
+      }
+      \strng{namehash}{8a478ad8287eea31bf490fc997ae51b7}
+      \strng{fullhash}{8a478ad8287eea31bf490fc997ae51b7}
+      \strng{authornamehash}{8a478ad8287eea31bf490fc997ae51b7}
+      \strng{authorfullhash}{8a478ad8287eea31bf490fc997ae51b7}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Econometrics Journal}
+      \field{month}{10}
+      \field{number}{3}
+      \field{title}{A simple approach to quantile regression for panel data}
+      \field{volume}{14}
+      \field{year}{2011}
+      \field{pages}{368\bibrangedash 386}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1111/j.1368-423x.2011.00349.x
+      \endverb
+    \endentry
+    \entry{Castro2017}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6d33aeefa6edebb8d9b80c143c858f16}{%
+           family={Castro},
+           familyi={C\bibinitperiod},
+           given={Luciano\bibnamedelima I.},
+           giveni={L\bibinitperiod\bibinitdelim I\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=d175321f891468467403c3393f69be30}{%
+           family={Galvao},
+           familyi={G\bibinitperiod},
+           given={Antonio\bibnamedelima F.},
+           giveni={A\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{dd22e66c491077101de6ce1d6e352ce0}
+      \strng{fullhash}{dd22e66c491077101de6ce1d6e352ce0}
+      \strng{authornamehash}{dd22e66c491077101de6ce1d6e352ce0}
+      \strng{authorfullhash}{dd22e66c491077101de6ce1d6e352ce0}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{{SSRN} Electronic Journal}
+      \field{title}{Dynamic Quantile Models of Rational Behavior}
+      \field{year}{2017}
+      \verb{doi}
+      \verb 10.2139/ssrn.2932382
+      \endverb
+    \endentry
+    \entry{qgmm}{article}{}
+      \name{author}{4}{}{%
+        {{hash=ffab074e62080d25eab07f8ccddcf982}{%
+           family={Castro},
+           familyi={C\bibinitperiod},
+           given={Luciano},
+           giveni={L\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=d175321f891468467403c3393f69be30}{%
+           family={Galvao},
+           familyi={G\bibinitperiod},
+           given={Antonio\bibnamedelima F.},
+           giveni={A\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=d05baf3b2b8022b9359896685a99a790}{%
+           family={Kaplan},
+           familyi={K\bibinitperiod},
+           given={David\bibnamedelima M.},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=4f1e33032cdd17c1c4c17fe05bd0772d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{b07d514274ab054b914b360e4c118e13}
+      \strng{fullhash}{db0733b6b2387e383f0db20b0acdfcfe}
+      \strng{authornamehash}{b07d514274ab054b914b360e4c118e13}
+      \strng{authorfullhash}{db0733b6b2387e383f0db20b0acdfcfe}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{note}{forthcoming}
+      \field{title}{Smoothed {GMM} for Quantile Models}
+      \field{year}{2018}
+    \endentry
+    \entry{Chambers2007}{article}{}
+      \name{author}{1}{}{%
+        {{hash=fb95aa77bbed4beebfaf9a2f17339a23}{%
+           family={Chambers},
+           familyi={C\bibinitperiod},
+           given={Christopher\bibnamedelima P.},
+           giveni={C\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{fb95aa77bbed4beebfaf9a2f17339a23}
+      \strng{fullhash}{fb95aa77bbed4beebfaf9a2f17339a23}
+      \strng{authornamehash}{fb95aa77bbed4beebfaf9a2f17339a23}
+      \strng{authorfullhash}{fb95aa77bbed4beebfaf9a2f17339a23}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Economic Theory}
+      \field{month}{11}
+      \field{number}{1}
+      \field{title}{Ordinal aggregation and quantiles}
+      \field{volume}{137}
+      \field{year}{2007}
+      \field{pages}{416\bibrangedash 431}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1016/j.jet.2006.12.002
+      \endverb
+    \endentry
+    \entry{Chernozhukov2005}{article}{}
+      \name{author}{2}{}{%
+        {{hash=c75cbe2cefd1e532f636a50892605d06}{%
+           family={Chernozhukov},
+           familyi={C\bibinitperiod},
+           given={Victor},
+           giveni={V\bibinitperiod}}}%
+        {{hash=b38b53cdfa3ce5b62046f22663d5cc6f}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The Econometric Society}%
+      }
+      \strng{namehash}{a41de6f99c96057909ee43b8b819dae7}
+      \strng{fullhash}{a41de6f99c96057909ee43b8b819dae7}
+      \strng{authornamehash}{a41de6f99c96057909ee43b8b819dae7}
+      \strng{authorfullhash}{a41de6f99c96057909ee43b8b819dae7}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{month}{1}
+      \field{number}{1}
+      \field{title}{An {IV} Model of Quantile Treatment Effects}
+      \field{volume}{73}
+      \field{year}{2005}
+      \field{pages}{245\bibrangedash 261}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1111/j.1468-0262.2005.00570.x
+      \endverb
+    \endentry
+    \entry{Chernozhukov2003}{article}{}
+      \name{author}{2}{}{%
+        {{hash=c75cbe2cefd1e532f636a50892605d06}{%
+           family={Chernozhukov},
+           familyi={C\bibinitperiod},
+           given={Victor},
+           giveni={V\bibinitperiod}}}%
+        {{hash=f229f76049610ca6cc6fdf1cad3ee6c3}{%
+           family={Hong},
+           familyi={H\bibinitperiod},
+           given={Han},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{f1aea1f7db2ca3efd09d779d6ee58465}
+      \strng{fullhash}{f1aea1f7db2ca3efd09d779d6ee58465}
+      \strng{authornamehash}{f1aea1f7db2ca3efd09d779d6ee58465}
+      \strng{authorfullhash}{f1aea1f7db2ca3efd09d779d6ee58465}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{month}{8}
+      \field{number}{2}
+      \field{title}{An {MCMC} approach to classical estimation}
+      \field{volume}{115}
+      \field{year}{2003}
+      \field{pages}{293\bibrangedash 346}
+      \range{pages}{54}
+      \verb{doi}
+      \verb 10.1016/s0304-4076(03)00100-3
+      \endverb
+    \endentry
+    \entry{mert}{article}{}
+      \name{author}{1}{}{%
+        {{hash=9ae8642fd70c5f7889193a50f7e1a551}{%
+           family={Dermirer},
+           familyi={D\bibinitperiod},
+           given={Mert},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{9ae8642fd70c5f7889193a50f7e1a551}
+      \strng{fullhash}{9ae8642fd70c5f7889193a50f7e1a551}
+      \strng{authornamehash}{9ae8642fd70c5f7889193a50f7e1a551}
+      \strng{authorfullhash}{9ae8642fd70c5f7889193a50f7e1a551}
+      \field{sortinit}{D}
+      \field{sortinithash}{d10b5413de1f3d197b20897dd0d565bb}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Production Function Estimation with Factor Augmenting Technology: An Application to Markups}
+      \field{year}{2020}
+    \endentry
+    \entry{Gandhi2020}{article}{}
+      \name{author}{3}{}{%
+        {{hash=cd0b5da43727605f8d31c84a33e99854}{%
+           family={Gandhi},
+           familyi={G\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod}}}%
+        {{hash=dcd8316890edb90ff8c0f6489da80257}{%
+           family={Navarro},
+           familyi={N\bibinitperiod},
+           given={Salvador},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b3363aa29dfc33e09790843e7b53bf03}{%
+           family={Rivers},
+           familyi={R\bibinitperiod},
+           given={David\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {University of Chicago Press}%
+      }
+      \strng{namehash}{98989ba539648bc6d1cbea02b12d56d0}
+      \strng{fullhash}{98989ba539648bc6d1cbea02b12d56d0}
+      \strng{authornamehash}{98989ba539648bc6d1cbea02b12d56d0}
+      \strng{authorfullhash}{98989ba539648bc6d1cbea02b12d56d0}
+      \field{sortinit}{G}
+      \field{sortinithash}{618d986594b7198ba52cf8b00d348f3f}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Political Economy}
+      \field{month}{6}
+      \field{title}{On the Identification of Gross Output Production Functions}
+      \field{year}{2020}
+      \field{pages}{000\bibrangedash 000}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1086/707736
+      \endverb
+    \endentry
+    \entry{Holmes2008}{article}{}
+      \name{author}{2}{}{%
+        {{hash=cde326811098521a60d0edf076f6708a}{%
+           family={Holmes},
+           familyi={H\bibinitperiod},
+           given={Thomas\bibnamedelima J.},
+           giveni={T\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=d401e035234b2da8dd26a1cee4446d7e}{%
+           family={Mitchell},
+           familyi={M\bibinitperiod},
+           given={Matthew\bibnamedelima F.},
+           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{44f7d3bbb157d9a98a84d03f7406dd56}
+      \strng{fullhash}{44f7d3bbb157d9a98a84d03f7406dd56}
+      \strng{authornamehash}{44f7d3bbb157d9a98a84d03f7406dd56}
+      \strng{authorfullhash}{44f7d3bbb157d9a98a84d03f7406dd56}
+      \field{sortinit}{H}
+      \field{sortinithash}{2f664b453ec75da1fe3804ca92633405}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The {RAND} Journal of Economics}
+      \field{month}{6}
+      \field{number}{2}
+      \field{title}{A theory of factor allocation and plant size}
+      \field{volume}{39}
+      \field{year}{2008}
+      \field{pages}{329\bibrangedash 351}
+      \range{pages}{23}
+      \verb{doi}
+      \verb 10.1111/j.0741-6261.2008.00017.x
+      \endverb
+    \endentry
+    \entry{Just1978}{article}{}
+      \name{author}{2}{}{%
+        {{hash=c6358ccec067d2a3e805da0bd776ad1a}{%
+           family={Just},
+           familyi={J\bibinitperiod},
+           given={Richard\bibnamedelima E.},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=2ab7fc7a1a6983a5b7263f21ea5051f9}{%
+           family={Pope},
+           familyi={P\bibinitperiod},
+           given={Rulon\bibnamedelima D.},
+           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{cd78be0413287c5f8ef9cbd2d093ad27}
+      \strng{fullhash}{cd78be0413287c5f8ef9cbd2d093ad27}
+      \strng{authornamehash}{cd78be0413287c5f8ef9cbd2d093ad27}
+      \strng{authorfullhash}{cd78be0413287c5f8ef9cbd2d093ad27}
+      \field{sortinit}{J}
+      \field{sortinithash}{c86bd6cced82a15683b396c2169909ef}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{month}{2}
+      \field{number}{1}
+      \field{title}{Stochastic specification of production functions and economic implications}
+      \field{volume}{7}
+      \field{year}{1978}
+      \field{pages}{67\bibrangedash 86}
+      \range{pages}{20}
+      \verb{doi}
+      \verb 10.1016/0304-4076(78)90006-4
+      \endverb
+    \endentry
+    \entry{Kaplan2016}{article}{}
+      \name{author}{2}{}{%
+        {{hash=d05baf3b2b8022b9359896685a99a790}{%
+           family={Kaplan},
+           familyi={K\bibinitperiod},
+           given={David\bibnamedelima M.},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=4d3faac3f9a79db1e1348e83bf665e1f}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Yixiao},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press ({CUP})}%
+      }
+      \strng{namehash}{a7bffb870c5ebfe3193fa44b71a98849}
+      \strng{fullhash}{a7bffb870c5ebfe3193fa44b71a98849}
+      \strng{authornamehash}{a7bffb870c5ebfe3193fa44b71a98849}
+      \strng{authorfullhash}{a7bffb870c5ebfe3193fa44b71a98849}
+      \field{sortinit}{K}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometric Theory}
+      \field{month}{1}
+      \field{number}{1}
+      \field{title}{Smoothed Estimating Equations for Instrumental Variables Quantile Regression}
+      \field{volume}{33}
+      \field{year}{2016}
+      \field{pages}{105\bibrangedash 157}
+      \range{pages}{53}
+      \verb{doi}
+      \verb 10.1017/s0266466615000407
+      \endverb
+    \endentry
+    \entry{Kasahara2015}{unpublished}{}
+      \name{author}{3}{}{%
+        {{hash=57750e11fe54e336822b2414cd49ebd3}{%
+           family={Kasahara},
+           familyi={K\bibinitperiod},
+           given={Hiroyuki},
+           giveni={H\bibinitperiod}}}%
+        {{hash=a2717f6abe6aed313cca4eb2bba460b9}{%
+           family={Schrimpf},
+           familyi={S\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=2b2499ba45de1dfddaa3ab330c4a6cd2}{%
+           family={Suzuki},
+           familyi={S\bibinitperiod},
+           given={Michio},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{092d60db3550fc84889029b87d99b60f}
+      \strng{fullhash}{092d60db3550fc84889029b87d99b60f}
+      \strng{authornamehash}{092d60db3550fc84889029b87d99b60f}
+      \strng{authorfullhash}{092d60db3550fc84889029b87d99b60f}
+      \field{sortinit}{K}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper examines non-parametric identifiability of production function when production functions are heterogenous across firms beyond Hicks-neutral technology terms. Using a finite mixture specification to capture unobserved heterogeneity in production technology, we shows that production function for each unobserved type is non-parametrically identified under regularity conditions. We estimate a random coefficients production function using the panel data of Japanese publicly-traded manufacturing firms and compare it with the estimate of production function with fixed coefficients estimated by the method of Gandhi, Navarro, and Rivers (2013). Our estimates for random coefficients production function suggest that there exists substantial heterogeneity in production function coefficients beyond Hicks neutral term across firms within narrowly defined industry.}
+      \field{howpublished}{Working Paper}
+      \field{note}{{Working paper}}
+      \field{title}{Identification and Estimation of Production Function with Unobserved Heterogeneity}
+      \field{year}{2017}
+    \endentry
+    \entry{Koenker2004}{article}{}
+      \name{author}{1}{}{%
+        {{hash=713ca648cccb03223d755f3f2ff51a5c}{%
+           family={Koenker},
+           familyi={K\bibinitperiod},
+           given={Roger},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{713ca648cccb03223d755f3f2ff51a5c}
+      \strng{fullhash}{713ca648cccb03223d755f3f2ff51a5c}
+      \strng{authornamehash}{713ca648cccb03223d755f3f2ff51a5c}
+      \strng{authorfullhash}{713ca648cccb03223d755f3f2ff51a5c}
+      \field{sortinit}{K}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Multivariate Analysis}
+      \field{month}{10}
+      \field{number}{1}
+      \field{title}{Quantile regression for longitudinal data}
+      \field{volume}{91}
+      \field{year}{2004}
+      \field{pages}{74\bibrangedash 89}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1016/j.jmva.2004.05.006
+      \endverb
+    \endentry
+    \entry{Lamarche2010}{article}{}
+      \name{author}{1}{}{%
+        {{hash=00acd544b2f5a0730e98502a5b1009aa}{%
+           family={Lamarche},
+           familyi={L\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{00acd544b2f5a0730e98502a5b1009aa}
+      \strng{fullhash}{00acd544b2f5a0730e98502a5b1009aa}
+      \strng{authornamehash}{00acd544b2f5a0730e98502a5b1009aa}
+      \strng{authorfullhash}{00acd544b2f5a0730e98502a5b1009aa}
+      \field{sortinit}{L}
+      \field{sortinithash}{7bba64db83423e3c29ad597f3b682cf3}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{month}{8}
+      \field{number}{2}
+      \field{title}{Robust penalized quantile regression estimation for panel data}
+      \field{volume}{157}
+      \field{year}{2010}
+      \field{pages}{396\bibrangedash 408}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1016/j.jeconom.2010.03.042
+      \endverb
+    \endentry
+    \entry{Levinsohn2003}{article}{}
+      \name{author}{2}{}{%
+        {{hash=482d9b8712705a27fa4e150cb662cfeb}{%
+           family={Levinsohn},
+           familyi={L\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+        {{hash=dd3b05febc0efc314cb149250e5eebbf}{%
+           family={Petrin},
+           familyi={P\bibinitperiod},
+           given={Amil},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press ({OUP})}%
+      }
+      \strng{namehash}{54c8964b0113ef34e3af4d8a9bbbcea9}
+      \strng{fullhash}{54c8964b0113ef34e3af4d8a9bbbcea9}
+      \strng{authornamehash}{54c8964b0113ef34e3af4d8a9bbbcea9}
+      \strng{authorfullhash}{54c8964b0113ef34e3af4d8a9bbbcea9}
+      \field{sortinit}{L}
+      \field{sortinithash}{7bba64db83423e3c29ad597f3b682cf3}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Review of Economic Studies}
+      \field{month}{4}
+      \field{number}{2}
+      \field{title}{Estimating Production Functions Using Inputs to Control for Unobservables}
+      \field{volume}{70}
+      \field{year}{2003}
+      \field{pages}{317\bibrangedash 341}
+      \range{pages}{25}
+      \verb{doi}
+      \verb 10.1111/1467-937x.00246
+      \endverb
+    \endentry
+    \entry{Li2017}{unpublished}{}
+      \name{author}{2}{}{%
+        {{hash=a99a584749829612e877ec074f612439}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Tong},
+           giveni={T\bibinitperiod}}}%
+        {{hash=8f3e1a938254111f039b4d72874f49e2}{%
+           family={Sasaki},
+           familyi={S\bibinitperiod},
+           given={Yuya},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{71e197bb09192dd2eca3f05623e0797f}
+      \strng{fullhash}{71e197bb09192dd2eca3f05623e0797f}
+      \strng{authornamehash}{71e197bb09192dd2eca3f05623e0797f}
+      \strng{authorfullhash}{71e197bb09192dd2eca3f05623e0797f}
+      \field{sortinit}{L}
+      \field{sortinithash}{7bba64db83423e3c29ad597f3b682cf3}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper presents the identification of heterogeneous elasticities in the Cobb-Douglas production function. The identification is constructive with closed-form formulas for the elasticity with respect to each input for each firm. We propose that the flexible input cost ratio plays the role of a control function under "non-collinear heterogeneity" between elasticities with respect to two flexible inputs. The ex ante flexible input cost share can be used to identify the elasticities with respect to flexible inputs for each firm. The elasticities with respect to labor and capital can be subsequently identified for each firm under the timing assumption admitting the functional independence.}
+      \field{day}{27}
+      \field{eprintclass}{econ.EM}
+      \field{eprinttype}{arXiv}
+      \field{month}{11}
+      \field{note}{{Working paper}}
+      \field{title}{Constructive Identification of Heterogeneous Elasticities in the Cobb-Douglas Production Function}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \verb{eprint}
+      \verb http://arxiv.org/abs/1711.10031v1
+      \endverb
+      \verb{file}
+      \verb :http\://arxiv.org/pdf/1711.10031v1:PDF
+      \endverb
+      \keyw{econ.EM}
+    \endentry
+    \entry{Liu2008}{article}{}
+      \name{author}{3}{}{%
+        {{hash=6abef05c2a8627eda8f253047e34f71a}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Chunping},
+           giveni={C\bibinitperiod}}}%
+        {{hash=ce659d98fc8cfe5b4700182089fac559}{%
+           family={Laporte},
+           familyi={L\bibinitperiod},
+           given={Audrey},
+           giveni={A\bibinitperiod}}}%
+        {{hash=bc3ebda48f5f9d9a32540f18790c6012}{%
+           family={Ferguson},
+           familyi={F\bibinitperiod},
+           given={Brian\bibnamedelima S.},
+           giveni={B\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{0c3bd58a1e2c8f46fbdd10cebe94d846}
+      \strng{fullhash}{0c3bd58a1e2c8f46fbdd10cebe94d846}
+      \strng{authornamehash}{0c3bd58a1e2c8f46fbdd10cebe94d846}
+      \strng{authorfullhash}{0c3bd58a1e2c8f46fbdd10cebe94d846}
+      \field{sortinit}{L}
+      \field{sortinithash}{7bba64db83423e3c29ad597f3b682cf3}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Health Economics}
+      \field{month}{9}
+      \field{number}{9}
+      \field{title}{The quantile regression approach to efficiency measurement: insights from Monte Carlo simulations}
+      \field{volume}{17}
+      \field{year}{2008}
+      \field{pages}{1073\bibrangedash 1087}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1002/hec.1398
+      \endverb
+    \endentry
+    \entry{Manski1988}{article}{}
+      \name{author}{1}{}{%
+        {{hash=04f4e0ffd4b6b896e51c79a334501638}{%
+           family={Manski},
+           familyi={M\bibinitperiod},
+           given={Charles\bibnamedelima F.},
+           giveni={C\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Springer Science}%
+        {Business Media {LLC}}%
+      }
+      \strng{namehash}{04f4e0ffd4b6b896e51c79a334501638}
+      \strng{fullhash}{04f4e0ffd4b6b896e51c79a334501638}
+      \strng{authornamehash}{04f4e0ffd4b6b896e51c79a334501638}
+      \strng{authorfullhash}{04f4e0ffd4b6b896e51c79a334501638}
+      \field{sortinit}{M}
+      \field{sortinithash}{c26a05ef03e4429073ed5c825140fac3}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theory and Decision}
+      \field{month}{7}
+      \field{number}{1}
+      \field{title}{Ordinal utility models of decision making under uncertainty}
+      \field{volume}{25}
+      \field{year}{1988}
+      \field{pages}{79\bibrangedash 104}
+      \range{pages}{26}
+      \verb{doi}
+      \verb 10.1007/bf00129169
+      \endverb
+    \endentry
+    \entry{Olley1996}{article}{}
+      \name{author}{2}{}{%
+        {{hash=1d69d2d5f8915bf1d5b1be75f76e47ea}{%
+           family={Olley},
+           familyi={O\bibinitperiod},
+           given={G.\bibnamedelimi Steven},
+           giveni={G\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=e5ca2972929372ecfef828a3c1eba9d7}{%
+           family={Pakes},
+           familyi={P\bibinitperiod},
+           given={Ariel},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {JSTOR}%
+      }
+      \strng{namehash}{6e1d8ab6fc162890832ce8923a17e6be}
+      \strng{fullhash}{6e1d8ab6fc162890832ce8923a17e6be}
+      \strng{authornamehash}{6e1d8ab6fc162890832ce8923a17e6be}
+      \strng{authorfullhash}{6e1d8ab6fc162890832ce8923a17e6be}
+      \field{sortinit}{O}
+      \field{sortinithash}{f5d80ef71b5b58852663ecfd775b175a}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{month}{11}
+      \field{number}{6}
+      \field{title}{The Dynamics of Productivity in the Telecommunications Equipment Industry}
+      \field{volume}{64}
+      \field{year}{1996}
+      \field{pages}{1263}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.2307/2171831
+      \endverb
+    \endentry
+    \entry{Rajan1999}{article}{}
+      \name{author}{3}{}{%
+        {{hash=a42377fc7650de9a73373750bfed942e}{%
+           family={Rajan},
+           familyi={R\bibinitperiod},
+           given={Raghuram\bibnamedelima G.},
+           giveni={R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=ff7dd11bc1b387030b4a145f988a70a6}{%
+           family={Zingales},
+           familyi={Z\bibinitperiod},
+           given={Luigi},
+           giveni={L\bibinitperiod}}}%
+        {{hash=28041d8d2779bc927a86b5c2e0f07685}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={Krishna\bibnamedelima B.},
+           giveni={K\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{8f688c6109bb3555e971ae49a38f81ab}
+      \strng{fullhash}{8f688c6109bb3555e971ae49a38f81ab}
+      \strng{authornamehash}{8f688c6109bb3555e971ae49a38f81ab}
+      \strng{authorfullhash}{8f688c6109bb3555e971ae49a38f81ab}
+      \field{sortinit}{R}
+      \field{sortinithash}{c15bc8eb6936bc6b3c8baa9e8575af53}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{{SSRN} Electronic Journal}
+      \field{title}{What Determines Firm Size?}
+      \field{year}{1999}
+      \verb{doi}
+      \verb 10.2139/ssrn.170349
+      \endverb
+    \endentry
+    \entry{ROSTEK2009}{article}{}
+      \name{author}{1}{}{%
+        {{hash=3dec2d7acce654d91572257e1738b0e4}{%
+           family={Rostek},
+           familyi={R\bibinitperiod},
+           given={Marzena},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press ({OUP})}%
+      }
+      \strng{namehash}{3dec2d7acce654d91572257e1738b0e4}
+      \strng{fullhash}{3dec2d7acce654d91572257e1738b0e4}
+      \strng{authornamehash}{3dec2d7acce654d91572257e1738b0e4}
+      \strng{authorfullhash}{3dec2d7acce654d91572257e1738b0e4}
+      \field{sortinit}{R}
+      \field{sortinithash}{c15bc8eb6936bc6b3c8baa9e8575af53}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Review of Economic Studies}
+      \field{month}{6}
+      \field{number}{1}
+      \field{title}{Quantile Maximization in Decision Theory}
+      \field{volume}{77}
+      \field{year}{2009}
+      \field{pages}{339\bibrangedash 371}
+      \range{pages}{33}
+      \verb{doi}
+      \verb 10.1111/j.1467-937x.2009.00564.x
+      \endverb
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

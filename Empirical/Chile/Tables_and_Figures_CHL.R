@@ -6,6 +6,7 @@ CHLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Productio
   transmute(id=id, year=year, isic3=isic3, Y=log(Y), K=log(K), L=log(L), M=log(M))
 #Industries as listed in Estimation_US.R file
 ISIC <- c("311", "381", "321", "All")
+ISIC_des <- c("Food Products", "Fabricated Metal Products", "Textiles", "All Manufacturing")
 ########################################################################################################
 ##########################################Summary Statistics############################################
 ########################################################################################################
@@ -23,12 +24,12 @@ ISIC_labels[is.na(ISIC_labels)] <- ""
 summary_table <- cbind(ISIC_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
 colnames(summary_table) <- c("Industry (ISIC code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")
 
-summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex")
+summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex", caption="Summary Statistics for Chile Manufacturing Data")
 align(summary_table) <- rep('c', 8)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline '
-print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Summary.tex")
+print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Summary.tex")
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
@@ -157,12 +158,12 @@ ISIC_labels[is.na(ISIC_labels)] <- ""
 estimates_table <- cbind(ISIC_labels, estimates[rep(tau, length(ISIC))%in%tau_table, ])
 colnames(estimates_table) <- c("Industry (ISIC code)", "$\\tau$", "Coef.", 's.e.', "Coef.", 's.e.', "Coef.", "s.e")
 
-estimates_table <- xtable(estimates_table, digits=c(0,0,2,3,4,3,4,3,4))
+estimates_table <- xtable(estimates_table, digits=c(0,0,2,3,4,3,4,3,4), type="latex", caption="Coefficient Estimates and Standard Errors for Chile Manufacturing Firms")
 align(estimates_table) <- rep('c', 9)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
-print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Estimates.tex")
+print(estimates_table, hline.after=c(0,nrow(estimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Estimates.tex")
 
 ############################Coefficicent Plots######################################
 require(ggplot2)
@@ -229,7 +230,7 @@ for (p in 1:length(ISIC)){
   QR_L_plot[[p]] <- ggplot(QRL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRL_data$lower_OLS, QRL_data$upper_OLS), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpllow, qrllow), max(qlplup, qrlup)))
   ###############################Combine Plots ##############################################
   ############################################################################################
-  ISIC_plots <- ggdraw() + draw_label(paste("ISIC", ISIC_relabel[p], sep=" "), fontface="plain", size=22) + theme(plot.title = element_text(hjust = 0.5))
+  ISIC_plots <- ggdraw() + draw_label(ISIC_des[p], fontface="plain", size=22) + theme(plot.title = element_text(hjust = 0.5))
   Lrow <- plot_grid(QLP_L_plot[[p]], QR_L_plot[[p]])
   Krow <- plot_grid(QLP_K_plot[[p]], QR_K_plot[[p]])
   Coef_Plot <- plot_grid(ISIC_plots, Lrow, Krow, ncol=1, align="h", rel_heights = c(0.3, 1, 1))

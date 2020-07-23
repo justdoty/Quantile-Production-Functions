@@ -26,7 +26,6 @@ results <- array(0, dim=c(R, dZ, length(industries)))
 #This gives the "true" estimates using the "true" data
 true.beta <- array(0, dim=c(dZ, length(industries)))
 
-
 for (naics in 1:length(industries)){
   US <- filter(USdata, str_detect(naics2, industries[naics]))
   soln <- tryCatch(QLP(tau=tau, va=US$lnva, state=US$lnk, free=US$lnl, proxy=US$lnm, id=US$id, time=US$year, h=h, b.init=NULL, R=R))

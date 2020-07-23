@@ -1,7 +1,7 @@
 library(readstata13)
 library(dplyr)
-chile_data <- read.dta13("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/Raw Data/chile_data.dta") %>% select(plantID, year, isic3, salesDeflTotal, whitecnt, bluecnt, totalEmp, matDeflTotal, capDeflTotal) %>%
-	transmute(id=plantID, year=year, isic3=isic3, Y=salesDeflTotal, VA=salesDeflTotal-matDeflTotal, Lw=whitecnt, Lb=bluecnt, L=totalEmp, M=matDeflTotal, K=capDeflTotal) %>%
+chile_data <- read.dta13("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/Raw Data/chile_data.dta") %>% select(plantID, year, isic3, ciiu3d_descr, salesDeflTotal, whitecnt, bluecnt, totalEmp, matDeflTotal, capDeflTotal) %>%
+	transmute(id=plantID, year=year, isic3=isic3, isic3des=ciiu3d_descr, Y=salesDeflTotal, VA=salesDeflTotal-matDeflTotal, Lw=whitecnt, Lb=bluecnt, L=totalEmp, M=matDeflTotal, K=capDeflTotal) %>%
 	group_by(id) %>% filter(!any(VA<=0), !any(L<10), !any(M<=0), !any(K<=0))
 
 #Average number of firms per year
