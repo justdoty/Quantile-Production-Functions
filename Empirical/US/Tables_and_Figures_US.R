@@ -88,14 +88,17 @@ for (i in 1:length(tau)){
     for (z in 1:dZ){
         QLP_BC[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]} else {BC[z]} 
         #Bias centered student T confidence intervals
-        QLP_Lower[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]+qt(alpha/2, R)*QLP_SE[,,i][z,j]} else {QLP_true[[i]][z,j]+qt(alpha/2, R)*QLP_SE[,,i][z,j]}
-        QLP_Upper[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]+qt(1-alpha/2, R)*QLP_SE[,,i][z,j]} else {QLP_true[[i]][z,j]+qt(1-alpha/2, R)*QLP_SE[,,i][z,j]}
+        # QLP_Lower[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]+qt(alpha/2, R)*QLP_SE[,,i][z,j]} else {QLP_true[[i]][z,j]+qt(alpha/2, R)*QLP_SE[,,i][z,j]}
+        # QLP_Upper[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]+qt(1-alpha/2, R)*QLP_SE[,,i][z,j]} else {QLP_true[[i]][z,j]+qt(1-alpha/2, R)*QLP_SE[,,i][z,j]}
         #Bias Corrected Percentile Method
         # z0 <- qnorm(mean(QLP_results[[i]][,,j][,z]<QLP_true[[i]][z,j]))
         # QLP_Lower[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {quantile(QLP_results[[i]][,,j][,z], alpha/2)} else {quantile(QLP_results[[i]][,,j][,z], pnorm(2*z0+qnorm(alpha/2)))}
         # QLP_Upper[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {quantile(QLP_results[[i]][,,j][,z], 1-alpha/2)} else {quantile(QLP_results[[i]][,,j][,z], pnorm(2*z0-qnorm(alpha/2)))}
       }
-    QLP_RtS[i,j] <- sum(QLP_BC[,,i][,j])
+    #Uncorrected Percentile Method
+    QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, alpha/2))
+    QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 1-alpha/2))
+    QLP_RtS[i,j] <- sum(QLP_Boot[,,i][,j])
     QLP_RtS_SE[i,j] <- sd(apply(QLP_results[[i]][,,j], 1, sum))
 	}
 }
@@ -146,7 +149,7 @@ QR_Lower <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(1, ncol(qr
 QR_Upper <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(2, ncol(qr.CI), by=2)])
 
 #Make an estimates table for Quantile GMM
-estimates <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QLP_BC), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
+estimates <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QLP_Boot), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
 estimates <- cbind(estimates, QLP_RtS, QLP_RtS_SE)
 colnames(estimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RtS', 'RtS_SE')
 #Make a Confidence Interval Table for Quantile GMM
@@ -283,7 +286,7 @@ LT <- data.frame(cbind(time, t(QLPT_True[,2,][,])))
 colnames(LT) <- c("Year", paste("Q", tau_t, sep=""))
 LT <- melt(LT, "Year")
 LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
-Plot_Title <- ggdraw() + draw_label("Trends in Output Elasticities", fontface="plain", size=22) 
+Plot_Title <- ggdraw() + draw_label("Output Elasticities Over Time", fontface="plain", size=22) 
 Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)
 ###############TFP Over Time#######################################################
@@ -295,10 +298,10 @@ QLP_TFP <- data.frame(cbind(USdata$id, USdata$year, apply(All_NAICS_QLP, 1, func
 colnames(QLP_TFP) <- c("id", "Year", paste("Q", tau_t, sep=""), "LP")
 TFP_Data <- group_by(QLP_TFP, Year) %>% summarise_at(c(paste("Q", tau_t, sep=""), "LP"), mean, na.rm=TRUE) %>% mutate_at(vars(-Year), function(x) x/x[1L]*100)
 
-TFP_Plot_Title <- ggdraw() + draw_label("TFP Over Time", fontface="plain", size=22)
+TFP_Plot_Title <- ggdraw() + draw_label("Productivity Over Time", fontface="plain", size=22)
 TFP <- melt(TFP_Data, "Year")
-TFP_Plot <- ggplot(TFP, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + ggtitle("TFP Over Time") + theme(plot.title=element_text(size=22, face="plain"))+ scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/TFP_Plot.png", TFP_Plot, base_height=9, base_width=10)
+TFP_Plot <- ggplot(TFP, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + ggtitle("Productivity Over Time") + theme(plot.title=element_text(size=22, face="plain"))+ scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/TFP_Plot.png", TFP_Plot, base_height=8, base_width=10)
 
 
 
