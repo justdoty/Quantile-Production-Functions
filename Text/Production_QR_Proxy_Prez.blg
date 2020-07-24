@@ -1,36 +1,38 @@
 [0] Config.pm:354> INFO - This is Biber 2.7
 [0] Config.pm:357> INFO - Logfile is 'Production_QR_Proxy_Prez.blg'
-[43] biber-darwin:303> INFO - === Thu Jul 23, 2020, 18:54:52
-[66] Biber.pm:359> INFO - Reading 'Production_QR_Proxy_Prez.bcf'
-[172] Biber.pm:835> INFO - Found 26 citekeys in bib section 0
-[187] Biber.pm:3670> INFO - Processing section 0
-[202] Biber.pm:3840> INFO - Looking for bibtex format file 'references.bib' for section 0
-[206] bibtex.pm:1435> INFO - Decoding LaTeX character macros into UTF-8
-[215] bibtex.pm:1292> INFO - Found BibTeX data source 'references.bib'
-[222] Utils.pm:164> WARN - month field 'nov' in entry 'Olley1996' is not an integer - this will probably not sort properly.
-[224] Utils.pm:164> WARN - month field 'apr' in entry 'Levinsohn2003' is not an integer - this will probably not sort properly.
-[232] Utils.pm:164> WARN - month field 'jun' in entry 'Gandhi2020' is not an integer - this will probably not sort properly.
-[234] Utils.pm:164> WARN - month field 'jan' in entry 'Chernozhukov2005' is not an integer - this will probably not sort properly.
-[235] Utils.pm:164> WARN - month field 'oct' in entry 'Koenker2004' is not an integer - this will probably not sort properly.
-[236] Utils.pm:164> WARN - month field 'aug' in entry 'Lamarche2010' is not an integer - this will probably not sort properly.
-[237] Utils.pm:164> WARN - month field 'oct' in entry 'Canay2011' is not an integer - this will probably not sort properly.
-[239] Utils.pm:164> WARN - month field 'may' in entry 'Bernini2004' is not an integer - this will probably not sort properly.
-[241] Utils.pm:164> WARN - month field 'sep' in entry 'Liu2008' is not an integer - this will probably not sort properly.
-[242] Utils.pm:164> WARN - month field 'feb' in entry 'Just1978' is not an integer - this will probably not sort properly.
-[243] Utils.pm:164> WARN - month field 'jul' in entry 'Antle1983' is not an integer - this will probably not sort properly.
-[245] Utils.pm:164> WARN - month field 'jul' in entry 'Manski1988' is not an integer - this will probably not sort properly.
-[247] Utils.pm:164> WARN - month field 'jun' in entry 'Bhattacharya2009' is not an integer - this will probably not sort properly.
-[249] Utils.pm:164> WARN - month field 'jun' in entry 'ROSTEK2009' is not an integer - this will probably not sort properly.
-[250] Utils.pm:164> WARN - month field 'nov' in entry 'Chambers2007' is not an integer - this will probably not sort properly.
-[253] Utils.pm:164> WARN - month field 'jan' in entry 'Kaplan2016' is not an integer - this will probably not sort properly.
-[256] Utils.pm:164> WARN - month field 'aug' in entry 'Chernozhukov2003' is not an integer - this will probably not sort properly.
-[258] Utils.pm:164> WARN - month field 'jun' in entry 'Holmes2008' is not an integer - this will probably not sort properly.
-[260] Utils.pm:164> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
-[260] Utils.pm:164> WARN - BibTeX subsystem: author, warning: comma(s) at end of name (removing)
-[293] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[294] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[294] Biber.pm:3499> INFO - Sorting list 'nyt/global/' of type 'entry' with scheme 'nyt' and locale 'en-US'
-[294] Biber.pm:3505> INFO - No sort tailoring available for locale 'en-US'
-[320] bbl.pm:608> INFO - Writing 'Production_QR_Proxy_Prez.bbl' with encoding 'ascii'
-[326] bbl.pm:712> INFO - Output to Production_QR_Proxy_Prez.bbl
-[326] Biber.pm:109> INFO - WARNINGS: 20
+[44] biber-darwin:303> INFO - === Fri Jul 24, 2020, 14:17:00
+[69] Biber.pm:359> INFO - Reading 'Production_QR_Proxy_Prez.bcf'
+[180] Biber.pm:835> INFO - Found 27 citekeys in bib section 0
+[195] Biber.pm:3670> INFO - Processing section 0
+[211] Biber.pm:3840> INFO - Looking for bibtex format file 'references.bib' for section 0
+[214] bibtex.pm:1435> INFO - Decoding LaTeX character macros into UTF-8
+[223] bibtex.pm:1292> INFO - Found BibTeX data source 'references.bib'
+[231] Utils.pm:164> WARN - month field 'nov' in entry 'Olley1996' is not an integer - this will probably not sort properly.
+[233] Utils.pm:164> WARN - month field 'apr' in entry 'Levinsohn2003' is not an integer - this will probably not sort properly.
+[242] Utils.pm:164> WARN - month field 'jun' in entry 'Gandhi2020' is not an integer - this will probably not sort properly.
+[244] Utils.pm:164> WARN - month field 'jan' in entry 'Chernozhukov2005' is not an integer - this will probably not sort properly.
+[245] Utils.pm:164> WARN - month field 'oct' in entry 'Koenker2004' is not an integer - this will probably not sort properly.
+[246] Utils.pm:164> WARN - month field 'aug' in entry 'Lamarche2010' is not an integer - this will probably not sort properly.
+[248] Utils.pm:164> WARN - month field 'oct' in entry 'Canay2011' is not an integer - this will probably not sort properly.
+[249] Utils.pm:164> WARN - month field 'may' in entry 'Bernini2004' is not an integer - this will probably not sort properly.
+[252] Utils.pm:164> WARN - month field 'sep' in entry 'Liu2008' is not an integer - this will probably not sort properly.
+[253] Utils.pm:164> WARN - month field 'feb' in entry 'Just1978' is not an integer - this will probably not sort properly.
+[254] Utils.pm:164> WARN - month field 'jul' in entry 'Antle1983' is not an integer - this will probably not sort properly.
+[256] Utils.pm:164> WARN - month field 'jul' in entry 'Manski1988' is not an integer - this will probably not sort properly.
+[257] Utils.pm:164> WARN - month field 'jun' in entry 'Bhattacharya2009' is not an integer - this will probably not sort properly.
+[258] Utils.pm:164> WARN - month field 'jun' in entry 'ROSTEK2009' is not an integer - this will probably not sort properly.
+[259] Utils.pm:164> WARN - month field 'nov' in entry 'Chambers2007' is not an integer - this will probably not sort properly.
+[262] Utils.pm:164> WARN - month field 'jan' in entry 'Kaplan2016' is not an integer - this will probably not sort properly.
+[266] Utils.pm:164> WARN - month field 'aug' in entry 'Chernozhukov2003' is not an integer - this will probably not sort properly.
+[267] Utils.pm:164> WARN - month field 'jun' in entry 'Holmes2008' is not an integer - this will probably not sort properly.
+[271] Utils.pm:164> WARN - month field 'jun' in entry 'Arellano2016' is not an integer - this will probably not sort properly.
+[276] Utils.pm:164> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
+[277] Utils.pm:164> WARN - BibTeX subsystem: author, warning: comma(s) at end of name (removing)
+[319] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[320] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[320] Biber.pm:3499> INFO - Sorting list 'nyt/global/' of type 'entry' with scheme 'nyt' and locale 'en-US'
+[320] Biber.pm:3505> INFO - No sort tailoring available for locale 'en-US'
+[362] bbl.pm:608> INFO - Writing 'Production_QR_Proxy_Prez.bbl' with encoding 'ascii'
+[366] Utils.pm:164> WARN - The entry 'Arellano2016' has characters which cannot be encoded in 'ascii'. Recoding problematic characters into macros.
+[375] bbl.pm:712> INFO - Output to Production_QR_Proxy_Prez.bbl
+[375] Biber.pm:109> INFO - WARNINGS: 22

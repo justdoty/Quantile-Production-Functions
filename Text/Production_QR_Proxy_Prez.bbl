@@ -92,6 +92,43 @@
       \verb 10.1080/07350015.1983.10509339
       \endverb
     \endentry
+    \entry{Arellano2016}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6b9818f5875c27a0cfbcbcd637e4eed9}{%
+           family={Arellano},
+           familyi={A\bibinitperiod},
+           given={Manuel},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f57d812ec704bd5938dc9de6155268d2}{%
+           family={Bonhomme},
+           familyi={B\bibinitperiod},
+           given={St\'{e}phane},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press ({OUP})}%
+      }
+      \strng{namehash}{774d34363d161aee15c080bd79abfde8}
+      \strng{fullhash}{774d34363d161aee15c080bd79abfde8}
+      \strng{authornamehash}{774d34363d161aee15c080bd79abfde8}
+      \strng{authorfullhash}{774d34363d161aee15c080bd79abfde8}
+      \field{sortinit}{A}
+      \field{sortinithash}{3248043b5fe8d0a34dab5ab6b8d4309b}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Econometrics Journal}
+      \field{month}{6}
+      \field{number}{3}
+      \field{title}{Nonlinear panel data estimation via quantile regressions}
+      \field{volume}{19}
+      \field{year}{2016}
+      \field{pages}{C61\bibrangedash C94}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1111/ectj.12062
+      \endverb
+    \endentry
     \entry{balat}{unpublished}{}
       \name{author}{3}{}{%
         {{hash=8f0d81a6f6a49820368b337f150559fa}{%

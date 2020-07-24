@@ -260,6 +260,7 @@ for (p in 1:length(NAICS)){
   save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_", NAICS[p], ".png", sep=""), Coef_Plot, base_height=8, base_width=7)
 }
 ##################################Prepare Plots over Time##############################
+###################Coefficients over Time #######################################
 tau_t <- c(0.1, 0.3, 0.5, 0.7, 0.9)
 T <- 5
 dZ <- 2
@@ -277,20 +278,27 @@ pcolour <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442")
 KT <- data.frame(cbind(time, t(QLPT_True[,1,][,])))
 colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "))
 KT <- melt(KT, "Year")
-KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Time") + ylab("Capital") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
+KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Capital") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
 LT <- data.frame(cbind(time, t(QLPT_True[,2,][,])))
 colnames(LT) <- c("Year", paste("Q", tau_t, sep=""))
 LT <- melt(LT, "Year")
-LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Time") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
+LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
 Plot_Title <- ggdraw() + draw_label("Trends in Output Elasticities", fontface="plain", size=22) 
 Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)
+###############TFP Over Time#######################################################
+estimates_TFP <- estimates[tau%in%tau_t,]
+All_NAICS_QLP <- data.frame(estimates_TFP[(nrow(estimates_TFP)-(length(tau_t)-1)):nrow(estimates_TFP), c(2,4)])
+All_NAICS_LP <- estimates_LP[nrow(estimates_LP), c(1,3)]
+LP_TFP <- exp(USdata$Y-cbind(USdata$K, USdata$L)%*%as.numeric(All_NAICS_LP))
+QLP_TFP <- data.frame(cbind(USdata$id, USdata$year, apply(All_NAICS_QLP, 1, function(x) exp(USdata$Y-cbind(USdata$K, USdata$L)%*%as.numeric(x))), LP_TFP))
+colnames(QLP_TFP) <- c("id", "Year", paste("Q", tau_t, sep=""), "LP")
+TFP_Data <- group_by(QLP_TFP, Year) %>% summarise_at(c(paste("Q", tau_t, sep=""), "LP"), mean, na.rm=TRUE) %>% mutate_at(vars(-Year), function(x) x/x[1L]*100)
 
-
-
-
-
-
+TFP_Plot_Title <- ggdraw() + draw_label("TFP Over Time", fontface="plain", size=22)
+TFP <- melt(TFP_Data, "Year")
+TFP_Plot <- ggplot(TFP, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + ggtitle("TFP Over Time") + theme(plot.title=element_text(size=22, face="plain"))+ scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/TFP_Plot.png", TFP_Plot, base_height=9, base_width=10)
 
 
 
