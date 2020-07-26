@@ -3,10 +3,10 @@
 #additional adjustments
 source('QLP.R')
 require(stringr)
-#Load US dataset
+#Load CHL dataset
 CHLdata <- read.csv("CHLdata.csv")
 #Convert 3 digit NAICS code to 2 digit NAICS and take natural logs
-USdata <- transmute(CHLdata, id=id, year=year, lny=log(Y), lnva=log(VA), lnk=log(K), lnl=log(L), lnm=log(M), isic3=isic3)
+CHLdata <- transmute(CHLdata, id=id, year=year, lny=log(Y), lnva=log(VA), lnk=log(K), lnl=log(L), lnm=log(M), isic3=isic3)
 #Choose which industry to select
 All <- "^3"
 industries <- c("311", "381", "321", All)
