@@ -1,6 +1,7 @@
 library(stringr)
 library(dplyr)
 library(xtable)
+library(reshape2)
 #Load COL dataset
 COLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/COLdata.csv")
 #Industries as listed in QLP_COL.R file
@@ -14,11 +15,11 @@ sumISIC <- filter(COLdata, isic3==311|isic3==322|isic3==381) %>% group_by(isic3)
 sumALL <- cbind("All", summarise_at(COLdata, c("lny", "lnk", "lnl", "lnm"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE))
 colnames(sumALL)[1] <- "isic3"
 sizeISIC <- filter(COLdata, isic3==311|isic3==322|isic3==381) %>% group_by(isic3) %>% summarise(Firms=length(unique(id)), Total=n())
-sizeALL <- c("All", sum(sizeISIC$Firms), sum(sizeISIC$Total))
+sizeALL <- c("All", length(unique(COLdata$id)), nrow(COLdata))
 size <- rbind(sizeISIC, sizeALL)
 sumstat <- round(matrix(as.numeric(as.matrix(rbind(sumISIC, sumALL))[,-1]), nrow=16, ncol=5), 2)
 #Some pretty formatting
-ISIC_labels <- array(NA, 4*length(ISIC)); ISIC_labels[seq(1, 4*length(ISIC), by=4)] <- paste(ISIC, paste("(N=", size$Total, ")", sep=""))
+ISIC_labels <- array(NA, 4*length(ISIC)); ISIC_labels[seq(1, 4*length(ISIC), by=4)] <- paste(ISIC, paste("(Total=", size$Total, ")", sep=""))
 ISIC_labels[is.na(ISIC_labels)] <- ""
 summary_table <- cbind(ISIC_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
 colnames(summary_table) <- c("Industry (ISIC code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")
@@ -235,7 +236,46 @@ for (p in 1:length(ISIC)){
   Coef_Plot <- plot_grid(ISIC_plots, Lrow, Krow, ncol=1, align="h", rel_heights = c(0.3, 1, 1))
   save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_", ISIC_relabel[p], ".png", sep=""), Coef_Plot, base_height=8, base_width=7)
 }
-
+##################################Prepare Plots over Time##############################
+###################Coefficients over Time #######################################
+tau_t <- c(0.1, 0.3, 0.5, 0.7, 0.9)
+T <- 2
+dZ <- 2
+time <- seq(1978, 1991, 2)
+QLPT_Coef <- array(0, dim=c(length(tau_t), dZ, length(time)))
+QLPT_True <- array(0, dim=c(length(tau_t), dZ, length(time)))
+for (t in 1:length(time)){
+  for (q in 1:length(tau_t)){
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/QLPT_COL_Q%s.RData", q))
+    QLPT_Coef[,,t][q,] <- colMeans(results_T[,,t])
+    QLPT_True[,,t][q,] <- true.beta_T[,t]
+  }
+}
+pcolour <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442")
+KT <- data.frame(cbind(time, t(QLPT_True[,1,][,])))
+colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "))
+KT <- melt(KT, "Year")
+KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Capital") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour) + scale_x_continuous(breaks = time)
+LT <- data.frame(cbind(time, t(QLPT_True[,2,][,])))
+colnames(LT) <- c("Year", paste("Q", tau_t, sep=""))
+LT <- melt(LT, "Year")
+LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour) + scale_x_continuous(breaks = time)
+Plot_Title <- ggdraw() + draw_label("Output Elasticities Over Time", fontface="plain", size=22) 
+Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)
+###############TFP Over Time#######################################################
+estimates_TFP <- estimates[tau%in%tau_t,]
+All_ISIC_QLP <- data.frame(estimates_TFP[(nrow(estimates_TFP)-(length(tau_t)-1)):nrow(estimates_TFP), c(2,4)])
+All_ISIC_LP <- estimates_LP[nrow(estimates_LP), c(1,3)]
+LP_TFP <- exp(COLdata$lnva-cbind(COLdata$lnk, COLdata$lnl)%*%as.numeric(All_ISIC_LP))
+QLP_TFP <- data.frame(cbind(COLdata$id, COLdata$year, apply(All_ISIC_QLP, 1, function(x) exp(COLdata$lnva-cbind(COLdata$lnk, COLdata$lnl)%*%as.numeric(x))), LP_TFP))
+colnames(QLP_TFP) <- c("id", "Year", paste("Q", tau_t, sep=""), "LP")
+TFP_Data <- group_by(QLP_TFP, Year) %>% summarise_at(c(paste("Q", tau_t, sep=""), "LP"), mean, na.rm=TRUE) %>% mutate_at(vars(-Year), function(x) x/x[1L]*100)
+TFP_Data$Year <- seq(1978,1991,1)
+TFP_Plot_Title <- ggdraw() + draw_label("Productivity Over Time", fontface="plain", size=22)
+TFP <- melt(TFP_Data, "Year")
+TFP_Plot <- ggplot(TFP, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + ggtitle("Productivity Over Time") + theme(plot.title=element_text(size=22, face="plain"))+ scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP_Plot.png", TFP_Plot, base_height=8, base_width=10)
 
 
 

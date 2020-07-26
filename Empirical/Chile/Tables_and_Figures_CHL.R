@@ -1,6 +1,7 @@
 library(stringr)
 library(dplyr)
 library(xtable)
+library(reshape2)
 #Load CHL dataset
 CHLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/CHLdata.csv") %>%
   transmute(id=id, year=year, isic3=isic3, Y=log(Y), K=log(K), L=log(L), M=log(M))
@@ -14,11 +15,11 @@ sumISIC <- filter(CHLdata, isic3==311|isic3==381|isic3==321) %>% group_by(isic3)
 sumALL <- cbind("All", summarise_at(CHLdata, c("Y", "K", "L", "M"), list(Q1=~quantile(., 0.25), med=median, Q3=~quantile(.,0.75), mean=mean, sd=sd), na.rm=TRUE))
 colnames(sumALL)[1] <- "isic3"
 sizeISIC <- filter(CHLdata, isic3==311|isic3==381|isic3==321) %>% group_by(isic3) %>% summarise(Firms=length(unique(id)), Total=n())
-sizeALL <- c("All", sum(sizeISIC$Firms), sum(sizeISIC$Total))
+sizeALL <- c("All", length(unique(CHLdata$id)), nrow(CHLdata))
 size <- rbind(sizeISIC, sizeALL)
 sumstat <- round(matrix(as.numeric(as.matrix(rbind(sumISIC, sumALL))[,-1]), nrow=16, ncol=5), 2)
 #Some pretty formatting
-ISIC_labels <- array(NA, 4*length(ISIC)); ISIC_labels[seq(1, 4*length(ISIC), by=4)] <- paste(ISIC, paste("(N=", size$Total, ")", sep=""))
+ISIC_labels <- array(NA, 4*length(ISIC)); ISIC_labels[seq(1, 4*length(ISIC), by=4)] <- paste(ISIC, paste("(Total=", size$Total, ")", sep=""))
 ISIC_labels[is.na(ISIC_labels)] <- ""
 summary_table <- cbind(ISIC_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
 colnames(summary_table) <- c("Industry (ISIC code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")

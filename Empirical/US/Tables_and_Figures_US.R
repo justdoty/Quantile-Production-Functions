@@ -18,7 +18,7 @@ sizeALL <- c("All", sum(sizeNAICS$Firms), sum(sizeNAICS$Total))
 size <- rbind(sizeNAICS, sizeALL)
 sumstat <- round(matrix(as.numeric(as.matrix(rbind(sumNAICS, sumALL))[,-1]), nrow=16, ncol=5), 2)
 #Some pretty formatting
-NAICS_labels <- array(NA, 4*length(NAICS)); NAICS_labels[seq(1, 4*length(NAICS), by=4)] <- paste(NAICS, paste("(N=", size$Total, ")", sep=""))
+NAICS_labels <- array(NA, 4*length(NAICS)); NAICS_labels[seq(1, 4*length(NAICS), by=4)] <- paste(NAICS, paste("(Total=", size$Total, ")", sep=""))
 NAICS_labels[is.na(NAICS_labels)] <- ""
 summary_table <- cbind(NAICS_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
 colnames(summary_table) <- c("Industry (NAICS code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")

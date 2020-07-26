@@ -103,7 +103,7 @@ A Proxy Variable Approach to Quantile Production Functions}
 \begin{itemize}
 	\item \textcite{Olley1996}: Simultaneity and selection, investment policy proxy, application to telecommunications industry
 	\item \textcite{Levinsohn2003}: Intermediate input proxy, application to Chilean manufacturing firms
-	\item \textcite{Ackerberg2015}: Structural value-Added production with intermediate input Proxy, identification under different DGPs
+	\item \textcite{Ackerberg2015}: Structural value-added production with intermediate input proxy, identification of labor elasticity
 \end{itemize}
 \item These approaches have focused on estimates of output elasticities on location of conditional firm-size distribution
 \item There could be considerable heterogeneity not captured by average estimates
@@ -118,17 +118,17 @@ A Proxy Variable Approach to Quantile Production Functions}
 	\item Brief review of LP approach	
 	\item LP consider the following gross output production function
 	\begin{equation}
-	y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\beta_{\iota}\iota_{it}+\omega_{it}+\eta_{it}
+	y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\beta_{m}m_{it}+\omega_{it}+\eta_{it}
 	\end{equation}
 	Where $\omega_{it}$ is productivity observed by the firm, but unobserved by the researcher (e.g, management quality, expected defect rates, etc.) and $\eta_{it}$ represents iid shocks to production after making input choices at time $t$
 	With the following assumptions
 	\medskip
 	\begin{enumerate}
 		\item Information Set: $\mathcal{I}_{it}$ includes current and past productivity shocks, but not future productivity. $\mathbb{E}[\eta_{it}|\mathcal{I}_{it}]=0$
-		\item First Order Markov: Productivity shocks evolve according to the distribution $p(\omega_{it}|\omega_{it-1})$
+		\item First Order Markov: Productivity shocks evolve according to the distribution $P(\omega_{it}|\omega_{it-1})$
 		\item Capital Accumulation: $k_{it}=\kappa(k_{it-1}, l_{it-1})$
-		\item Scalar Unobservability: $\iota_{it}=\iota_{t}(k_{it}, \omega_{it})$
-		\item Strict Monotonicity: $\iota_{it}=\iota_{t}(k_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
+		\item Scalar Unobservability: $m_{it}=m_{t}(k_{it}, \omega_{it})$
+		\item Strict Monotonicity: $m_{it}=m_{t}(k_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
 	\end{enumerate}
 \end{itemize}
 \end{frame}
@@ -138,14 +138,14 @@ A Proxy Variable Approach to Quantile Production Functions}
 \begin{frame}
 \frametitle{Levinsohn and Petrin (2003)}
 \begin{itemize}
-	\item Given these assumptions intermediate input demand can be inverted $\omega_{it}=\omega_{t}(k_{it}, \iota_{it})$ and substituted into the production function
+	\item Given these assumptions intermediate input demand can be inverted $\omega_{it}=\omega_{t}(k_{it}, m_{it})$ and substituted into the production function
 	\begin{equation}
-		y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{t}(k_{it}, \iota_{t})+\eta_{it}=\beta_{l}l_{it}+\Phi(k_{it}, \iota_{it})+\eta_{it}
+		y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{t}(k_{it}, m_{it})+\eta_{it}=\beta_{l}l_{it}+\Phi(k_{it}, m_{it})+\eta_{it}
 	\end{equation}
-	where $\Phi(k_{it}, \iota_{it})=\beta_{0}+\beta_{k}k_{it}+\beta_{\iota}\iota_{it}+\omega_{t}(k_{it}, \iota_{it})$
-	\item $\Phi(k_{it}, \iota_{it})$ can be estimated nonparametrically
+	where $\Phi(k_{it}, m_{it})=\beta_{0}+\beta_{k}k_{it}+\beta_{m}m_{it}+\omega_{t}(k_{it}, m_{it})$
+	\item $\Phi(k_{it}, m_{it})$ can be estimated nonparametrically
 	\item Labor coefficient and other variable coefficients are identified in the first stage
-	\item First stage estimates are $\hat{\beta}_{l}$ and $\hat{\Phi}(k_{it}, \iota_{it})$ 
+	\item First stage estimates are $\hat{\beta}_{l}$ and $\hat{\Phi}(k_{it}, m_{it})$ 
 	\item Let $y^{*}=y-\hat{\beta}_{l}l_{it}$ denote the output net of labor contribution
 \end{itemize}
 \end{frame}
@@ -155,14 +155,14 @@ A Proxy Variable Approach to Quantile Production Functions}
 \begin{frame}
 \frametitle{Levinsohn and Petrin (2003)}
 \begin{itemize}
-	\item Two moment conditions identify $\beta_{k}$ and $\beta_{\iota}$
+	\item Two moment conditions identify $\beta_{k}$ and $\beta_{m}$
 	\item Capital does not respond to the innovation in productivity 
 	\item Last period's input choice should not be correlated with the innovation in productivity this period
 	\begin{equation}
-	\mathbb{E}[(\eta_{it}+\xi_{it})Z_{it-1}]=\mathbb{E}[(y_{it}^{*}-\beta_{k}k_{it}-\beta_{\iota}\iota_{it}-\hat{\mathbb{E}}[\omega_{it}|\omega_{it-1}])Z_{it-1}]
+	\mathbb{E}[(\eta_{it}+\xi_{it})Z_{it-1}]=\mathbb{E}[(y_{it}^{*}-\beta_{k}k_{it}-\beta_{m}m_{it}-\hat{\mathbb{E}}[\omega_{it}|\omega_{it-1}])Z_{it-1}]
 	\end{equation}
-	\item $\hat{\mathbb{E}}[\omega_{it}|\omega_{it-1}]$ can be estimated using the estimates of $\omega_{it}$ from first stage estimates evaluated at $(\beta_{k}, \beta_{\iota})$
-	\item $Z_{it-1}$ includes $k_{it}$ and $\iota_{it-1}$ as well as additional instruments
+	\item $\hat{\mathbb{E}}[\omega_{it}|\omega_{it-1}]$ can be estimated using the estimates of $\omega_{it}$ from first stage estimates evaluated at $(\beta_{k}, \beta_{m})$
+	\item $Z_{it-1}$ includes $k_{it}$ and $m_{it-1}$ as well as additional instruments
 	\item LP minimize GMM criterion function and bootstrap standard errors 
 \end{itemize}
 \end{frame}
@@ -186,12 +186,12 @@ A Proxy Variable Approach to Quantile Production Functions}
 \frametitle{Production Functions and Quantile Regression}
 \begin{itemize}
 	\item Allowing firm technology to vary over the conditional output distribution is also valid for estimating a production function with unobserved heterogeneity
+	\item Alternative to splitting the sample on firm-size which may be inefficient and have arbitrary threshold selections
 	\item Applications of quantile regression are however limited due to simultaneity bias
 	\item Typical IV approaches such as \textcite{Chernozhukov2005} are also limited due to the normal arguments of using input prices as IVs
 	\item Possible to exploit the panel data structure and use fixed effects or correlated random effects such as \textcite{Koenker2004}, \textcite{Lamarche2010}, or \textcite{Canay2011}
 	\item The fixed effect shifts the location of the conditional distribution (not the quantiles)
-	\item Incidental Parameters 
-	\item Independence of unobserved heterogeneity and productivity 
+	\item Incidental Parameters problem with quantile panel data
 \end{itemize}
 \end{frame}
 
@@ -201,8 +201,8 @@ A Proxy Variable Approach to Quantile Production Functions}
 \frametitle{Production Functions and Quantile Regression}
 \begin{itemize}
 	\item Quantile regression and production function estimation is not entirely new and has been used in the frontier literature
-	\item Production frontier models assume firms are not always efficient, but there is a frontier of maximal production in which they deviate from
-	\item More specifically, stochastic frontier (SFA) models assume this frontier is stochastic (inefficiency + iid noise). These models are often characterized by strong distributional assumptions on these variables
+	\item Production frontier models assume firms are not always efficient, there is a frontier of maximal production in which they deviate from
+	\item Stochastic frontier (SFA) models assume this frontier is stochastic (inefficiency + iid noise). These models are often characterized by strong distributional assumptions on these variables
 	\item Firms can vary in production technology for different levels of inefficiency making this model a strong candidate for quantile regression analysis \parencite{Bernini2004}, \parencite{Liu2008}
 	\item Some difficulties of this approach is determining which quantiles correspond to the efficient frontier
 	\item We believe we are the first to explore quantile regression in the standard production function literature, while also considering simultaneity bias
@@ -216,10 +216,9 @@ A Proxy Variable Approach to Quantile Production Functions}
 \frametitle{A Nonseparable Production Function}
 We seek to extend the control function approach to a random coefficient value-production function defined as
 \begin{equation} \label{qpf}
-	y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}
+	y_{it}=\beta_{0}(\eta_{it})+\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}
 \end{equation}
 \begin{itemize}
-	\item The constant $\beta_{0}(\eta_{it})$ is subsumed into $\omega_{it}$
 	\item The interpretations of the variables in the above equation are the same as the LP model introduced earlier
 	\item In this specification, the unobservable ranking variable, $\eta_{it}$ is responsible for heterogeneity in output conditional on firms using the same input combinations and latent productivity $\omega_{it}$
 	\item If we had valid instruments, say $Z_{it}$ and the conditions of \textcite{Chernozhukov2005} are met, we could use quantile IV approaches using the identification condition
@@ -235,13 +234,17 @@ We seek to extend the control function approach to a random coefficient value-pr
 \frametitle{Quantile Production Functions}
 \begin{itemize}
 	\item A special case of \eqref{qpf} is the location-scale model
+	\small
 	\begin{equation} \label{ls}
-	y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it}+\mu_{\omega}\omega_{it})\eta_{it}
+	y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{0}+\mu_{k}k_{it}+\mu_{l}l_{it}+\mu_{\omega}\omega_{it})\eta_{it}
 	\end{equation}
+	\normalsize
 	\item So the conditional quantiles of $y_{it}$ are given by
+	\small
 	\begin{equation}
-	Q(y_{it}|k_{it}, l_{it}, \omega_{it})=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it}+\mu_{\omega}\omega_{it})F^{-1}(\tau)
+	Q(y_{it}|k_{it}, l_{it}, \omega_{it})=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{0}+\mu_{k}k_{it}+\mu_{l}l_{it}+\mu_{\omega}\omega_{it})F^{-1}(\tau)
 	\end{equation}
+	\normalsize
 	\item Equation \eqref{ls} is not new to the production function literature and is often used as a model for production risk \parencite{Just1978}
 	\item They provide a set of postulates for which the above specification is empirically valid
 	\item The quantile specification could be seen as an extension of the higher-order moment estimation of risk initiated by \textcite{Antle1983}
@@ -253,10 +256,10 @@ We seek to extend the control function approach to a random coefficient value-pr
 \begin{frame}
 \frametitle{Production Risk and Quantiles}
 \begin{itemize}
-	\item We do not seek to develop new theories of firm behavior under risk
+	\item However, we do not seek to develop new theories of firm behavior under risk
 	\item If one wanted to use production risk as an explanation of firm heterogeneity then it would be possible to use quantile utility maximization as the framework \parencite{Manski1988}, \parencite{Bhattacharya2009}, \parencite{ROSTEK2009}, \parencite{Chambers2007}, \parencite{Castro2017}
 	\item It would then be possible to use the first order condition approach to estimate production function parameters using quantile regression techniques
-	\item This approach would be more difficult to synthesize in the proxy variable approach
+	\item This approach is more difficult to synthesize in the proxy variable approach
 	\item Which is why we consider production variation in $\eta_{it}$ to be an econometric misspecification issue rather than one that has any economic meaning
 	\item Since most econometric tests would not be able to differentiate production risk from misspecification, we believe our interpretation to be equally as valid
 \end{itemize}
@@ -279,8 +282,8 @@ We seek to extend the control function approach to a random coefficient value-pr
 	\end{equation}
 	where $\xi_{it}$ are iid productivity innovations that is independent of $\mathcal{I}_{it-1}$
 	\item Capital Accumulation: $k_{it}=\kappa(k_{it-1}, i_{it-1})$
-	\item Scalar Unobservability: $\iota_{it}=\iota_{t}(k_{it}, \omega_{it})$
-	\item Strict Monotonicity: $\iota_{it}=\iota_{t}(k_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
+	\item Scalar Unobservability: $m_{it}=m_{t}(k_{it}, \omega_{it})$
+	\item Strict Monotonicity: $m_{it}=m_{t}(k_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
 \end{enumerate}
 \end{frame}
 
@@ -289,18 +292,18 @@ We seek to extend the control function approach to a random coefficient value-pr
 \begin{frame}
 \frametitle{Quantile Production Function: Estimation}
 \begin{itemize}
-	\item Given these assumptions we invert intermediate input demand $\omega_{it}=\omega_{t}(k_{it}, \iota_{it})$ and substitute into the production function
+	\item Given these assumptions we invert intermediate input demand $\omega_{it}=\omega_{t}(k_{it}, m_{it})$ and substitute into the production function \footnote{We subsume the constant $\beta_{0}(\eta_{it})$ into $\omega_{it}$}
 	\begin{equation}
-	y_{it}=\beta_{l}(\eta_{it})l_{it}+\beta_{k}(\eta_{it})k_{it}+\omega_{t}(k_{it}, \iota_{it})=\beta_{l}(\eta_{it})l_{it}+\Phi(k_{it}, \iota_{it}, \eta_{it})
+	y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{t}(k_{it}, m_{it})=\beta_{l}(\eta_{it})l_{it}+\Phi(k_{it}, m_{it}, \eta_{it})
 	\end{equation}
 	\item Using Assumption 1 we have:
 	\begin{equation}
-	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, \iota_{it}; \tau)\big|\mathcal{I}_{it})=\tau
+	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau
 	\end{equation}
-	\item If one uses a polynomial approximation to $\Phi_{\tau}(k_{t}, \iota_{t}; \tau)$, $\hat{\beta}_{l}(\tau)$ and $\hat{\Phi}(k_{t}, \iota_{t}; \tau)$ can be estimated using a polynomial quantile regression
+	\item If one uses a polynomial approximation to $\Phi_{\tau}(k_{t}, m_{t}; \tau)$, $\hat{\beta}_{l}(\tau)$ and $\hat{\Phi}(k_{t}, m_{t}; \tau)$ can be estimated using a polynomial quantile regression
 	\item Substituting into the production
 	\begin{equation}
-	y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, \iota_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1}, \xi_{it})
+	y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1}, \xi_{it})
 	\end{equation}
 \end{itemize}
 \end{frame}
@@ -311,21 +314,21 @@ We seek to extend the control function approach to a random coefficient value-pr
 \frametitle{Quantile Production Function: Estimation}
 We can write a second stage restriction as
 \begin{equation}
-P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, \iota_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)|\mathcal{I}_{it-1}\big)=\tau
+P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)|\mathcal{I}_{it-1}\big)=\tau
 \end{equation}
 This can be represented by conditional moment restrictions
 	\begin{equation}
 	\begin{split}
-	\mathbb{E}[\mathbbm{1}\{y_{it}&-\beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}\\
-	&+g(\hat{\Phi}(k_{it-1}, \iota_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)\leq 0\}-\tau|\mathcal{I}_{it-1}]=0
+	\mathbb{E}[\mathbbm{1}\{y_{it}&-\beta_{k}(\tau)k_{it}-\hat{\beta}_{l}(\tau)l_{it}\\
+	&+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)\leq 0\}-\tau|\mathcal{I}_{it-1}]=0
 	\end{split}
 	\end{equation}
 	where $\mathbbm{1}\{\cdot\}$ is the indicator function
 To estimate the production function parameters we use the unconditional moments
 	\begin{equation}
 	\begin{split}
-	\mathbb{E}[Z_{it-1}(\mathbbm{1}\{y_{it}&-\beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}\\
-	&+g(\hat{\Phi}(k_{it-1}, \iota_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)\leq 0\}-\tau)]=0
+	\mathbb{E}[Z_{it-1}(\mathbbm{1}\{y_{it}&-\beta_{k}(\tau)k_{it}-\hat{\beta}_{l}(\tau)l_{it}\\
+	&+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)\leq 0\}-\tau)]=0
 	\end{split}
 	\end{equation}
 	where $Z_{it-1}$ includes the instruments used in the firm's information set at time $t-1$
