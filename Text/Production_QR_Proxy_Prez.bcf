@@ -2309,10 +2309,15 @@
     <bcf:citekey order="23">Kaplan2016</bcf:citekey>
     <bcf:citekey order="24">qgmm</bcf:citekey>
     <bcf:citekey order="25">Chernozhukov2003</bcf:citekey>
-    <bcf:citekey order="26">mert</bcf:citekey>
-    <bcf:citekey order="27">Holmes2008</bcf:citekey>
-    <bcf:citekey order="28">Rajan1999</bcf:citekey>
-    <bcf:citekey order="29">Arellano2016</bcf:citekey>
+    <bcf:citekey order="26">Horowitz1998</bcf:citekey>
+    <bcf:citekey order="27">Whang2006</bcf:citekey>
+    <bcf:citekey order="28">Kaplan2016</bcf:citekey>
+    <bcf:citekey order="29">Andrews1991</bcf:citekey>
+    <bcf:citekey order="30">Ai2007</bcf:citekey>
+    <bcf:citekey order="31">mert</bcf:citekey>
+    <bcf:citekey order="32">Holmes2008</bcf:citekey>
+    <bcf:citekey order="33">Rajan1999</bcf:citekey>
+    <bcf:citekey order="34">Arellano2016</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nyt/global/" type="entry" sortscheme="nyt" sortnamekeyscheme="global" labelprefix="">
   <bcf:sorting>

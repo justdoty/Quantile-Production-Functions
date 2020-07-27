@@ -228,8 +228,12 @@
 \headcommand {\slideentry {2}{0}{0}{50/54}{Subsection Example}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {50}{54}}
-\headcommand {\beamer@partpages {1}{54}}
-\headcommand {\beamer@subsectionpages {2}{54}}
-\headcommand {\beamer@sectionpages {2}{54}}
-\headcommand {\beamer@documentpages {54}}
-\headcommand {\def \inserttotalframenumber {54}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {2}{0}{0}{50/55}{Subsection Example}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {50}{55}}
+\headcommand {\beamer@partpages {1}{55}}
+\headcommand {\beamer@subsectionpages {2}{55}}
+\headcommand {\beamer@sectionpages {2}{55}}
+\headcommand {\beamer@documentpages {55}}
+\headcommand {\def \inserttotalframenumber {55}}

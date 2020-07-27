@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  26 JUL 2020 16:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  26 JUL 2020 19:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1162,7 +1162,7 @@ File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 
 ]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Mon
-te_Carlo/ACF_Coefficient_Plot.png, id=609, 2710.125pt x 2409.0pt>
+te_Carlo/ACF_Coefficient_Plot.png, id=618, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Monte_Carlo/ACF_Coefficient_Plot.png Graphic file (type png)
 
@@ -1177,7 +1177,7 @@ uction_QR_Proxy/Code/Monte_Carlo/ACF_Coefficient_Plot.png used on input line 43
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Mo
 nte_Carlo/ACF_Coefficient_Plot.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Mon
-te_Carlo/ACF_MSE_Plot.png, id=638, 2710.125pt x 2409.0pt>
+te_Carlo/ACF_MSE_Plot.png, id=647, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Monte_Carlo/ACF_MSE_Plot.png Graphic file (type png)
 
@@ -1191,7 +1191,7 @@ uction_QR_Proxy/Code/Monte_Carlo/ACF_MSE_Plot.png used on input line 449.
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Mo
 nte_Carlo/ACF_MSE_Plot.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Mon
-te_Carlo/LP_Coefficient_Plot.png, id=666, 2710.125pt x 2409.0pt>
+te_Carlo/LP_Coefficient_Plot.png, id=675, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Monte_Carlo/LP_Coefficient_Plot.png Graphic file (type png)
 
@@ -1206,7 +1206,7 @@ uction_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png used on input line 459
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Mo
 nte_Carlo/LP_Coefficient_Plot.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Mon
-te_Carlo/LP_MSE_Plot.png, id=694, 2710.125pt x 2409.0pt>
+te_Carlo/LP_MSE_Plot.png, id=703, 2710.125pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Monte_Carlo/LP_MSE_Plot.png Graphic file (type png)
 
@@ -1230,7 +1230,7 @@ irical/US/Estimates/US_Estimates.tex) [26
 
 ]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/US/Plots/Coef_Plot_NAICS_31.png, id=802, 2107.875pt x 2409.0pt>
+irical/US/Plots/Coef_Plot_NAICS_31.png, id=811, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/US/Plots/Coef_Plot_NAICS_31.png Graphic file (type png)
 
@@ -1249,7 +1249,7 @@ Overfull \vbox (3.6351pt too high) detected at line 511
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/US/Plots/Coef_Plot_NAICS_31.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/US/Plots/Coef_Plot_NAICS_32.png, id=831, 2107.875pt x 2409.0pt>
+irical/US/Plots/Coef_Plot_NAICS_32.png, id=840, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/US/Plots/Coef_Plot_NAICS_32.png Graphic file (type png)
 
@@ -1268,7 +1268,7 @@ Overfull \vbox (3.6351pt too high) detected at line 521
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/US/Plots/Coef_Plot_NAICS_32.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/US/Plots/Coef_Plot_NAICS_33.png, id=859, 2107.875pt x 2409.0pt>
+irical/US/Plots/Coef_Plot_NAICS_33.png, id=868, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/US/Plots/Coef_Plot_NAICS_33.png Graphic file (type png)
 
@@ -1287,7 +1287,7 @@ Overfull \vbox (3.6351pt too high) detected at line 531
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/US/Plots/Coef_Plot_NAICS_33.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/US/Plots/Coef_Plot_NAICS_All.png, id=887, 2107.875pt x 2409.0pt>
+irical/US/Plots/Coef_Plot_NAICS_All.png, id=896, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/US/Plots/Coef_Plot_NAICS_All.png Graphic file (type png)
 
@@ -1306,7 +1306,7 @@ Overfull \vbox (3.6351pt too high) detected at line 541
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/US/Plots/Coef_Plot_NAICS_All.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/US/Plots/Time_Plot.png, id=915, 3011.25pt x 1806.75pt>
+irical/US/Plots/Time_Plot.png, id=924, 3011.25pt x 1806.75pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/US/Plots/Time_Plot.png Graphic file (type png)
 
@@ -1320,7 +1320,7 @@ uction_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png used on input line 551.
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/US/Plots/Time_Plot.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/US/Plots/TFP_Plot.png, id=945, 3011.25pt x 2409.0pt>
+irical/US/Plots/TFP_Plot.png, id=954, 3011.25pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/US/Plots/TFP_Plot.png Graphic file (type png)
 
@@ -1346,7 +1346,7 @@ irical/Chile/Estimates/CHL_Estimates.tex) [34
 
 ]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Plots/Coef_Plot_ISIC_311.png, id=1025, 2107.875pt x 2409.0pt>
+irical/Chile/Plots/Coef_Plot_ISIC_311.png, id=1034, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png Graphic file (type png)
 
@@ -1365,7 +1365,7 @@ Overfull \vbox (3.6351pt too high) detected at line 586
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Chile/Plots/Coef_Plot_ISIC_311.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Plots/Coef_Plot_ISIC_381.png, id=1054, 2107.875pt x 2409.0pt>
+irical/Chile/Plots/Coef_Plot_ISIC_381.png, id=1063, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png Graphic file (type png)
 
@@ -1384,7 +1384,7 @@ Overfull \vbox (3.6351pt too high) detected at line 596
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Chile/Plots/Coef_Plot_ISIC_381.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Plots/Coef_Plot_ISIC_321.png, id=1082, 2107.875pt x 2409.0pt>
+irical/Chile/Plots/Coef_Plot_ISIC_321.png, id=1091, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png Graphic file (type png)
 
@@ -1403,7 +1403,7 @@ Overfull \vbox (3.6351pt too high) detected at line 606
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Chile/Plots/Coef_Plot_ISIC_321.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Plots/Coef_Plot_ISIC_All.png, id=1111, 2107.875pt x 2409.0pt>
+irical/Chile/Plots/Coef_Plot_ISIC_All.png, id=1120, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png Graphic file (type png)
 
@@ -1422,7 +1422,7 @@ Overfull \vbox (3.6351pt too high) detected at line 616
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Chile/Plots/Coef_Plot_ISIC_All.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Plots/Time_Plot.png, id=1139, 3011.25pt x 1806.75pt>
+irical/Chile/Plots/Time_Plot.png, id=1148, 3011.25pt x 1806.75pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Chile/Plots/Time_Plot.png Graphic file (type png)
 
@@ -1437,7 +1437,7 @@ uction_QR_Proxy/Code/Empirical/Chile/Plots/Time_Plot.png used on input line 626
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Chile/Plots/Time_Plot.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Plots/TFP_Plot.png, id=1168, 3011.25pt x 2409.0pt>
+irical/Chile/Plots/TFP_Plot.png, id=1177, 3011.25pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Chile/Plots/TFP_Plot.png Graphic file (type png)
 
@@ -1468,7 +1468,7 @@ Overfull \vbox (0.5675pt too high) detected at line 651
 
 ]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Colombia/Plots/Coef_Plot_ISIC_311.png, id=1248, 2107.875pt x 2409.0pt>
+irical/Colombia/Plots/Coef_Plot_ISIC_311.png, id=1257, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png Graphic file (type png)
 
@@ -1487,7 +1487,7 @@ Overfull \vbox (3.6351pt too high) detected at line 661
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Colombia/Plots/Coef_Plot_ISIC_311.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Colombia/Plots/Coef_Plot_ISIC_322.png, id=1278, 2107.875pt x 2409.0pt>
+irical/Colombia/Plots/Coef_Plot_ISIC_322.png, id=1287, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png Graphic file (type png)
 
@@ -1506,7 +1506,7 @@ Overfull \vbox (3.6351pt too high) detected at line 671
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Colombia/Plots/Coef_Plot_ISIC_322.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Colombia/Plots/Coef_Plot_ISIC_381.png, id=1306, 2107.875pt x 2409.0pt>
+irical/Colombia/Plots/Coef_Plot_ISIC_381.png, id=1315, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png Graphic file (type png)
 
@@ -1525,7 +1525,7 @@ Overfull \vbox (3.6351pt too high) detected at line 681
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Colombia/Plots/Coef_Plot_ISIC_381.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Colombia/Plots/Coef_Plot_ISIC_All.png, id=1334, 2107.875pt x 2409.0pt>
+irical/Colombia/Plots/Coef_Plot_ISIC_All.png, id=1343, 2107.875pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png Graphic file (type png)
 
@@ -1544,7 +1544,7 @@ Overfull \vbox (3.6351pt too high) detected at line 691
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Colombia/Plots/Coef_Plot_ISIC_All.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Colombia/Plots/Time_Plot.png, id=1362, 3011.25pt x 1806.75pt>
+irical/Colombia/Plots/Time_Plot.png, id=1371, 3011.25pt x 1806.75pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Colombia/Plots/Time_Plot.png Graphic file (type png)
 
@@ -1559,7 +1559,7 @@ uction_QR_Proxy/Code/Empirical/Colombia/Plots/Time_Plot.png used on input line
  </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Em
 pirical/Colombia/Plots/Time_Plot.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Colombia/Plots/TFP_Plot.png, id=1391, 3011.25pt x 2409.0pt>
+irical/Colombia/Plots/TFP_Plot.png, id=1400, 3011.25pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
 e/Empirical/Colombia/Plots/TFP_Plot.png Graphic file (type png)
 
@@ -1598,6 +1598,9 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10> not available
 ] [54
 
 
+] [55
+
+
 ]
 \tf@nav=\write8
 \openout8 = `Production_QR_Proxy_Prez.nav'.
@@ -1627,10 +1630,10 @@ Package logreq Info: Writing requests to 'Production_QR_Proxy_Prez.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 25041 strings out of 492995
- 488719 string characters out of 6132704
- 923564 words of memory out of 5000000
- 27911 multiletter control sequences out of 15000+600000
+ 25066 strings out of 492995
+ 489201 string characters out of 6132704
+ 925756 words of memory out of 5000000
+ 27930 multiletter control sequences out of 15000+600000
  19959 words of font info for 78 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,17n,58p,1313b,1760s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1654,10 +1657,10 @@ r/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/
 local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/l
 ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 Output written on /Users/justindoty/Documents/Research/Dissertation/Production_
-QR_Proxy/Code/Text/Production_QR_Proxy_Prez.pdf (54 pages, 4740267 bytes).
+QR_Proxy/Code/Text/Production_QR_Proxy_Prez.pdf (55 pages, 4743000 bytes).
 PDF statistics:
- 1711 PDF objects out of 1728 (max. 8388607)
- 1561 compressed objects within 16 object streams
- 141 named destinations out of 1000 (max. 500000)
+ 1754 PDF objects out of 2073 (max. 8388607)
+ 1602 compressed objects within 17 object streams
+ 147 named destinations out of 1000 (max. 500000)
  199 words of extra memory for PDF output out of 10000 (max. 10000000)
 

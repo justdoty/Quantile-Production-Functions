@@ -60,6 +60,75 @@
       \verb 10.3982/ecta13408
       \endverb
     \endentry
+    \entry{Ai2007}{article}{}
+      \name{author}{2}{}{%
+        {{hash=1ccc2d4d2cb8e566d431552091eb3663}{%
+           family={Ai},
+           familyi={A\bibinitperiod},
+           given={Chunrong},
+           giveni={C\bibinitperiod}}}%
+        {{hash=eaefa8dd180971cfee840787cf3b798b}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Xiaohong},
+           giveni={X\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{06e34069cf5a56e925848b40bcb7f25a}
+      \strng{fullhash}{06e34069cf5a56e925848b40bcb7f25a}
+      \strng{authornamehash}{06e34069cf5a56e925848b40bcb7f25a}
+      \strng{authorfullhash}{06e34069cf5a56e925848b40bcb7f25a}
+      \field{sortinit}{A}
+      \field{sortinithash}{3248043b5fe8d0a34dab5ab6b8d4309b}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{month}{11}
+      \field{number}{1}
+      \field{title}{Estimation of possibly misspecified semiparametric conditional moment restriction models with different conditioning variables}
+      \field{volume}{141}
+      \field{year}{2007}
+      \field{pages}{5\bibrangedash 43}
+      \range{pages}{39}
+      \verb{doi}
+      \verb 10.1016/j.jeconom.2007.01.013
+      \endverb
+    \endentry
+    \entry{Andrews1991}{article}{}
+      \name{author}{1}{}{%
+        {{hash=2cc47b5114103a5b3a1038b1a95215d9}{%
+           family={Andrews},
+           familyi={A\bibinitperiod},
+           given={Donald\bibnamedelimb W.\bibnamedelimi K.},
+           giveni={D\bibinitperiod\bibinitdelim W\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {JSTOR}%
+      }
+      \strng{namehash}{2cc47b5114103a5b3a1038b1a95215d9}
+      \strng{fullhash}{2cc47b5114103a5b3a1038b1a95215d9}
+      \strng{authornamehash}{2cc47b5114103a5b3a1038b1a95215d9}
+      \strng{authorfullhash}{2cc47b5114103a5b3a1038b1a95215d9}
+      \field{sortinit}{A}
+      \field{sortinithash}{3248043b5fe8d0a34dab5ab6b8d4309b}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{month}{5}
+      \field{number}{3}
+      \field{title}{Heteroskedasticity and Autocorrelation Consistent Covariance Matrix Estimation}
+      \field{volume}{59}
+      \field{year}{1991}
+      \field{pages}{817}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.2307/2938229
+      \endverb
+    \endentry
     \entry{Antle1983}{article}{}
       \name{author}{1}{}{%
         {{hash=fe2b19808c958ef71a6b8a851e58eb86}{%
@@ -544,6 +613,38 @@
       \verb 10.1111/j.0741-6261.2008.00017.x
       \endverb
     \endentry
+    \entry{Horowitz1998}{article}{}
+      \name{author}{1}{}{%
+        {{hash=92284996659fcb2ae5b7e497a1b0152c}{%
+           family={Horowitz},
+           familyi={H\bibinitperiod},
+           given={Joel\bibnamedelima L.},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {JSTOR}%
+      }
+      \strng{namehash}{92284996659fcb2ae5b7e497a1b0152c}
+      \strng{fullhash}{92284996659fcb2ae5b7e497a1b0152c}
+      \strng{authornamehash}{92284996659fcb2ae5b7e497a1b0152c}
+      \strng{authorfullhash}{92284996659fcb2ae5b7e497a1b0152c}
+      \field{sortinit}{H}
+      \field{sortinithash}{2f664b453ec75da1fe3804ca92633405}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{month}{11}
+      \field{number}{6}
+      \field{title}{Bootstrap Methods for Median Regression Models}
+      \field{volume}{66}
+      \field{year}{1998}
+      \field{pages}{1327}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.2307/2999619
+      \endverb
+    \endentry
     \entry{Just1978}{article}{}
       \name{author}{2}{}{%
         {{hash=c6358ccec067d2a3e805da0bd776ad1a}{%
@@ -970,6 +1071,36 @@
       \range{pages}{33}
       \verb{doi}
       \verb 10.1111/j.1467-937x.2009.00564.x
+      \endverb
+    \endentry
+    \entry{Whang2006}{article}{}
+      \name{author}{1}{}{%
+        {{hash=405b3ff112461fe5dd68a707c720b619}{%
+           family={Whang},
+           familyi={W\bibinitperiod},
+           given={Yoon-Jae},
+           giveni={Y\bibinithyphendelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press ({CUP})}%
+      }
+      \strng{namehash}{405b3ff112461fe5dd68a707c720b619}
+      \strng{fullhash}{405b3ff112461fe5dd68a707c720b619}
+      \strng{authornamehash}{405b3ff112461fe5dd68a707c720b619}
+      \strng{authorfullhash}{405b3ff112461fe5dd68a707c720b619}
+      \field{sortinit}{W}
+      \field{sortinithash}{6d25b3eefe5aa2147d1f339686808918}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometric Theory}
+      \field{month}{2}
+      \field{number}{02}
+      \field{title}{Smoothed Empirical Likelihood Methods for Quantile Regression Models}
+      \field{volume}{22}
+      \field{year}{2006}
+      \verb{doi}
+      \verb 10.1017/s0266466606060087
       \endverb
     \endentry
   \endsortlist
