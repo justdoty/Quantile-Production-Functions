@@ -186,11 +186,10 @@ A Proxy Variable Approach to Quantile Production Functions}
 \frametitle{Production Functions and Quantile Regression}
 \begin{itemize}
 	\item Allowing firm technology to vary over the conditional output distribution is also valid for estimating a production function with unobserved heterogeneity
-	\item Alternative to splitting the sample on firm-size which may be inefficient and have arbitrary threshold selections
+	\item Alternative to splitting the sample on firm-size which may be inefficient and have arbitrary threshold selections which may lead to biased estimates
 	\item Applications of quantile regression are however limited due to simultaneity bias
 	\item Typical IV approaches such as \textcite{Chernozhukov2005} are also limited due problematic assumptions using input prices
 	\item Possible to exploit the panel data structure and use fixed effects or correlated random effects such as \textcite{Koenker2004}, \textcite{Lamarche2010}, or \textcite{Canay2011}
-	\item The fixed effect shifts the location of the conditional distribution (not the quantiles)
 	\item Incidental Parameters problem with quantile panel data
 \end{itemize}
 \end{frame}
@@ -382,8 +381,8 @@ To estimate the production function parameters we use the unconditional moments
 	\item The asymptotic results for this estimator cannot be applied here due to the semi-parametric nature of the two-step procedure
 	\item The asymptotic results of \textcite{Ai2007} could be applied here. 
 	\item This gives us extra conditions to show what rate gives an asymptotically negligible bandwidth. The smoothed sample moments are differentiable so we can take a Taylor expansion around $\beta(\tau)$. We leave this for future research agenda
-	\item We use bootstrap for our empirical application to be discussed later
-	\item Optimal choice of bandwidth is an ongoing research topic for these types of estimators
+	\item Therefore we use the bootstrap in our empirical application
+	\item Optimal choice of bandwidth is an ongoing research topic for these types of estimators. We use very small (h=1e-6) throughout 
 \end{itemize}
 \end{frame}
 

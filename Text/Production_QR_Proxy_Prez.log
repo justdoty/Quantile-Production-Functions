@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  26 JUL 2020 19:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  27 JUL 2020 18:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1135,7 +1135,7 @@ thkerncmss.
 ] [10
 
 ]
-Overfull \vbox (8.25868pt too high) detected at line 266
+Overfull \vbox (8.25868pt too high) detected at line 265
  []
 
 [11
@@ -1145,7 +1145,7 @@ Overfull \vbox (8.25868pt too high) detected at line 266
 ] [13
 
 ]
-LaTeX Font Info:    Try loading font information for U+bbm on input line 336.
+LaTeX Font Info:    Try loading font information for U+bbm on input line 335.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 ) [14
@@ -1170,7 +1170,7 @@ e/Monte_Carlo/ACF_Coefficient_Plot.png Graphic file (type png)
 /Monte_Carlo/ACF_Coefficient_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Monte_Carlo/ACF_Coefficient_Plot.png used on input line 43
-8.
+7.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [20
 
@@ -1184,7 +1184,7 @@ e/Monte_Carlo/ACF_MSE_Plot.png Graphic file (type png)
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Monte_Carlo/ACF_MSE_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Monte_Carlo/ACF_MSE_Plot.png used on input line 449.
+uction_QR_Proxy/Code/Monte_Carlo/ACF_MSE_Plot.png used on input line 448.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [21
 
@@ -1198,7 +1198,7 @@ e/Monte_Carlo/LP_Coefficient_Plot.png Graphic file (type png)
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Monte_Carlo/LP_Coefficient_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png used on input line 459
+uction_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png used on input line 458
 .
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [22
@@ -1213,7 +1213,7 @@ e/Monte_Carlo/LP_MSE_Plot.png Graphic file (type png)
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Monte_Carlo/LP_MSE_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png used on input line 471.
+uction_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png used on input line 470.
 (pdftex.def)             Requested size: 192.0439pt x 170.70569pt.
 [23
 
@@ -1238,10 +1238,10 @@ e/Empirical/US/Plots/Coef_Plot_NAICS_31.png Graphic file (type png)
 /Empirical/US/Plots/Coef_Plot_NAICS_31.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_31.png used on input li
-ne 511.
+ne 510.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 511
+Overfull \vbox (3.6351pt too high) detected at line 510
  []
 
 [27
@@ -1257,10 +1257,10 @@ e/Empirical/US/Plots/Coef_Plot_NAICS_32.png Graphic file (type png)
 /Empirical/US/Plots/Coef_Plot_NAICS_32.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_32.png used on input li
-ne 521.
+ne 520.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 521
+Overfull \vbox (3.6351pt too high) detected at line 520
  []
 
 [28
@@ -1276,10 +1276,10 @@ e/Empirical/US/Plots/Coef_Plot_NAICS_33.png Graphic file (type png)
 /Empirical/US/Plots/Coef_Plot_NAICS_33.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_33.png used on input li
-ne 531.
+ne 530.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 531
+Overfull \vbox (3.6351pt too high) detected at line 530
  []
 
 [29
@@ -1295,10 +1295,10 @@ e/Empirical/US/Plots/Coef_Plot_NAICS_All.png Graphic file (type png)
 /Empirical/US/Plots/Coef_Plot_NAICS_All.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_All.png used on input l
-ine 541.
+ine 540.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 541
+Overfull \vbox (3.6351pt too high) detected at line 540
  []
 
 [30
@@ -1313,7 +1313,7 @@ e/Empirical/US/Plots/Time_Plot.png Graphic file (type png)
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Empirical/US/Plots/Time_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png used on input line 551.
+uction_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png used on input line 550.
 (pdftex.def)             Requested size: 312.95125pt x 170.70569pt.
 [31
 
@@ -1327,10 +1327,10 @@ e/Empirical/US/Plots/TFP_Plot.png Graphic file (type png)
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Empirical/US/Plots/TFP_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Empirical/US/Plots/TFP_Plot.png used on input line 561.
+uction_QR_Proxy/Code/Empirical/US/Plots/TFP_Plot.png used on input line 560.
 (pdftex.def)             Requested size: 256.06773pt x 199.15665pt.
 
-Overfull \vbox (8.08606pt too high) detected at line 561
+Overfull \vbox (8.08606pt too high) detected at line 560
  []
 
 [32
@@ -1354,10 +1354,10 @@ e/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png Graphic file (type png)
 /Empirical/Chile/Plots/Coef_Plot_ISIC_311.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png used on input
- line 586.
+ line 585.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 586
+Overfull \vbox (3.6351pt too high) detected at line 585
  []
 
 [35
@@ -1373,10 +1373,10 @@ e/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png Graphic file (type png)
 /Empirical/Chile/Plots/Coef_Plot_ISIC_381.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png used on input
- line 596.
+ line 595.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 596
+Overfull \vbox (3.6351pt too high) detected at line 595
  []
 
 [36
@@ -1392,10 +1392,10 @@ e/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png Graphic file (type png)
 /Empirical/Chile/Plots/Coef_Plot_ISIC_321.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png used on input
- line 606.
+ line 605.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 606
+Overfull \vbox (3.6351pt too high) detected at line 605
  []
 
 [37
@@ -1411,10 +1411,10 @@ e/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png Graphic file (type png)
 /Empirical/Chile/Plots/Coef_Plot_ISIC_All.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png used on input
- line 616.
+ line 615.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 616
+Overfull \vbox (3.6351pt too high) detected at line 615
  []
 
 [38
@@ -1429,7 +1429,7 @@ e/Empirical/Chile/Plots/Time_Plot.png Graphic file (type png)
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Empirical/Chile/Plots/Time_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Empirical/Chile/Plots/Time_Plot.png used on input line 626
+uction_QR_Proxy/Code/Empirical/Chile/Plots/Time_Plot.png used on input line 625
 .
 (pdftex.def)             Requested size: 312.95125pt x 170.70569pt.
 [39
@@ -1444,11 +1444,11 @@ e/Empirical/Chile/Plots/TFP_Plot.png Graphic file (type png)
 <use /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Empirical/Chile/Plots/TFP_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
-uction_QR_Proxy/Code/Empirical/Chile/Plots/TFP_Plot.png used on input line 636.
+uction_QR_Proxy/Code/Empirical/Chile/Plots/TFP_Plot.png used on input line 635.
 
 (pdftex.def)             Requested size: 256.06773pt x 199.15665pt.
 
-Overfull \vbox (8.08606pt too high) detected at line 636
+Overfull \vbox (8.08606pt too high) detected at line 635
  []
 
 [40
@@ -1461,7 +1461,7 @@ irical/Colombia/Estimates/COL_Summary.tex) [41
 ]
 (/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
 irical/Colombia/Estimates/COL_Estimates.tex)
-Overfull \vbox (0.5675pt too high) detected at line 651
+Overfull \vbox (0.5675pt too high) detected at line 650
  []
 
 [42
@@ -1476,10 +1476,10 @@ e/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png Graphic file (type png)
 /Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png used on in
-put line 661.
+put line 660.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 661
+Overfull \vbox (3.6351pt too high) detected at line 660
  []
 
 [43
@@ -1495,10 +1495,10 @@ e/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png Graphic file (type png)
 /Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png used on in
-put line 671.
+put line 670.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 671
+Overfull \vbox (3.6351pt too high) detected at line 670
  []
 
 [44
@@ -1514,10 +1514,10 @@ e/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png Graphic file (type png)
 /Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png used on in
-put line 681.
+put line 680.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 681
+Overfull \vbox (3.6351pt too high) detected at line 680
  []
 
 [45
@@ -1533,10 +1533,10 @@ e/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png Graphic file (type png)
 /Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png used on in
-put line 691.
+put line 690.
 (pdftex.def)             Requested size: 170.69191pt x 170.70569pt.
 
-Overfull \vbox (3.6351pt too high) detected at line 691
+Overfull \vbox (3.6351pt too high) detected at line 690
  []
 
 [46
@@ -1552,7 +1552,7 @@ e/Empirical/Colombia/Plots/Time_Plot.png Graphic file (type png)
 /Empirical/Colombia/Plots/Time_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Colombia/Plots/Time_Plot.png used on input line 
-701.
+700.
 (pdftex.def)             Requested size: 312.95125pt x 170.70569pt.
 [47
 
@@ -1567,10 +1567,10 @@ e/Empirical/Colombia/Plots/TFP_Plot.png Graphic file (type png)
 /Empirical/Colombia/Plots/TFP_Plot.png>
 Package pdftex.def Info: /Users/justindoty/Documents/Research/Dissertation/Prod
 uction_QR_Proxy/Code/Empirical/Colombia/Plots/TFP_Plot.png used on input line 7
-11.
+10.
 (pdftex.def)             Requested size: 256.06773pt x 199.15665pt.
 
-Overfull \vbox (8.08606pt too high) detected at line 711
+Overfull \vbox (8.08606pt too high) detected at line 710
  []
 
 [48
@@ -1581,7 +1581,7 @@ pirical/Colombia/Plots/TFP_Plot.png>] [49
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10> not available
-(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 736.
+(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 735.
 
 [50
 
@@ -1611,13 +1611,13 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10> not available
 \tf@snm=\write10
 \openout10 = `Production_QR_Proxy_Prez.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 754.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 754.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 753.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 753.
 
 (/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Tex
 t/Production_QR_Proxy_Prez.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 754.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 754.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 753.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 753.
 Package rerunfilecheck Info: File `Production_QR_Proxy_Prez.out' has not change
 d.
 (rerunfilecheck)             Checksum: 3C5FD6708A4C706BEEF71C47501622BB;115.
@@ -1657,7 +1657,7 @@ r/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/
 local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/l
 ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 Output written on /Users/justindoty/Documents/Research/Dissertation/Production_
-QR_Proxy/Code/Text/Production_QR_Proxy_Prez.pdf (55 pages, 4743000 bytes).
+QR_Proxy/Code/Text/Production_QR_Proxy_Prez.pdf (55 pages, 4743019 bytes).
 PDF statistics:
  1754 PDF objects out of 2073 (max. 8388607)
  1602 compressed objects within 17 object streams

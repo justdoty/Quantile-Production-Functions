@@ -24,7 +24,7 @@ ISIC_labels[is.na(ISIC_labels)] <- ""
 summary_table <- cbind(ISIC_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
 colnames(summary_table) <- c("Industry (ISIC code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")
 
-summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex", caption="Summary Statistics for Colombia Manufacturing Data")
+summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex", caption="Summary Statistics (in logs) for Colombia Manufacturing Data")
 align(summary_table) <- rep('c', 8)
 addtorow <- list()
 addtorow$pos <- list(-1)
