@@ -1,4 +1,4 @@
-\begin{thebibliography}{28}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -12,6 +12,22 @@
   Identification properties of recent production function estimators.
   \textit{Econometrica}, \textbf{83}~(6), 2411--2451.
 
+\bibitem[{Aigner \textit{et~al.}(1977)Aigner, Lovell and Schmidt}]{Aigner1977}
+\textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
+  Formulation and estimation of stochastic frontier production function models.
+  \textit{Journal of Econometrics}, \textbf{6}~(1), 21--37.
+
+\bibitem[{Antle(1983)}]{Antle1983}
+\textsc{Antle, J.~M.} (1983). Testing the stochastic structure of production: A
+  flexible moment-based approach. \textit{Journal of Business {\&} Economic
+  Statistics}, \textbf{1}~(3), 192--201.
+
+\bibitem[{Aragon \textit{et~al.}(2005)Aragon, Daouia and
+  Thomas-Agnan}]{Aragon2005}
+\textsc{Aragon, Y.}, \textsc{Daouia, A.} and \textsc{Thomas-Agnan, C.} (2005).
+  {NONPARAMETRIC} {FRONTIER} {ESTIMATION}: A {CONDITIONAL} {QUANTILE}-{BASED}
+  {APPROACH}. \textit{Econometric Theory}, \textbf{21}~(02).
+
 \bibitem[{Bache \textit{et~al.}(2012)Bache, Dahl and Kristensen}]{Bache2012}
 \textsc{Bache, S. H.~M.}, \textsc{Dahl, C.~M.} and \textsc{Kristensen, J.~T.}
   (2012). Headlights on tobacco road to low birthweight outcomes.
@@ -21,6 +37,11 @@
 \textsc{Balat, J.}, \textsc{Brambilla, I.} and \textsc{Sasaki, Y.} (2018).
   {Heterogeneous firms: skilled-labor productivity and the destination of
   exports}, {Working paper}.
+
+\bibitem[{Bernini \textit{et~al.}(2004)Bernini, Freo and Gardini}]{Bernini2004}
+\textsc{Bernini, C.}, \textsc{Freo, M.} and \textsc{Gardini, A.} (2004).
+  Quantile estimation of frontier production function. \textit{Empirical
+  Economics}, \textbf{29}~(2), 373--381.
 
 \bibitem[{Bhattacharya(2009)}]{Bhattacharya2009}
 \textsc{Bhattacharya, D.} (2009). Inferring optimal peer assignment from
@@ -44,6 +65,10 @@
 \textsc{Chambers, C.~P.} (2007). Ordinal aggregation and quantiles.
   \textit{Journal of Economic Theory}, \textbf{137}~(1), 416--431.
 
+\bibitem[{Chernozhukov and Hansen(2005)}]{Chernozhukov2005}
+\textsc{Chernozhukov, V.} and \textsc{Hansen, C.} (2005). An {IV} model of
+  quantile treatment effects. \textit{Econometrica}, \textbf{73}~(1), 245--261.
+
 \bibitem[{de~Castro \textit{et~al.}(2018)de~Castro, Galvao, Kaplan and
   Liu}]{qgmm}
 \textsc{de~Castro, L.}, \textsc{Galvao, A.~F.}, \textsc{Kaplan, D.~M.} and
@@ -53,6 +78,15 @@
 \bibitem[{de~Castro and Galvao(2017)}]{Castro2017}
 \textsc{de~Castro, L.~I.} and \textsc{Galvao, A.~F.} (2017). Dynamic quantile
   models of rational behavior. \textit{{SSRN} Electronic Journal}.
+
+\bibitem[{Dermirer(2020)}]{mert}
+\textsc{Dermirer, M.} (2020). Production function estimation with factor
+  augmenting technology: An application to markups.
+
+\bibitem[{Gandhi \textit{et~al.}(2020)Gandhi, Navarro and Rivers}]{Gandhi2020}
+\textsc{Gandhi, A.}, \textsc{Navarro, S.} and \textsc{Rivers, D.~A.} (2020). On
+  the identification of gross output production functions. \textit{Journal of
+  Political Economy}, pp. 000--000.
 
 \bibitem[{Griliches and Hausman(1986)}]{Griliches1986}
 \textsc{Griliches, Z.} and \textsc{Hausman, J.~A.} (1986). Errors in variables
@@ -104,11 +138,6 @@
 \bibitem[{Manski(1988)}]{Manski1988}
 \textsc{Manski, C.~F.} (1988). Ordinal utility models of decision making under
   uncertainty. \textit{Theory and Decision}, \textbf{25}~(1), 79--104.
-
-\bibitem[{Montresor and Vezzani(2015)}]{Montresor2015}
-\textsc{Montresor, S.} and \textsc{Vezzani, A.} (2015). The production function
-  of top r{\&}d investors: Accounting for size and sector heterogeneity with
-  quantile estimations. \textit{Research Policy}, \textbf{44}~(2), 381--393.
 
 \bibitem[{Newey and McFadden(1994)}]{Newey1994}
 \textsc{Newey, W.~K.} and \textsc{McFadden, D.} (1994). {Large sample
