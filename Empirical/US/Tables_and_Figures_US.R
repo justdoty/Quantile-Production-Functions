@@ -23,7 +23,7 @@ NAICS_labels[is.na(NAICS_labels)] <- ""
 summary_table <- cbind(NAICS_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
 colnames(summary_table) <- c("Industry (NAICS code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")
 
-summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex", caption="Summary Statistics for the US Compustat Manufacturing Industries")
+summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex", caption="Summary Statistics (in logs) for the US Manufacturing Data")
 align(summary_table) <- rep('c', 8)
 addtorow <- list()
 addtorow$pos <- list(-1)

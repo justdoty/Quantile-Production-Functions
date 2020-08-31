@@ -1,4 +1,5 @@
-# setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
+# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
+# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/ivqr_gmm.R')
 source('gmmq.R')
 source('ivqr_gmm.R')
 #For Paralelization
@@ -38,9 +39,14 @@ Gpfn <- function(v,h){
   Itilde.deriv.KS17(v/h)    
   }
 ###############Moment Equation Objective Function############################################
-Lambda <- function(theta, Y, mX, mlX, vlag.phi){
-      Lambda <- Y-mX%*%theta[1:(ncol(mX))]-theta[length(theta)]*(vlag.phi-mlX%*%theta[1:(ncol(mX))])
-      return(Lambda)
+Lambda <- function(theta, mX, mlX, fitphi, fitlagphi, tau){
+      conc <- rq(fitphi-mX%*%theta[1:(ncol(mX))]~fitlagphi-mlX%*%theta[1:(ncol(mX))], tau=0.5)
+      rho <- as.numeric(coef(conc))[2]
+      residconc <- resid(conc)
+      beta0 <- quantile(residconc, tau)
+      concparam <- as.numeric(c(beta0, rho))
+      xifit <- fitphi-mX%*%theta[1:(ncol(mX))]-cbind(1, fitlagphi-mlX%*%theta[1:(ncol(mX))])%*%concparam
+      return(xifit)
     }
 ############ LP Moment Equations############################
 LP_GMM <- function(x, z, b){
@@ -54,7 +60,7 @@ LP_GMM <- function(x, z, b){
 #############################################################################################
 ####################Initialize Matrices to Store Results#####################################
 #Store results for quantile estimators
-resmat_LPQ <- array(0, dim=c(nreps, 3, length(tau), length(DGPs)))
+resmat_LPQ <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
 #Store results for LP estimator
 resmat_LP <- array(0, dim=c(nreps, dB, length(DGPs)))
 #Time entire code
@@ -91,9 +97,10 @@ for (d in 1:length(DGPs)){
     omgdataminusb <- matrix(0, n, overallt) #omega(t-b)
 
     #Location Scale Parameters
+    eta0 <- 1
     etak <- 0.7
-    etal <- 0.6
-    etaomega <- 0.1
+    etal <- -0.6
+  
 
     #Specification for Error Distribution for DGPs
     if (DGPs[d]=="normal"){
@@ -193,7 +200,8 @@ for (d in 1:length(DGPs)){
     lnldata <- lnldata + matrix(rnorm(n*overallt,0,sigoptl),n,overallt)
 
     #Output and Materials
-    het <- etal*lnldata+etak*lnkdata+etaomega*omgdata
+    #Specifies the form of heteroskedasticity
+    het <- etal*lnldata+etak*lnkdata
     lnydata <- alpha0 + alphal*lnldata + alphak*lnkdata + omgdata + het*epsdata
     lnmdata <- alpha0 + alphal*truelnldata + alphak*lnkdata + omgdata
 
@@ -263,7 +271,8 @@ for (d in 1:length(DGPs)){
     'Output', 'Capital', 'Labor', 'Materials',
     'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Lag_2', 'Labor_Con', 'Output_Con',
     'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0',
-    'GenSA', 'repmat','Gfn', 'Gpfn', 'LRV.est.fn', 'ivqr.gmm', 'uniform.fn', 'IDENTITY.FLAG', 'ZZ.FLAG'), envir=environment())
+    'GenSA', 'repmat','Gfn', 'Gpfn', 'LRV.est.fn', 'ivqr.gmm', 'uniform.fn', 'IDENTITY.FLAG', 
+    'ZZ.FLAG', 'phiacf_Lag_1_LP', 'results_LP'), envir=environment())
     innerloop_LP <- function(q){
       firststage <- rq(Output~Capital+Labor+Materials, tau=tau[q])
       LP_Labor <- as.matrix(firststage$coefficients[3])
@@ -271,28 +280,31 @@ for (d in 1:length(DGPs)){
       phiacf <- fitted(firststage)-as.matrix(Labor)%*%LP_Labor
       dim(phiacf) <- c(t, n)
       phiacf_Lag_1 <- c(phiacf[1:(t-1),])
+      phiacf_Lag_LM <- phiacf_Lag_1_LP
+      khat <- results_LP[1]
       phiacf_Con <- c(phiacf[2:t,])
       #Quantile GMM
       #Output Net of Labor
       Y <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
       #Matrix of Instruments
-      Z <- as.matrix(cbind(Capital_Con, phiacf_Lag_1))
+      Z <- as.matrix(Capital_Con)
       #Contemporary Values
-      X <- as.matrix(cbind(Capital_Con))
+      X <- as.matrix(Capital_Con)
       #Lag Values
-      lX <- as.matrix(cbind(Capital_Lag_1))
-      results <- ivqr.gmm(tau=tau[q], Y=Y, mX=X, mlX=lX, mZ=Z, vlag.phi=phiacf_Lag_1, h=0.001, max.time=1, upper=c(1,1), lower=c(0,0), structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=c(alphak0[q], 0.7))
+      lX <- as.matrix(Capital_Lag_1)
+      results <- ivqr.gmm(tau=tau[q], mX=X, mlX=lX, mZ=Z, fitphi=phiacf_Con, fitlagphi=phiacf_Lag_1, h=0.1, max.time=1, upper=1, lower=0, structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=alphak0[q])
       #############################################################
       resmat_LPQ[,,,d][,,q][j,][-2] <- t(results$theta)
       return(resmat_LPQ[,,,d][,,q][j,])
       ##################################################################
     }
       #Optional for serial computing
-      # resmat_LPQ[,,,d][j,,] <- matrix(unlist(lapply(1:length(tau), innerloop_LP)), nrow=length(tau), ncol=3)
+      # resmat_LPQ[,,,d][j,,] <- matrix(unlist(lapply(1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
       q.time <- proc.time()
-      resmat_LPQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_LP)), nrow=length(tau), ncol=3)
+      resmat_LPQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
       ####################################################################
       print("Q-GMM Estimates")
+      print(alphak0)
       print(t(resmat_LPQ[,,,d][j,,]))
       print(proc.time()-q.time)
   }
@@ -305,7 +317,7 @@ alpha1 <- cbind(alphak1, alphal1)
 alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(tau, 0, 0.1)
 alpha2 <- cbind(alphak2, alphal2)
 alpha <- rbind(alpha1, alpha2)
-# #Save Results
+#Save Results
 save(nreps, DGPs, resmat_LP, resmat_LPQ, alpha, tau, file="simulation_LP.Rdata")
 
 

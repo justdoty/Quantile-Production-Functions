@@ -1,4 +1,4 @@
-setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
+setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo')
 require(xtable)
 require(ggplot2)
 require(cowplot)
@@ -175,12 +175,12 @@ DGP2 <- ggdraw() + draw_label("DGP 2", fontface='plain')
 QACF_Box_Plot_1 <- plot_grid(DGP1, plot_grid(ACF_K_Box_Plot[[1]], ACF_L_Box_Plot[[1]]), ncol=1, rel_heights=c(0.1, 1))
 QACF_Box_Plot_2 <- plot_grid(DGP2, plot_grid(ACF_K_Box_Plot[[2]], ACF_L_Box_Plot[[2]]), ncol=1, rel_heights=c(0.1, 1))
 QACF_Box_Plot <- plot_grid(QACF_Box_Plot_1, QACF_Box_Plot_2, nrow=2, align='v')
-save_plot("QACF_Box_Plot.png", QACF_Box_Plot, base_height = 8, base_width = 9)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QACF_Box_Plot.png", QACF_Box_Plot, base_height = 8, base_width = 9)
 #For QLP
 QLP_Box_Plot_1 <- plot_grid(DGP1, plot_grid(LP_K_Box_Plot[[1]], LP_L_Box_Plot[[1]]), ncol=1, rel_heights=c(0.1, 1))
 QLP_Box_Plot_2 <- plot_grid(DGP2, plot_grid(LP_K_Box_Plot[[2]], LP_L_Box_Plot[[2]]), ncol=1, rel_heights=c(0.1, 1))
 QLP_Box_Plot <- plot_grid(QLP_Box_Plot_1, QLP_Box_Plot_2, nrow=2, align='v')
-save_plot("QLP_Box_Plot.png", QLP_Box_Plot, base_height = 8, base_width = 9)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png", QLP_Box_Plot, base_height = 8, base_width = 9)
 ############################Coefficicent Plots######################################
 ACF_K_plot <- list(); ACF_L_plot <- list()
 LP_K_plot <- list(); LP_L_plot <- list()
@@ -219,12 +219,12 @@ for (p in 1:length(DGPs)){
 ACF_Coefficient_Plot_1 <- plot_grid(DGP1, plot_grid(ACF_K_plot[[1]], ACF_L_plot[[1]]), ncol=1, rel_heights=c(0.1, 1))
 ACF_Coefficient_Plot_2 <- plot_grid(DGP2, plot_grid(ACF_K_plot[[2]], ACF_L_plot[[2]]), ncol=1, rel_heights=c(0.1, 1))
 ACF_Coefficient_Plot <- plot_grid(ACF_Coefficient_Plot_1, ACF_Coefficient_Plot_2, nrow=2, align='v')
-save_plot("ACF_Coefficient_Plot.png", ACF_Coefficient_Plot, base_height = 8, base_width = 9)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/ACF_Coefficient_Plot.png", ACF_Coefficient_Plot, base_height = 8, base_width = 9)
 #LP
 LP_Coefficient_Plot_1 <- plot_grid(DGP1, plot_grid(LP_K_plot[[1]], LP_L_plot[[1]]), ncol=1, rel_heights=c(0.1, 1))
 LP_Coefficient_Plot_2 <- plot_grid(DGP2, plot_grid(LP_K_plot[[2]], LP_L_plot[[2]]), ncol=1, rel_heights=c(0.1, 1))
 LP_Coefficient_Plot <- plot_grid(LP_Coefficient_Plot_1, LP_Coefficient_Plot_2, nrow=2, align='v')
-save_plot("LP_Coefficient_Plot.png", LP_Coefficient_Plot, base_height = 8, base_width = 9)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png", LP_Coefficient_Plot, base_height = 8, base_width = 9)
 ######################Mean Square Error plots##########################################
 ACF_K_MSE_plot <- list(); ACF_L_MSE_plot <- list()
 LP_K_MSE_plot <- list(); LP_L_MSE_plot <- list()
@@ -258,12 +258,12 @@ for (p in 1:length(DGPs)){
 ACF_MSE_Plot_1 <- plot_grid(DGP1, plot_grid(ACF_K_MSE_plot[[1]], ACF_L_MSE_plot[[1]]), ncol=1, rel_heights=c(0.1, 1))
 ACF_MSE_Plot_2 <- plot_grid(DGP2, plot_grid(ACF_K_MSE_plot[[2]], ACF_L_MSE_plot[[2]]), ncol=1, rel_heights=c(0.1, 1))
 ACF_MSE_Plot <- plot_grid(ACF_MSE_Plot_1, ACF_MSE_Plot_2, nrow=2, align='v')
-save_plot("ACF_MSE_Plot.png", ACF_MSE_Plot, base_height = 8, base_width = 9)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/ACF_MSE_Plot.png", ACF_MSE_Plot, base_height = 8, base_width = 9)
 #LP
 LP_MSE_Plot_1 <- plot_grid(DGP1, plot_grid(LP_K_MSE_plot[[1]], LP_L_MSE_plot[[1]]), ncol=1, rel_heights=c(0.1, 1))
 LP_MSE_Plot_2 <- plot_grid(DGP2, plot_grid(LP_K_MSE_plot[[2]], LP_L_MSE_plot[[2]]), ncol=1, rel_heights=c(0.1, 1))
 LP_MSE_Plot <- plot_grid(LP_MSE_Plot_1, LP_MSE_Plot_2, nrow=2, align='v')
-save_plot("LP_MSE_Plot.png", LP_MSE_Plot, base_height = 8, base_width = 9)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png", LP_MSE_Plot, base_height = 8, base_width = 9)
 
 
 

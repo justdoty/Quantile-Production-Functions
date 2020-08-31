@@ -1,6 +1,6 @@
 # setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code')
-source('gmmq.R')
-source('ivqr_gmm.R')
+source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
+source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/ivqr_gmm.R')
 #For Paralelization
 require(snow)
 #For MM 
@@ -19,9 +19,9 @@ cl <- makeCluster(4)
 #Specifications for Error Distributions
 DGPs <- c("normal", "laplace")
 #MC Replications
-nreps <- 1000
+nreps <- 2
 #Vector of quantiles
-tau <- seq(0.1, 0.9, by=0.05)
+tau <- seq(0.25, 0.75, by=0.25)
 #Standard deviation of log wage process
 siglnw <- 0.1
 #Labor chosen at time timeb
@@ -38,9 +38,14 @@ Gpfn <- function(v,h){
   Itilde.deriv.KS17(v/h)    
   }
 ###############Moment Equation Objective Function############################################
-Lambda <- function(theta, Y, mX, mlX, vlag.phi){
-      Lambda <- Y-mX%*%theta[1:(ncol(mX))]-theta[length(theta)]*(vlag.phi-mlX%*%theta[1:(ncol(mX))])
-      return(Lambda)
+Lambda <- function(theta, mX, mlX, fitphi, fitlagphi, tau){
+      conc <- rq(fitphi-mX%*%theta[1:(ncol(mX))]~fitlagphi-mlX%*%theta[1:(ncol(mX))], tau=0.5)
+      rho <- as.numeric(coef(conc))[2]
+      residconc <- resid(conc)
+      beta0 <- quantile(residconc, tau)
+      concparam <- as.numeric(c(beta0, rho))
+      xifit <- fitphi-mX%*%theta[1:(ncol(mX))]-cbind(1, fitlagphi-mlX%*%theta[1:(ncol(mX))])%*%concparam
+      return(xifit)
     }
 ############# ACF Moment Equations ############################
 ACF_GMM <- function(x,z,b){
@@ -54,7 +59,7 @@ ACF_GMM <- function(x,z,b){
 #############################################################################################
 ####################Initialize Matrices to Store Results#####################################
 #Store results for quantile estimators
-resmat_ACFQ <- array(0, dim=c(nreps, 3, length(tau), length(DGPs)))
+resmat_ACFQ <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
 #Store results for ACF estimator
 resmat_ACF <- array(0, dim=c(nreps, dB, length(DGPs)))
 #Time entire code
@@ -91,9 +96,9 @@ for (d in 1:length(DGPs)){
     omgdataminusb <- matrix(0, n, overallt) #omega(t-b)
 
     #Location Scale Parameters
+    eta0 <- 1
     etak <- 0.7
-    etal <- 0.6
-    etaomega <- 0.1
+    etal <- -0.6
 
     #Specification for Error Distribution for DGPs
     if (DGPs[d]=="normal"){
@@ -193,7 +198,7 @@ for (d in 1:length(DGPs)){
     lnldata <- lnldata + matrix(rnorm(n*overallt,0,sigoptl),n,overallt)
 
     #Output and Materials
-    het <- etal*lnldata+etak*lnkdata+etaomega*omgdata
+    het <- etal*lnldata+etak*lnkdata
     lnydata <- alpha0 + alphal*lnldata + alphak*lnkdata + omgdata + het*epsdata
     lnmdata <- alpha0 + alphal*truelnldata + alphak*lnkdata + omgdata
 
@@ -272,21 +277,21 @@ for (d in 1:length(DGPs)){
       #Output
       Y <- as.matrix(Output_Con)
       #Matrix of Instruments
-      Z <- as.matrix(cbind(Capital_Con, Labor_Lag_1, phiacf_Lag_1))
+      Z <- as.matrix(cbind(Capital_Con, Labor_Lag_1))
       #Contemporary Values
       X <- as.matrix(cbind(Capital_Con, Labor_Con))
       #Lag Values
       lX <- as.matrix(cbind(Capital_Lag_1, Labor_Lag_1))
-      results <- ivqr.gmm(tau=tau[q], Y=Y, mX=X, mlX=lX, mZ=Z, vlag.phi=phiacf_Lag_1, h=0.001, max.time=5, upper=c(1,1,1), lower=c(0,0,0), structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=c(alphak0[q], alphal0[q], 0.7))
+      results <- ivqr.gmm(tau=tau[q], mX=X, mlX=lX, mZ=Z, fitphi=phiacf_Con, fitlagphi=phiacf_Lag_1, h=10, max.time=2, upper=c(1,1), lower=c(0,0), structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=c(alphak0[q], alphal0[q]))
       #############################################################
       resmat_ACFQ[,,,d][,,q][j,] <- t(results$theta)
       return(resmat_ACFQ[,,,d][,,q][j,])
       ##################################################################
     }
       #Optional for serial computing
-      # resmat_ACFQ[,,,d][j,,] <- matrix(unlist(lapply(1:length(tau), innerloop_ACF)), nrow=length(tau), ncol=3)
+      resmat_ACFQ[,,,d][j,,] <- matrix(unlist(lapply(1:length(tau), innerloop_ACF)), nrow=length(tau), ncol=dB)
       q.time <- proc.time()
-      resmat_ACFQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_ACF)), nrow=length(tau), ncol=3)
+      # resmat_ACFQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_ACF)), nrow=length(tau), ncol=3)
       ####################################################################
       print("Q-GMM Estimates")
       print(t(resmat_ACFQ[,,,d][j,,]))
@@ -296,13 +301,13 @@ for (d in 1:length(DGPs)){
 stopCluster(cl); print("Cluster stopped.")
 print(Sys.time()-overall.start.time)
 #Store True Values in Rdata environment
-alphak1 <- alphak+etak*qnorm(tau, 0, sigeps); alphal1 <- alphal+etal*qnorm(tau, 0, sigeps)
-alpha1 <- cbind(alphak1, alphal1)
-alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(tau, 0, 0.1)
-alpha2 <- cbind(alphak2, alphal2)
-alpha <- rbind(alpha1, alpha2)
-# #Save Results
-save(nreps, DGPs, resmat_ACF, resmat_ACFQ, alpha1, alpha2, tau, dB, file="simulation_ACF.Rdata")
+# alphak1 <- alphak+etak*qnorm(tau, 0, sigeps); alphal1 <- alphal+etal*qnorm(tau, 0, sigeps)
+# alpha1 <- cbind(alphak1, alphal1)
+# alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(tau, 0, 0.1)
+# alpha2 <- cbind(alphak2, alphal2)
+# alpha <- rbind(alpha1, alpha2)
+# # #Save Results
+# save(nreps, DGPs, resmat_ACF, resmat_ACFQ, alpha1, alpha2, tau, dB, file="simulation_ACF.Rdata")
 
 
 
