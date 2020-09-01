@@ -504,4 +504,16 @@ The contribution of the paper is twofold. First, we propose a new estimation met
   publisher = {Elsevier {BV}},
 }
 
+@Article{Aragon2005,
+  author    = {Y. Aragon and A. Daouia and C. Thomas-Agnan},
+  title     = {{NONPARAMETRIC} {FRONTIER} {ESTIMATION}: A {CONDITIONAL} {QUANTILE}-{BASED} {APPROACH}},
+  journal   = {Econometric Theory},
+  year      = {2005},
+  volume    = {21},
+  number    = {02},
+  month     = {mar},
+  doi       = {10.1017/s0266466605050206},
+  publisher = {Cambridge University Press ({CUP})},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

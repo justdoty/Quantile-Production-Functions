@@ -197,9 +197,10 @@ Returning to our misspecification interpretation in Equation \eqref{pfrc}, we fo
 	\item The firm's information set at time $t$ includes current and past productivity shocks $\{\omega_{it}\}_{t=0}^{t}$, but does not include past productivity shocks $\{\omega_{it}\}_{t=t+1}^{\infty}$. $\eta_{it}$ is independent of $\mathcal{I}_{it}$
 	\item Firm's productivity shocks evolve according to a first-order Markov process
 	\begin{equation}
-	\omega_{it}=g(\omega_{it-1}, \xi_{it})
+	\omega_{it}=\rho\omega_{it-1}+\xi_{it}
 	\end{equation}
-	where $g$ is strictly increasing in $\omega_{it-1}$ and the iid productivity innovations $\xi_{it}$ are independent of $\mathcal{I}_{it-1}$.
+	where the iid productivity innovations $\xi_{it}$ are independent of $\mathcal{I}_{it-1}$.\\
+	We require that $P[\xi_{it}\leq F_{\xi}^{-1}(\tau)|\mathcal{I}_{it-1}]=P[\xi_{it}\leq F_{\xi}^{-1}(\tau)]=\tau$
 	\item Firms accumulate capital according to
 	\begin{equation}
 	    K_{it}=\kappa_{t}(I_{it-1}, K_{it-1}).
@@ -222,30 +223,46 @@ Using Assumption \eqref{qpfassume}(a, b) we have the following identification co
 
 We use a linear approximation $\Phi(k_{it}, m_{it}, \eta_{it})=\beta_{k}(\eta_{it})k_{it}+\beta_{m}(\eta_{it})m_{it}$ so we can estimate $\beta_{l}(\tau)$ and $\Phi(k_{it}, m_{it}, \tau)$ using linear quantile regression. We can then plug these estimates back into the production function and apply Assumption \eqref{qpfassume}(c) to obtain:
 \begin{equation} \label{qpf2nd}
-y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1}, \xi_{it})
+y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1})+\xi_{it}
 \end{equation}
 
-Given Assumption \eqref{qpfassume}(a, c), the second stage identification can then be written:
+The main challenge of the identification result in the second stage is that it is not true in general that
 \begin{equation} \label{2ndstageidentification}
-P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)|\mathcal{I}_{it-1}\big)=\tau
+P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+\xi_{it}|\mathcal{I}_{it-1}\big)=\tau
 \end{equation}
+The lack of identification in this model is often lamented in the quantile panel data models using correlated random effects. For example, \cite{Canay2011} notes that the conditional behavior of \eqref{2ndstageidentification} depends on the joint distribution of $\eta_{it}$ and $\xi_{it}$ which makes identification of $(\rho, \beta_{k}(\tau))$ in the second stage a difficult task. We circumvent this by framing an identification condition in only the $\xi_{it}$ component, similar to \cite{Ackerberg2015} by concentrating out the constant $\beta_{0}(\tau)$ and $\rho$. For a hypothetical guess of $\beta_{k}(\tau)$ we can write
+\begin{equation}
+\beta_{0}(\tau)+\omega_{it}=y_{it}-\hat{\beta}_{l}(\tau)l_{it}-\beta_{k}(\tau)k_{it}=\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}
+\end{equation}
+We can rewrite the AR(1) productivity process as
+\begin{equation}
+\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}=\beta_{0}(\tau)+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+\xi_{it}
+\end{equation}
+and note that 
+\begin{equation}
+Q_{\tau}(\omega_{it}|\mathcal{I}_{it-1})=\beta_{0}(\tau)+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+F_{\xi}^{-1}(\tau)
+\end{equation}
+We estimate $(\beta_{0}(\tau)+F_{\xi}^{-1}(\tau), \rho)$ using the procedure of \cite{He1997}
+\begin{itemize}
+	\item First, a median regression of $\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}$ on $\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}$ to obtain estimates of $(\beta_{0}(\tau), \rho)$
+	\item Second, let $\hat{\xi}_{it}=\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}-\hat{\beta}_{0}(\tau)-\hat{\rho}(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})$. Then take the $\tau$th quantile of $\hat{\xi}_{it}$ as an estimate for $\hat{F}_{\xi}^{-1}(\tau)$
+\end{itemize}
+Therefore, we have the following identification condition
+\begin{equation}
+P[\hat{\xi}_{it}(\beta_{k}(\tau))\leq \hat{F}_{\xi}^{-1}(\tau)|\mathcal{I}_{it-1}]=P[\hat{\xi}_{it}(\beta_{k}(\tau))\leq \hat{F}_{\xi}^{-1}(\tau)]=\tau
+\end{equation}
+
 This can be represented by conditional moment restrictions
 \begin{equation} \label{conditional}
-	\begin{split}
-	\mathbb{E}[\mathbbm{1}\{y_{it}&-\hat{\beta}_{l}(\tau)l_{it}-\beta_{k}(\tau)k_{it}\\
-	&-g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)\leq 0\}-\tau|\mathcal{I}_{it-1}]=0
-	\end{split}
+	\mathbb{E}[\mathbbm{1}\{\hat{\xi}_{it}(\beta_{k}(\tau))- \hat{F}_{\xi}^{-1}(\tau)\leq 0\}-\tau|\mathcal{I}_{it-1}]=0
 \end{equation}
 where $\mathbbm{1}\{\cdot\}$ is the indicator function. To estimate the production function parameters we use the unconditional moments implied by \eqref{conditional}
 \begin{equation}
-	\begin{split}
-	\mathbb{E}[Z_{it-1}(\mathbbm{1}\{y_{it}&-\hat{\beta}_{l}(\tau)l_{it}-\beta_{k}(\tau)k_{it}\\
-	&-g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}; \tau)\leq 0\}-\tau)]=0
-	\end{split}
+	\mathbb{E}[Z_{it-1}(\mathbbm{1}\{\hat{\xi}_{it}(\beta_{k}(\tau))- \hat{F}_{\xi}^{-1}(\tau)\leq 0\}-\tau)]=0
 \end{equation}
 where $Z_{it-1}$ includes the instruments used in the firm's information set at time $t-1$.
 
-The presence of the indicator function in equation (16) makes estimation of the production function parameters intractable. We propose smoothing the indicator function using the methodology proposed by \cite*{qgmm} for nonlinear conditional quantile models. These models can be exactly identified or over-identified by using more components in $\mathcal{I}_{it-1}$. To fix notation, let $z_{it}\subseteq \mathcal{I}_{it-1}$ denote the instruments used for estimation. For our application, $z_{it}=\{k_{it}, \tilde{\Phi}_{\tau}(k_{it-1}, m_{it-1}\}$. Let $x_{it}=(k_{it}, k_{it-1}, m_{it-1})$ and let $\Lambda(\cdot)$ denote the residual function that defines the conditional quantile restriction in (15) that is known up to the finite-dimensional parameters $\beta(\tau)=(\beta_{k}(\tau), \rho(\tau))$. The sample analog of (16) can then be written as
+The presence of the indicator function in equation (16) makes estimation of the production function parameters intractable. We propose smoothing the indicator function using the methodology proposed by \cite*{qgmm} for nonlinear conditional quantile models. These models can be exactly identified or over-identified by using more components in $\mathcal{I}_{it-1}$. To fix notation, let $z_{it}\subseteq \mathcal{I}_{it-1}$ denote the instruments used for estimation. For our application, $z_{it}=k_{it}$. Let $x_{it}=(k_{it}, k_{it-1}, m_{it-1})$ and let $\Lambda(\cdot)$ denote the residual function that defines the conditional quantile restriction in (15) that is known up to the finite-dimensional parameters $\beta(\tau)=(\beta_{k}(\tau), \rho(\tau))$. The sample analog of (16) can then be written as
 \begin{equation}
     \hat{M}_{n}(\beta, \tau)=\frac{1}{n}\sum_{i=1}^{n}\Bigg[\tilde{I}\Bigg(\frac{\Lambda(\tilde{y}_{it}, x_{it}, \beta(\tau))}{h_{n}}\Bigg)-\tau\Bigg]
 \end{equation}
@@ -264,45 +281,21 @@ For the weighting matrix, we use the estimator of the inverse long run variance 
 The objective function in (22) may be non-convex. The global minimum is found using a simulated annealing algorithm from the GenSA package in R \citep{Xiang2013}. A reasonable initial value for the optimization algorithm can be found by estimating an exactly-identified version (Method of Moments) of (19) using a root-finding algorithm such as the Newton-Raphson method (newtonsys in the Pracma \nocite{pracma} package in R) or from a one-step estimator such as the one proposed by \cite{Newey1994}.
 \newpage
 \section{Monte Carlo Experiments}
-We use a location-scale version of LP (2003) and ACF (2015) and replicate ACF's original set of DGPs by simulating 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
+We use a location-scale version of \cite{Levinsohn2003} and replicate \cite{Ackerberg2015} simulations sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
 
 \begin{equation}
-y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(0.7k_{it}+0.6l_{it}+0.1\omega_{it})\eta_{it}
+y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(0.7k_{it}-0.6l_{it})\eta_{it}
 \end{equation}
-with $\beta_{k}=0.4$ and $\beta_{l}=0.6$. For each simulation we simulate two DGPs with $\eta_{it}\sim N(0,0.1)$ and $\eta_{it}\sim Laplace(0,0.1)$.
+with $\beta_{0}=0$, $\beta_{k}=0.4$ and $\beta_{l}=0.6$. For each simulation we simulate two DGPs with $\eta_{it}\sim N(0,0.1)$ and $\eta_{it}\sim Laplace(0,0.1)$.
 
-In the simulations favorable to ACF we let firms face different wage processes according to an AR(1) process
-
-\begin{equation*}
-    \ln(W_{it})=0.3\ln(W_{it-1})+\xi_{it}^{W}
-\end{equation*}
-where $\xi_{it}^{W}$ is normally distributed with variance $\sigma_{\xi^{W}}^{2}$ and initial log-wage $\ln(W_{i0})$ are set such that the standard deviation of $\ln(W_{it})$ is constant over time and equal to $0.1$. This DGP also allows labor to be chosen at time period $t-b, (b=0.5)$. When $b>0$ firms have less than perfect information about $\omega_{it}$ when choosing $L_{it}$. 
-
-In the simulations favorable to LP we do not allow for any wage variation across firms and labor is chosen at time $t$ with perfect information about $\omega_{it}$. However, we add optimization error in labor.
+To produce consistent estimates of the labor coefficient in the first stage, we do not allow for any wage variation across firms and labor is chosen at time $t$ with perfect information about $\omega_{it}$. However, we add optimization error in labor.
 
 An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$
 
 
-We compare the LP and ACF estimation procedure with the two-step procedure using Quantile GMM (Q-GMM) under  the two different sets of experiments specified earlier. We estimate the model for $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ fixing the smoothing bandwidth as $h=0.001$ and using instruments $Z_{it-1}=\{k_{it}, \tilde{\Phi}_{\tau}(k_{it-1}, m_{it-1})\}$ for LP type estimation and $Z_{it-1}=\{k_{it}, l_{it-1}, \tilde{\Phi}_{\tau}(k_{it-1}, l_{it-1} m_{it-1})\}$ for ACF type estimation.
- 
+We compare the LP estimation procedure with the two-step procedure using Quantile GMM (QGMM) under  the two different sets of experiments specified earlier. We estimate the model for $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ fixing the smoothing bandwidth as $h=0.1$ and using instruments current period capital, $k_{it}$ as our instrument so that our model is exactly identified. For the weighting matrix, we use an estimate of the long-run variance covariance matrix using a truncated kernel with bandwidth choice of \cite{Andrews1991}. We use a continuously updated GMM procedure such that estimates of $\beta_{k}(\tau)$ in the second stage are estimated simultaneously with the weighting matrix. We initialize the algorithm at the true value of $\beta_{k}(\tau)$ however we find that the estimation is robust to reasonable initial values as well as bandwidth choices.
 
-\section{Monte Carlo Results} \label{montecarlo}
-
-% \begin{figure}[H]
-% \centering
-% \caption{QACF estimated coefficients of  $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is ACF estimator}
-% \includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/ACF_Coefficient_Plot.png}
-% \label{ACF_coefficient_plot}
-% \end{figure}
-
-% \begin{figure}[H]
-% \centering
-% \caption{Simulated precision of QACF estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s. Dotted line is ACF estimator.}
-% \includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/ACF_MSE_Plot.png}
-% \label{MSE_plot}
-% \end{figure}
-
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \caption{QLP estimated coefficients of  $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is LP estimator}
 \includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png}
@@ -319,13 +312,6 @@ We compare the LP and ACF estimation procedure with the two-step procedure using
 
 
 The next figure summarizes distributional information from our Monte Carlo experiment. These simulation results show that our estimator has good finite-sample performance and does reasonably well at capturing firm heterogeneity across quantiles.
-
-% \begin{figure}[H]
-% \centering
-% \caption{ACF Box Plots for estimated coefficients from 1000 replications of Monte Carlo}
-% \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QACF_Box_Plot.png}
-% \label{ACF_Box Plot}
-% \end{figure}
 
 \begin{figure}[H]
 \centering

@@ -1,12 +1,12 @@
 #This code is a modified version of Smoothed GMM for Quantile Models, de Castro, Galvao,
 #Kaplan, and Liu (2018). See David Kaplan's website for more details
 #https://faculty.missouri.edu/~kaplandm/
-source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
-# source('gmmq.R')
+# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
+source('gmmq.R')
 IDENTITY.FLAG <- FALSE
 ZZ.FLAG <- FALSE
 
-ivqr.gmm <- function(tau, mX, mlX, mZ, fitphi, fitlagphi, h=0, max.time, upper, lower, 
+ivqr.gmm <- function(tau, mX, mlX, mZ, fitphi, fitlagphi, h=0, max.time, upper, lower, weight.mtx, 
                      structure=c('iid','ts'), LRV.kernel=c('QS','Bartlett','uniform'), 
                      Lambda=function(theta, mX, mlX, fitphi, fitlagphi, tau){fitphi-mX%*%theta[1:(ncol(mX))]-theta[length(theta)]*(fitlagphi-mlX%*%theta[1:(ncol(mX))])}, 
                      theta.init=0 ) {
@@ -37,9 +37,11 @@ ivqr.gmm <- function(tau, mX, mlX, mZ, fitphi, fitlagphi, h=0, max.time, upper, 
       if (IDENTITY.FLAG==TRUE){
         W.hat <- diag(dZ)  
         } else if (ZZ.FLAG==TRUE) {
-          W.hat <- solve(t(mZ)%*%mZ/n)
+            W.hat <- solve(t(mZ)%*%mZ/n)
+        }  else if (!is.null(weight.mtx)) {
+            W.hat <- weight.mtx
         } else {  
-          W.hat <- solve(LRV.hat(theta, h))  
+            W.hat <- solve(LRV.hat(theta, h))  
         }
         L <- matrix(Lambda(theta, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau), ncol=1)
         gni <- mZ*repmat((Gfn(-L,h)-tau),1,dZ) 

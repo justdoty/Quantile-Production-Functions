@@ -1,12 +1,12 @@
-setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical')
+# setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical')
 set.seed(123456)
 #This code is a modified version of Smoothed GMM for Quantile Models, de Castro, Galvao,
 #Kaplan, and Liu (2018). See David Kaplan's website for more details
 #https://faculty.missouri.edu/~kaplandm/
 
 #Some data preparation follows prodest.R (Gabrielle Rovigatti)
-source("gmmq_data.R")
-source("ivqr_gmm_data.R")
+source("gmmq.R")
+source("ivqr_gmm.R")
 #Required for 1st step estimation
 require(quantreg)
 #Required for QGMM estimation variations
@@ -104,21 +104,21 @@ finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot, gbar){
   Z <- as.matrix(cbind(tmp.data$state, lagState, lagFree))
   #Use W.init as an initial weighting matrix to get consistent estimates of theta
   W.init <- solve(tau*(1-tau)*crossprod(Z)/nrow(Z))
-  theta.hat <- as.numeric(ivqr.gmm(tau=tau, Y=tmp.data$va, mX=tmp.data$state, mlX=tmp.data$lagState, mZ=Z, 
-      vphi=tmp.data$phi, vlag.phi=tmp.data$lag.phi, h=h, max.time=1, upper=1, lower=0, 
+  theta.hat <- as.numeric(ivqr.gmm(tau=tau, mX=tmp.data$state, mlX=tmp.data$lagState, mZ=Z, 
+      fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, h=h, max.time=1, upper=1, lower=0, 
       weight.mtx=W.init, structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=b.init)$theta)
   #At the initial consistent estimate, compute the weighting matrix
-  W <- solve(LRV.est.fn(tau=tau, Y=tmp.data$va, mX=tmp.data$state, mlX=tmp.data$lagState, 
-    mZ=Z, vphi=tmp.data$phi, vlag.phi=tmp.data$lag.phi, Lambda=Lambda, theta.hat=theta.hat, 
+  W <- solve(LRV.est.fn(tau=tau, mX=tmp.data$state, mlX=tmp.data$lagState, 
+    mZ=Z, fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, Lambda=Lambda, theta=theta.hat, 
     Itilde=Itilde.KS17, h=h, structure='iid', LRV.kernel='uniform'))
   #Solve using the above weighting matrix
   try.state <- GenSA(par=b.init, fn=goQLP, mZ=Z, mW=W, mX=tmp.data$state, mlX=tmp.data$lagState, 
-  vphi=tmp.data$phi, vlag.phi=tmp.data$lag.phi, Y=tmp.data$va, tau=tau, h=h, gbar=gbar, lower=0, upper=1, control=list(max.time=5))
+  fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, tau=tau, h=h, gbar=gbar, lower=0, upper=1, control=list(max.time=5))
   beta.state <- as.numeric(try.state$par)
 
   if (gbar==TRUE){
-    gbartrue <- g.bar(tau=tau, h=h, theta=beta.state, mZ=Z, mW=W, mX=tmp.data$state, mlX=tmp.data$lagState, 
-      vphi=tmp.data$phi, vlag.phi=tmp.data$lag.phi, Y=tmp.data$va)
+    gbartrue <- g.bar(theta=beta.state, mX=tmp.data$state, mlX=tmp.data$lagState, mZ=Z, 
+      fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, h=h, tau=tau)
     return(list(c(beta.state, beta.free), gbartrue))
   } else {
     return(c(beta.state, beta.free))
@@ -136,35 +136,42 @@ finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot, gbar){
     Itilde.deriv.KS17(v/h)    
     }
 
-g.bar <- function(tau, h, theta, mZ, mW, mX, mlX, vphi, vlag.phi, Y){
+g.bar <- function(theta, mX, mlX, mZ, fitphi, fitlagphi, h, tau){
   theta <- as.matrix(as.numeric(theta))
-  Omega <- vphi-mX%*%theta
-  Omega_lag <- vlag.phi-mlX%*%theta
-  Omega_lag_pol <- cbind(1, Omega_lag, Omega_lag^2, Omega_lag^3)
-  g_b <- fitted(rq(Omega~Omega_lag+Omega_lag^2+Omega_lag^3, tau=tau))
-  Lambda <- Y-(mX%*%theta)-g_b
-  g.bar <- as.matrix(colMeans(mZ*repmat((Gfn(-Lambda, h)-tau), 1, ncol(mZ))))
+  Omega <- fitphi-mX%*%theta
+  Omega_lag <- fitlagphi-mlX%*%theta
+  conc <- rq(Omega~Omega_lag, tau=0.5)
+  rho <- as.numeric(coef(conc))[2]
+  residconc <- resid(conc)
+  beta0 <- quantile(residconc, tau)
+  concparam <- as.numeric(c(beta0, rho))
+  xifit <- Omega-cbind(1, Omega_lag)%*%concparam
+  g.bar <- as.matrix(colMeans(mZ*repmat((Gfn(-xifit, h)-tau), 1, ncol(mZ))))
   return(g.bar)
 }
 
 #QLP Objective Function
-goQLP <- function(tau, h, theta, mZ, mW, mX, mlX, vphi, vlag.phi, Y, gbar){
+goQLP <- function(tau, h, theta, mZ, mW, mX, mlX, fitphi, fitlagphi, gbar){
   if (gbar==TRUE){
-    g.bar <- g.bar(tau=tau, h=h, theta, mZ=mZ, mW=mW, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi, Y=Y)
+    g.bar <- g.bar(theta, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, h=h, tau=tau)
     crit <- nrow(mZ)*t(g.bar)%*%mW%*%g.bar
     return(crit)
   } else {
-    g.bar.boot <- g.bar(tau=tau, h=h, theta, mZ=mZ, mW=mW, mX=mX, mlX=mlX, vphi=vphi, vlag.phi=vlag.phi, Y=Y)-gbar
+    g.bar.boot <- g.bar(theta, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, h=h, tau=tau)-gbar
     return(nrow(mZ)*t(g.bar.boot)%*%mW%*%g.bar.boot)
   }
 } 
-Lambda <- function(tau, theta, Y, mX, mlX, vphi, vlag.phi){
+Lambda <- function(theta, mX, mlX, fitphi, fitlagphi, tau){
   theta <- as.matrix(as.numeric(theta))
-  Omega <- vphi-mX%*%theta
-  Omega_lag <- vlag.phi-mlX%*%theta
-  g_b <- fitted(rq(Omega~Omega_lag+Omega_lag^2+Omega_lag^3, tau=tau))
-  Lambda <- Y-(mX%*%theta)-g_b
-  return(Lambda)
+  Omega <- fitphi-mX%*%theta
+  Omega_lag <- fitlagphi-mlX%*%theta
+  conc <- rq(Omega~Omega_lag, tau=0.5)
+  rho <- as.numeric(coef(conc))[2]
+  residconc <- resid(conc)
+  beta0 <- quantile(residconc, tau)
+  concparam <- as.numeric(c(beta0, rho))
+  xifit <- Omega-cbind(1, Omega_lag)%*%concparam
+  return(xifit)
 }  
 
 

@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -16,6 +16,11 @@
 \textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
   Formulation and estimation of stochastic frontier production function models.
   \textit{Journal of Econometrics}, \textbf{6}~(1), 21--37.
+
+\bibitem[{Andrews(1991)}]{Andrews1991}
+\textsc{Andrews, D. W.~K.} (1991). Heteroskedasticity and autocorrelation
+  consistent covariance matrix estimation. \textit{Econometrica},
+  \textbf{59}~(3), 817.
 
 \bibitem[{Antle(1983)}]{Antle1983}
 \textsc{Antle, J.~M.} (1983). Testing the stochastic structure of production: A
@@ -91,6 +96,10 @@
 \bibitem[{Griliches and Hausman(1986)}]{Griliches1986}
 \textsc{Griliches, Z.} and \textsc{Hausman, J.~A.} (1986). Errors in variables
   in panel data. \textit{Journal of Econometrics}, \textbf{31}~(1), 93--118.
+
+\bibitem[{He(1997)}]{He1997}
+\textsc{He, X.} (1997). Quantile curves without crossing. \textit{The American
+  Statistician}, \textbf{51}~(2), 186.
 
 \bibitem[{Horowitz(1998)}]{Horowitz1998}
 \textsc{Horowitz, J.~L.} (1998). Bootstrap methods for median regression
