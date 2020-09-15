@@ -1,7 +1,7 @@
-# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
-# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/ivqr_gmm.R')
-source('gmmq.R')
-source('ivqr_gmm.R')
+source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
+source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/ivqr_gmm.R')
+# source('gmmq.R')
+# source('ivqr_gmm.R')
 #For Paralelization
 require(snow)
 #For MM 
@@ -20,9 +20,9 @@ cl <- makeCluster(4)
 #Specifications for Error Distributions
 DGPs <- c("normal", "laplace")
 #MC Replications
-nreps <- 1000
+nreps <- 2
 #Vector of quantiles
-tau <- seq(0.1, 0.9, by=0.05)
+tau <- seq(0.25, 0.75, by=0.25)
 #Standard deviation of log wage process
 siglnw <- 0
 #Labor chosen at time timeb
@@ -311,14 +311,14 @@ for (d in 1:length(DGPs)){
 }
 stopCluster(cl); print("Cluster stopped.")
 print(Sys.time()-overall.start.time)
-#Store True Values in Rdata environment
-alphak1 <- alphak+etak*qnorm(tau, 0, sigeps); alphal1 <- alphal+etal*qnorm(tau, 0, sigeps)
-alpha1 <- cbind(alphak1, alphal1)
-alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(tau, 0, 0.1)
-alpha2 <- cbind(alphak2, alphal2)
-alpha <- rbind(alpha1, alpha2)
-#Save Results
-save(nreps, DGPs, resmat_LP, resmat_LPQ, alpha, tau, file="simulation_LP.Rdata")
+# #Store True Values in Rdata environment
+# alphak1 <- alphak+etak*qnorm(tau, 0, sigeps); alphal1 <- alphal+etal*qnorm(tau, 0, sigeps)
+# alpha1 <- cbind(alphak1, alphal1)
+# alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(tau, 0, 0.1)
+# alpha2 <- cbind(alphak2, alphal2)
+# alpha <- rbind(alpha1, alpha2)
+# #Save Results
+# save(nreps, DGPs, resmat_LP, resmat_LPQ, alpha, tau, file="simulation_LP.Rdata")
 
 
 

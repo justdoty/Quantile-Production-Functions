@@ -20,7 +20,7 @@ R <- 500
 #The number of parameters being estimated
 dZ <- 2
 #Bandwidth choice: user specified (for now)
-h <- 1e-6
+h <- 0.1
 #Store results for bootstrap replications across quantiles across industries
 results <- array(0, dim=c(R, dZ, length(industries)))
 #This gives the "true" estimates using the "true" data
@@ -36,7 +36,7 @@ filename <- paste("QLP_US_Q", id, ".RData", sep="")
 save(results, true.beta, file=filename)
 
 
-#HPC Job Submissions for batches: qsub -t 1:length(tau) myjob.job
+#HPC Job Submissions for batches: qsub -t 1:length(tau) QLP_US.job
 #Here length(tau)=10
 
 

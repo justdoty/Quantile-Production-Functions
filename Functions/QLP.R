@@ -84,7 +84,7 @@ finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot, gbar){
   beta.free <-  as.numeric(coef(first.stage)[2:(1+fnum)])
   #If not specified, starting points are the first stage+normal noise
   if (is.null(b.init)){
-    b.init <- coef(first.stage)[(2 + fnum):(1 + fnum + snum)]+rnorm((snum), 0, 0.01)
+    b.init <- coef(first.stage)[(2 + fnum):(1 + fnum + snum)]
   } 
   #Clean Phi from the effects of free variables
   phi <- phi - (free%*%beta.free)
@@ -101,20 +101,21 @@ finalQLP <- function(tau, h, ind, data, fnum, snum, b.init, boot, gbar){
   tmp.data <- na.omit(data.frame(state, lagState, lagFree, phi, lag.phi, va))
   lagFree <- tmp.data[, grepl('lagFree', colnames(tmp.data)), drop = FALSE]
   lagState <- tmp.data[, grepl('lagState', colnames(tmp.data)), drop = FALSE]
-  Z <- as.matrix(cbind(tmp.data$state, lagState, lagFree))
+  #Instruments
+  Z <- as.matrix(tmp.data$state)
   #Use W.init as an initial weighting matrix to get consistent estimates of theta
-  W.init <- solve(tau*(1-tau)*crossprod(Z)/nrow(Z))
+  # W.init <- solve(tau*(1-tau)*crossprod(Z)/nrow(Z))
   theta.hat <- as.numeric(ivqr.gmm(tau=tau, mX=tmp.data$state, mlX=tmp.data$lagState, mZ=Z, 
-      fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, h=h, max.time=1, upper=1, lower=0, 
-      weight.mtx=W.init, structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=b.init)$theta)
+      fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, h=h, max.time=1, upper=1, lower=0, structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=b.init)$theta)
   #At the initial consistent estimate, compute the weighting matrix
-  W <- solve(LRV.est.fn(tau=tau, mX=tmp.data$state, mlX=tmp.data$lagState, 
-    mZ=Z, fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, Lambda=Lambda, theta=theta.hat, 
-    Itilde=Itilde.KS17, h=h, structure='iid', LRV.kernel='uniform'))
+  # W <- solve(LRV.est.fn(tau=tau, mX=tmp.data$state, mlX=tmp.data$lagState, 
+  #   mZ=Z, fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, Lambda=Lambda, theta=theta.hat, 
+  #   Itilde=Itilde.KS17, h=h, structure='iid', LRV.kernel='uniform'))
   #Solve using the above weighting matrix
-  try.state <- GenSA(par=b.init, fn=goQLP, mZ=Z, mW=W, mX=tmp.data$state, mlX=tmp.data$lagState, 
-  fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, tau=tau, h=h, gbar=gbar, lower=0, upper=1, control=list(max.time=5))
-  beta.state <- as.numeric(try.state$par)
+  # try.state <- GenSA(par=theta.hat, fn=goQLP, mZ=Z, mW=W, mX=tmp.data$state, mlX=tmp.data$lagState, 
+  # fitphi=tmp.data$phi, fitlagphi=tmp.data$lag.phi, tau=tau, h=h, gbar=gbar, lower=0, upper=1, control=list(max.time=5))
+  # beta.state <- as.numeric(try.state$par)
+  beta.state <- theta.hat
 
   if (gbar==TRUE){
     gbartrue <- g.bar(theta=beta.state, mX=tmp.data$state, mlX=tmp.data$lagState, mZ=Z, 

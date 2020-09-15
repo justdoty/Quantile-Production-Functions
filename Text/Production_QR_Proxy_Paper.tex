@@ -93,7 +93,7 @@ While these methods have been useful in identifying the production function para
 
 In our approach we allow firm heterogeneity in production technology beyond Hick's neutral productivity shock to be driven by the rank of the unobserved production shock, $\eta_{it}$.  We simultaneously extend the proxy variable approach to this framework in order to control for the part of production unobservables that are correlated with inputs. Since applying the quantile regression requires non-smooth criterion function, it is not straightforward to estimate the production functions by allowing for endogenous inputs and their heterogeneous coefficients. We are not aware of any published paper which takes into account for the endogeneity issue of production functions in the conventional quantile regression framework. We fill the gap in this paper by proposing an easy-to-implement estimator.
 
-We show through simulation, that our proposed two-step estimator performs relatively well to the most current control function approaches of \cite{Levinsohn2003} and \cite{Ackerberg2015} and is successful in capturing heterogeneous output elasticities along the conditional distribution of firm's output. In our empirical application, we consider several popular firm and plant-level manufacturing datasets and compare our estimator to control function approaches. We show that heterogeneity in these esimates implies differences in capital intensity and TFP growth over time. 
+We show through simulation, that our proposed two-step estimator performs relatively well to the most current control function approaches of \cite{Levinsohn2003} and \cite{Ackerberg2015} and is successful in capturing heterogeneous output elasticities along the conditional distribution of firm's output. In our empirical application, we consider several popular firm and plant-level manufacturing datasets and compare our estimator to control function approaches. We show that heterogeneity in these estimates implies differences in capital intensity and TFP growth over time. 
 
 The rest of the paper is organized as follows. Section \ref{litreview} reviews prior approaches for production function estimation and the literature on panel data quantile regression. Section \ref{ourmodel} introduces the econometric model and the proposed estimator. Section \ref{montecarlo} presents finite-sample behaviors of the estimator via Monte Carlo experiments and Section \ref{application} applies this estimator to US, Chilean, and Colombian manufacturing datasets. Section \ref{conclusion} concludes with directions for future research.
 
@@ -243,10 +243,10 @@ and note that
 Q_{\tau}(\omega_{it}|\mathcal{I}_{it-1})=\beta_{0}(\tau)+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+F_{\xi}^{-1}(\tau)
 \end{equation}
 We estimate $(\beta_{0}(\tau)+F_{\xi}^{-1}(\tau), \rho)$ using the procedure of \cite{He1997}
-\begin{itemize}
+\begin{enumerate}
 	\item First, a median regression of $\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}$ on $\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}$ to obtain estimates of $(\beta_{0}(\tau), \rho)$
 	\item Second, let $\hat{\xi}_{it}=\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}-\hat{\beta}_{0}(\tau)-\hat{\rho}(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})$. Then take the $\tau$th quantile of $\hat{\xi}_{it}$ as an estimate for $\hat{F}_{\xi}^{-1}(\tau)$
-\end{itemize}
+\end{enumerate}
 Therefore, we have the following identification condition
 \begin{equation}
 P[\hat{\xi}_{it}(\beta_{k}(\tau))\leq \hat{F}_{\xi}^{-1}(\tau)|\mathcal{I}_{it-1}]=P[\hat{\xi}_{it}(\beta_{k}(\tau))\leq \hat{F}_{\xi}^{-1}(\tau)]=\tau
