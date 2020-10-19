@@ -1,8 +1,8 @@
 #This code is a modified version of Smoothed GMM for Quantile Models, de Castro, Galvao,
 #Kaplan, and Liu (2018). See David Kaplan's website for more details
 #https://faculty.missouri.edu/~kaplandm/
-# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
-source('gmmq.R')
+source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
+# source('gmmq.R')
 IDENTITY.FLAG <- FALSE
 ZZ.FLAG <- FALSE
 

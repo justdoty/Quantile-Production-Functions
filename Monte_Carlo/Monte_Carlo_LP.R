@@ -1,5 +1,5 @@
-source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
 source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/ivqr_gmm.R')
+source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
 # source('gmmq.R')
 # source('ivqr_gmm.R')
 #For Paralelization
@@ -40,12 +40,11 @@ Gpfn <- function(v,h){
   }
 ###############Moment Equation Objective Function############################################
 Lambda <- function(theta, mX, mlX, fitphi, fitlagphi, tau){
-      conc <- rq(fitphi-mX%*%theta[1:(ncol(mX))]~fitlagphi-mlX%*%theta[1:(ncol(mX))], tau=0.5)
-      rho <- as.numeric(coef(conc))[2]
-      residconc <- resid(conc)
-      beta0 <- quantile(residconc, tau)
-      concparam <- as.numeric(c(beta0, rho))
-      xifit <- fitphi-mX%*%theta[1:(ncol(mX))]-cbind(1, fitlagphi-mlX%*%theta[1:(ncol(mX))])%*%concparam
+      step1 <- rq(fitphi-mX%*%theta[1:(ncol(mX))]~fitlagphi-mlX%*%theta[1:(ncol(mX))], 0.5)
+      step1param <- as.numeric(coef(step1))
+      residconc <- fitphi-mX%*%theta[1:(ncol(mX))]-(fitlagphi-mlX%*%theta[1:(ncol(mX))])*step1param[2]
+      Finv <- quantile(residconc, tau)
+      xifit <- residconc-Finv
       return(xifit)
     }
 ############ LP Moment Equations############################
@@ -96,8 +95,8 @@ for (d in 1:length(DGPs)){
     omgdata <- matrix(0, n, overallt) #omega(t)
     omgdataminusb <- matrix(0, n, overallt) #omega(t-b)
 
-    #Location Scale Parameters
-    eta0 <- 1
+    #Location Scale parameters
+    eta0 <- .1
     etak <- 0.7
     etal <- -0.6
   
@@ -275,33 +274,32 @@ for (d in 1:length(DGPs)){
     'ZZ.FLAG', 'phiacf_Lag_1_LP', 'results_LP'), envir=environment())
     innerloop_LP <- function(q){
       firststage <- rq(Output~Capital+Labor+Materials, tau=tau[q])
+      phi0 <- firststage$coefficients[1]
       LP_Labor <- as.matrix(firststage$coefficients[3])
-      resmat_LPQ[,,,d][,,q][j,][2] <- LP_Labor
-      phiacf <- fitted(firststage)-as.matrix(Labor)%*%LP_Labor
+      resmat_LPQ[,,,d][,,q][j,][1] <- LP_Labor
+      phiacf <- fitted(firststage)-as.matrix(Labor)%*%LP_Labor-phi0
       dim(phiacf) <- c(t, n)
       phiacf_Lag_1 <- c(phiacf[1:(t-1),])
-      phiacf_Lag_LM <- phiacf_Lag_1_LP
-      khat <- results_LP[1]
       phiacf_Con <- c(phiacf[2:t,])
       #Quantile GMM
       #Output Net of Labor
       Y <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
       #Matrix of Instruments
-      Z <- as.matrix(Capital_Con)
+      Z <- cbind(1, as.matrix(Capital_Con))
       #Contemporary Values
       X <- as.matrix(Capital_Con)
       #Lag Values
       lX <- as.matrix(Capital_Lag_1)
-      results <- ivqr.gmm(tau=tau[q], mX=X, mlX=lX, mZ=Z, fitphi=phiacf_Con, fitlagphi=phiacf_Lag_1, h=0.1, max.time=1, upper=1, lower=0, structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=alphak0[q])
+      results <- ivqr.gmm(tau=tau[q], mX=X, mlX=lX, mZ=Z, fitphi=phiacf_Con, fitlagphi=phiacf_Lag_1, h=0.1, max.time=1, upper=1, lower=0, weight.mtx=NULL, structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=alphak0[q])
       #############################################################
-      resmat_LPQ[,,,d][,,q][j,][-2] <- t(results$theta)
+      resmat_LPQ[,,,d][,,q][j,][-1] <- results$theta
       return(resmat_LPQ[,,,d][,,q][j,])
       ##################################################################
     }
       #Optional for serial computing
-      # resmat_LPQ[,,,d][j,,] <- matrix(unlist(lapply(1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
+      resmat_LPQ[,,,d][j,,] <- matrix(unlist(lapply(1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
       q.time <- proc.time()
-      resmat_LPQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
+      # resmat_LPQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
       ####################################################################
       print("Q-GMM Estimates")
       print(alphak0)
@@ -312,20 +310,13 @@ for (d in 1:length(DGPs)){
 stopCluster(cl); print("Cluster stopped.")
 print(Sys.time()-overall.start.time)
 # #Store True Values in Rdata environment
-# alphak1 <- alphak+etak*qnorm(tau, 0, sigeps); alphal1 <- alphal+etal*qnorm(tau, 0, sigeps)
-# alpha1 <- cbind(alphak1, alphal1)
-# alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(tau, 0, 0.1)
-# alpha2 <- cbind(alphak2, alphal2)
-# alpha <- rbind(alpha1, alpha2)
-# #Save Results
+alphak1 <- alphak+etak*qnorm(tau, 0, sigeps); alphal1 <- alphal+etal*qnorm(tau, 0, sigeps)
+alpha1 <- cbind(alphak1, alphal1)
+alphak2 <- alphak+etak*qlaplace(tau, 0, 0.1); alphal2 <- alphal+etal*qlaplace(tau, 0, 0.1)
+alpha2 <- cbind(alphak2, alphal2)
+alpha <- rbind(alpha1, alpha2)
+#Save Results
 # save(nreps, DGPs, resmat_LP, resmat_LPQ, alpha, tau, file="simulation_LP.Rdata")
-
-
-
-
-
-
-
 
 
 
