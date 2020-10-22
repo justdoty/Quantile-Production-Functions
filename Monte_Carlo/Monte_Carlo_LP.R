@@ -1,7 +1,5 @@
-source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/ivqr_gmm.R')
-source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq.R')
-# source('gmmq.R')
-# source('ivqr_gmm.R')
+source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq_aux.R')
+# source('gmmq_aux.R')
 #For Paralelization
 require(snow)
 #For MM 
@@ -31,27 +29,35 @@ timeb <- 0
 sigoptl <- 0.37
 #Number of parameters to estimate in QGMM
 dB <- 2
-#Add bandwidth as second argument to G() and G'() functions.
-Gfn <- function(v,h){      
-  Itilde.KS17(v/h)    
-  }
-Gpfn <- function(v,h){      
-  Itilde.deriv.KS17(v/h)    
-  }
 ###############Moment Equation Objective Function############################################
-Lambda <- function(theta, mX, mlX, fitphi, fitlagphi, tau){
-      step1 <- rq(fitphi-mX%*%theta[1:(ncol(mX))]~fitlagphi-mlX%*%theta[1:(ncol(mX))], 0.5)
+Lambda <- function(theta, mY, mX, mlX, fitphi, fitlagphi, tau){
+      A <- mY-mX%*%theta[1:ncol(mX)]
+      B <- fitlagphi-mX%*%theta[1:ncol(mX)]
+      step1 <- rq(A~B, tau=0.5)
       step1param <- as.numeric(coef(step1))
-      residconc <- fitphi-mX%*%theta[1:(ncol(mX))]-(fitlagphi-mlX%*%theta[1:(ncol(mX))])*step1param[2]
+      residconc <- A-B*step1param[2]
       Finv <- quantile(residconc, tau)
       xifit <- residconc-Finv
       return(xifit)
     }
+QLP <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi, h, tau){
+  xifit <- Lambda(theta=theta, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)
+  gbar <- as.matrix(colMeans(mZ*repmat((Gfn(-xifit, h)-tau), 1, ncol(mZ))))
+  W <- solve(LRV.est.fn(tau=tau, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, Lambda=Lambda, 
+    theta=theta, Itilde=Itilde.KS17, h=h, structure='iid', LRV.kernel='uniform'))
+  go <- nrow(mZ)*t(gbar)%*%W%*%gbar
+  return(go)
+
+}
 ############ LP Moment Equations############################
-LP_GMM <- function(x, z, b){
-  xi <- x[,1]-b[1]*x[,2]-b[2]*(x[,3]-b[1]*x[,4])
-  Obj <- z*array(data=-xi, dim=dim(z))
-  return(Obj)
+LP <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
+  A <- mY-mX%*%theta[1:ncol(mX)]
+  B <- fitlagphi-mX%*%theta[1:ncol(mX)]
+  xsi <- resid(lm(A~B))
+  mom <- mZ*array(xsi, dim(mZ))
+  momc <- colSums(mom)
+  go <- sum(momc^2)
+  return(go)
 }
 ##################################################################################
 ######################################################################################
@@ -243,20 +249,22 @@ for (d in 1:length(DGPs)){
     ################################################################################
     #First Stage########################################################
     firststage_LP <- lm(Output~Capital+Labor+Materials)
+    phi0 <- firststage_LP$coefficients[1]
     LP_Labor <- firststage_LP$coefficients[3]
     resmat_LP[,,d][j,][2] <- LP_Labor
-    phiacf_LP <- cbind(1, Capital, Materials)%*%firststage_LP$coefficients[-3]
-    dim(phiacf_LP) <- c(t, n)
-    phiacf_Lag_1_LP <- c(phiacf_LP[1:(t-1),])
-    phiacf_Con_LP <- c(phiacf_LP[2:t,])
-    LP_X <- cbind(phiacf_Con_LP, Capital_Con, phiacf_Lag_1_LP, Capital_Lag_1, Output_Con, Labor_Con)
-    LP_Z <- cbind(Capital_Con, phiacf_Lag_1_LP)
-    obj.fn_LP <- function(b){
-      momi <- LP_GMM(x=LP_X, z=LP_Z, b)
-      return(nrow(momi)*colMeans(momi)%*%inv(var(momi))%*%as.matrix(colMeans(momi)))
-    }
-    results_LP <- GenSA(par=c(alphak, rho), fn=obj.fn_LP, lower=c(0,0),
-      upper=c(1,1), control=list(max.time=5))$par
+    phi_LP <- fitted(firststage_LP)-as.matrix(Labor)%*%LP_Labor-phi0
+    dim(phi_LP) <- c(t, n)
+    phi_Lag_1_LP <- c(phi_LP[1:(t-1),])
+    phi_Con_LP <- c(phi_LP[2:t,])
+    mY <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
+    #Matrix of Instruments
+    mZ <- as.matrix(Capital_Con)
+    #Contemporary Values
+    mX <- as.matrix(Capital_Con)
+    #Lag Values
+    mlX <- as.matrix(Capital_Lag_1)
+    results_LP <- GenSA(par=alphak, fn=LP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_LP, fitlagphi=phi_Lag_1_LP,  
+      lower=0, upper=1, control=list(max.time=5))$par
     ############################################################
     resmat_LP[,,d][j,][1] <- results_LP[1]
     print("LP Estimates")
@@ -266,33 +274,33 @@ for (d in 1:length(DGPs)){
     # ##########################################################################################
     clusterExport(cl, c('n','overallt','t','starttime','nreps', 'tau', 'dB', 'siglnw', 'timeb',
     'sigoptl', 'Itilde.KS17',
-    'Itilde.deriv.KS17', 'resmat_LPQ', 'Lambda', 'rq', 'fitted',
+    'Itilde.deriv.KS17', 'resmat_LPQ', 'QLP', 'rq', 'fitted',
     'Output', 'Capital', 'Labor', 'Materials',
-    'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Lag_2', 'Labor_Con', 'Output_Con',
+    'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Con', 'Output_Con',
     'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0',
-    'GenSA', 'repmat','Gfn', 'Gpfn', 'LRV.est.fn', 'ivqr.gmm', 'uniform.fn', 'IDENTITY.FLAG', 
-    'ZZ.FLAG', 'phiacf_Lag_1_LP', 'results_LP'), envir=environment())
+    'GenSA', 'repmat','Gfn', 'Gpfn', 'LRV.est.fn', 'ivqr.gmm', 'uniform.fn', 'results_LP'), envir=environment())
     innerloop_LP <- function(q){
       firststage <- rq(Output~Capital+Labor+Materials, tau=tau[q])
       phi0 <- firststage$coefficients[1]
       LP_Labor <- as.matrix(firststage$coefficients[3])
       resmat_LPQ[,,,d][,,q][j,][1] <- LP_Labor
-      phiacf <- fitted(firststage)-as.matrix(Labor)%*%LP_Labor-phi0
-      dim(phiacf) <- c(t, n)
-      phiacf_Lag_1 <- c(phiacf[1:(t-1),])
-      phiacf_Con <- c(phiacf[2:t,])
+      phi <- fitted(firststage)-as.matrix(Labor)%*%LP_Labor-phi0
+      dim(phi) <- c(t, n)
+      phi_Lag_1 <- c(phi[1:(t-1),])
+      phi_Con <- c(phi[2:t,])
       #Quantile GMM
       #Output Net of Labor
-      Y <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
+      mY <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
       #Matrix of Instruments
-      Z <- cbind(1, as.matrix(Capital_Con))
+      mZ <- cbind(1, as.matrix(Capital_Con))
       #Contemporary Values
-      X <- as.matrix(Capital_Con)
+      mX <- as.matrix(Capital_Con)
       #Lag Values
-      lX <- as.matrix(Capital_Lag_1)
-      results <- ivqr.gmm(tau=tau[q], mX=X, mlX=lX, mZ=Z, fitphi=phiacf_Con, fitlagphi=phiacf_Lag_1, h=0.1, max.time=1, upper=1, lower=0, weight.mtx=NULL, structure='iid', LRV.kernel='uniform', Lambda=Lambda, theta.init=alphak0[q])
+      mlX <- as.matrix(Capital_Lag_1)
+      results <- GenSA(par=alphak0[q], fn=QLP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con, fitlagphi=phi_Lag_1, 
+        h=0.1, tau=tau[q], lower=0, upper=1, control=list(max.time=5))
       #############################################################
-      resmat_LPQ[,,,d][,,q][j,][-1] <- results$theta
+      resmat_LPQ[,,,d][,,q][j,][-1] <- results$par
       return(resmat_LPQ[,,,d][,,q][j,])
       ##################################################################
     }
@@ -302,7 +310,6 @@ for (d in 1:length(DGPs)){
       # resmat_LPQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
       ####################################################################
       print("Q-GMM Estimates")
-      print(alphak0)
       print(t(resmat_LPQ[,,,d][j,,]))
       print(proc.time()-q.time)
   }

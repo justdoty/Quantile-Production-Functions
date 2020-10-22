@@ -72,33 +72,26 @@ finalQLP <- function(ind, data, b.init, gbar){
   #Calculate Contempory and Lag Values for 2nd stage estimation
   newdata <- lagdata(idvar=data$idvar, X=cbind(data$Y, data$K, data$L, data$proxy, phi))
   names(newdata) <- c("Ycon", "Kcon", "Lcon", "Pxcon", "phicon", "Ylag", "Klag", "Llag", "Pxlag", "philag")
+  #Output net of labor
+  mY <- newdata$Ycon-newdata$Lcon*LP_Labor
   #Instruments
   Z <- as.matrix(newdata$Kcon)
   #Use W.init as an initial weighting matrix to get consistent estimates of theta
-  Winit <- solve(tau*(1-tau)*crossprod(Z)/nrow(Z))
+  # Winit <- solve(tau*(1-tau)*crossprod(Z)/nrow(Z))
   #If not specified, starting point is the first stage estimates
   if (is.null(b.init)){
     b.init <- as.numeric(coef(first.stage)[3])
   } 
-  #Solve using the above weighting matrix
   if (ncol(Z)>ncol(newdata$Kcon)){
-    kinit <- GenSA(par=b.init, fn=LPgo, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fitphi=newdata$phicon, 
-      fitlagphi=newdata$philag, mW=Winit, gbartrue=gbar, lower=0, upper=1, control=list(max.time=5))$par
-    W <- solve(var(gbar(theta=kinit, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fitphi=newdata$phicon,
-      fitlagphi=newdata$philag)))
-    khat <- GenSA(par=kinit, fn=LPgo, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fitphi=newdata$phicon, 
-      fitlagphi=newdata$philag, mW=W, gbartrue=gbar, lower=0, upper=1, control=list(max.time=5))$par
-    gbartrue <- gbar(theta=khat, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fithpi=newdata$phicon,
+    khat <- GenSA(par=b.init, fn=LPgo, mY=mY, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fitphi=newdata$phicon, 
+      fitlagphi=newdata$philag, gbartrue=gbar, lower=0, upper=1, control=list(max.time=5))$par
+    gbartrue <- gbar(theta=khat, mY=mY, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fithpi=newdata$phicon,
       lagphi=newdata$philag)
     return(list(beta=c(khat, LP_Labor), gbartrue=gbartrue))
     
   } else if (ncol(Z)==ncol(newdata$Kcon)){
-    kinit <- GenSA(par=b.init, fn=LPgo, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fitphi=newdata$phicon, 
-      fitlagphi=newdata$philag, mW=Winit, h=h, gbartrue=gbar, lower=0, upper=1, control=list(max.time=5))$par
-    W <- solve(var(gbar(theta=kinit, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fitphi=newdata$phicon,
-      fitlagphi=newdata$philag)))
-    khat <- GenSA(par=kinit, fn=LPgo, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fitphi=newdata$phicon, 
-      fitlagphi=newdata$philag, mW=W, gbartrue=gbar, lower=0, upper=1, control=list(max.time=5))$par
+    khat <- GenSA(par=b.init, fn=LPgo, mY=mY, mX=newdata$Kcon, mlX=newdata$Klag, mZ=Z, fitphi=newdata$phicon, 
+      fitlagphi=newdata$philag, gbartrue=gbar, lower=0, upper=1, control=list(max.time=5))$par
     gbartrue <- 0
     return(list(beta=c(khat, LP_Labor), gbar=gbartrue))
   }
@@ -106,28 +99,27 @@ finalQLP <- function(ind, data, b.init, gbar){
 ############################################################################################
 #This function calculates the residuals used for the moment equations and objective function
 ###########################################################################################
-Lambda <- function(theta, mX, mlX, fitphi, fitlagphi){
+Lambda <- function(theta, mY, mX, mlX, fitphi, fitlagphi){
   theta <- as.matrix(as.numeric(theta))
-  Omega <- fitphi-mX%*%theta[1:ncol(mX)]
-  Omega_lag <- fitlagphi-mlX%*%theta[1:ncol(mX)]
-  step1 <- lm(Omega~Omega_lag+Omega_lag^2+Omega_lag^3)
-  xifit <- resid(step1)
-  return(xifit)
+  A <- mY-mX%*%theta[1:ncol(mX)]
+  B <- fitlagphi-mX%*%theta[1:ncol(mX)]
+  xsi <- resid(lm(A~B+B^2+B^3))
+  return(xsi)
 } 
 ##################################################################################
 #This function calculates the smoothed sample moment for a given theta
 ##################################################################################
-gbar <- function(theta, mX, mlX, mZ, fitphi, fitlagphi){
-  xifit <- Lambda(theta=theta, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi)
-  gbar <- as.matrix(colMeans(mZ*repmat(-xifit, 1, ncol(mZ))))
+gbar <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
+  xifit <- Lambda(theta=theta, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi)
+  gbar <- as.matrix(colSums(mZ*array(xifit, dim(mZ))))
   return(gbar)
 }
 ################################################################################
 #QLP Objective Function
 ################################################################################
-LPgo <- function(theta, mX, mlX, fitphi, fitlagphi, mW, gbartrue){
-  gbar <- gbar(theta, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi)-gbartrue
-  go <- nrow(mZ)*t(g.bar)%*%mW%*%g.bar
+LPgo <- function(theta, mY, mX, mlX, fitphi, fitlagphi, gbartrue){
+  gbar <- gbar(theta, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi)-gbartrue
+  go <- sum(gbar^2)
   return(go)
 } 
 ##################################################################################

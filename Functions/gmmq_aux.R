@@ -64,7 +64,7 @@ alpha1.fn <- function(rhos,sigmas,ws=1) sum(ws*4*rhos^2*sigmas^4/((1-rhos)^6*(1+
 ######################################################################################################
 #Function that gives an estimate of the weighting matrix
 ######################################################################################################
-LRV.est.fn <- function(tau, mX, mlX, mZ, fitphi, fitlagphi, theta, Lambda, Itilde, h, structure=c('iid','ts','cluster'), cluster.X.col, LRV.kernel=c('QS','Bartlett','uniform'), LRV.ST=NA, VERBOSE=FALSE) {
+LRV.est.fn <- function(tau, mY, mX, mlX, mZ, fitphi, fitlagphi, theta, Lambda, Itilde, h, structure=c('iid','ts','cluster'), cluster.X.col, LRV.kernel=c('QS','Bartlett','uniform'), LRV.ST=NA, VERBOSE=FALSE) {
   # if (missing(structure) || !is.character(structure)) stop("Argument structure must be 'iid' or 'ts' or 'cluster'")
   structure <- match.arg(structure)
   LRV.kernel <- match.arg(LRV.kernel)
@@ -76,7 +76,7 @@ LRV.est.fn <- function(tau, mX, mlX, mZ, fitphi, fitlagphi, theta, Lambda, Itild
     if (missing(LRV.kernel) || !is.character(LRV.kernel)) stop("LRV.kernel must be 'uniform' or 'Bartlett' or 'QS' when structure is 'ts'")
     if (LRV.kernel=='uniform') weight.fn <- uniform.fn else if (LRV.kernel=='Bartlett') weight.fn <- Bartlett.fn else if (LRV.kernel=='QS') weight.fn <- QS.fn else stop(sprintf("LRV.kernel must be 'uniform' or 'Bartlett' or 'QS'; not %s",LRV.kernel))
     # Compute gni() matrix
-    gni.mat <- mZ*array(data=Itilde(-Lambda(theta=theta, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)/h)-tau,dim=dim(mZ))
+    gni.mat <- mZ*array(data=Itilde(-Lambda(theta=theta, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)/h)-tau,dim=dim(mZ))
     #
     if (is.na(LRV.ST)) { # Set ST automatically
       rho.hats <- sigma.hats <- rep(NA,dim(mZ)[2])
