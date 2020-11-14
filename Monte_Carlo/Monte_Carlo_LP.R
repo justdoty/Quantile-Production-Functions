@@ -1,5 +1,5 @@
-source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq_aux.R')
-# source('gmmq_aux.R')
+# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/gmmq_aux.R')
+source('PFQR/FUN/gmmq_aux.R')
 #For Paralelization
 require(snow)
 #For MM 
@@ -18,9 +18,9 @@ cl <- makeCluster(4)
 #Specifications for Error Distributions
 DGPs <- c("normal", "laplace")
 #MC Replications
-nreps <- 2
+nreps <- 1000
 #Vector of quantiles
-tau <- seq(0.25, 0.75, by=0.25)
+tau <- seq(0.1, 0.9, by=0.05)
 #Standard deviation of log wage process
 siglnw <- 0
 #Labor chosen at time timeb
@@ -273,17 +273,17 @@ for (d in 1:length(DGPs)){
     ##########################################################################################
     # ##########################################################################################
     clusterExport(cl, c('n','overallt','t','starttime','nreps', 'tau', 'dB', 'siglnw', 'timeb',
-    'sigoptl', 'Itilde.KS17',
+    'sigoptl', 'Itilde.KS17', 'Lambda',
     'Itilde.deriv.KS17', 'resmat_LPQ', 'QLP', 'rq', 'fitted',
     'Output', 'Capital', 'Labor', 'Materials',
     'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Con', 'Output_Con',
     'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0',
-    'GenSA', 'repmat','Gfn', 'Gpfn', 'LRV.est.fn', 'ivqr.gmm', 'uniform.fn', 'results_LP'), envir=environment())
+    'GenSA', 'repmat','Gfn', 'Gpfn', 'LRV.est.fn', 'uniform.fn', 'results_LP'), envir=environment())
     innerloop_LP <- function(q){
       firststage <- rq(Output~Capital+Labor+Materials, tau=tau[q])
       phi0 <- firststage$coefficients[1]
       LP_Labor <- as.matrix(firststage$coefficients[3])
-      resmat_LPQ[,,,d][,,q][j,][1] <- LP_Labor
+      resmat_LPQ[,,,d][,,q][j,][2] <- LP_Labor
       phi <- fitted(firststage)-as.matrix(Labor)%*%LP_Labor-phi0
       dim(phi) <- c(t, n)
       phi_Lag_1 <- c(phi[1:(t-1),])
@@ -300,14 +300,14 @@ for (d in 1:length(DGPs)){
       results <- GenSA(par=alphak0[q], fn=QLP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con, fitlagphi=phi_Lag_1, 
         h=0.1, tau=tau[q], lower=0, upper=1, control=list(max.time=5))
       #############################################################
-      resmat_LPQ[,,,d][,,q][j,][-1] <- results$par
+      resmat_LPQ[,,,d][,,q][j,][1] <- results$par
       return(resmat_LPQ[,,,d][,,q][j,])
       ##################################################################
     }
       #Optional for serial computing
-      resmat_LPQ[,,,d][j,,] <- matrix(unlist(lapply(1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
+      # resmat_LPQ[,,,d][j,,] <- matrix(unlist(lapply(1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
       q.time <- proc.time()
-      # resmat_LPQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
+      resmat_LPQ[,,,d][j,,] <- matrix(unlist(parLapply(cl, 1:length(tau), innerloop_LP)), nrow=length(tau), ncol=2)
       ####################################################################
       print("Q-GMM Estimates")
       print(t(resmat_LPQ[,,,d][j,,]))
@@ -324,8 +324,7 @@ alpha2 <- cbind(alphak2, alphal2)
 alpha <- rbind(alpha1, alpha2)
 #Save Results
 # save(nreps, DGPs, resmat_LP, resmat_LPQ, alpha, tau, file="simulation_LP.Rdata")
-
-
+save(nreps, DGPs, resmat_LP, resmat_LPQ, alpha, tau, file="PFQR/SIM/simulation_LP.Rdata")
 
 
 

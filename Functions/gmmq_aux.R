@@ -1,4 +1,3 @@
-source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/ivqr_gmm.R')
 require(dplyr)
 ###################################################################################################
 #This file contains auxillary files for data subsetting and other miscellaneous tasks
