@@ -19,17 +19,14 @@ tau <- tau[id]
 R <- 500
 #The number of parameters being estimated
 dZ <- 2
-#Bandwidth choice: user specified (for now)
-h <- 0.1
 #Store results for bootstrap replications across quantiles across industries
 results <- array(0, dim=c(R, dZ, length(industries)))
 #This gives the "true" estimates using the "true" data
 true.beta <- array(0, dim=c(dZ, length(industries)))
 
-
 for (isic in 1:length(industries)){
   CHL <- filter(CHLdata, str_detect(isic3, industries[isic]))
-  soln <- tryCatch(QLP(tau=tau, idvar=CHL$id, timevar=CHL$year, Y=CHL$lnva, K=CHL$lnk, L=CHL$lnl, proxy=CHL$lnm, h=h, b.init=NULL, R=R))
+  soln <- QLP(tau=tau, idvar=CHL$id, timevar=CHL$year, Y=CHL$lnva, K=CHL$lnk, L=CHL$lnl, proxy=CHL$lnm, binit=NULL, R=R)
   results[,,isic] <- soln[[1]]
   true.beta[,isic] <- soln[[2]]
 }

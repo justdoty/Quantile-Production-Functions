@@ -4,13 +4,9 @@
 #https://faculty.missouri.edu/~kaplandm/
 #Some data preparation follows prodest.R (Gabrielle Rovigatti)
 source('PFQR/FUN/gmmq_aux.R')
-source('PFQR/FUN/gmmq.R')
-source('PFQR/FUN/1step.R')
-source('PFQR/FUN/2step.R')
 #Required for 1st step estimation
 require(quantreg)
 #Required for QGMM estimation variations
-require(GenSA)
 require(pracma)
 require(dplyr)
 ###################################################################################
@@ -18,7 +14,7 @@ require(dplyr)
 #This function initializes the estimation procedure which calls finalQLP
 ###################################################################################
 ###################################################################################
-QLP <- function(tau, idvar, timevar, Y, K, L, proxy, h, b.init=NULL, R=20){
+QLP <- function(tau, idvar, timevar, Y, K, L, proxy, binit=NULL, R=20){
   seed <- 123456
   set.seed(seed)
   #Make all data arguments into matrices
@@ -33,17 +29,11 @@ QLP <- function(tau, idvar, timevar, Y, K, L, proxy, h, b.init=NULL, R=20){
   #This function computes the "true" beta and sample moments evaluated at the "true" parameters
   #using the "true" data used for recentering the moments in the bootstrap
   #Here ind denotes the index that does tells finalQLP not resample the original data
-  if (h==0){
-    trueboot <- finalQLP(tau=tau, h=0, ind=TRUE, data=data, b.init=b.init, gbar=0)
-  } else {
-  	trueboot <- finalQLP(tau=tau, h=h, ind=TRUE, data=data, b.init=b.init, gbar=0)
-  }
+  trueboot <- finalQLP(tau=tau, ind=TRUE, data=data, binit=binit, gbar=0)
   #True parameters
   beta <- trueboot$beta
   #True sample moments
-  gbar <- trueboot$gbartrue
-  #Bandwidth selected from true data
-  hbar <- trueboot$h
+  gbartrue <- trueboot$gbar
   #Initialize bootstrap
   boot.indices <- block.boot.resample(idvar, R)
   boot.betas <- matrix(0, nrow=R, ncol=2)
@@ -52,18 +42,17 @@ QLP <- function(tau, idvar, timevar, Y, K, L, proxy, h, b.init=NULL, R=20){
   for (i in 1:R){
     print(i)
     set.seed(seed+i)
-    boot.betas[i,] <- finalQLP(tau=tau, h=hbar, ind=boot.indices[[i]], data=data, b.init=b.init, gbar=gbar)$beta
+    boot.betas[i,] <- finalQLP(tau=tau, ind=boot.indices[[i]], data=data, binit=binit, gbar=gbartrue)$beta
   }
   #Only return the boostrapped estimates and the estimates at the true data
-  return(list(boot.betas, beta, hbar))
+  return(list(boot.betas, beta))
 }
-
 ###########################################################################
 ###########################################################################
 #Function to estimate and to bootstrap QLP
 ###########################################################################
 ###########################################################################
-finalQLP <- function(tau, h, ind, data, b.init, gbar){
+finalQLP <- function(tau, ind, data, binit, gbar){
   ##########################################################################
   #Bootstrap Component
   ###########################################################################
@@ -78,7 +67,7 @@ finalQLP <- function(tau, h, ind, data, b.init, gbar){
   #First Stage of LP
   #######################################################################
   #Create a polynomail data frame for 1st stage estimation
-  regvars <- data.frame(reg1=data$L, reg2=data$K, reg3=data$K*data$proxy, reg4=data$K^2, reg5=data$proxy^2, reg6=data$K^2*data$proxy^2)
+  regvars <- data.frame(reg1=data$L, reg2=data$K, reg3=data$proxy, reg4=data$K^2, reg5=data$proxy^2)
   firststage <- rq(data$Y~as.matrix(regvars[, grepl('reg', colnames(regvars))]), tau=tau)
   phi0 <- as.numeric(coef(firststage)[1])
   LP_Labor <-  as.numeric(coef(firststage)[2])
@@ -87,8 +76,6 @@ finalQLP <- function(tau, h, ind, data, b.init, gbar){
   #Calculate Contempory and Lag Values for 2nd stage estimation
   newdata <- lagdata(idvar=data$idvar, X=cbind(data$Y, data$K, data$L, data$proxy, phi))
   names(newdata) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "phicon", "Ylag", "Klag", "Llag", "Pxlag", "philag")
-  print("Data (lag and con)")
-  print(head(newdata))
   #Output net of labor
   mY <- as.matrix(newdata$Ycon-newdata$Lcon*LP_Labor)
   #Contemporary State Variables
@@ -104,49 +91,59 @@ finalQLP <- function(tau, h, ind, data, b.init, gbar){
   #Optional weighting matrix used by Kaplan and Sun (2016)
   # Wz <- solve(tau*(1-tau)*crossprod(mZ)/nrow(mZ))
   #If not specified, starting point is the first stage estimates
-  if (is.null(b.init)){
-    b.init <- as.numeric(coef(firststage)[3])
+  if (is.null(binit)){
+    binit <- as.numeric(coef(firststage)[3])
   }
   #Overidentification
   if (ncol(mZ)>ncol(mX)){
-  	#One Step Estimator of Newey and McFadden (1994)
-  	soln <- onestep(mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, h=h, tau=tau, b.init=b.init, gbartrue=gbar, VERBOSE=TRUE)
-    #Optional Two-Step Estimator of de Castro et. al. (2019) (uses results from onestep)
-    # soln <- twostep(mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, W=soln$W h=soln$h, tau=tau, b.init=soln$b, gbartrue=gbar, upper=1, lower=0, maxtime=5)
-    return(list(beta=c(soln$b, LP_Labor), hbar=soln$h, gbartrue=soln$G))
+  	# soln <- GenSA(par=binit, fn=QLPobj, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau, lower=0, upper=1, control=list(max.time=5))
+    soln <- optim(par=binit, fn=function(b) QLPobj(b, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau), gr=NULL, method="L-BFGS-B", lower=0, upper=1)
+    gbar <- gbar(b=soln$par, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau)
+    return(list(beta=c(soln$par, LP_Labor), gbar=gbar))
   } else if (ncol(mZ)==ncol(mX)){
-    soln <- gmmq(mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, h=h, tau=tau, b.init=b.init, VERBOSE=TRUE)
-    gbartrue <- 0
-    return(list(beta=c(soln$b, LP_Labor), hbar=soln$h, gbartrue=gbartrue))
+    soln <- optim(par=binit, fn=function(b) QLPobj(b, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau), gr=NULL, method="L-BFGS-B", lower=0, upper=1)
+    gbar <- 0
+    return(list(beta=c(soln$b, LP_Labor), gbar=gbar))
   }
 }
 ############################################################################################
 #This function calculates the residuals used for the moment equations and objective function
 ###########################################################################################
-Lambda <- function(theta, mY, mX, mlX, fitphi, fitlagphi, tau){
-  theta <- as.matrix(as.numeric(theta))
-  A <- mY-mX%*%theta[1:ncol(mX)]
-  B <- fitlagphi-mX%*%theta[1:ncol(mX)]
-  step1 <- rq(A~B+I(B^2)+I(B^3), tau=0.5)
-  rho <- as.numeric(coef(step1)[-1])
-  residconc <- resid(step1)
-  Finv <- quantile(residconc, tau)
-  conc <- c(Finv, rho)
-  xifit <- A-cbind(1, B, B^2, B^3)%*%conc
+Lambda <- function(b, mY, mX, mlX, fitphi, fitlagphi, tau){
+  A <- fitphi-mX%*%b[1:ncol(mX)]
+  B <- fitlagphi-mlX%*%b[1:ncol(mX)]
+  step1 <- lm(A~B+I(B^2)+I(B^3))
+  step1param <- as.numeric(coef(step1))
+  xifit <- A-cbind(1, B, B^2, B^3)%*%step1param
   return(xifit)
 } 
+gbar <- function(b, mY, mX, mlX, mZ, fitphi, fitlagphi, gbar, tau){
+     xifit <- matrix(Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau), ncol=1)
+     gni <- sweep(mZ*repmat(xifit,1, ncol(mZ)), MARGIN=2, gbar, `-`)
+     gbar <- as.matrix(colMeans(gni)) 
+     return(gbar)
+  }
+ QLPobj <- function(b, mY, mX, mlX, mZ, fitphi, fitlagphi, gbar, tau){
+  xifit <- Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)
+  gni <- sweep(mZ*repmat(xifit,1, ncol(mZ)), MARGIN=2, gbar, `-`)
+  gbar <- as.matrix(colMeans(gni))
+  W <- solve(var(gni))
+  go <- nrow(mY)*t(gbar)%*%W%*%gbar
+  return(go)
+
+}
 ############################################################################################
 #This function calculates the jacobian of Lambda
 ###########################################################################################
-Lambda.derivative <- function(theta, mY, mX, mlX, fitphi, fitlagphi, tau){
-  theta <- as.matrix(as.numeric(theta))
-  A <- mY-mX%*%theta[1:ncol(mX)]
-  B <- fitlagphi-mX%*%theta[1:ncol(mX)]
-  step1 <- rq(A~B+I(B^2)+I(B^3), tau=0.5)
-  rho <- as.numeric(coef(step1)[-1])
-  deriv <- -mX+mlX*rowSums(sweep(cbind(1,B,B^2), margin=2, seq(1,length(rho))*rho, `*`))
-  return(deriv)
-} 
+# Lambda.derivative <- function(b, mY, mX, mlX, fitphi, fitlagphi, tau){
+#   b <- as.matrix(as.numeric(b))
+#   A <- fitphi-mX%*%b[1:ncol(mX)]
+#   B <- fitlagphi-mlX%*%b[1:ncol(mX)]
+#   step1 <- lm(A~B+I(B^2)+I(B^3))
+#   rho <- as.numeric(coef(step1))
+#   deriv <- -mX+mlX*rowSums(sweep(cbind(1,B,B^2), MARGIN=2, seq(1,length(rho))*rho, `*`))
+#   return(deriv)
+# } 
 ##################################################################################
 ##################################################################################
 ##################################################################################

@@ -1,7 +1,7 @@
-source('PFQR/FUN/gmmq_aux.R')
-source('PFQR/FUN/QLP.R')
-source('PFQR/FUN/gmmq.R')
-source('PFQR/FUN/1step.R')
+# source('PFQR/FUN/gmmq_aux.R')
+# source('PFQR/FUN/QLP.R')
+# source('PFQR/FUN/gmmq.R')
+# source('PFQR/FUN/1step.R')
 twostep <- function(mY, mX, mlX, mZ, fitphi, fitlagphi, W, h, tau, b.init, gbartrue, upper, lower, maxtime){
 	n <- nrow(mY)
 	ivqr.obj <- function(b, h, weight.mtx) {

@@ -1,11 +1,14 @@
-source('PFQR/FUN/gmmq_aux.R')
-source('PFQR/FUN/QLP.R')
+# source('PFQR/FUN/gmmq_aux.R')
+# source('PFQR/FUN/QLP.R')
 gmmq <- function(mY, mX, mlX, mZ, fitphi, fitlagphi, h, tau, b.init, VERBOSE){
 	n <- nrow(mY)
 	obj.fn <- function(b, h){ 
 	    L <- Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)
-	    return(colMeans(mZ*array(data=Itilde(-L/h)-tau,dim=dim(mZ))))
+	    return(colMeans((mZ*array(data=Itilde(-L/h)-tau,dim=dim(mZ)))))
   	}
+    x <- seq(0,1,by=.001)
+    y <- sapply(x, function(b) obj.fn(b,h=.1))
+    save(x,y,file='PFQR/plot.Rdata')
   	jac.fn <- function(b, h) { 
       L <- Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)
       Lp <- Lambda.derivative(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)
@@ -22,12 +25,17 @@ gmmq <- function(mY, mX, mlX, mZ, fitphi, fitlagphi, h, tau, b.init, VERBOSE){
 	 h.lo <- h
    	 h.hi <- NA
   	 MAXITER <- 400;  H.MAX <- 1e10
+     if (VERBOSE==TRUE) {cat(sprintf('n=%d, tau=%g, dB=%d, desired h=%g\n',n,tau,length(b.init),h))}
+     last.error <- NULL
   	 while (h.cur<=H.MAX && h.cur>.Machine$double.eps*1e2 && (is.na(h.hi) || (h.hi/h.lo)>1.4)){
-  	 	if (VERBOSE) cat(sprintf("h.cur=%g: ",h.cur))
+      print(h.cur)
+  	 	if (VERBOSE==TRUE) {cat(sprintf("h.cur=%g: ",h.cur))}
   	 	J <- function(b) jac.fn(b, h.cur)
-  	 	soln <- tryCatch(newtonsys(Ffun=function(b) obj.fn(b, h.cur), Jfun=J, x0=b.init, maxiter=MAXITER), 
+      print(b.init)
+  	 	soln <- tryCatch(GenSA(par=b.init, fn=function(b) obj.fn(b, h.cur), lower=0, upper=1, control=list(max.time=5, maxit=MAXITER)), 
   	 		warning=function(w) NA, error=function(e) {list(NA,e)})
-  	 	exitOK <- !(is.na(soln[1]) || soln$niter==MAXITER)
+      print(soln)
+  	 	exitOK <- !(is.na(soln$par) || soln$counts==MAXITER)
   	 	if (!exitOK) {
   	  		last.error <- soln[2]
   	 		if (VERBOSE) {

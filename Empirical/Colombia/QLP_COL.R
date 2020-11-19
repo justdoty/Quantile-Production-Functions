@@ -1,10 +1,10 @@
 #This the file that calls the functions to estimate the production function for the US data
 #Runs batches over quantiles for each industry, note that this cannot be performed on personal CPU without
 #additional adjustments
-source('QLP.R')
+source('PFQR/FUN/QLP.R')
 require(stringr)
 #Load US dataset
-COLdata <- read.csv("COLdata.csv")
+COLdata <- read.csv("PFQR/DATA/COL/COLdata.csv")
 #Choose which industry to select
 All <- "^3"
 industries <- c("311", "322", "381", All)
@@ -17,8 +17,6 @@ tau <- tau[id]
 R <- 500
 #The number of parameters being estimated
 dZ <- 2
-#Bandwidth choice: user specified (for now)
-h <- 1e-6
 #Store results for bootstrap replications across quantiles across industries
 results <- array(0, dim=c(R, dZ, length(industries)))
 #This gives the "true" estimates using the "true" data
@@ -27,11 +25,11 @@ true.beta <- array(0, dim=c(dZ, length(industries)))
 
 for (isic in 1:length(industries)){
   COL <- filter(COLdata, str_detect(isic3, industries[isic]))
-  soln <- tryCatch(QLP(tau=tau, va=COL$lnva, state=COL$lnk, free=COL$lnl, proxy=COL$lnm, id=COL$id, time=COL$year, h=h, b.init=NULL, R=R))
+  soln <- QLP(tau=tau, idvar=COL$id, timevar=COL$year, Y=COL$lnva, K=COL$lnk, L=COL$lnl, proxy=COL$lnm, binit=NULL, R=R)
   results[,,isic] <- soln[[1]]
   true.beta[,isic] <- soln[[2]]
 }
-filename <- paste("QLP_COL_Q", id, ".RData", sep="")
+filename <- paste("PFQR/DATA/COL/QLP_COL_Q", id, ".RData", sep="")
 save(results, true.beta, file=filename)
 
 

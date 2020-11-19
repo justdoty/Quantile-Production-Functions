@@ -7,7 +7,7 @@ require(pracma)
 #For First Stage QR
 require(quantreg)
 #For GMM optimiztion
-require(GenSA)
+# require(GenSA)
 require(rmutil)
 #Initialzie clusters
 cl <- makeCluster(4)
@@ -31,21 +31,19 @@ sigoptl <- 0.37
 dB <- 2
 ###############Moment Equation Objective Function############################################
 Lambda <- function(theta, mY, mX, mlX, fitphi, fitlagphi, tau){
-      A <- mY-mX%*%theta[1:ncol(mX)]
+      A <- fitphi-mX%*%theta[1:ncol(mX)]
       B <- fitlagphi-mX%*%theta[1:ncol(mX)]
-      step1 <- rq(A~B, tau=0.5)
+      step1 <- lm(A~B)
       step1param <- as.numeric(coef(step1))
-      residconc <- A-B*step1param[2]
-      Finv <- quantile(residconc, tau)
-      xifit <- residconc-Finv
+      xifit <- A-cbind(1, B)%*%step1param
       return(xifit)
     }
-QLP <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi, h, tau){
+QLP <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi, tau){
   xifit <- Lambda(theta=theta, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)
-  gbar <- as.matrix(colMeans(mZ*repmat((Gfn(-xifit, h)-tau), 1, ncol(mZ))))
-  W <- solve(LRV.est.fn(tau=tau, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, Lambda=Lambda, 
-    theta=theta, Itilde=Itilde.KS17, h=h, structure='iid', LRV.kernel='uniform'))
-  go <- nrow(mZ)*t(gbar)%*%W%*%gbar
+  gni <- mZ*repmat(xifit, 1, ncol(mZ))
+  gbar <- as.matrix(colMeans(gni))
+  W <- solve(var(gni))
+  go <- nrow(mY)*t(gbar)%*%W%*%gbar
   return(go)
 
 }
@@ -252,7 +250,7 @@ for (d in 1:length(DGPs)){
     phi0 <- firststage_LP$coefficients[1]
     LP_Labor <- firststage_LP$coefficients[3]
     resmat_LP[,,d][j,][2] <- LP_Labor
-    phi_LP <- fitted(firststage_LP)-as.matrix(Labor)%*%LP_Labor-phi0
+    phi_LP <- fitted(firststage_LP)-as.matrix(Labor)%*%LP_Labor
     dim(phi_LP) <- c(t, n)
     phi_Lag_1_LP <- c(phi_LP[1:(t-1),])
     phi_Con_LP <- c(phi_LP[2:t,])
@@ -263,8 +261,9 @@ for (d in 1:length(DGPs)){
     mX <- as.matrix(Capital_Con)
     #Lag Values
     mlX <- as.matrix(Capital_Lag_1)
-    results_LP <- GenSA(par=alphak, fn=LP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_LP, fitlagphi=phi_Lag_1_LP,  
-      lower=0, upper=1, control=list(max.time=5))$par
+    # results_LP <- GenSA(par=alphak, fn=LP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_LP, fitlagphi=phi_Lag_1_LP,  
+    #   lower=0, upper=1, control=list(max.time=5))$par
+    results_LP <- optim(par=alphak, fn=function(theta) LP(theta, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_LP, fitlagphi=phi_Lag_1_LP), gr=NULL, method="L-BFGS-B", lower=0, upper=1)$par
     ############################################################
     resmat_LP[,,d][j,][1] <- results_LP[1]
     print("LP Estimates")
@@ -273,12 +272,10 @@ for (d in 1:length(DGPs)){
     ##########################################################################################
     # ##########################################################################################
     clusterExport(cl, c('n','overallt','t','starttime','nreps', 'tau', 'dB', 'siglnw', 'timeb',
-    'sigoptl', 'Itilde.KS17', 'Lambda',
-    'Itilde.deriv.KS17', 'resmat_LPQ', 'QLP', 'rq', 'fitted',
+    'sigoptl', 'Lambda', 'resmat_LPQ', 'QLP', 'rq', 'fitted',
     'Output', 'Capital', 'Labor', 'Materials',
     'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Con', 'Output_Con',
-    'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0',
-    'GenSA', 'repmat','Gfn', 'Gpfn', 'LRV.est.fn', 'uniform.fn', 'results_LP'), envir=environment())
+    'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0', 'repmat','results_LP'), envir=environment())
     innerloop_LP <- function(q){
       firststage <- rq(Output~Capital+Labor+Materials, tau=tau[q])
       phi0 <- firststage$coefficients[1]
@@ -292,13 +289,13 @@ for (d in 1:length(DGPs)){
       #Output Net of Labor
       mY <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
       #Matrix of Instruments
-      mZ <- cbind(1, as.matrix(Capital_Con))
+      mZ <- as.matrix(Capital_Con)
       #Contemporary Values
       mX <- as.matrix(Capital_Con)
       #Lag Values
       mlX <- as.matrix(Capital_Lag_1)
-      results <- GenSA(par=alphak0[q], fn=QLP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con, fitlagphi=phi_Lag_1, 
-        h=0.1, tau=tau[q], lower=0, upper=1, control=list(max.time=5))
+      # results <- GenSA(par=alphak0[q], fn=QLP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con, fitlagphi=phi_Lag_1, tau=tau[q], lower=0, upper=1, control=list(max.time=5))
+      results <- optim(par=alphak0[q], fn=function(theta) QLP(theta, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con, fitlagphi=phi_Lag_1, tau=tau[q]), gr=NULL, method='L-BFGS-B', lower=0, upper=1)
       #############################################################
       resmat_LPQ[,,,d][,,q][j,][1] <- results$par
       return(resmat_LPQ[,,,d][,,q][j,])

@@ -1,12 +1,11 @@
-require(prodest)
 require(stringr)
-source('prodestLP.R')
+source('PFQR/FUN/LP.R')
 
 #This function estimates the LP production function batching by industry
 #Function calls prodestLP to perform estimation
 
 #Load US dataset
-COLdata <- read.csv("COLdata.csv")
+COLdata <- read.csv("PFQR/DATA/COL/COLdata.csv")
 #Choose which industry to select
 All <- "^3"
 industries <- c("311", "322", "381", All)
@@ -20,15 +19,15 @@ dZ <- 2
 results <- array(0, dim=c(R, dZ))
 
 COL <- filter(COLdata, str_detect(isic3, industries))
-soln <- tryCatch(LP(Y=COL$lnva, sX=COL$lnk, fX=COL$lnl, pX=COL$lnm, idvar=COL$id, timevar=COL$year, theta0=NULL, R=R))
+soln <- LP(idvar=CHL$id, timevar=CHL$year, Y=CHL$lnva, K=CHL$lnk, L=CHL$lnl, proxy=CHL$lnm,  binit=NULL, R=R)
 results <- soln[[1]]
 true.beta.LP <- soln[[2]]
 
-filename <- paste("LP_COL_ISIC_", id, ".RData", sep="")
+filename <- paste("PFQR/DATA/COL/LP_COL_ISIC_", id, ".RData", sep="")
 save(results, true.beta.LP, file=filename)
 
 #HPC Job Submissions for batches: qsub -t 1:length(industries) myjob.job
-#Here length(industries)=3
+#Here length(industries)=4
 
 
 

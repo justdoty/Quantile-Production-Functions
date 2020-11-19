@@ -1,11 +1,11 @@
-source('PFQR/FUN/gmmq_aux.R')
-source('PFQR/FUN/QLP.R')
-source('PFQR/FUN/gmmq.R')
+# source('PFQR/FUN/gmmq_aux.R')
+# source('PFQR/FUN/QLP.R')
+# source('PFQR/FUN/gmmq.R')
 onestep <- function(mY, mX, mlX, mZ, fitphi, fitlagphi, h, tau, b.init, gbartrue, VERBOSE){
 	if (h==0){
-		ivqr.est <- gmmq(mY=mY, mX=mX, mlX, mZ=mZ[1:length(b.init)], fitphi=fitphi, fitlagphi=fitlagphi, h=0, tau=tau, b.init=b.init, VERBOSE=VERBOSE)
+		ivqr.est <- gmmq(mY=mY, mX=mX, mlX=mlX, mZ=as.matrix(mZ[,1:length(b.init)]), fitphi=fitphi, fitlagphi=fitlagphi, h=0, tau=tau, b.init=b.init, VERBOSE=VERBOSE)
 	} else {
-		ivqr.est <- gmmq(mY=mY, mX=mX, mlX, mZ=mZ[1:length(b.init)], fitphi=fitphi, fitlagphi=fitlagphi, h=h, tau=tau, b.init=b.init, VERBOSE=VERBOSE)
+		ivqr.est <- gmmq(mY=mY, mX=mX, mlX=mlX, mZ=as.matrix(mZ[,1:length(b.init)]), fitphi=fitphi, fitlagphi=fitlagphi, h=h, tau=tau, b.init=b.init, VERBOSE=VERBOSE)
 	}
   	b.gmmq <- ivqr.est$b
   	h.gmmq <- ivqr.est$h
