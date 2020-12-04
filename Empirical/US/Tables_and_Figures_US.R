@@ -60,18 +60,13 @@ for (i in 1:length(NAICS)){
 QR_OLS_results <- load('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/US_QR_OLS.Rdata')
 #Prepare estimates for QLP: Outputs a list of quantile estimates over industry (columns)
 #and estimates (rows)
+#True QLP Coefficient Estimates
+QLP_Coef <- array(0, dim=c(2, length(NAICS), length(tau)))
 #Bootstrapped QLP Coefficient Estimates
 QLP_Boot <- array(0, dim=c(2, length(NAICS), length(tau)))
-#Matrix to store Bootstrap Bias estimates
-QLP_Bias <- array(0, dim=c(2, length(NAICS), length(tau)))
-#Matrix to store logical whether bias correction is needed
-QLP_Test <- array(0, dim=c(2, length(NAICS), length(tau)))
-#Estimates corrected for bias
-QLP_BC <- array(0, dim=c(2, length(NAICS), length(tau)))
 #Bootstrapped Standard Errors
 QLP_SE <- array(0, dim=c(2, length(NAICS), length(tau)))
 #Estimates of Returns to Scale
-# QLP_RtS <- lapply(QLP_results, colSums)
 QLP_RtS <- array(0, dim=c(length(tau), length(NAICS)))
 #Estimates of Standard Error Returns to Scale
 QLP_RtS_SE <- array(0, dim=c(length(tau), length(NAICS)))
@@ -80,35 +75,20 @@ QLP_Lower <- array(0, dim=c(2, length(NAICS), length(tau)))
 QLP_Upper <- array(0, dim=c(2, length(NAICS), length(tau)))
 for (i in 1:length(tau)){
 	for (j in 1:length(NAICS)){
+    QLP_Coef[,,i][,j] <- QLP_true[[i]][,j]
 		QLP_Boot[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, mean)
-    QLP_Bias[,,i][,j] <- QLP_Boot[,,i][,j]-QLP_true[[i]][,j]
 		QLP_SE[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, sd)
-    BC <- QLP_true[[i]][,j]-QLP_Bias[,,i][,j]
-    QLP_Test[,,i][,j] <- QLP_Bias[,,i][,j]<0.25*QLP_SE[,,i][,j]
-    for (z in 1:dZ){
-        QLP_BC[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]} else {BC[z]} 
-        #Bias centered student T confidence intervals
-        # QLP_Lower[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]+qt(alpha/2, R)*QLP_SE[,,i][z,j]} else {QLP_true[[i]][z,j]+qt(alpha/2, R)*QLP_SE[,,i][z,j]}
-        # QLP_Upper[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {QLP_true[[i]][z,j]+qt(1-alpha/2, R)*QLP_SE[,,i][z,j]} else {QLP_true[[i]][z,j]+qt(1-alpha/2, R)*QLP_SE[,,i][z,j]}
-        #Bias Corrected Percentile Method
-        # z0 <- qnorm(mean(QLP_results[[i]][,,j][,z]<QLP_true[[i]][z,j]))
-        # QLP_Lower[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {quantile(QLP_results[[i]][,,j][,z], alpha/2)} else {quantile(QLP_results[[i]][,,j][,z], pnorm(2*z0+qnorm(alpha/2)))}
-        # QLP_Upper[,,i][z,j] <- if (QLP_Test[,,i][z,j]==TRUE) {quantile(QLP_results[[i]][,,j][,z], 1-alpha/2)} else {quantile(QLP_results[[i]][,,j][,z], pnorm(2*z0-qnorm(alpha/2)))}
-      }
-    #Uncorrected Percentile Method
+    #Percentile Method
     QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, alpha/2))
     QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 1-alpha/2))
-    QLP_RtS[i,j] <- sum(QLP_Boot[,,i][,j])
+    QLP_RtS[i,j] <- sum(QLP_Coef[,,i][,j])
     QLP_RtS_SE[i,j] <- sd(apply(QLP_results[[i]][,,j], 1, sum))
 	}
 }
 #A little bit of reformating to obtain estimates over industries instead of quantiles
 #Bootstrapped QLP Coefficient Estimates
+QLP_Coef <- aperm(QLP_Coef, c(3, 1, 2))
 QLP_Boot <- aperm(QLP_Boot, c(3, 1, 2))
-QLP_Bias <- aperm(QLP_Bias, c(3, 1, 2))
-QLP_BC <- aperm(QLP_BC, c(3, 1, 2))
-QLP_Test <- aperm(QLP_Test, c(3, 1, 2))
-# QLP_Coef <- aperm(array(as.numeric(unlist(QLP_Coef)), dim=c(dZ, length(NAICS), length(tau))), c(3, 1, 2))
 QLP_SE <- aperm(QLP_SE, c(3, 1, 2))
 QLP_RtS <- c(QLP_RtS)
 QLP_RtS_SE <- c(QLP_RtS_SE)
@@ -117,18 +97,20 @@ QLP_Upper <- aperm(QLP_Upper, c(3, 1, 2))
 #Prepare estimates for LP
 #Bootstrapped LP Coefficient Estimates
 LP_Coef <- array(0, dim=c(2, length(NAICS)))
-# LP_Coef <- array(as.numeric(unlist(LP_true)), dim=c(dZ,length(NAICS)))
+LP_Boot <- array(0, dim=c(2, length(NAICS)))
 LP_SE <- array(0, dim=c(2, length(NAICS)))
 LP_Lower <- array(0, dim=c(2, length(NAICS)))
 LP_Upper <- array(0, dim=c(2, length(NAICS)))
 for (i in 1:length(NAICS)){
-	LP_Coef[,i] <- colMeans(LP_results[[i]]) 
+  LP_Coef[,i] <- LP_true[[i]]
+	LP_Boot[,i] <- colMeans(LP_results[[i]]) 
 	LP_SE[,i] <- apply(LP_results[[i]], 2, sd) 
 	LP_Lower[,i] <- apply(LP_results[[i]], 2, function(x) quantile(x, 0.05))
 	LP_Upper[,i] <- apply(LP_results[[i]], 2, function(x) quantile(x, 0.95)) 
 }
 #Listed by Industry
 #For QLP
+QLP_Coef <- lapply(seq(dim(QLP_Coef)[3]), function(x) QLP_Coef[ , , x])
 QLP_Boot <- lapply(seq(dim(QLP_Boot)[3]), function(x) QLP_Boot[ , , x])
 QLP_BC <- lapply(seq(dim(QLP_BC)[3]), function(x) QLP_BC[ , , x])
 QLP_SE <- lapply(seq(dim(QLP_SE)[3]), function(x) QLP_SE[ , , x])
@@ -137,6 +119,7 @@ QLP_Lower <- lapply(seq(dim(QLP_Lower)[3]), function(x) QLP_Lower[ , , x])
 
 #For LP
 LP_Coef <- lapply(seq(dim(LP_Coef)[2]), function(x) LP_Coef[,x])
+LP_Boot <- lapply(seq(dim(LP_Boot)[2]), function(x) LP_Boot[,x])
 LP_SE <- lapply(seq(dim(LP_SE)[2]), function(x) LP_SE[,x])
 LP_Upper <- lapply(seq(dim(LP_Upper)[2]), function(x) LP_Upper[,x])
 LP_Lower <- lapply(seq(dim(LP_Lower)[2]), function(x) LP_Lower[,x])
@@ -149,7 +132,7 @@ QR_Lower <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(1, ncol(qr
 QR_Upper <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(2, ncol(qr.CI), by=2)])
 
 #Make an estimates table for Quantile GMM
-estimates <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QLP_Boot), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
+estimates <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QLP_Coef), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
 estimates <- cbind(estimates, QLP_RtS, QLP_RtS_SE)
 colnames(estimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RtS', 'RtS_SE')
 #Make a Confidence Interval Table for Quantile GMM

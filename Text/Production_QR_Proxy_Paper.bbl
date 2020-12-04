@@ -1,4 +1,4 @@
-\begin{thebibliography}{36}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -11,6 +11,12 @@
 \textsc{Ackerberg, D.}, \textsc{Caves, K.} and \textsc{Frazer, G.} (2015).
   Identification properties of recent production function estimators.
   \textit{Econometrica}, \textbf{83}~(6), 2411--2451.
+
+\bibitem[{Ackerberg \textit{et~al.}(2014)Ackerberg, Chen, Hahn and
+  Liao}]{Ackerberg2014}
+\textsc{---}, \textsc{Chen, X.}, \textsc{Hahn, J.} and \textsc{Liao, Z.}
+  (2014). Asymptotic efficiency of semiparametric two-step {GMM}. \textit{The
+  Review of Economic Studies}, \textbf{81}~(3), 919--943.
 
 \bibitem[{Aigner \textit{et~al.}(1977)Aigner, Lovell and Schmidt}]{Aigner1977}
 \textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
@@ -53,10 +59,6 @@
   experimental data. \textit{Journal of the American Statistical Association},
   \textbf{104}~(486), 486--500.
 
-\bibitem[{Borchers(2015)}]{pracma}
-\textsc{Borchers, H.~W.} (2015). {Pracma: practical numerical math functions}.
-  R package version 2.25.
-
 \bibitem[{Canay(2011)}]{Canay2011}
 \textsc{Canay, I.~A.} (2011). A simple approach to quantile regression for
   panel data. \textit{The Econometrics Journal}, \textbf{14}~(3), 368--386.
@@ -97,14 +99,6 @@
 \textsc{Griliches, Z.} and \textsc{Hausman, J.~A.} (1986). Errors in variables
   in panel data. \textit{Journal of Econometrics}, \textbf{31}~(1), 93--118.
 
-\bibitem[{He(1997)}]{He1997}
-\textsc{He, X.} (1997). Quantile curves without crossing. \textit{The American
-  Statistician}, \textbf{51}~(2), 186.
-
-\bibitem[{Horowitz(1998)}]{Horowitz1998}
-\textsc{Horowitz, J.~L.} (1998). Bootstrap methods for median regression
-  models. \textit{Econometrica}, \textbf{66}~(6), 1327.
-
 \bibitem[{Just and Pope(1978)}]{Just1978}
 \textsc{Just, R.~E.} and \textsc{Pope, R.~D.} (1978). Stochastic specification
   of production functions and economic implications. \textit{Journal of
@@ -114,11 +108,6 @@
 \textsc{---} and \textsc{---} (1979). Production function estimation and
   related risk considerations. \textit{American Journal of Agricultural
   Economics}, \textbf{61}~(2), 276--284.
-
-\bibitem[{Kaplan and Sun(2016)}]{Kaplan2016}
-\textsc{Kaplan, D.~M.} and \textsc{Sun, Y.} (2016). Smoothed estimating
-  equations for instrumental variables quantile regression. \textit{Econometric
-  Theory}, \textbf{33}~(1), 105--157.
 
 \bibitem[{Kasahara \textit{et~al.}(2017)Kasahara, Schrimpf and
   Suzuki}]{Kasahara2015}
@@ -134,6 +123,11 @@
 \textsc{Lamarche, C.} (2010). Robust penalized quantile regression estimation
   for panel data. \textit{Journal of Econometrics}, \textbf{157}~(2), 396--408.
 
+\bibitem[{Lee(2003)}]{Lee2003}
+\textsc{Lee, S.} (2003). {EFFICIENT} {SEMIPARAMETRIC} {ESTIMATION} {OF} a
+  {PARTIALLY} {LINEAR} {QUANTILE} {REGRESSION} {MODEL}. \textit{Econometric
+  Theory}, \textbf{19}~(01).
+
 \bibitem[{Levinsohn and Petrin(2003)}]{Levinsohn2003}
 \textsc{Levinsohn, J.} and \textsc{Petrin, A.} (2003). Estimating production
   functions using inputs to control for unobservables. \textit{Review of
@@ -148,11 +142,6 @@
 \textsc{Manski, C.~F.} (1988). Ordinal utility models of decision making under
   uncertainty. \textit{Theory and Decision}, \textbf{25}~(1), 79--104.
 
-\bibitem[{Newey and McFadden(1994)}]{Newey1994}
-\textsc{Newey, W.~K.} and \textsc{McFadden, D.} (1994). {Large sample
-  estimation and hypothesis testing. In: R. F. Engle and D. L. McFadden (eds)
-  Handbook of econometrics}. vol.~4, ~\textit{36}, Elsevier, pp. 2111--2245.
-
 \bibitem[{Olley and Pakes(1996)}]{Olley1996}
 \textsc{Olley, G.~S.} and \textsc{Pakes, A.} (1996). The dynamics of
   productivity in the telecommunications equipment industry.
@@ -161,16 +150,5 @@
 \bibitem[{Rostek(2009)}]{ROSTEK2009}
 \textsc{Rostek, M.} (2009). Quantile maximization in decision theory.
   \textit{The Review of Economic Studies}, \textbf{77}~(1), 339--371.
-
-\bibitem[{Whang(2006)}]{Whang2006}
-\textsc{Whang, Y.-J.} (2006). Smoothed empirical likelihood methods for
-  quantile regression models. \textit{Econometric Theory}, \textbf{22}~(02).
-
-\bibitem[{Xiang \textit{et~al.}(2013)Xiang, Gubian, Suomela and
-  Hoeng}]{Xiang2013}
-\textsc{Xiang, Y.}, \textsc{Gubian, S.}, \textsc{Suomela, B.} and
-  \textsc{Hoeng, J.} (2013). Generalized simulated annealing for global
-  optimization: The {GenSA} package. \textit{The R Journal}, \textbf{5}~(1),
-  13.
 
 \end{thebibliography}

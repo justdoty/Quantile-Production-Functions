@@ -59,43 +59,50 @@ for (i in 1:length(ISIC)){
 QR_OLS_results <- load('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Environments/CHL_QR_OLS.Rdata')
 #Prepare estimates for QLP: Outputs a list of quantile estimates over industry (columns)
 #and estimates (rows)
-#Bootstrapped QLP Coefficient Estimates
+#True QLP Coefficient Estimates
 QLP_Coef <- array(0, dim=c(2, length(ISIC), length(tau)))
-# QLP_Coef <- lapply(QLP_true, function(x) t(x))
+#Bootstrapped QLP Coefficient Estimates
+QLP_Boot <- array(0, dim=c(2, length(ISIC), length(tau)))
+#Bootstrapped Standard Errors
 QLP_SE <- array(0, dim=c(2, length(ISIC), length(tau)))
-# QLP_RtS <- lapply(QLP_results, colSums)
+#Estimates of Returns to Scale
 QLP_RtS <- array(0, dim=c(length(tau), length(ISIC)))
+#Estimates of Standard Error Returns to Scale
 QLP_RtS_SE <- array(0, dim=c(length(tau), length(ISIC)))
+#Lower and Upper bounds of CI
 QLP_Lower <- array(0, dim=c(2, length(ISIC), length(tau)))
 QLP_Upper <- array(0, dim=c(2, length(ISIC), length(tau)))
 for (i in 1:length(tau)){
   for (j in 1:length(ISIC)){
-    QLP_Coef[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, mean)
+    QLP_Coef[,,i][,j] <- QLP_true[[i]][,j]
+    QLP_Boot[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, mean)
     QLP_SE[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, sd)
-    QLP_RtS[i,j] <- mean(apply(QLP_results[[i]][,,j], 1, sum))
+    #Percentile Method
+    QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, alpha/2))
+    QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 1-alpha/2))
+    QLP_RtS[i,j] <- sum(QLP_Coef[,,i][,j])
     QLP_RtS_SE[i,j] <- sd(apply(QLP_results[[i]][,,j], 1, sum))
-    QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 0.05))
-    QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 0.95))
   }
 }
 #A little bit of reformating to obtain estimates over industries instead of quantiles
 #Bootstrapped QLP Coefficient Estimates
 QLP_Coef <- aperm(QLP_Coef, c(3, 1, 2))
-# QLP_Coef <- array(as.numeric(unlist(QLP_Coef)), dim=c(3, 2, 10))
+QLP_Boot <- aperm(QLP_Boot, c(3, 1, 2))
 QLP_SE <- aperm(QLP_SE, c(3, 1, 2))
-QLP_RtS <- c(t(array(as.numeric(unlist(QLP_RtS)), dim=c(length(ISIC), length(tau)))))
+QLP_RtS <- c(QLP_RtS)
 QLP_RtS_SE <- c(QLP_RtS_SE)
 QLP_Lower <- aperm(QLP_Lower, c(3, 1, 2))
 QLP_Upper <- aperm(QLP_Upper, c(3, 1, 2))
 #Prepare estimates for LP
 #Bootstrapped LP Coefficient Estimates
 LP_Coef <- array(0, dim=c(2, length(ISIC)))
-# LP_Coef <- array(as.numeric(unlist(LP_true)), dim=c(2,3))
+LP_Boot <- array(0, dim=c(2, length(ISIC)))
 LP_SE <- array(0, dim=c(2, length(ISIC)))
 LP_Lower <- array(0, dim=c(2, length(ISIC)))
 LP_Upper <- array(0, dim=c(2, length(ISIC)))
 for (i in 1:length(ISIC)){
-  LP_Coef[,i] <- colMeans(LP_results[[i]]) 
+  LP_Coef[,i] <- LP_true[[i]]
+  LP_Boot[,i] <- colMeans(LP_results[[i]]) 
   LP_SE[,i] <- apply(LP_results[[i]], 2, sd) 
   LP_Lower[,i] <- apply(LP_results[[i]], 2, function(x) quantile(x, 0.05))
   LP_Upper[,i] <- apply(LP_results[[i]], 2, function(x) quantile(x, 0.95)) 
@@ -103,11 +110,15 @@ for (i in 1:length(ISIC)){
 #Listed by Industry
 #For QLP
 QLP_Coef <- lapply(seq(dim(QLP_Coef)[3]), function(x) QLP_Coef[ , , x])
+QLP_Boot <- lapply(seq(dim(QLP_Boot)[3]), function(x) QLP_Boot[ , , x])
+QLP_BC <- lapply(seq(dim(QLP_BC)[3]), function(x) QLP_BC[ , , x])
 QLP_SE <- lapply(seq(dim(QLP_SE)[3]), function(x) QLP_SE[ , , x])
 QLP_Upper <- lapply(seq(dim(QLP_Upper)[3]), function(x) QLP_Upper[ , , x])
 QLP_Lower <- lapply(seq(dim(QLP_Lower)[3]), function(x) QLP_Lower[ , , x])
+
 #For LP
 LP_Coef <- lapply(seq(dim(LP_Coef)[2]), function(x) LP_Coef[,x])
+LP_Boot <- lapply(seq(dim(LP_Boot)[2]), function(x) LP_Boot[,x])
 LP_SE <- lapply(seq(dim(LP_SE)[2]), function(x) LP_SE[,x])
 LP_Upper <- lapply(seq(dim(LP_Upper)[2]), function(x) LP_Upper[,x])
 LP_Lower <- lapply(seq(dim(LP_Lower)[2]), function(x) LP_Lower[,x])
@@ -118,7 +129,6 @@ OLS_Upper <- lm.CI[,seq(2, ncol(lm.CI), by=2)]
 QR_Coef <- lapply(seq(dim(qr.coef)[3]), function(x) qr.coef[ , , x])
 QR_Lower <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(1, ncol(qr.CI), by=2)])
 QR_Upper <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(2, ncol(qr.CI), by=2)])
-
 
 #Make an estimates table for Quantile GMM
 estimates <- data.frame(cbind(rep(tau, length(ISIC)), cbind(do.call(rbind, QLP_Coef), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
@@ -146,7 +156,6 @@ colnames(estimates_QR) <- c("Tau", "K", "L")
 QR_CI <- data.frame(cbind(rep(tau, length(ISIC)), cbind(do.call(rbind, QR_Lower), do.call(rbind, QR_Upper))[,c(rbind(c(1:2), 2+(1:2)))]))
 colnames(QR_CI) <- c('Tau', 'Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
 #Prepare estimates for table in paper/presentation
-require(xtable)
 tau_table <- c(0.1, 0.25, 0.5, 0.75)
 
 #Table Labels

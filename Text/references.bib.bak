@@ -516,4 +516,29 @@ The contribution of the paper is twofold. First, we propose a new estimation met
   publisher = {Cambridge University Press ({CUP})},
 }
 
+@Article{He1997,
+  author    = {Xuming He},
+  title     = {Quantile Curves without Crossing},
+  journal   = {The American Statistician},
+  year      = {1997},
+  volume    = {51},
+  number    = {2},
+  pages     = {186},
+  month     = {may},
+  doi       = {10.2307/2685417},
+  publisher = {{JSTOR}},
+}
+
+@Article{Lee2003,
+  author    = {Sokbae Lee},
+  title     = {{EFFICIENT} {SEMIPARAMETRIC} {ESTIMATION} {OF} A {PARTIALLY} {LINEAR} {QUANTILE} {REGRESSION} {MODEL}},
+  journal   = {Econometric Theory},
+  year      = {2003},
+  volume    = {19},
+  number    = {01},
+  month     = {jan},
+  doi       = {10.1017/s0266466603191013},
+  publisher = {Cambridge University Press ({CUP})},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

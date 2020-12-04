@@ -6,10 +6,17 @@ require(dplyr)
 #####################################################################################################
 #This function lags the data and returns both the lagged variables as well as its contemporaneous values
 #####################################################################################################
-lagdata <- function(idvar, X){
-	condata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-1)
-	lagdata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-n())
-	data <- cbind(data.frame(condata), data.frame(lagdata[,-1]))
+lagdata <- function(idvar, X, lag){
+  if (lag==1){
+    condata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-1)
+    lagdata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-n())
+    data <- cbind(data.frame(condata), data.frame(lagdata[,-1]))
+  } else if (lag==2){
+    condata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-(1:2))
+    lag1data <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-((n()-2):(n()-1)))
+    lag2data <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-((n()-1):n()))
+    data <- cbind(data.frame(condata), data.frame(lag1data[,-1]), data.frame(lag2data[,-1]))
+  }
 	return(data)
 }
 ########################################################################################################
@@ -33,3 +40,16 @@ block.boot.resample <- function( idvar, R ){
 ###########################################################################################################
 ###########################################################################################################
 ###########################################################################################################
+lprq <- function(Y, X, Z, h, m, k, tau){
+  xx <- apply(X, 2, function(x) seq(min(x), max(x), length=m))
+  bx <- xx[1,]
+  for (i in 1:m){
+    x1 <- do.call(cbind, lapply(1:k, function(k) sweep(X, MARGIN=2, xx[i,], `-`)^k))
+    hx <- sapply(1:k, function(k) h^k)
+    wx <- sweep(x2, MARGIN=2, hx, `/`)
+    r <- rq(Y, cbind(Z, x2), weights=wx, tau=tau)
+    bx[i] <- r$coef[2]
+  }
+  b <- mean(bx)
+  return(b)
+}

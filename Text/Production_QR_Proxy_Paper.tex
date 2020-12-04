@@ -197,10 +197,9 @@ Returning to our misspecification interpretation in Equation \eqref{pfrc}, we fo
 	\item The firm's information set at time $t$ includes current and past productivity shocks $\{\omega_{it}\}_{t=0}^{t}$, but does not include past productivity shocks $\{\omega_{it}\}_{t=t+1}^{\infty}$. $\eta_{it}$ is independent of $\mathcal{I}_{it}$
 	\item Firm's productivity shocks evolve according to a first-order Markov process
 	\begin{equation}
-	\omega_{it}=\rho\omega_{it-1}+\xi_{it}
+	\omega_{it}=g(\omega_{it-1})+\xi_{it}
 	\end{equation}
-	where the iid productivity innovations $\xi_{it}$ are independent of $\mathcal{I}_{it-1}$.\\
-	We require that $P[\xi_{it}\leq F_{\xi}^{-1}(\tau)|\mathcal{I}_{it-1}]=P[\xi_{it}\leq F_{\xi}^{-1}(\tau)]=\tau$
+	where the iid productivity innovations $\xi_{it}$ satisfy $\mathbbm{E}[\xi_{it}|\mathcal{I}_{it}]=0$
 	\item Firms accumulate capital according to
 	\begin{equation}
 	    K_{it}=\kappa_{t}(I_{it-1}, K_{it-1}).
@@ -217,68 +216,37 @@ y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+m_{t}^{-1}(k_{it}, 
 \end{equation}
 
 Using Assumption \eqref{qpfassume}(a, b) we have the following identification condition for the first stage:
-\begin{equation}
+\begin{equation} \label{1ststageident}
 	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau
 \end{equation}
 
-We use a linear approximation $\Phi(k_{it}, m_{it}, \eta_{it})=\beta_{k}(\eta_{it})k_{it}+\beta_{m}(\eta_{it})m_{it}$ so we can estimate $\beta_{l}(\tau)$ and $\Phi(k_{it}, m_{it}, \tau)$ using linear quantile regression. We can then plug these estimates back into the production function and apply Assumption \eqref{qpfassume}(c) to obtain:
+The equation in \eqref{qpf1st} is a semiparametric partially linear quantile regression model which can be consistently estimated using the methodology of \cite{Lee2003}. However, we use a linear approximation $\Phi(k_{it}, m_{it}, \eta_{it})=\beta_{k}(\eta_{it})k_{it}+\beta_{m}(\eta_{it})m_{it}$ so we can estimate $\beta_{l}(\tau)$ and $\Phi(k_{it}, m_{it}, \tau)$ using linear quantile regression. We can then plug these estimates back into the production function and apply Assumption \eqref{qpfassume}(c) to obtain:
 \begin{equation} \label{qpf2nd}
-y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1})+\xi_{it}
+y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1})+\xi_{it}
 \end{equation}
 
 The main challenge of the identification result in the second stage is that it is not true in general that
 \begin{equation} \label{2ndstageidentification}
-P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+\xi_{it}|\mathcal{I}_{it-1}\big)=\tau
+P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+\xi_{it}|\mathcal{I}_{it-1}\big)=\tau
 \end{equation}
-The lack of identification in this model is often lamented in the quantile panel data models using correlated random effects. For example, \cite{Canay2011} notes that the conditional behavior of \eqref{2ndstageidentification} depends on the joint distribution of $\eta_{it}$ and $\xi_{it}$ which makes identification of $(\rho, \beta_{k}(\tau))$ in the second stage a difficult task. We circumvent this by framing an identification condition in only the $\xi_{it}$ component, similar to \cite{Ackerberg2015} by concentrating out the constant $\beta_{0}(\tau)$ and $\rho$. For a hypothetical guess of $\beta_{k}(\tau)$ we can write
+The lack of identification in this model is often lamented in the quantile panel data models using correlated random effects. For example, \cite{Canay2011} notes that the conditional behavior of \eqref{2ndstageidentification} depends on the joint distribution of $\eta_{it}$ and $\xi_{it}$ which makes identification of $(g, \beta_{k}(\tau))$ in the second stage a difficult task. We circumvent this by framing an identification condition in only the $\xi_{it}$ component, similar to \cite{Ackerberg2015} by concentrating out the constant $\beta_{0}(\tau)$ and $g$. For a hypothetical guess of $\beta_{k}(\tau)$, say  $\tilde{\beta}_{k}(\tau)$we can write
 \begin{equation}
-\beta_{0}(\tau)+\omega_{it}=y_{it}-\hat{\beta}_{l}(\tau)l_{it}-\beta_{k}(\tau)k_{it}=\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}
+\beta_{0}(\tau)+\omega_{it}=y_{it}-\hat{\beta}_{l}(\tau)l_{it}-\tilde{\beta}_{k}(\tau)k_{it}=\hat{\Phi}(k_{it}, m_{it}; \tau)-\tilde{\beta}_{k}(\tau)k_{it}
 \end{equation}
 We can rewrite the AR(1) productivity process as
 \begin{equation}
-\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}=\beta_{0}(\tau)+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+\xi_{it}
+\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}=\beta_{0}(\tau)+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+\xi_{it}
 \end{equation}
-and note that 
+and note that the implied residuals satisfy
 \begin{equation}
-Q_{\tau}(\omega_{it}|\mathcal{I}_{it-1})=\beta_{0}(\tau)+\rho(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+F_{\xi}^{-1}(\tau)
+\mathbbm{E}[\xi_{it}(\tilde{\beta}_{k}(\tau))|\mathcal{I}_{it-1}]=0
 \end{equation}
-We estimate $(\beta_{0}(\tau)+F_{\xi}^{-1}(\tau), \rho)$ using the procedure of \cite{He1997}
-\begin{enumerate}
-	\item First, a median regression of $\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}$ on $\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1}$ to obtain estimates of $(\beta_{0}(\tau), \rho)$
-	\item Second, let $\hat{\xi}_{it}=\hat{\Phi}(k_{it}, m_{it}; \tau)-\beta_{k}(\tau)k_{it}-\hat{\beta}_{0}(\tau)-\hat{\rho}(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})$. Then take the $\tau$th quantile of $\hat{\xi}_{it}$ as an estimate for $\hat{F}_{\xi}^{-1}(\tau)$
-\end{enumerate}
-Therefore, we have the following identification condition
-\begin{equation}
-P[\hat{\xi}_{it}(\beta_{k}(\tau))\leq \hat{F}_{\xi}^{-1}(\tau)|\mathcal{I}_{it-1}]=P[\hat{\xi}_{it}(\beta_{k}(\tau))\leq \hat{F}_{\xi}^{-1}(\tau)]=\tau
-\end{equation}
+which can be estimated by standard GMM procedures for a fixed $\tau\in (0,1]$\\
 
-This can be represented by conditional moment restrictions
-\begin{equation} \label{conditional}
-	\mathbb{E}[\mathbbm{1}\{\hat{\xi}_{it}(\beta_{k}(\tau))- \hat{F}_{\xi}^{-1}(\tau)\leq 0\}-\tau|\mathcal{I}_{it-1}]=0
-\end{equation}
-where $\mathbbm{1}\{\cdot\}$ is the indicator function. To estimate the production function parameters we use the unconditional moments implied by \eqref{conditional}
-\begin{equation}
-	\mathbb{E}[Z_{it-1}(\mathbbm{1}\{\hat{\xi}_{it}(\beta_{k}(\tau))- \hat{F}_{\xi}^{-1}(\tau)\leq 0\}-\tau)]=0
-\end{equation}
-where $Z_{it-1}$ includes the instruments used in the firm's information set at time $t-1$.
+Therefore, this estimator is a simple extension of the control function approach where the first stage parameters are estimating using quantile regression. However, it is important to note that the second stage parameters can only be identified using the conditional moment restriction in $\xi_{it}$ instead of $\eta_{it}+\xi_{it}$. While, this reduces the number of parameters needed to be estimated in the GMM procedure, the objective function becomes more complex.\\
 
-The presence of the indicator function in equation (16) makes estimation of the production function parameters intractable. We propose smoothing the indicator function using the methodology proposed by \cite*{qgmm} for nonlinear conditional quantile models. These models can be exactly identified or over-identified by using more components in $\mathcal{I}_{it-1}$. To fix notation, let $z_{it}\subseteq \mathcal{I}_{it-1}$ denote the instruments used for estimation. For our application, $z_{it}=k_{it}$. Let $x_{it}=(k_{it}, k_{it-1}, m_{it-1})$ and let $\Lambda(\cdot)$ denote the residual function that defines the conditional quantile restriction in (15) that is known up to the finite-dimensional parameters $\beta(\tau)=(\beta_{k}(\tau), \rho(\tau))$. The sample analog of (16) can then be written as
-\begin{equation}
-    \hat{M}_{n}(\beta, \tau)=\frac{1}{n}\sum_{i=1}^{n}\Bigg[\tilde{I}\Bigg(\frac{\Lambda(\tilde{y}_{it}, x_{it}, \beta(\tau))}{h_{n}}\Bigg)-\tau\Bigg]
-\end{equation}
-where $h_{n}$ is a bandwidth (sequence) and $\tilde{I}(\cdot)$ is a smoothed version of the indicator function $\mathbbm{1}\{\cdot \leq 0\}$ used by \cite{Horowitz1998}, \cite{Whang2006}, and \cite{Kaplan2016}:
-\begin{equation}
-    \tilde{I}(u)=\mathbbm{1}\{-1\leq u \leq 1\}\big[0.5+\frac{105}{64}\big(u-\frac{5}{3}u^{3}+\frac{7}{5}u^{5}- \frac{3}{7}u^{7}\big)\big]+\mathbbm{1}\{u>1\}.
-\end{equation}
+Simple extensions of this model include a location-scale model for the productivity process as well as a linear random coefficient model, we leave these as future work. Standard errors can be obtained via bootstrap, however, the asymptotic variance for the first and second stage estimates can be consistently estimated using \cite{Lee2003} and \cite{Ackerberg2014}.
 
-Despite the model defined in (19) being exactly identified we choose the smoothed GMM estimator proposed by \cite{qgmm} for over-identification. Let $\hat{W}$ be a symmetric, positive definite weighting matrix. The GMM estimator minimizes the following criterion function
-\begin{equation}
-\hat{\beta}=\underset{\beta}{\operatorname{argmin}}\hat{M}_{n}(\beta, \tau)^{\top}\hat{W}\hat{M}_{n}(\beta, \tau).
-\end{equation}
-
-For the weighting matrix, we use the estimator of the inverse long run variance of the sample moments (17). Consistency of an estimator of the long run variance for quantile models is not well established in the literature and is only further complicated by the presence of the nonparametric control function estimated in the first stage. A discussion about the asymptotics of our semi-parametric estimator will be provided in a later version of this paper.
-
-The objective function in (22) may be non-convex. The global minimum is found using a simulated annealing algorithm from the GenSA package in R \citep{Xiang2013}. A reasonable initial value for the optimization algorithm can be found by estimating an exactly-identified version (Method of Moments) of (19) using a root-finding algorithm such as the Newton-Raphson method (newtonsys in the Pracma \nocite{pracma} package in R) or from a one-step estimator such as the one proposed by \cite{Newey1994}.
 \newpage
 \section{Monte Carlo Experiments}
 We use a location-scale version of \cite{Levinsohn2003} and replicate \cite{Ackerberg2015} simulations sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
