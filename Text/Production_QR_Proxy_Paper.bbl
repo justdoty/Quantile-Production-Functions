@@ -1,4 +1,4 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -72,6 +72,16 @@
 \textsc{Chambers, C.~P.} (2007). Ordinal aggregation and quantiles.
   \textit{Journal of Economic Theory}, \textbf{137}~(1), 416--431.
 
+\bibitem[{Chaudhuri(1991{\natexlab{a}})}]{Chaudhuri1991}
+\textsc{Chaudhuri, P.} (1991{\natexlab{a}}). Global nonparametric estimation of
+  conditional quantile functions and their derivatives. \textit{Journal of
+  Multivariate Analysis}, \textbf{39}~(2), 246--269.
+
+\bibitem[{Chaudhuri(1991{\natexlab{b}})}]{Chaudhuri1991a}
+\textsc{---} (1991{\natexlab{b}}). Nonparametric estimates of regression
+  quantiles and their local bahadur representation. \textit{The Annals of
+  Statistics}, \textbf{19}~(2), 760--777.
+
 \bibitem[{Chernozhukov and Hansen(2005)}]{Chernozhukov2005}
 \textsc{Chernozhukov, V.} and \textsc{Hansen, C.} (2005). An {IV} model of
   quantile treatment effects. \textit{Econometrica}, \textbf{73}~(1), 245--261.
@@ -114,6 +124,10 @@
 \textsc{Kasahara, H.}, \textsc{Schrimpf, P.} and \textsc{Suzuki, M.} (2017).
   Identification and estimation of production function with unobserved
   heterogeneity, {Working paper}.
+
+\bibitem[{Koekner \textit{et~al.}(1994)Koekner, Ng and Portnoy}]{KOENKER1994}
+\textsc{Koekner, R.}, \textsc{Ng, P.} and \textsc{Portnoy, S.} (1994). Quantile
+  smoothing splines. \textit{Biometrika}, \textbf{81}~(4), 673--680.
 
 \bibitem[{Koenker(2004)}]{Koenker2004}
 \textsc{Koenker, R.} (2004). Quantile regression for longitudinal data.
