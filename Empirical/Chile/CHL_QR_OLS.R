@@ -11,7 +11,7 @@ CHLdata <- transmute(CHL_panel, id=id, year=year, lny=log(Y), lnva=log(VA), lnk=
 #Choose which industry to select
 All <- "^3"
 industries <- c("311", "381", "321", All)
-tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)
+tau <- c(0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.85, 0.9)
 dZ <- 2
 lm.coef <- array(0, dim=c(length(industries), dZ))
 lm.CI <- array(0, dim=c(length(industries), 2*dZ))

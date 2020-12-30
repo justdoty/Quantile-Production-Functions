@@ -33,7 +33,7 @@ print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, 
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
 #Vector of quantiles
-tau <- c(0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.85, 0.9)
+tau <- seq(.05, .95, by=.05)
 #Number of parameters
 dZ <- 2
 R <- 500
@@ -42,24 +42,20 @@ require(abind)
 #Load the results from QLP, output is a list of estimates over quantiles for each industry
 QLPbetahat <- list()
 QLPbetaboots <- list()
-QLPbetaThats <- list()
 
 for (i in 1:length(tau)){
 	load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QLP_Boot_US_Q%s.RData", i))
 	QLPbetahat[[i]] <- betahat
   QLPbetaboots[[i]] <- betaboots
-  QLPbetaThats[[i]] <- betaThats
 
 }
 #Load the results from LP, output is a list of estimates over industries
 LPbetahat <- list()
 LPbetaboots <- list()
-LPbetaThats <- list()
 for (i in 1:length(NAICS)){
 	load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/LP_US_NAICS_%s.RData", i))
 	LPbetahat[[i]] <- betahat
   LPbetaboots[[i]] <- betaboots
-  LPbetaThats[[i]] <- betaThats
 }
 #Load the results from OLS and QR
 QR_OLS_results <- load('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/US_QR_OLS.Rdata')
@@ -89,12 +85,9 @@ for (i in 1:length(tau)){
     #Percentile Method
     # QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, alpha/2))
     # QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 1-alpha/2))
-    # Studentized T-method (Asymmetric)
-    # QLP_Lower[,,i][,j] <- QLP_Coef[,,i][,j]-QLP_SE[,,i][,j]*apply(QLPbetaThats[[i]][,,j], 2, function(x) quantile(x, 1-alpha/2))
-    # QLP_Upper[,,i][,j] <- QLP_Coef[,,i][,j]-QLP_SE[,,i][,j]*apply(QLPbetaThats[[i]][,,j], 2, function(x) quantile(x, alpha/2))
-    # Studentized T-method (Symmetric)
-    QLP_Lower[,,i][,j] <- QLP_Coef[,,i][,j]-QLP_SE[,,i][,j]*apply(abs(QLPbetaThats[[i]][,,j]), 2, function(x) quantile(x, 1-alpha/2))
-    QLP_Upper[,,i][,j] <- QLP_Coef[,,i][,j]+QLP_SE[,,i][,j]*apply(abs(QLPbetaThats[[i]][,,j]), 2, function(x) quantile(x, 1-alpha/2))
+    #Normal Critical Values
+    QLP_Lower[,,i][,j] <- QLP_Coef[,,i][,j]+QLP_SE[,,i][,j]*qnorm(alpha/2)
+    QLP_Upper[,,i][,j] <- QLP_Coef[,,i][,j]+QLP_SE[,,i][,j]*qnorm(1-alpha/2)
 	}
 }
 #A little bit of reformating to obtain estimates over industries instead of quantiles
@@ -120,12 +113,9 @@ for (i in 1:length(NAICS)){
   #Percentile Method
 	# LP_Lower[,i] <- apply(LPbetaboots[[i]], 2, function(x) quantile(x, 0.05))
 	# LP_Upper[,i] <- apply(LPbetaboots[[i]], 2, function(x) quantile(x, 0.95)) 
-  #Studentized T-method (Asymmetric)
-  # LP_Lower[,i] <- LP_Coef[,i]-LP_SE[,i]*apply(LPbetaThats[[i]], 2, function(x) quantile(x, 1-alpha/2))
-  # LP_Upper[,i] <- LP_Coef[,i]-LP_SE[,i]*apply(LPbetaThats[[i]], 2, function(x) quantile(x, alpha/2))
-  #Studentized T-method (Symmetric)
-  LP_Lower[,i] <- LP_Coef[,i]-LP_SE[,i]*apply(abs(LPbetaThats[[i]]), 2, function(x) quantile(x, 1-alpha/2))
-  LP_Upper[,i] <- LP_Coef[,i]+LP_SE[,i]*apply(abs(LPbetaThats[[i]]), 2, function(x) quantile(x, 1-alpha/2))
+  #Normal Critical Values
+  LP_Lower[,i] <- LP_Coef[,i]+LP_SE[,i]*qnorm(alpha/2)
+  LP_Upper[,i] <- LP_Coef[,i]+LP_SE[,i]*qnorm(1-alpha/2)
 }
 #Listed by Industry
 #For QLP
