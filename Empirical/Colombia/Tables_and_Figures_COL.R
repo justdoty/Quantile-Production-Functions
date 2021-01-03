@@ -34,26 +34,28 @@ print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, 
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
 #Vector of quantiles
-tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)
+tau <- seq(.05, .95, by=.05)
 #Number of parameters
 dZ <- 2
+R <- 500
+alpha <- .1
 require(abind)
 #Load the results from QLP, output is a list of estimates over quantiles for each industry
-QLP_results <- list()
-QLP_true <- list()
+QLPbetahat <- list()
+QLPbetaboots <- list()
 for (i in 1:length(tau)){
   load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/QLP_COL_Q%s.RData", i))
-  QLP_results[[i]] <- results
-  QLP_true[[i]] <- true.beta
+  QLPbetahat[[i]] <- betahat
+  QLPbetaboots[[i]] <- betaboots
 
 }
 #Load the results from LP, output is a list of estimates over industries
-LP_results <- list()
-LP_true <- list()
+LPbetahat <- list()
+LPbetaboots <- list()
 for (i in 1:length(ISIC)){
   load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/LP_COL_ISIC_%s.RData", i))
-  LP_results[[i]] <- results
-  LP_true[[i]] <- true.beta.LP
+  LPbetahat[[i]] <- betahat
+  LPbetaboots[[i]] <- betaboots
 }
 #Load the results from OLS and QR
 QR_OLS_results <- load('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/COL_QR_OLS.Rdata')
@@ -74,14 +76,18 @@ QLP_Lower <- array(0, dim=c(2, length(ISIC), length(tau)))
 QLP_Upper <- array(0, dim=c(2, length(ISIC), length(tau)))
 for (i in 1:length(tau)){
   for (j in 1:length(ISIC)){
-    QLP_Coef[,,i][,j] <- QLP_true[[i]][,j]
-    QLP_Boot[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, mean)
-    QLP_SE[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, sd)
-    #Percentile Method
-    QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, alpha/2))
-    QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 1-alpha/2))
+    QLP_Coef[,,i][,j] <- QLPbetahat[[i]][,j]
+    QLP_Boot[,,i][,j] <- apply(QLPbetaboots[[i]][,,j], 2, mean)
+    QLP_SE[,,i][,j] <- apply(QLPbetaboots[[i]][,,j], 2, sd)
+    #Returns to Scale
     QLP_RtS[i,j] <- sum(QLP_Coef[,,i][,j])
-    QLP_RtS_SE[i,j] <- sd(apply(QLP_results[[i]][,,j], 1, sum))
+    QLP_RtS_SE[i,j] <- sd(apply(QLPbetaboots[[i]][,,j], 1, sum))
+    #Percentile Method
+    # QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, alpha/2))
+    # QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 1-alpha/2))
+    #Normal Critical Values
+    QLP_Lower[,,i][,j] <- QLP_Coef[,,i][,j]+QLP_SE[,,i][,j]*qnorm(alpha/2)
+    QLP_Upper[,,i][,j] <- QLP_Coef[,,i][,j]+QLP_SE[,,i][,j]*qnorm(1-alpha/2)
   }
 }
 #A little bit of reformating to obtain estimates over industries instead of quantiles
@@ -101,11 +107,15 @@ LP_SE <- array(0, dim=c(2, length(ISIC)))
 LP_Lower <- array(0, dim=c(2, length(ISIC)))
 LP_Upper <- array(0, dim=c(2, length(ISIC)))
 for (i in 1:length(ISIC)){
-  LP_Coef[,i] <- LP_true[[i]]
-  LP_Boot[,i] <- colMeans(LP_results[[i]]) 
-  LP_SE[,i] <- apply(LP_results[[i]], 2, sd) 
-  LP_Lower[,i] <- apply(LP_results[[i]], 2, function(x) quantile(x, 0.05))
-  LP_Upper[,i] <- apply(LP_results[[i]], 2, function(x) quantile(x, 0.95)) 
+  LP_Coef[,i] <- LPbetahat[[i]]
+  LP_Boot[,i] <- colMeans(LPbetaboots[[i]]) 
+  LP_SE[,i] <- apply(LPbetaboots[[i]], 2, sd)
+  #Percentile Method
+  # LP_Lower[,i] <- apply(LPbetaboots[[i]], 2, function(x) quantile(x, 0.05))
+  # LP_Upper[,i] <- apply(LPbetaboots[[i]], 2, function(x) quantile(x, 0.95)) 
+  #Normal Critical Values
+  LP_Lower[,i] <- LP_Coef[,i]+LP_SE[,i]*qnorm(alpha/2)
+  LP_Upper[,i] <- LP_Coef[,i]+LP_SE[,i]*qnorm(1-alpha/2) 
 }
 #Listed by Industry
 #For QLP

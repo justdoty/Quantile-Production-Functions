@@ -121,7 +121,6 @@ for (i in 1:length(NAICS)){
 #For QLP
 QLP_Coef <- lapply(seq(dim(QLP_Coef)[3]), function(x) QLP_Coef[ , , x])
 QLP_Boot <- lapply(seq(dim(QLP_Boot)[3]), function(x) QLP_Boot[ , , x])
-QLP_BC <- lapply(seq(dim(QLP_BC)[3]), function(x) QLP_BC[ , , x])
 QLP_SE <- lapply(seq(dim(QLP_SE)[3]), function(x) QLP_SE[ , , x])
 QLP_Upper <- lapply(seq(dim(QLP_Upper)[3]), function(x) QLP_Upper[ , , x])
 QLP_Lower <- lapply(seq(dim(QLP_Lower)[3]), function(x) QLP_Lower[ , , x])
@@ -166,7 +165,7 @@ colnames(estimates_QR) <- c("Tau", "K", "L")
 QR_CI <- data.frame(cbind(rep(tau, length(NAICS)), cbind(do.call(rbind, QR_Lower), do.call(rbind, QR_Upper))[,c(rbind(c(1:2), 2+(1:2)))]))
 colnames(QR_CI) <- c('Tau', 'Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
 #Prepare estimates for table in paper/presentation
-tau_table <- c(0.1, 0.25, 0.5, 0.75)
+tau_table <- c(0.1, 0.25, 0.5, 0.9)
 
 #Table Labels
 NAICS_labels <- array(NA, length(tau_table)*length(NAICS)); NAICS_labels[seq(1, length(tau_table)*length(NAICS), by=length(tau_table))] <- NAICS

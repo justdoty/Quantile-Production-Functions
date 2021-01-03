@@ -9,7 +9,7 @@ COLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Productio
 #Choose which industry to select
 All <- "^3"
 industries <- c("311", "322", "381", All)
-tau <- c(0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7, 0.75, 0.8, 0.9)
+tau <- seq(.05, .95, by=.05)
 dZ <- 2
 lm.coef <- array(0, dim=c(length(industries), dZ))
 lm.CI <- array(0, dim=c(length(industries), 2*dZ))
