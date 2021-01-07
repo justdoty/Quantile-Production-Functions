@@ -6,23 +6,17 @@ require(dplyr)
 #####################################################################################################
 #This function lags the data and returns both the lagged variables as well as its contemporaneous values
 #####################################################################################################
-lagdata <- function(idvar, X, lag){
-  if (lag==1){
-    condata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-1)
-    lagdata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-n())
-    data <- cbind(data.frame(condata), data.frame(lagdata[,-1]))
-  } else if (lag==2){
-    condata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-(1:2))
-    lag1data <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-((n()-2):(n()-1)))
-    lag2data <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-((n()-1):n()))
-    data <- cbind(data.frame(condata), data.frame(lag1data[,-1]), data.frame(lag2data[,-1]))
-  }
-	return(data)
+lagdata <- function(idvar, X){
+  condata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-1)
+  lagdata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-n())
+  data <- cbind(data.frame(condata), data.frame(lagdata[,-1]))
+  return(data)
 }
 ########################################################################################################
 #boot resampling on IDs: bootstrapping on individuals (prodest.R)
 #######################################################################################################
-block.boot.resample <- function( idvar, R ){
+block.boot.resample <- function(idvar, R, seed){
+  set.seed(seed)
   unique.ids <- unique(idvar) # find the unique values of panels in order to reshape the data
   panel.time.indices <- apply(unique.ids, 1, function(x) {return(list(which(idvar == x)))}) # find the time indices for each panel
   seq.indices <- 1:length(unique.ids) # the panel.time.indices list is indexed with sequential numbers: we mimic it

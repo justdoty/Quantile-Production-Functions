@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{42}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -59,6 +59,12 @@
   experimental data. \textit{Journal of the American Statistical Association},
   \textbf{104}~(486), 486--500.
 
+\bibitem[{Cai \textit{et~al.}(2018)Cai, Chen and Fang}]{Cai2018}
+\textsc{Cai, Z.}, \textsc{Chen, L.} and \textsc{Fang, Y.} (2018). A
+  semiparametric quantile panel data model with an application to estimating
+  the growth effect of {FDI}. \textit{Journal of Econometrics},
+  \textbf{206}~(2), 531--553.
+
 \bibitem[{Canay(2011)}]{Canay2011}
 \textsc{Canay, I.~A.} (2011). A simple approach to quantile regression for
   panel data. \textit{The Econometrics Journal}, \textbf{14}~(3), 368--386.
@@ -81,6 +87,16 @@
 \textsc{---} (1991{\natexlab{b}}). Nonparametric estimates of regression
   quantiles and their local bahadur representation. \textit{The Annals of
   Statistics}, \textbf{19}~(2), 760--777.
+
+\bibitem[{Chen and Pouzo(2009)}]{Chen2009}
+\textsc{Chen, X.} and \textsc{Pouzo, D.} (2009). Efficient estimation of
+  semiparametric conditional moment models with possibly nonsmooth residuals.
+  \textit{Journal of Econometrics}, \textbf{152}~(1), 46--60.
+
+\bibitem[{Chen and Pouzo(2012)}]{2012a}
+\textsc{---} and \textsc{---} (2012). Estimation of nonparametric conditional
+  moment models with possibly nonsmooth generalized residuals.
+  \textit{Econometrica}, \textbf{80}~(1), 277--321.
 
 \bibitem[{Chernozhukov and Hansen(2005)}]{Chernozhukov2005}
 \textsc{Chernozhukov, V.} and \textsc{Hansen, C.} (2005). An {IV} model of
@@ -109,6 +125,16 @@
 \textsc{Griliches, Z.} and \textsc{Hausman, J.~A.} (1986). Errors in variables
   in panel data. \textit{Journal of Econometrics}, \textbf{31}~(1), 93--118.
 
+\bibitem[{Hausman \textit{et~al.}(2019)Hausman, Liu, Luo and
+  Palmer}]{Hausman2019}
+\textsc{Hausman, J.}, \textsc{Liu, H.}, \textsc{Luo, Y.} and \textsc{Palmer,
+  C.} (2019). \textit{Errors in the Dependent Variable of Quantile Regression
+  Models}. Tech. rep.
+
+\bibitem[{He(1997)}]{He1997}
+\textsc{He, X.} (1997). Quantile curves without crossing. \textit{The American
+  Statistician}, \textbf{51}~(2), 186.
+
 \bibitem[{Just and Pope(1978)}]{Just1978}
 \textsc{Just, R.~E.} and \textsc{Pope, R.~D.} (1978). Stochastic specification
   of production functions and economic implications. \textit{Journal of
@@ -118,6 +144,11 @@
 \textsc{---} and \textsc{---} (1979). Production function estimation and
   related risk considerations. \textit{American Journal of Agricultural
   Economics}, \textbf{61}~(2), 276--284.
+
+\bibitem[{Kaplan and Sun(2016)}]{Kaplan2016}
+\textsc{Kaplan, D.~M.} and \textsc{Sun, Y.} (2016). Smoothed estimating
+  equations for instrumental variables quantile regression. \textit{Econometric
+  Theory}, \textbf{33}~(1), 105--157.
 
 \bibitem[{Kasahara \textit{et~al.}(2017)Kasahara, Schrimpf and
   Suzuki}]{Kasahara2015}
@@ -161,8 +192,16 @@
   productivity in the telecommunications equipment industry.
   \textit{Econometrica}, \textbf{64}~(6), 1263.
 
+\bibitem[{Rosen(2012)}]{Rosen2012}
+\textsc{Rosen, A.~M.} (2012). Set identification via quantile restrictions in
+  short panels. \textit{Journal of Econometrics}, \textbf{166}~(1), 127--137.
+
 \bibitem[{Rostek(2009)}]{ROSTEK2009}
 \textsc{Rostek, M.} (2009). Quantile maximization in decision theory.
   \textit{The Review of Economic Studies}, \textbf{77}~(1), 339--371.
+
+\bibitem[{Schennach(2014)}]{2014a}
+\textsc{Schennach, S.} (2014). Entropic latent variable integration via
+  simulation. \textit{Econometrica}, \textbf{82}~(1), 345--385.
 
 \end{thebibliography}

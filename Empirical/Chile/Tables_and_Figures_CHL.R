@@ -341,9 +341,9 @@ for (p in 1:length(ISIC)){
   Q9Q1data <- data.frame(x=tau, y=Q9Q1_QLP, z=LP_estimates$Q9Q1[p], lower=Q9Q1_QLP_Low, upper=Q9Q1_QLP_Up, lower_LP=LP_CI$Lower_9010[p], upper_LP=LP_CI$Upper_9010[p])
   Q95Q05data <- data.frame(x=tau, y=Q95Q05_QLP, z=LP_estimates$Q95Q05[p], lower=Q95Q05_QLP_Low, upper=Q95Q05_QLP_Up, lower_LP=LP_CI$Lower_9505[p], upper_LP=LP_CI$Upper_9505[p])
   #Plots
-  Q3Q1plot[[p]] <- ggplot(Q3Q1data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=Q3Q1data$z, linetype='solid', color='red') + geom_hline(yintercept=c(Q3Q1data$lower_LP, Q3Q1data$upper_LP), linetype='dashed', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
-  Q9Q1plot[[p]] <- ggplot(Q9Q1data, aes(x=x)) + xlab(expression('percentile-'*tau))+ ylab("") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=Q9Q1data$z, linetype='solid', color='red') + geom_hline(yintercept=c(Q9Q1data$lower_LP, Q9Q1data$upper_LP), linetype='dashed', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
-  Q95Q05plot[[p]] <- ggplot(Q95Q05data, aes(x=x)) + xlab(expression('percentile-'*tau))+ ylab("") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=Q95Q05data$z, linetype='solid', color='red') + geom_hline(yintercept=c(Q95Q05data$lower_LP, Q95Q05data$upper_LP), linetype='dashed', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
+  Q3Q1plot[[p]] <- ggplot(Q3Q1data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("") + geom_line(aes(y=y)) + geom_hline(yintercept=Q3Q1data$z, linetype='solid', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
+  Q9Q1plot[[p]] <- ggplot(Q9Q1data, aes(x=x)) + xlab(expression('percentile-'*tau))+ ylab("")  + geom_line(aes(y=y)) + geom_hline(yintercept=Q9Q1data$z, linetype='solid', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
+  Q95Q05plot[[p]] <- ggplot(Q95Q05data, aes(x=x)) + xlab(expression('percentile-'*tau))+ ylab("") + geom_line(aes(y=y)) + geom_hline(yintercept=Q95Q05data$z, linetype='solid', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
 }
 Q3Q1_Grid_plot <- plot_grid(Q3Q1plot[[1]], Q3Q1plot[[2]], Q3Q1plot[[3]], Q3Q1plot[[4]])
 Q9Q1_Grid_plot <- plot_grid(Q9Q1plot[[1]], Q9Q1plot[[2]], Q9Q1plot[[3]], Q9Q1plot[[4]])

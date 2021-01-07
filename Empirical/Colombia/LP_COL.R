@@ -15,16 +15,17 @@ industries <- industries[id]
 R <- 500
 #The number of parameters being estimated
 dZ <- 2
-#Store results for bootstrap replications across quantiles across industries
-results <- array(0, dim=c(R, dZ))
+
 
 COL <- filter(COLdata, str_detect(isic3, industries))
-soln <- LP(idvar=CHL$id, timevar=CHL$year, Y=CHL$lnva, K=CHL$lnk, L=CHL$lnl, proxy=CHL$lnm,  binit=NULL, R=R)
-results <- soln[[1]]
-true.beta.LP <- soln[[2]]
+soln <- LP(idvar=COL$id, timevar=COL$year, Y=COL$lnva, K=COL$lnk, L=COL$lnl, proxy=COL$lnm,  binit=NULL, R=R)
+betahat <- soln$betahat
+ratiohat <- soln$ratiohat
+betaboot <- soln$betaboot
+ratioboot <- soln$ratioboot
 
-filename <- paste("PFQR/DATA/COL/LP_COL_ISIC_", id, ".RData", sep="")
-save(results, true.beta.LP, file=filename)
+filename <- paste("PFQR/DATA/COL/LP_Environments/LP_COL_ISIC_", id, ".RData", sep="")
+save(betahat, ratiohat, betaboot, ratioboot, file=filename)
 
 #HPC Job Submissions for batches: qsub -t 1:length(industries) myjob.job
 #Here length(industries)=4

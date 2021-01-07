@@ -2,7 +2,6 @@ require(stringr)
 source('PFQR/FUN/LP.R')
 
 #This function estimates the LP production function batching by industry
-#Function calls prodestLP to perform estimation
 
 #Load US dataset
 US_panel <- read.csv("PFQR/DATA/US/USdata.csv")
@@ -13,20 +12,20 @@ All <- "^3"
 industries <- c("31", "32", "33", All)
 id <- as.numeric(commandArgs(TRUE)[1])
 industries <- industries[id]
-#The number of bootstrap replications to be used in QLP defined below
+#The number of bootstrap replications to be used in LP defined below
 R <- 500
 #The number of parameters being estimated
 dZ <- 2
-#Store results for bootstrap replications across quantiles across industries
-results <- array(0, dim=c(R, dZ))
 
 US <- filter(USdata, str_detect(naics2, industries))
 soln <- LP(idvar=US$id, timevar=US$year, Y=US$lnva, K=US$lnk, L=US$lnl, proxy=US$lnm,  binit=NULL, R=R)
-results <- soln[[1]]
-true.beta.LP <- soln[[2]]
+betahat <- soln$betahat
+ratiohat <- soln$ratiohat
+betaboot <- soln$betaboot
+ratioboot <- soln$ratioboot
 
-filename <- paste("PFQR/DATA/US/LP_US_NAICS_", id, ".RData", sep="")
-save(results, true.beta.LP, file=filename)
+filename <- paste("PFQR/DATA/US/LP_Environments/LP_US_NAICS_", id, ".RData", sep="")
+save(betahat, ratiohat, betaboot, ratioboot, file=filename)
 
 #HPC Job Submissions for batches: qsub -t 1:length(industries) myjob.job
 #Here length(industries)=4

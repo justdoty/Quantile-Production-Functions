@@ -161,7 +161,7 @@ Another alternative is to make use of valid instruments if they are available. T
 \begin{equation}
 P[y_{it}\leq Q(k_{it}, l_{it}, \tau)|k_{it}, l_{it}, p^{k}_{it}, p^{l}_{it}]=\tau
 \end{equation}
-while this identification argument is critical in our model, we do not use the estimation procedure for reasons explained in the next section. One of these reasons are that input prices may not have enough variation across firms and exogeneity can be violated if they capture input quality differences as argued by \cite{Griliches1986}.
+while this identification argument is used in our model, we do not use the estimation procedure for reasons explained in the next section. One of these reasons are that input prices may not have enough variation across firms and exogeneity can be violated if they capture input quality differences as argued by \cite{Griliches1986}.
 
 
 \section{A Random Coefficient Production Function} \label{ourmodel}
@@ -186,7 +186,7 @@ where $F^{-1}(\tau)$ is the quantile function of production shocks $\eta_{it}$.
 
 The formulation of \eqref{locationscale} is not new to the production function literature. The assumption that input choices can impact firm's production beyond the conditional mean has important consequences for firm's attitude towards production risk. A volume of literature that originated in the late 1970's challenged the standard stochastic specifications of production functions \citep{Just1978,Just1979} by considering a specification that allowed firm's inputs to both increase or decrease the marginal variability of final output. The most common application of those models are in the agricultural industry where the variance on the yield of harvested crops could be increased by adverse weather or decreased by pesticide usage. Since manufacturing businesses tend to operate in a more controlled environment, risk is less prevalent in these industries so the conditional variance of $\eta_{it}$ may be smaller. A general quantile model such as the one specified in \eqref{pfrc} can be seen as an extension of the higher-order moment estimation of risk initiated by \cite{Antle1983}. However, it can also be seen purely as an econometric specification issue as we are unaware of any tests that could distinguish between higher order moment production risk and misspecification. We choose the latter interpretation for our model. 
 
-We note that under quantile preferences a firm who maximizes the $\tau$ level of utility of profits could explain heterogeneity in the output distribution. Unlike risk-neutral firms, firms could have a utility function that is represented by preferences of the firm manager(s) who decides the optimal expenditure on inputs. Different managers may have different preferences for risk. Quantile utility maximization is not a new concept. A short list of papers have considered quantile utility maximization such as \cite{Manski1988}, \cite{ROSTEK2009}, \cite{Chambers2007}, and \cite{Bhattacharya2009}. Dynamic input choices such as investment are much more difficult to solve using the quantile utility framework and the reader can refer to \cite{Castro2017} for a treatment of dynamic quantile utility models. As far as we know, the quantile utility framework has not been applied to firm decision problems and a more thorough treatment of such is outside the scope of this paper. We illustrate a basic estimation procedure using static first order conditions for this type of model in the Appendix for the reader's interest.
+We note that under quantile preferences a firm who maximizes the $\tau$ level of utility of profits could explain heterogeneity in the output distribution. Unlike risk-neutral firms, firms could have a utility function that is represented by preferences of the firm manager(s) who decides the optimal expenditure on inputs. Different managers may have different preferences for risk. Quantile utility maximization is not a new concept. A short list of papers have considered quantile utility maximization such as \cite{Manski1988}, \cite{ROSTEK2009}, \cite{Chambers2007}, and \cite{Bhattacharya2009}. Dynamic input choices such as investment are much more difficult to solve using the quantile utility framework and the reader can refer to \cite{Castro2017} for a treatment of dynamic quantile utility models. As far as we know, the quantile utility framework has not been applied to firm decision problems and a more thorough treatment of such is outside the scope of this paper.
 
 \subsection{Identification}
 \subsubsection{Production Function in \cite{Levinsohn2003}}
@@ -222,7 +222,7 @@ Using Assumption \eqref{qpfassume}(a, b) we have the following identification co
 	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau
 \end{equation}
 
-The equation in \eqref{qpf1st} is a semiparametric partially linear quantile regression model which can be consistently estimated using the methodology of \cite{Lee2003}. We can then plug these estimates back into the production function and apply Assumption \eqref{qpfassume}(c) to obtain:
+The equation in \eqref{qpf1st} is a semiparametric partially linear quantile regression model which can be consistently estimated using approaches proposed by \cite{Lee2003}, \cite{KOENKER1994}, or \cite{Chen2009}. We can then plug these estimates back into the production function and apply Assumption \eqref{qpfassume}(c) to obtain:
 \begin{equation} \label{qpf2nd}
 y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1})+\xi_{it}
 \end{equation}
@@ -231,7 +231,9 @@ The main challenge of the identification result in the second stage is that it i
 \begin{equation} \label{2ndstageidentification}
 P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+\xi_{it}|\mathcal{I}_{it-1}\big)=\tau
 \end{equation}
-The lack of identification in this model is often lamented in the quantile panel data models using correlated random effects. For example, \cite{Canay2011} notes that the conditional behavior of \eqref{2ndstageidentification} depends on the joint distribution of $\eta_{it}$ and $\xi_{it}$ which makes identification of $(g, \beta_{k}(\tau))$ in the second stage a difficult task. We circumvent this by framing an identification condition in only the $\xi_{it}$ component, similar to \cite{Ackerberg2015} by concentrating out the constant $\beta_{0}(\tau)$ and $g$. For a hypothetical guess of $\beta_{k}(\tau)$, say  $\tilde{\beta}_{k}(\tau)$ we can write
+The lack of identification in using the above equation is related to the identification issues of quantile panel data models using correlated random effects. For example, \cite{Canay2011} notes that the conditional behavior of \eqref{2ndstageidentification} depends on the joint distribution of $\eta_{it}$ and $\xi_{it}$ which makes identification of $(g, \beta_{k}(\tau))$ in the second stage problematic. Identifciation issues related to quantile panel data models using conditonal quantile restrictions are studied by \cite{Rosen2012} who develops conditions for both set and point identification. \cite{Cai2018} note that an equation like \eqref{qpf2nd} can be interpreted as measurement error in the dependent variable of a quantile regression model where $\xi_{it}$ is the measurement error in $y_{it}$. This type of model is studied by \cite{Hausman2019} who use a sieve MLE approach for estimating the density of the measurement error. Both aforementioned papers require varying degrees of distributional assumptions on the error term which we would like to avoid in our model. An alternative would be to use the entropic integration method of \cite{2014a} and integrate out $\xi_{it}$ via simulation. However, this approach would introduce additional nuisance parameters that would need to be estimated. 
+
+We can avoid distributional asssumptions and nuisance parameters by framing the identification condition in the $\xi_{it}$ component, similar to \cite{Ackerberg2015} by concentrating out the constant $\beta_{0}(\tau)$ and $g$. For a hypothetical guess of $\beta_{k}(\tau)$, say  $\tilde{\beta}_{k}(\tau)$ we can write for a fixed $\tau\in (0,1]$
 \begin{equation}
 \beta_{0}(\tau)+\omega_{it}=y_{it}-\hat{\beta}_{l}(\tau)l_{it}-\tilde{\beta}_{k}(\tau)k_{it}=\hat{\Phi}(k_{it}, m_{it}; \tau)-\tilde{\beta}_{k}(\tau)k_{it}
 \end{equation}
@@ -245,7 +247,7 @@ and note that the implied residuals satisfy
 \end{equation}
 which can be estimated by standard GMM procedures for a fixed $\tau\in (0,1]$\\
 
-Therefore, this estimator is a simple extension of the control function approach where the first stage parameters are estimating using quantile regression. However, it is important to note that the second stage parameters can only be identified using the conditional moment restriction in $\xi_{it}$ instead of $\eta_{it}+\xi_{it}$. While, this reduces the number of parameters needed to be estimated in the GMM procedure, the objective function becomes more complex.
+This estimator is then a simple extension of the control function approach where the first stage parameters are estimated using quantile regression techniques. The location-shift assumption on the productivity process allows us to identify and estimate the parameters in the second stage while concentrating out additional parameters. Some interesting extensions could include additional heterogeneity in the productivity process such as a location-scale model for productiivity which could be estimated using \cite{He1997} or a random-coefficient model where second stage identification would rely on a conditional quantile restriction and estimated using \cite{Kaplan2016}.
 
 \subsubsection{Production Function in \cite{Ackerberg2015}}
 In the \cite{Ackerberg2015} setting, the intermediate input demand $m_{it}=m_{t}(k_{it}, l_{it}, \omega_{it})$ is conditional on the labor input. This allows a more flexible timing assumption on when labor is chosen by the firm relative to the other inputs. Labor can have dynamic implications and be partially or fully realized before productivity $\omega_{it}$. In this setting, the labor elasticity $\beta_{l}$ cannot be identified in the first stage as in the LP approach. The first stage equation is then:
@@ -256,7 +258,7 @@ where we have used monotonicity of the intermediate input demand function in $\o
 \begin{equation} \label{acfqpf1}
 P\big(y_{it}\leq \Phi(k_{it}, l_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau
 \end{equation}
-which suggests that the functional $\Phi(\cdot, \tau)$ can be estimated by nonparametric quantile methods such local linear or polynomial regression \cite{Chaudhuri1991,Chaudhuri1991a} or smoothing splines \cite{KOENKER1994}.\\
+which suggests that the functional $\Phi(\cdot, \tau)$ can be estimated by nonparametric quantile methods such local linear or polynomial regression \citep{Chaudhuri1991,Chaudhuri1991a}, smoothing splines \citep{KOENKER1994}, or more general sieve based estimation \citep{2012a}.\\
 As before, we concentrate out the constant $\beta_{0}(\tau)$ and $g$. For a hypothetical guess of $(\beta_{l}(\tau), \beta_{k}(\tau))$ we can write
 \begin{equation}
 \beta_{0}(\tau)+\omega_{it}=y_{it}-\tilde{\beta}_{l}(\tau)l_{it}-\tilde{\beta}_{k}(\tau)k_{it}=\hat{\Phi}(k_{it}, l_{it}, m_{it}; \tau)-\tilde{\beta}_{k}(\tau)k_{it}-\tilde{\beta}_{l}(\tau)l_{it}
@@ -351,7 +353,7 @@ where $\hat{f}_{\Lambda|x,l}^{2}(0|x_{it},l_{it})$ and $\hat{\mathbbm{E}}[\cdot|
 \subsubsection*{Second Stage}
 
 \newpage
-\section{Monte Carlo Experiments}
+\section{Monte Carlo Experiments} \label{montecarlo}
 We use a location-scale version of \cite{Levinsohn2003} and replicate \cite{Ackerberg2015} simulations sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
 
 \begin{equation}

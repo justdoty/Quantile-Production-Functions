@@ -14,9 +14,8 @@ require(dplyr)
 #This function initializes the estimation procedure which calls finalQLP
 ###################################################################################
 ###################################################################################
-QLP <- function(tau, idvar, timevar, Y, K, L, proxy, binit=NULL, R=20){
+QLP_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, binit=NULL, R=20){
   seed <- 123456
-  set.seed(seed)
   #Make all data arguments into matrices
   idvar <- as.matrix(idvar)
   timevar <- as.matrix(timevar)
@@ -29,30 +28,35 @@ QLP <- function(tau, idvar, timevar, Y, K, L, proxy, binit=NULL, R=20){
   #This function computes the "true" beta and sample moments evaluated at the "true" parameters
   #using the "true" data used for recentering the moments in the bootstrap
   #Here ind denotes the index that does tells finalQLP not resample the original data
-  trueboot <- finalQLP(tau=tau, ind=TRUE, data=data, binit=binit, gbar=0)
-  #True parameters
-  beta <- trueboot$beta
+  trueboot <- finalQLP(tau=tau, ind=TRUE, data=data, binit=binit, gbar=0, seed=seed)
+  #"True" parameters
+  betahat <- trueboot$beta
+  #"True" TFP dispersion ratios
+  ratiohat <- trueboot$dispersion
   #True sample moments
   gbartrue <- trueboot$gbar
   #Initialize bootstrap
-  boot.indices <- block.boot.resample(idvar, R)
-  boot.betas <- matrix(0, nrow=R, ncol=2)
+  bootind <- block.boot.resample(idvar, R, seed)
+  betaboot <- matrix(0, nrow=R, ncol=2)
+  ratioboot <- matrix(0, nrow=R, ncol=3)
   #Bootstrap Procedure: finalQLP now computes the beta estimates where the sample moments
   #from GMM are recentered by truegbar, the sample moments evaluated at the true data
   for (i in 1:R){
     print(i)
-    set.seed(seed+i)
-    boot.betas[i,] <- finalQLP(tau=tau, ind=boot.indices[[i]], data=data, binit=binit, gbar=gbartrue)$beta
+    seed <- seed+i
+    boot <- finalQLP(tau=tau, ind=bootind[[i]], data=data, binit=binit, gbar=gbartrue, seed=seed)
+    betaboot[i,] <- boot$beta
+    ratioboot[i,] <- boot$dispersion
   }
-  #Only return the boostrapped estimates and the estimates at the true data
-  return(list(boot.betas, beta))
+  return(list(betahat=betahat, ratiohat=ratiohat,  betaboot=betaboot, ratioboot=ratioboot))
 }
 ###########################################################################
 ###########################################################################
 #Function to estimate and to bootstrap QLP
 ###########################################################################
 ###########################################################################
-finalQLP <- function(tau, ind, data, binit, gbar){
+finalQLP <- function(tau, ind, data, binit, gbar, seed){
+  set.seed(seed)
   ##########################################################################
   #Bootstrap Component
   ###########################################################################
@@ -66,9 +70,11 @@ finalQLP <- function(tau, ind, data, binit, gbar){
   #######################################################################
   #First Stage of LP
   #######################################################################
-  #Create a polynomail data frame for 1st stage estimation
-  regvars <- data.frame(reg1=data$L, reg2=data$K, reg3=data$proxy, reg4=data$K^2, reg5=data$proxy^2)
-  firststage <- rq(data$Y~as.matrix(regvars[, grepl('reg', colnames(regvars))]), tau=tau)
+  regvars <- data.frame(reg1=data$L, reg2=data$K, reg3=data$proxy, reg4=data$proxy*data$K, reg5=data$K^2, reg6=data$proxy^2, reg7=data$proxy*(data$K^2), reg8=(data$proxy^2)*data$K, reg9=data$K^3, reg10=data$proxy^3)
+  w <- rexp(nrow(data))
+  firststage <- rq(data$Y~as.matrix(regvars[, grepl('reg', colnames(regvars))]), tau=tau, weights=w)
+  init <- rq(data$Y~data$L+data$K, tau=tau)
+  kinit <- as.numeric(coef(init)[3])
   phi0 <- as.numeric(coef(firststage)[1])
   LP_Labor <-  as.numeric(coef(firststage)[2])
   #Clean Phi from the effects of free variables
@@ -87,23 +93,37 @@ finalQLP <- function(tau, ind, data, binit, gbar){
   #Lagged phi estimates
   fitlagphi <- as.matrix(newdata$philag)
   #Instruments
-  mZ <- cbind(as.matrix(newdata$Kcon), as.matrix(newdata$Klag), as.matrix(newdata$Llag))
-  #Optional weighting matrix used by Kaplan and Sun (2016)
-  # Wz <- solve(tau*(1-tau)*crossprod(mZ)/nrow(mZ))
+  mZ <- cbind(as.matrix(newdata$Kcon), as.matrix(newdata$Klag), as.matrix(newdata$Llag), as.matrix(newdata$Pxlag))
   #If not specified, starting point is the first stage estimates
   if (is.null(binit)){
-    binit <- as.numeric(coef(firststage)[3])
+    # binit <- 1-LP_Labor
+    binit <- kinit
+
   }
   #Overidentification
   if (ncol(mZ)>ncol(mX)){
-  	# soln <- GenSA(par=binit, fn=QLPobj, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau, lower=0, upper=1, control=list(max.time=5))
     soln <- optim(par=binit, fn=function(b) QLPobj(b, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau), gr=NULL, method="L-BFGS-B", lower=0, upper=1)
     gbar <- gbar(b=soln$par, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau)
-    return(list(beta=c(soln$par, LP_Labor), gbar=gbar))
+    TFP <- exp(data$Y-cbind(data$K, data$L)%*%c(soln$par, LP_Labor))
+    Q3Q1hat <- as.numeric(quantile(TFP, .75)/quantile(TFP, .25))
+    Q9Q1hat <- as.numeric(quantile(TFP, .9)/quantile(TFP, .1))
+    Q95Q05hat <- as.numeric(quantile(TFP, .95)/quantile(TFP, .05))
+    betahat <- c(soln$par, LP_Labor)
+    dispersion <- c(Q3Q1hat, Q9Q1hat, Q95Q05hat)
+    print(betahat)
+    print(dispersion)
+    return(list(betahat=betahat, gbar=gbar, dispersion=dispersion))
+    #Exact Identifciation (No recentering)
   } else if (ncol(mZ)==ncol(mX)){
     soln <- optim(par=binit, fn=function(b) QLPobj(b, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau), gr=NULL, method="L-BFGS-B", lower=0, upper=1)
     gbar <- 0
-    return(list(beta=c(soln$b, LP_Labor), gbar=gbar))
+    TFP <- exp(data$Y-cbind(data$K, data$L)%*%c(soln$par, LP_Labor))
+    Q3Q1hat <- as.numeric(quantile(TFP, .75)/quantile(TFP, .25))
+    Q9Q1hat <- as.numeric(quantile(TFP, .9)/quantile(TFP, .1))
+    Q95Q05hat <- as.numeric(quantile(TFP, .95)/quantile(TFP, .05))
+    betahat <- c(soln$par, LP_Labor)
+    dispersion <- c(Q3Q1hat, Q9Q1hat, Q95Q05hat)
+    return(list(betahat=betahat, gbar=gbar, dispersion=dispersion))
   }
 }
 ############################################################################################
