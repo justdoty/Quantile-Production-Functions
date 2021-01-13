@@ -663,4 +663,50 @@ The contribution of the paper is twofold. First, we propose a new estimation met
   publisher = {The Econometric Society},
 }
 
+@Article{Ai2012,
+  author    = {Chunrong Ai and Xiaohong Chen},
+  title     = {The semiparametric efficiency bound for models of sequential moment restrictions containing unknown functions},
+  journal   = {Journal of Econometrics},
+  year      = {2012},
+  volume    = {170},
+  number    = {2},
+  pages     = {442--457},
+  month     = {oct},
+  doi       = {10.1016/j.jeconom.2012.05.015},
+  publisher = {Elsevier {BV}},
+}
+
+@Book{,
+  title     = {Efficient and Adaptive Inference in Semiparametric Models},
+  publisher = {Johns Hopkins University Press, Baltimore},
+  year      = {1993},
+  author    = {P.J. Bickel, C.A.J. Klassen, Y. Ritov, J.A. Wellner},
+}
+
+@Article{Ai2003,
+  author    = {Chunrong Ai and Xiaohong Chen},
+  title     = {Efficient Estimation of Models with Conditional Moment Restrictions Containing Unknown Functions},
+  journal   = {Econometrica},
+  year      = {2003},
+  volume    = {71},
+  number    = {6},
+  pages     = {1795--1843},
+  month     = {nov},
+  doi       = {10.1111/1468-0262.00470},
+  publisher = {The Econometric Society},
+}
+
+@Article{Ackerberg2012,
+  author    = {Daniel Ackerberg and Xiaohong Chen and Jinyong Hahn},
+  title     = {A Practical Asymptotic Variance Estimator for Two-Step Semiparametric Estimators},
+  journal   = {Review of Economics and Statistics},
+  year      = {2012},
+  volume    = {94},
+  number    = {2},
+  pages     = {481--498},
+  month     = {may},
+  doi       = {10.1162/rest_a_00251},
+  publisher = {{MIT} Press - Journals},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

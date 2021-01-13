@@ -196,9 +196,6 @@ INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png
-INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png
-INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png
-INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex
@@ -296,6 +293,7 @@ INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.bbl
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmcsc10.tfm
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.aux
+INPUT /Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour/public/bbm/bbm8.600pk
 INPUT /Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.657pk
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb

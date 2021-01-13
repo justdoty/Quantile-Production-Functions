@@ -1,4 +1,4 @@
-\begin{thebibliography}{42}
+\begin{thebibliography}{44}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -12,21 +12,32 @@
   Identification properties of recent production function estimators.
   \textit{Econometrica}, \textbf{83}~(6), 2411--2451.
 
+\bibitem[{Ackerberg \textit{et~al.}(2012)Ackerberg, Chen and
+  Hahn}]{Ackerberg2012}
+\textsc{---}, \textsc{Chen, X.} and \textsc{Hahn, J.} (2012). A practical
+  asymptotic variance estimator for two-step semiparametric estimators.
+  \textit{Review of Economics and Statistics}, \textbf{94}~(2), 481--498.
+
 \bibitem[{Ackerberg \textit{et~al.}(2014)Ackerberg, Chen, Hahn and
   Liao}]{Ackerberg2014}
-\textsc{---}, \textsc{Chen, X.}, \textsc{Hahn, J.} and \textsc{Liao, Z.}
-  (2014). Asymptotic efficiency of semiparametric two-step {GMM}. \textit{The
-  Review of Economic Studies}, \textbf{81}~(3), 919--943.
+\textsc{---}, \textsc{---}, \textsc{---} and \textsc{Liao, Z.} (2014).
+  Asymptotic efficiency of semiparametric two-step {GMM}. \textit{The Review of
+  Economic Studies}, \textbf{81}~(3), 919--943.
+
+\bibitem[{Ai and Chen(2003)}]{Ai2003}
+\textsc{Ai, C.} and \textsc{Chen, X.} (2003). Efficient estimation of models
+  with conditional moment restrictions containing unknown functions.
+  \textit{Econometrica}, \textbf{71}~(6), 1795--1843.
+
+\bibitem[{Ai and Chen(2012)}]{Ai2012}
+\textsc{---} and \textsc{---} (2012). The semiparametric efficiency bound for
+  models of sequential moment restrictions containing unknown functions.
+  \textit{Journal of Econometrics}, \textbf{170}~(2), 442--457.
 
 \bibitem[{Aigner \textit{et~al.}(1977)Aigner, Lovell and Schmidt}]{Aigner1977}
 \textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
   Formulation and estimation of stochastic frontier production function models.
   \textit{Journal of Econometrics}, \textbf{6}~(1), 21--37.
-
-\bibitem[{Andrews(1991)}]{Andrews1991}
-\textsc{Andrews, D. W.~K.} (1991). Heteroskedasticity and autocorrelation
-  consistent covariance matrix estimation. \textit{Econometrica},
-  \textbf{59}~(3), 817.
 
 \bibitem[{Antle(1983)}]{Antle1983}
 \textsc{Antle, J.~M.} (1983). Testing the stochastic structure of production: A
@@ -88,15 +99,15 @@
   quantiles and their local bahadur representation. \textit{The Annals of
   Statistics}, \textbf{19}~(2), 760--777.
 
+\bibitem[{Chen and Pouzo(2012)}]{2012a}
+\textsc{Chen} and \textsc{Pouzo} (2012). Estimation of nonparametric
+  conditional moment models with possibly nonsmooth generalized residuals.
+  \textit{Econometrica}, \textbf{80}~(1), 277--321.
+
 \bibitem[{Chen and Pouzo(2009)}]{Chen2009}
 \textsc{Chen, X.} and \textsc{Pouzo, D.} (2009). Efficient estimation of
   semiparametric conditional moment models with possibly nonsmooth residuals.
   \textit{Journal of Econometrics}, \textbf{152}~(1), 46--60.
-
-\bibitem[{Chen and Pouzo(2012)}]{2012a}
-\textsc{---} and \textsc{---} (2012). Estimation of nonparametric conditional
-  moment models with possibly nonsmooth generalized residuals.
-  \textit{Econometrica}, \textbf{80}~(1), 277--321.
 
 \bibitem[{Chernozhukov and Hansen(2005)}]{Chernozhukov2005}
 \textsc{Chernozhukov, V.} and \textsc{Hansen, C.} (2005). An {IV} model of

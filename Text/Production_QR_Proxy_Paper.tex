@@ -87,7 +87,7 @@ This paper extends the proxy variable approach for estimating production functio
 
 Production function estimation is an ongoing and historical empirical research topic that links firm's input to output decisions. Identification of the output elasticities and consequently the distribution of firm-level productivity is constrained by endogeneity issues. This is because productivity is unobserved by the econometrician, but observed by the firm when making input decisions. 
 
-A popular approach to address this issue is to introduce a proxy variable such as investment, made popular by \cite{Olley1996} or an intermediate material input using \cite{Levinsohn2003} or \cite{Ackerberg2015}. These proxies are a function of a state variable such as capital and the unobserved productivty components. Under certain assumptions, this demand function is strictly increasing in its scalar unobserved productivity component. Inverting this demand function controls for unobserved productivity and the production function parameters can be estimated with a simple two-stage estimator.
+A popular approach to address this issue is to introduce a proxy variable such as investment, made popular by \cite{Olley1996} or an intermediate material input using \cite{Levinsohn2003} or \cite{Ackerberg2015}. These proxies are a function of a state variable such as capital and the unobserved productivity components. Under certain assumptions, this demand function is strictly increasing in its scalar unobserved productivity component. Inverting this demand function controls for unobserved productivity and the production function parameters can be estimated with a simple two-stage estimator.
 
 While these methods have been useful in identifying the production function parameters and recovering consistent estimates of total factor productivity (TFP) resulting estimates may be biased if there is additional heterogeneity in production technology across firms. Thus, allowing for heterogeneous coefficients is one possible way to capture these differences. The literature on heterogeneous production functions is small relative to the empirical research using the homogeneous coefficient model, even though many empirical studies have found firm's heterogeneous behavior and decision.\footnote{Some notable examples are \cite*{Kasahara2015}, \cite*{balat}, \cite*{Li2017} and \cite*{mert} to name of few. Also \cite{Gandhi2020} who estimate a nonparametric production function and obtain heterogeneous estimates by construction.} This is because estimating the homogeneous coefficient model by itself is very difficult due to the issue of unobserved productivity. 
 
@@ -231,9 +231,9 @@ The main challenge of the identification result in the second stage is that it i
 \begin{equation} \label{2ndstageidentification}
 P\big(y_{it}\leq \beta_{k}(\tau)k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\tau)k_{it-1})+\xi_{it}|\mathcal{I}_{it-1}\big)=\tau
 \end{equation}
-The lack of identification in using the above equation is related to the identification issues of quantile panel data models using correlated random effects. For example, \cite{Canay2011} notes that the conditional behavior of \eqref{2ndstageidentification} depends on the joint distribution of $\eta_{it}$ and $\xi_{it}$ which makes identification of $(g, \beta_{k}(\tau))$ in the second stage problematic. Identifciation issues related to quantile panel data models using conditonal quantile restrictions are studied by \cite{Rosen2012} who develops conditions for both set and point identification. \cite{Cai2018} note that an equation like \eqref{qpf2nd} can be interpreted as measurement error in the dependent variable of a quantile regression model where $\xi_{it}$ is the measurement error in $y_{it}$. This type of model is studied by \cite{Hausman2019} who use a sieve MLE approach for estimating the density of the measurement error. Both aforementioned papers require varying degrees of distributional assumptions on the error term which we would like to avoid in our model. An alternative would be to use the entropic integration method of \cite{2014a} and integrate out $\xi_{it}$ via simulation. However, this approach would introduce additional nuisance parameters that would need to be estimated. 
+The lack of identification in using the above equation is related to the identification issues of quantile panel data models using correlated random effects. For example, \cite{Canay2011} notes that the conditional behavior of \eqref{2ndstageidentification} depends on the joint distribution of $\eta_{it}$ and $\xi_{it}$ which makes identification of $(g, \beta_{k}(\tau))$ in the second stage problematic. Identification issues related to quantile panel data models using conditional quantile restrictions are studied by \cite{Rosen2012} who develops conditions for both set and point identification. \cite{Cai2018} note that an equation like \eqref{qpf2nd} can be interpreted as measurement error in the dependent variable of a quantile regression model where $\xi_{it}$ is the measurement error in $y_{it}$. This type of model is studied by \cite{Hausman2019} who use a sieve MLE approach for estimating the density of the measurement error. Both aforementioned papers require varying degrees of distributional assumptions on the error term which we would like to avoid in our model. An alternative would be to use the entropic integration method of \cite{2014a} and integrate out $\xi_{it}$ via simulation. However, this approach would introduce additional nuisance parameters that would need to be estimated. 
 
-We can avoid distributional asssumptions and nuisance parameters by framing the identification condition in the $\xi_{it}$ component, similar to \cite{Ackerberg2015} by concentrating out the constant $\beta_{0}(\tau)$ and $g$. For a hypothetical guess of $\beta_{k}(\tau)$, say  $\tilde{\beta}_{k}(\tau)$ we can write for a fixed $\tau\in (0,1]$
+We can avoid distributional assumptions and nuisance parameters by framing the identification condition in the $\xi_{it}$ component, similar to \cite{Ackerberg2015} by concentrating out the constant $\beta_{0}(\tau)$ and $g$. For a hypothetical guess of $\beta_{k}(\tau)$, say  $\tilde{\beta}_{k}(\tau)$ we can write for a fixed $\tau\in (0,1]$
 \begin{equation}
 \beta_{0}(\tau)+\omega_{it}=y_{it}-\hat{\beta}_{l}(\tau)l_{it}-\tilde{\beta}_{k}(\tau)k_{it}=\hat{\Phi}(k_{it}, m_{it}; \tau)-\tilde{\beta}_{k}(\tau)k_{it}
 \end{equation}
@@ -242,12 +242,12 @@ We can rewrite the AR(1) productivity process as
 \hat{\Phi}(k_{it}, m_{it}; \tau)-\tilde{\beta_{k}}(\tau)k_{it}=\beta_{0}(\tau)+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\tilde{\beta_{k}}(\tau)k_{it-1})+\xi_{it}
 \end{equation}
 and note that the implied residuals satisfy
-\begin{equation}
+\begin{equation} \label{2ndxi}
 \mathbbm{E}[\xi_{it}(\tilde{\beta}_{k}(\tau))|\mathcal{I}_{it-1}]=0
 \end{equation}
 which can be estimated by standard GMM procedures for a fixed $\tau\in (0,1]$\\
 
-This estimator is then a simple extension of the control function approach where the first stage parameters are estimated using quantile regression techniques. The location-shift assumption on the productivity process allows us to identify and estimate the parameters in the second stage while concentrating out additional parameters. Some interesting extensions could include additional heterogeneity in the productivity process such as a location-scale model for productiivity which could be estimated using \cite{He1997} or a random-coefficient model where second stage identification would rely on a conditional quantile restriction and estimated using \cite{Kaplan2016}.
+This estimator is then a simple extension of the control function approach where the first stage parameters are estimated using quantile regression techniques. The location-shift assumption on the productivity process allows us to identify and estimate the parameters in the second stage while concentrating out additional parameters. Some interesting extensions could include additional heterogeneity in the productivity process such as a location-scale model for productivity which could be estimated using \cite{He1997} or a random-coefficient model where second stage identification would rely on a conditional quantile restriction and estimated using \cite{Kaplan2016}.
 
 \subsubsection{Production Function in \cite{Ackerberg2015}}
 In the \cite{Ackerberg2015} setting, the intermediate input demand $m_{it}=m_{t}(k_{it}, l_{it}, \omega_{it})$ is conditional on the labor input. This allows a more flexible timing assumption on when labor is chosen by the firm relative to the other inputs. Labor can have dynamic implications and be partially or fully realized before productivity $\omega_{it}$. In this setting, the labor elasticity $\beta_{l}$ cannot be identified in the first stage as in the LP approach. The first stage equation is then:
@@ -279,20 +279,25 @@ which can be estimated by standard GMM procedures for a fixed $\tau\in (0,1]$
 \subsection{Estimation}
 We discuss how to estimate the LP production function in two stages. 
 \subsubsection*{First Stage}
-In the first stage we have the identification condition
+Recall, in the first stage we have the identification condition
 \begin{equation} 
 	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau
 \end{equation}
-Similar to \cite{Olley1996}, $\Phi(\cdot;\tau)$ can be approximated by a flexible polynomial so that estimates $\hat{\beta_{l}}(\tau)$ and $\hat{\Phi}(\cdot;\tau)$ can be obtained from a polynomial quantile regression. A more complete model of $\Phi(\cdot;\tau)$ can be obtained using a local polynomial so that the first stage equation becomes a semi-parametric partially linear quantile regression model which we can be estimated using the two-step approach of \cite{Lee2003}. Let $\Phi_{n}(k_{it}, m_{it}, \gamma)$ denote the polynomial approximation for $\Phi$ where the subscript $n$ denotes the functions dependence on a bandwidth sequence $h_{n}$ and $\gamma$ is a finite dimensional parameter vector. \cite{Lee2003} shows that for each $(k_{it}, m_{it})$, the first-stage estimator $\hat{\beta}_{l}(k_{it}, m_{it}; \tau)\equiv \hat{\beta}_{l}$ and $\hat{\gamma}$ are the solution to the following weighted quantile regression problem:
-\begin{equation}
-\underset{(\beta_{l}, \gamma)}{\operatorname{min}}\sum_{i=1}^{N}\sum_{t=1}^{T}w_{it}(k_{it}, m_{it})\psi_{\tau}(y_{it}-\beta_{l}l_{it}-\Phi_{n}(k_{it}, m_{it}, \gamma))
+which yields
+\begin{equation} 
+	\mathbbm{E}\big[\mathbbm{1}\{y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\}-\tau\big|\mathcal{I}_{it}]=0
 \end{equation}
+Similar to \cite{Olley1996}, $\Phi(\cdot;\tau)$ can be approximated by a flexible polynomial so that estimates $\hat{\beta_{l}}(\tau)$ and $\hat{\Phi}(\cdot;\tau)$ can be obtained from a polynomial quantile regression. A more complete model of $\Phi(\cdot;\tau)$ can be obtained using a finite-dimensional sieve and estimated using a minimum distance criterion function. We briefly introduce this approach.\\
 
-where $w_{it}(\cdot, \cdot)$ denotes the weights and $\psi_{\tau}(t)=|t|+(2\tau-1)t$. Since local data points are used in estimation, it is more efficient to average the estimates $\hat{\beta}_{l}(k_{it}, m_{it}; \tau)$ to obtain the AQR estimator $\hat{\beta_{l}}(\tau)$ from
-\begin{equation}
-\hat{\beta_{l}}(\tau)=\frac{\sum_{i=1}^{N}\sum_{t=1}^{T}\mathcal{T}(k_{it}, m_{it})\hat{\beta}_{l}(k_{it}, m_{it}; \tau)}{\sum_{i=1}^{N}\sum_{t=1}^{T}\mathcal{T}(k_{it}, m_{it})}
+To fix notation, let $x_{it}=(k_{it}, m_{it})$ denote the variables in the nonparametric function, $\Phi$. Let $\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi(x_{it}))=\mathbbm{1}\{y_{it}-\beta_{l}(\tau)l_{it}-\Phi(x_{it})\leq 0\}-\tau$. Rephrasing our first stage identification condition as 
+\begin{equation} \label{residual}
+\mathbbm{E}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi(x_{it}))|\mathcal{I}_{it}]=0
 \end{equation}
-where $\mathcal{T}(k_{it}, m_{it})$ is a trimming function which is used to remove the influence of outliers in the tail distribution of $(k_{it}, m_{it})$. \cite{Lee2003} shows that the estimator for $\beta_{l}(\tau)$ is $n^{-1/2}$ consistent and asymptotically normal. We discuss how to obtain asymptotic standard errors for $\beta_{l}(\tau)$ in the next section.
+we can see that this resembles the semiparametric moment conditions studied by \cite{Chen2009} and \cite{Ai2012} where the residual function is non-differentiable in $(\beta_{l}, \Phi)$ due to the indicator function. However, one difference between our model and theirs is that there is no endogeneity in the first stage which simplifies estimation. Let $\alpha=(\beta_{l}, \Phi)$. The first stage estimates can be found from the following minimization problem
+\begin{equation}
+(\hat{\beta}_{l}, \hat{\Phi})=\underset{\alpha\in(\Theta\times \mathcal{H}_{k(n)})}{\operatorname{argmin}}\sum_{i=1}^{N}\sum_{t=1}^{T}\hat{\mathbbm{E}}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]^{'}\hat{\Sigma}_{1}^{-1}\hat{\mathbbm{E}}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]
+\end{equation}
+where $\Theta\subset \mathbbm{R}$ with $\beta_{l}\in\Theta$ and $\{\mathcal{H}_{k(n)}: k(n)=1,2,\dots\}$ is a sequence of approximating finite dimensional linear sieve spaces which becomes dense as $k(n)\rightarrow \infty$. In practice one could use a tensor-product linear sieve basis function such as B-splines or polynomials. $\hat{\mathbbm{E}}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]$ and $\hat{\Sigma}_{1}$ are nonparametric estimators of $\mathbbm{E}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]$ and $\Sigma_{1}$ which can be obtained using series LS estimator and $\hat{\Sigma}_{1}=\tau(1-\tau)$. In our simulation study and empirical application we use a 3rd order polynomial with interactions and estimate the first stage parameters using simple weighted linear quantile regression, which we justify in the next section.
 
 \subsubsection*{Second Stage}
 Once estimates of $\beta_{l}(\tau)$ and $\Phi(k_{it}, m_{it}; \tau)$ are obtained, we can estimate the residuals of the productivity innovation shocks for a given $\tilde{\beta}_{k}(\tau)$
@@ -300,57 +305,59 @@ Once estimates of $\beta_{l}(\tau)$ and $\Phi(k_{it}, m_{it}; \tau)$ are obtaine
 \hat{\xi}_{it}(\tilde{\beta}_{k}(\tau))&=\hat{\Phi}(k_{it}, m_{it}; \tau)-\tilde{\beta}_{k}(\tau)k_{it}
 -g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\tilde{\beta}_{k}(\tau)k_{it-1}, \rho)
 \end{equation}
-where we parameterize the process for productivity $g$ by a finite dimensional parameter vector $\rho$.\footnote{We use a third degree polynomial in $\omega_{it-1}$ to estimate $g$ in the empirical application. In practice, one could estimate $g$ nonparametrically, however this complicates the asymptotic results}. The capital coefficient is identified using the fact that current capital does not respond to innovation shocks in productivity. In practice we include additional instruments $(k_{it-1}, l_{it-1}, m_{it-1})$ so that our model is over-identified and $\beta_{k}(\tau)$ can be estimated using a GMM criterion function using an arbitrary weighting matrix. We discuss how to efficiently choose the weighting matrix in this two-step approach using \cite{Ackerberg2014} in the next section.
+where we parameterize the process for productivity $g$ by a finite dimensional parameter vector $\rho$.\footnote{We use a third degree polynomial in $\omega_{it-1}$ to estimate $g$ in the empirical application. In practice, one could estimate $g$ nonparametrically, however this complicates the asymptotic results} To simplify notation in the later section we let $\beta=(\beta_{0}, \beta_{k}, \rho)$ and $\hat{\xi}_{it}(\tilde{\beta}_{k}(\tau))=\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi(x_{it}))$. so we can rewrite the moment condition in equation \eqref{2ndxi} as
+\begin{equation} \label{new2ndstage}
+\mathbbm{E}[\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi(x_{it}))|\mathcal{I}_{it-1}]=0
+\end{equation}
+The capital coefficient is identified using the fact that current capital does not respond to innovation shocks in productivity. In practice we include additional instruments $(k_{it-1}, l_{it-1}, m_{it-1})$ so that our model is over-identified and $\beta_{k}(\tau)$ can be estimated using a GMM criterion function so that $\hat{\beta}$ solves 
+\begin{equation}
+\hat{\beta}=\underset{\beta}{\operatorname{argmin}}\,\hat{\mathbbm{E}}[\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi(x_{it}))]^{'}\hat{\Sigma}_{2}\hat{\mathbbm{E}}[\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi(x_{it}))]
+\end{equation}
+
+where $\hat{\mathbbm{E}}[\cdot]$ are the sample unconditional moments corresponding to \eqref{new2ndstage} and $\hat{\Sigma}_{2}$ may be an arbitrary weighting matrix. We discuss how to efficiently choose the weighting matrix in this two-step approach using \cite{Ackerberg2014} in the next section.
 
 \subsection{Asymptotics}
-We divide the discussion of asymptotics in two parts. In the first part, we show how the coefficients for the variable inputs identified in the first stage can be efficiently estimated using \cite{Lee2003}. In the second part, we show how the capital coefficient can be efficiently estimated using the appropriate weighting matrix as shown in \cite{Ackerberg2014}.
+We divide the discussion of asymptotics in two parts. In the first part, we show how the coefficients for the variable inputs identified in the first stage can be efficiently estimated using \cite{Ai2012}. In the second part, we show how the capital coefficient can be efficiently estimated using the appropriate weighting matrix as shown in \cite{Ackerberg2014}.
 \subsubsection*{First Stage}
-To fix notation, let $x_{it}=(k_{it}, m_{it})$ denote the variables in the nonparametric function, $\Phi$. Let $\Lambda_{\tau}(y_{it}, x_{it}, l_{it})=y_{it}-\beta_{l}(\tau)l_{it}-\Phi(x_{it}; \tau)$. Rephrasing our first stage identification condition as 
+The main difficulty in establishing asymptotic normality for the labor estimate in the first stage is the non-smoothness of the residual function in equation \eqref{residual}. \cite{Chen2009} extend the results of \cite{Ai2003} to show that the estimate of the parametric part of their model is not only asymptotically normal, but also establish its semiparametric efficiency bound. In the model without endogeneity, they show that their estimator reaches the same efficiency bound as \cite{Lee2003}. Readers can refer to Section 5 of \cite{Chen2009}, in particular, Remark 5.1 illustrates how to weaken their assumptions in the case of exogeneity. Let $u_{it}=y_{it}-\beta_{l}l_{it}-\Phi(x_{it})$. Using Condition 5.6 and 5.7 in \cite{Chen2009}
 \begin{equation}
-P(\Lambda(y_{it}, x_{it}, l_{it}; \tau)\leq0|x_{it}, l_{it})=\tau
+\sqrt{n}(\hat{\beta}_{l}-\beta_{l})\rightarrow N(0, V_{1}^{-1})
 \end{equation}
-and the AQR estimator as
+where
 \begin{equation}
-\hat{\beta_{l}}(\tau)=\frac{\sum_{i=1}^{N}\sum_{t=1}^{T}\mathcal{T}(x_{it})\hat{\beta}_{l}(x_{it}; \tau)}{\sum_{i=1}^{N}\sum_{t=1}^{T}\mathcal{T}(x_{it})}
+V_{1}=\tau(1-\tau)\Bigg\{\mathbbm{E}[f^{2}_{U|L,X}(0)l^{2}_{it}]-\mathbbm{E}\Bigg[\frac{\mathbbm{E}\big[f^{2}_{U|L,X}(0)l_{it}|X\big]^{2}}{\mathbbm{E}\big[f^{2}_{U|L,X}(0)|X\big]}\Bigg]\Bigg\}^{-1}
 \end{equation}
-\cite{Lee2003} considers a one-step asymptotically efficient estimator, $\bar{\beta}_{l}(\tau)$ which is constructed from the AQR estimator, $\hat{\beta}_{l}(\tau)$.
+A simple consistent estimator for the asymptotic variance can be given by
 \begin{equation}
-\begin{split}
-\bar{\beta}_{l}(\tau)=\hat{\beta}_{l}(\tau)&+\Big[\sum_{i=1}^{N}\sum_{t=1}^{T}S_{\tau}(y_{it}, x_{it}, l_{it},\Phi, \hat{\beta}_{l})S_{\tau}(y_{it}, x_{it}, l_{it},\Phi, \hat{\beta}_{l})^{'}\Big]^{-1}\\
-&\times \sum_{i=1}^{N}\sum_{t=1}^{T}S_{\tau}(y_{it}, x_{it}, l_{it},\Phi, \hat{\beta}_{l}),
-\end{split}
+\hat{V}_{1}=\tau(1-\tau)\Bigg\{\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}\Bigg[\hat{f}^{2}_{U|L,X}(0)l_{it}^{2}-\frac{\hat{\mathbbm{E}}\big[f^{2}_{U|L,X}(0)l_{it}|X\big]^{2}}{\hat{\mathbbm{E}}\big[f^{2}_{U|L,X}(0)|X\big]}\Bigg\}\Bigg]\Bigg\}^{-1}
 \end{equation}
-where $S_{\tau}(y_{it}, x_{it}, l_{it},\Phi, \hat{\beta}_{l})$ is the efficient score for $\beta_{l}(\tau)$ given by
+where $\hat{f}_{U|L,X}(0)$ and $\hat{\mathbbm{E}}[\cdot|X]$ are consistent nonparametric estimators of $f_{U|L,X}(0)$ and $\mathbbm{E}[\cdot|X]$. An alternative to plugging in these into the estimate of the asymptotic variance, is to use a weighted bootstrap procedure. \cite{Chen2009} show that this algorithm produces consistent estimates the asymptotic distribution of $\beta_{l}$ as long as one chooses an i.i.d sample of positive weights denoted by $w_{it}$ which satisfy $\mathbbm{E}[w_{it}]=1$ and $Var[w_{it}]<\infty$ and is independent from the data. In practice we draw weights from a standard exponential distribution for each iteration of the bootstrap procedure and use these to compute a weighted quantile regression estimator of $\beta_{l}$ and $\Phi$.
+
+\subsubsection*{Second Stage}
+Asymptotic normality of two-stage GMM estimators is well-established in the literature. The second stage estimates satisfy
 \begin{equation}
-\begin{split}
-S_{\tau}(y_{it}, &x_{it}, l_{it},\Phi, \beta_{l})=\\
-&\frac{f_{\Lambda|x,l}(0|x_{it},l_{it})}{\tau(1-\tau)}[\tau-\mathbbm{1}\{\Lambda_{\tau}(y_{it}, x_{it}, l_{it})\leq0\}]\big(l_{it}-\Psi(x_{it})\big)
-\end{split}
+\sqrt{n}(\hat{\beta}-\beta)\overset{d}{\operatorname{\rightarrow}}N(0,V_{2})
 \end{equation}
 where 
 \begin{equation}
-\Psi(x_{it})=\frac{\mathbbm{E}\big[f^{2}_{\Lambda|x,l}(0|x_{it},l_{it})l_{it}|x_{it}\big]}{\mathbbm{E}\big[f^{2}_{\Lambda|x,l}(0|x_{it},l_{it})|x_{it}\big]}
+V_{2}=(G_{2}^{'}\Sigma_{2}G_{2})^{-1}(G_{2}^{'}\Sigma_{2}V_{\Lambda 2}\Sigma_{2}G_{2})(G_{2}^{'}\Sigma_{2}G_{2})^{-1}
 \end{equation}
-The estimator of the score function is not feasible to due the unknown quantities $\Phi(z_{it};\tau), f_{\Lambda|x,l}(0|x_{it},l_{it})$, and $\Psi(x_{it})$ as well as the score functions discontinuity in $\beta_{l}(\tau)$. Therefore, \cite{Lee2003} considers a smoothed, feasible estimator of the score function, $\hat{S}_{\tau}(\beta_{l})$ given by
-\begin{equation}
-\hat{S}_{\tau}(\beta_{l})=\mathcal{T}(x_{it}, l_{it})\frac{\hat{f}_{\Lambda|x,l}(0|x_{it},l_{it})}{\tau(1-\tau)}\Bigg[\tau-1+\tilde{\mathbbm{I}}\Bigg\{\frac{y_{it}-\beta_{l}(\tau)l_{it}-\hat{\Phi}(x_{it}; \tau)\leq0}{j_{n}}\Bigg\}\Bigg]\times\big(l_{it}-\hat{\Psi}(x_{it})\big)
-\end{equation}
-where $\hat{\Phi}(x_{it}; \tau), \hat{f}_{\Lambda|x,l}(0|x_{it},l_{it})$ and $\hat{\Psi}(x_{it})$ are consistent estimators of $\Phi(x_{it}; \tau), f_{\Lambda|x,l}(0|x_{it},l_{it})$ and $\Psi(x_{it})$. Readers can refer to \cite{Lee2003} on how to consistently estimate these functions, however they are no more complicated than multivariate kernel smoothing with trimming. Using Assumptions 1-13 in \cite{Lee2003}, as $n\rightarrow \infty$:
-\begin{equation*}
-\sqrt{n}(\bar{\beta}_{l}(\tau)-\beta_{l}(\tau))\overset{d}{\operatorname{\rightarrow}}\mathbbm{N}(0,V)\\
-\end{equation*}
-where
-\begin{equation}
-V=\tau(1-\tau)\Bigg\{\mathbbm{E}[\mathcal{T}f_{\Lambda|x,l}(0|x_{it},l_{it})l^{2}_{it}]-\mathbbm{E}\Bigg[\frac{\mathbbm{E}\big[\mathcal{T}f^{2}_{\Lambda|x,l}(0|x_{it},l_{it})l_{it}|x_{it}\big]^{2}}{\mathbbm{E}\big[\mathcal{T}f^{2}_{\Lambda|x,l}(0|x_{it},l_{it})|x_{it}\big]}\Bigg]\Bigg\}^{-1}
-\end{equation}
-and $\mathcal{T}=\mathcal{T}(x_{it}, l_{it})$. A simple consistent estimator for the asymptotic variance can be given by
-\begin{equation}
-\hat{V}=\tau(1-\tau)\Bigg\{\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}\Bigg[\mathcal{T}_{it}\hat{f}_{\Lambda|x,l}^{2}(0|x_{it},l_{it})l_{it}^{2}-\frac{\hat{\mathbbm{E}}\big[\mathcal{T}f^{2}_{\Lambda|x,l}(0|x_{it},l_{it})l_{it}|x_{it}\big]^{2}}{\hat{\mathbbm{E}}\big[\mathcal{T}f^{2}_{\Lambda|x,l}(0|x_{it},l_{it})|x_{it}\big]}\Bigg\}\Bigg]\Bigg\}^{-1}
-\end{equation}
-where $\hat{f}_{\Lambda|x,l}^{2}(0|x_{it},l_{it})$ and $\hat{\mathbbm{E}}[\cdot|x_{it}]$ are consistent nonparametric estimators of $f_{\Lambda|x,l}^{2}(0|x_{it},l_{it})$ and $\mathbbm{E}[\cdot|x_{it}]$. 
+Here, $G_{2}=\frac{\partial \mathbbm{E}(\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi(x_{it}))}{\partial \beta}, V_{\Lambda 2}=Var(\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi(x_{it})))$ and $\Sigma_{2}$ is the weighting matrix. The two-step GMM estimator of $\beta$ is not efficient since the information sets used in the first stage and the second stage are not simultaneously considered. In order to adjust for the variance in estimating the first stage parameters $\beta_{l}$ and $\Phi$, we show how \cite{Ackerberg2014} can be applied to choosing an optimal weighting matrix that reflects the noise from the first stage estimates and provide the semi-parametric efficiency bound.\\
 
+The intuition of the \cite{Ackerberg2014} approach is that under certain conditions, the original unconditional moments $\mathbbm{E}[\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi(x_{it}))]$ can be orthogonalized with respect to the moment condition in equation \eqref{residual}. When the first step is exactly identified from a semiparametric partially linear quantile restriction, this new moment condition is written as:\footnote{Although the results of \cite{Chen2009} and \cite{Ai2012} do not require the first step to be exactly identified, we require it in order to derive the semiparametric efficiency bound for the second step estimates}
+\begin{equation}\label{orthomoment}
+\begin{split}
+\tilde{\Lambda}_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi)=&\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi)+\sum_{t=1}^{T}\Bigg[\Bigg(\frac{\partial \mathbbm{E}[\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi)|\mathcal{I}_{it-1}]}{\partial l_{it}}\\
++&\frac{\partial \mathbbm{E}[\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi)|\mathcal{I}_{t-1}]}{\partial \Phi^{'}_{j}}\Bigg)\times \frac{\tau-\mathbbm{1}\{y_{it}\leq\beta_{l}l_{it}-\Phi_{t}(x_{it})\}}{f_{U|L,X}(0)}\Bigg]
+\end{split}
+\end{equation}
+\cite{Ackerberg2014} show that the semiparametric efficiency bound for $\beta$ can be written as the inverse of
+\begin{equation}
+\tilde{V}_{2}=\Bigg(\frac{\partial\mathbbm{E}[\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi)]}{\partial\beta}\Bigg)^{'}Var(\tilde{\Lambda}_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi))^{-1}\Bigg(\frac{\partial\mathbbm{E}[\Lambda_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi)]}{\partial\beta}\Bigg)
+\end{equation}
+so that this bound can be achieved by choosing a weighting matrix $\Sigma_{2}=Var(\tilde{\Lambda}_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi))^{-1}$ which can be consistently estimated by plugging in estimates $\hat{\beta}_{l}$, $\hat{\Phi}$, and $\hat{f}_{U|L,X}(0)$ from the first stage.
 
-\subsubsection*{Second Stage}
+In practice, it is much easier to compute a numerically equivalent estimate of $Var(\tilde{\Lambda}_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi))^{-1}$ as shown by \cite{Ackerberg2012} which is outlined by \cite{Ackerberg2014} in Section 3.3 of their paper. 
 
 \newpage
 \section{Monte Carlo Experiments} \label{montecarlo}
@@ -361,14 +368,11 @@ y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(0.7k_{it}-0.6l_{it
 \end{equation}
 with $\beta_{0}=0$, $\beta_{k}=0.4$ and $\beta_{l}=0.6$. For each simulation we simulate two DGPs with $\eta_{it}\sim N(0,0.1)$ and $\eta_{it}\sim Laplace(0,0.1)$.
 
-To produce consistent estimates of the labor coefficient in the first stage, we do not allow for any wage variation across firms and labor is chosen at time $t$ with perfect information about $\omega_{it}$. However, we add optimization error in labor.
+To produce consistent estimates of the labor coefficient in the first stage, we do not allow for any wage variation across firms and labor is chosen at time $t$ with perfect information about $\omega_{it}$. However, we add optimization error in labor. An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$
 
-An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$
+We compare the LP estimation procedure with our ``QLP'' two-step procedure under the two different sets of experiments specified earlier. We estimate the model for $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ and use current period capital, $k_{it}$ as our instrument so that our model is exactly identified. For the weighting matrix, we use an estimate of the variance covariance matrix of the sample moments. We use a continuously updated GMM procedure such that estimates of $\beta_{k}(\tau)$ in the second stage are estimated simultaneously with the weighting matrix. We initialize the algorithm at the true value of $\beta_{k}(\tau)$ however we find that the estimation is robust to reasonable initial values.
 
-
-We compare the LP estimation procedure with the two-step procedure using Quantile GMM (QGMM) under  the two different sets of experiments specified earlier. We estimate the model for $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ fixing the smoothing bandwidth as $h=0.1$ and using instruments current period capital, $k_{it}$ as our instrument so that our model is exactly identified. For the weighting matrix, we use an estimate of the long-run variance covariance matrix using a truncated kernel with bandwidth choice of \cite{Andrews1991}. We use a continuously updated GMM procedure such that estimates of $\beta_{k}(\tau)$ in the second stage are estimated simultaneously with the weighting matrix. We initialize the algorithm at the true value of $\beta_{k}(\tau)$ however we find that the estimation is robust to reasonable initial values as well as bandwidth choices.
-
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \caption{QLP estimated coefficients of  $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is LP estimator}
 \includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png}
@@ -383,16 +387,7 @@ We compare the LP estimation procedure with the two-step procedure using Quantil
 \label{MSE_plot}
 \end{figure}
 
-
-The next figure summarizes distributional information from our Monte Carlo experiment. These simulation results show that our estimator has good finite-sample performance and does reasonably well at capturing firm heterogeneity across quantiles.
-
-\begin{figure}[H]
-\centering
-\caption{LP Box Plots for estimated coefficients from 1000 replications of Monte Carlo}
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/QLP_Box_Plot.png}
-\label{LP_Box Plot}
-\end{figure}
-
+\newpage
 \section{Application} \label{application}
 
 \subsection{US Compustat}
