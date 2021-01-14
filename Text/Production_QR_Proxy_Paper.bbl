@@ -1,4 +1,4 @@
-\begin{thebibliography}{44}
+\begin{thebibliography}{46}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -59,6 +59,10 @@
 \textsc{Balat, J.}, \textsc{Brambilla, I.} and \textsc{Sasaki, Y.} (2018).
   {Heterogeneous firms: skilled-labor productivity and the destination of
   exports}, {Working paper}.
+
+\bibitem[{Bartelsman and Gray(1996)}]{nber}
+\textsc{Bartelsman} and \textsc{Gray} (1996). \textit{The NBER Manufacturing
+  Productivity Database}. Tech. Rep. 205, National Bureau of Economic Research.
 
 \bibitem[{Bernini \textit{et~al.}(2004)Bernini, Freo and Gardini}]{Bernini2004}
 \textsc{Bernini, C.}, \textsc{Freo, M.} and \textsc{Gardini, A.} (2004).
@@ -166,6 +170,12 @@
 \textsc{Kasahara, H.}, \textsc{Schrimpf, P.} and \textsc{Suzuki, M.} (2017).
   Identification and estimation of production function with unobserved
   heterogeneity, {Working paper}.
+
+\bibitem[{Keller and Yeaple(2009)}]{Keller2009}
+\textsc{Keller, W.} and \textsc{Yeaple, S.~R.} (2009). Multinational
+  enterprises, international trade, and productivity growth: Firm-level
+  evidence from the united states. \textit{Review of Economics and Statistics},
+  \textbf{91}~(4), 821--831.
 
 \bibitem[{Koekner \textit{et~al.}(1994)Koekner, Ng and Portnoy}]{KOENKER1994}
 \textsc{Koekner, R.}, \textsc{Ng, P.} and \textsc{Portnoy, S.} (1994). Quantile

@@ -364,17 +364,22 @@ In practice, it is much easier to compute a numerically equivalent estimate of $
 We use a location-scale version of \cite{Levinsohn2003} and replicate \cite{Ackerberg2015} simulations sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
 
 \begin{equation}
-y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(0.7k_{it}-0.6l_{it})\eta_{it}
+y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\gamma_{0}+\gamma_{k}k_{it}+\gamma_{l}l_{it})\eta_{it}
 \end{equation}
-with $\beta_{0}=0$, $\beta_{k}=0.4$ and $\beta_{l}=0.6$. For each simulation we simulate two DGPs with $\eta_{it}\sim N(0,0.1)$ and $\eta_{it}\sim Laplace(0,0.1)$.
+with $\beta_{0}=0, \beta_{k}=0.4$ and $\beta_{l}=0.6$. The location scale parameters are set as $\gamma_{0}=0, \gamma_{k}=0.7$ and $\gamma_{l}=-0.6$ For each simulation we simulate two DGPs with $\eta_{it}\sim N(0,0.1)$ and $\eta_{it}\sim Laplace(0,0.1)$.
 
 To produce consistent estimates of the labor coefficient in the first stage, we do not allow for any wage variation across firms and labor is chosen at time $t$ with perfect information about $\omega_{it}$. However, we add optimization error in labor. An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$
 
 We compare the LP estimation procedure with our ``QLP'' two-step procedure under the two different sets of experiments specified earlier. We estimate the model for $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ and use current period capital, $k_{it}$ as our instrument so that our model is exactly identified. For the weighting matrix, we use an estimate of the variance covariance matrix of the sample moments. We use a continuously updated GMM procedure such that estimates of $\beta_{k}(\tau)$ in the second stage are estimated simultaneously with the weighting matrix. We initialize the algorithm at the true value of $\beta_{k}(\tau)$ however we find that the estimation is robust to reasonable initial values.
 
-\begin{figure}[H]
+We focus on whether our estimate can capture heterogeneity in the output distribution reasonably well compared to the mean estimates from the LP approach. Previous papers such as \cite{Olley1996} and \cite{Levinsohn2003} already show that the control function approach controls for endogeneity bias from unobserved productivity and perform specification tests for the set of possible control functions such as investment, material inputs, fuels, and energy. 
+
+Figure \ref{fig:simest} graphs the estimated coefficients for QLP and LP. The black line denotes the QLP estimator and its corresponding $90\%$ confidence interval is the gray shaded area. The solid red line denotes the LP estimator and the dotted red lines are its corresponding $90\%$ confidence interval. Capital coefficients are the first column of the graph and labor coefficients are the second column. The first row corresponds to DGP 1 with $\eta_{it}\sim N(0,0.1)$ and the second row corresponds to DGP 2 with $\eta_{it}\sim Laplace(0,0.1)$. The estimator does reasonable well at capturing heterogeneity outside of the conditional mean estimate for both capital and labor. Not surprisingly, the confidence intervals for capital are wider than the interval for labor due to nature of the multi-step procedure. \ref{fig:MSE}  shows that these estimators perform well in finite sample. The MSE for both estimators is plotted over $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ with the black line denoting the QLP estimates and the dotted red line denoting the LP estimates.
+
+\begin{figure}[H] 
 \centering
 \caption{QLP estimated coefficients of  $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is LP estimator}
+\label{fig:simest}
 \includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png}
 \label{LP_coefficient_plot}
 \end{figure}
@@ -384,39 +389,47 @@ We compare the LP estimation procedure with our ``QLP'' two-step procedure under
 \centering
 \caption{Simulated precision of  QLP estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s. Dotted line is LP estimator.}
 \includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png}
-\label{MSE_plot}
+\label{fig:MSE}
 \end{figure}
 
 \newpage
 \section{Application} \label{application}
+We apply our estimator to popular firm and plant level manufacturing datasets from the US, Chile, and Colombia to examine heterogeneity in the output distribution \footnote{We thank Mert Demirer for providing the datasets from Chile and Colombia}. For each country we examine estimates across different manufacturing industries as well as how these estimates have changed over time and the implications for heterogeneity in productivity across small and large firms/plants. We use the QLP estimator presented in this paper and compare it to the LP estimates. We estimate the labor coefficient using a partially regression with a 3rd degree polynomial with interactions in capital and materials. To estimate capital, we use the CUE GMM criterion function mentioned earlier with instruments $k_{it}, k_{it-1}, l_{it-1}$ and $m_{it-1}$. We initialize the starting values for the non-linear search using quantile regression estimates of $\beta_{k}(\tau)$. We use bootstrap to estimate standard errors with the number of iterations set to $500$. In the first stage we use a weighted bootstrap with weights drawn from a standard exponential distribution re-sampled at each iteration. In the second stage we use a nonparametric bootstrap and recenter sample moments in each iteration.
 
 \subsection{US Compustat}
+The source for the US manufacturing data is from Compustat which covers publicly traded firms and contains data from their financial statements. We collect a sample between 1961 and 2010 on sales, capital expenditures, number of workers, and other expenses to construct measures of output, capital, labor, and material inputs using 3-digit deflators from \cite{nber}. Data preparation follows \cite{Keller2009} and \cite{mert}. Summary statistics for these deflated values are provided in Table 1. We present a series of output elasticity estimates in Table 2 which are illustrated graphically in Figures \ref{fig:31coef}, \ref{fig:32coef}, \ref{fig:33coef}, and \ref{fig:USallcoef}.
 
+For each industry in the US sample, we see that the estimates of the capital elasticity is increasing in the firm size distribution and decreasing in the labor elasticity corresponding to industries 31 and 32. For industry 33 and the combined industries, the labor elasticity is an inverse U-shape; it increases quickly for low $\tau$, but then flattens out after $\tau=0.5$.
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex}
+\label{Tab:USsummary}
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_31.png}
 \caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates.}
+\label{fig:31coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_32.png}
 \caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates.}
+\label{fig:32coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_33.png}
 \caption{Estimated values of production function coefficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates.}
+\label{fig:33coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_All.png}
 \caption{Estimated values of production function coeficients and their 90\% confidence interval. The plots on the LHS are the QLP and LP estimates. The plots on the RHS are quantile regression and OLS estimates.}
+\label{fig:USallcoef}
 \end{figure}
 
 \begin{figure}[H]
