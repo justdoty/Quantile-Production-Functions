@@ -4,7 +4,7 @@ library(xtable)
 library(reshape2)
 #Load CHL dataset
 CHLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/CHLdata.csv") %>%
-  transmute(id=id, year=year, isic3=isic3, Y=log(Y), K=log(K), L=log(L), M=log(M))
+  transmute(id=id, year=year, isic3=isic3, Y=log(Y), VA=log(VA), K=log(K), L=log(L), M=log(M))
 ISIC <- c("311", "381", "321", "All")
 ISIC_des <- c("Food Products", "Fabricated Metal Products", "Textiles", "All Manufacturing")
 ########################################################################################################
@@ -33,199 +33,90 @@ print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, 
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
-#Vector of quantiles
-tau <- seq(5, 95, length.out=19)/100
-#Number of parameters
-dZ <- 2
-R <- 500
 alpha <- .1
-require(abind)
-#Load the results from QLP, output is a list of estimates over quantiles for each industry
-QLPbetahat <- list()
-QLPratiohat <- list()
-QLPbetaboot <- list()
-QLPratioboot <- list()
-for (i in 1:length(tau)){
-  load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Environments/QLP_Boot_CHL_Q%s.RData", i))
-  QLPbetahat[[i]] <- betahat
-  QLPratiohat[[i]] <- ratiohat
-  QLPbetaboot[[i]] <- betaboot
-  QLPratioboot[[i]] <- ratioboot
-
-}
-#Load the results from LP, output is a list of estimates over industries
-LPbetahat <- list()
-LPratiohat <- list()
-LPbetaboot <- list()
-LPratioboot <- list()
+###############################################################################
+#Store QLP Results
+##############################################################################
+#Store QLP Estimates and Standard Deviations
+QLP_betahat <- array(0, c(length(tauvec), dZ, length(ISIC)))
+QLP_betaSE <- array(0, c(length(tauvec), dZ, length(ISIC)))
+#Store QR Estimates and Standard Deviations
+QR_betahat <- array(0, c(length(tauvec), dZ, length(ISIC)))
+QR_betaSE <- array(0, c(length(tauvec), dZ, length(ISIC)))
+#Store QDIF Estimates and Standard Deviations
+QDIF_hat <- array(0, c(length(tauvec), dZ, length(ISIC)))
+QDIF_SE <- array(0, c(length(tauvec), dZ, length(ISIC)))
+#Store QTFP Estimates and Standard Deviations
+QTFP_hat <- array(0, c(length(tauvec), length(tfptau), length(ISIC)))
+QTFP_SE <- array(0, c(length(tauvec), length(tfptau), length(ISIC)))
+#Store QLP RTS Estimates and Standard Deviations
+QLP_RTS <- array(0, c(length(tauvec), length(ISIC)))
+QLP_RTS_SE <- array(0, c(length(tauvec), length(ISIC)))
+#Store QLP Capital Intensity Estimates and Standard Deviations
+QLP_IN <- array(0, c(length(tauvec), length(ISIC)))
+QLP_IN_SE <- array(0, c(length(tauvec), length(ISIC)))
+#############################################################################
+#Store LP Results
+#############################################################################
+#Store LP Estimates and Standard Devitaions
+LP_betahat <- array(0, c(length(ISIC), dZ))
+LP_betaSE <- array(0, c(length(ISIC), dZ))
+#Store LP QTFP Estimates and Standard Deviations
+LP_QTFP_hat <- array(0, c(length(ISIC), length(tfptau)))
+LP_QTFP_SE <- array(0, c(length(ISIC), length(tfptau)))
+#Store LP RTS Standard Deviations
+LP_RTS_SE <- array(0, c(length(ISIC), 1))
+#Store LP Capital Intensity Standard Deviations
+LP_IN_SE <- array(0, c(length(ISIC), 1))
+##############################################################################
+#Load LP and QLP Results
+#############################################################################@
 for (i in 1:length(ISIC)){
   load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Environments/LP_CHL_ISIC_%s.RData", i))
-  LPbetahat[[i]] <- betahat
-  LPratiohat[[i]] <- ratiohat
-  LPbetaboot[[i]] <- betaboot
-  LPratioboot[[i]] <- ratioboot
-}
-#Load the results from OLS and QR
-QR_OLS_results <- load('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Environments/CHL_QR_OLS.Rdata')
-#Prepare estimates for QLP: Outputs a list of quantile estimates over industry (columns)
-#and estimates (rows)
-#True QLP Coefficient Estimates
-QLP_Coef <- array(0, dim=c(2, length(ISIC), length(tau)))
-#True QLP Ratio Estimates
-QLP_Ratio <- array(0, dim=c(3, length(ISIC), length(tau)))
-#Bootstrapped QLP Coefficient Estimates
-QLP_Boot <- array(0, dim=c(2, length(ISIC), length(tau)))
-#Bootstrapped QLP Coefficient Estimates
-QLP_Ratio_Boot <- array(0, dim=c(3, length(ISIC), length(tau)))
-#Bootstrapped Standard Errors
-QLP_SE <- array(0, dim=c(2, length(ISIC), length(tau)))
-#Bootstrapped Ratio Standard Errors
-QLP_Ratio_SE <- array(0, dim=c(3, length(ISIC), length(tau)))
-#Estimates of Returns to Scale
-QLP_RtS <- array(0, dim=c(length(tau), length(ISIC)))
-#Estimates of Capital Intensity
-QLP_Inten <- array(0, dim=c(length(tau), length(ISIC)))
-#Estimates of Standard Error Returns to Scale
-QLP_RtS_SE <- array(0, dim=c(length(tau), length(ISIC)))
-#Estimates of Standard Error of Capital Intensity
-QLP_Inten_SE <- array(0, dim=c(length(tau), length(ISIC)))
-#Lower and Upper bounds of CI
-QLP_Lower <- array(0, dim=c(2, length(ISIC), length(tau)))
-QLP_Ratio_Lower <- array(0, dim=c(3, length(ISIC), length(tau)))
-QLP_Upper <- array(0, dim=c(2, length(ISIC), length(tau)))
-QLP_Ratio_Upper <- array(0, dim=c(3, length(ISIC), length(tau)))
-for (i in 1:length(tau)){
-  for (j in 1:length(ISIC)){
-    QLP_Coef[,,i][,j] <- QLPbetahat[[i]][,j]
-    QLP_Ratio[,,i][,j] <- QLPratiohat[[i]][,j]
-    QLP_Boot[,,i][,j] <- apply(QLPbetaboot[[i]][,,j], 2, mean)
-    QLP_Ratio_Boot[,,i][,j] <- apply(QLPratioboot[[i]][,,j], 2, mean)
-    QLP_SE[,,i][,j] <- apply(QLPbetaboot[[i]][,,j], 2, sd)
-    QLP_Ratio_SE[,,i][,j] <- apply(QLPratioboot[[i]][,,j], 2, sd)
-    #Returns to Scale
-    QLP_RtS[i,j] <- sum(QLP_Coef[,,i][,j])
-    QLP_RtS_SE[i,j] <- sd(apply(QLPbetaboot[[i]][,,j], 1, sum))
-    #Capital Intensity
-    QLP_Inten[i,j] <- QLP_Coef[,,i][,j][1]/QLP_Coef[,,i][,j][2]
-    QLP_Inten_SE[i,j] <- sd(apply(QLPbetaboot[[i]][,,j], 1, function(x) x[1]/x[2]))
-    #Percentile Method
-    # QLP_Lower[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, alpha/2))
-    # QLP_Upper[,,i][,j] <- apply(QLP_results[[i]][,,j], 2, function(x) quantile(x, 1-alpha/2))
-    #Normal Critical Values
-    QLP_Lower[,,i][,j] <- QLP_Coef[,,i][,j]+QLP_SE[,,i][,j]*qnorm(alpha/2)
-    QLP_Upper[,,i][,j] <- QLP_Coef[,,i][,j]+QLP_SE[,,i][,j]*qnorm(1-alpha/2)
-    QLP_Ratio_Lower[,,i][,j] <- QLP_Ratio[,,i][,j]+QLP_Ratio_SE[,,i][,j]*qnorm(alpha/2)
-    QLP_Ratio_Upper[,,i][,j] <- QLP_Ratio[,,i][,j]+QLP_Ratio_SE[,,i][,j]*qnorm(1-alpha/2)
+  #LP Estimates and Standard Deviations
+  LP_betahat[i,] <- betahat
+  LP_betaSE[i,] <- apply(betaboot, 2, sd)
+  #LP QTFP Estimates and Standard Deviations
+  LP_QTFP_hat[i,] <- QTFPhat
+  LP_QTFP_SE[i,] <- apply(QTFPboot, 2, sd)
+  #LP RTS Standard Deviations
+  LP_RTS_SE[i,] <- sd(apply(betaboot, 1, sum))
+  #LP Capital Intensity Standard Deviations
+  LP_IN_SE[i,] <- sd(apply(betaboot, 1, function(x) x[1]/x[2]))
+  for (j in 1:length(tauvec)){
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Environments/QLP_Boot_CHL_Q%s.RData", j))
+    #QLP Estimates and Standard Deviations
+    QLP_betahat[,,i][j,] <- betahat[,i]
+    QLP_betaSE[,,i][j,] <- apply(betaboot[,,i], 2, sd)
+    #QR Estimates and Standard Deviations
+    QR_betahat[,,i][j,] <- qrhat[,i]
+    QR_betaSE[,,i][j,] <- apply(qrboot[,,i], 2, sd)
+    #QLP-QR Estimates and Standard Deviations
+    QDIF_hat[,,i][j,] <- qdifhat[,i]
+    QDIF_SE[,,i][j,] <- apply(qdifboot[,,i], 2, sd)
+    #QLP QTFP Estimates and Standard Deviations
+    QTFP_hat[,,i][j,] <- QTFPhat[,i]
+    QTFP_SE[,,i][j,] <- apply(QTFPboot[,,i], 2, sd)
+    #QLP RTS Estimates and Standard Deviations
+    QLP_RTS[j,i] <- sum(betahat[,i])
+    QLP_RTS_SE[j,i] <- sd(apply(betaboot[,,i], 1, sum))
+    #QLP Capital Intensity Estimates and Standard Deviations
+    QLP_IN[j,i] <- betahat[,i][1]/betahat[,i][2]
+    QLP_IN_SE[j,i] <- sd(apply(betaboot[,,i], 1, function(x) x[1]/x[2]))
   }
 }
-#A little bit of reformating to obtain estimates over industries instead of quantiles
-#Bootstrapped QLP Coefficient Estimates
-QLP_Coef <- aperm(QLP_Coef, c(3, 1, 2))
-QLP_Ratio <- aperm(QLP_Ratio, c(3, 1, 2))
-QLP_Boot <- aperm(QLP_Boot, c(3, 1, 2))
-QLP_Ratio_Boot <- aperm(QLP_Ratio_Boot, c(3, 1, 2))
-QLP_SE <- aperm(QLP_SE, c(3, 1, 2))
-QLP_Ratio_SE <- aperm(QLP_Ratio_SE, c(3, 1, 2))
-QLP_RtS <- c(QLP_RtS)
-QLP_RtS_SE <- c(QLP_RtS_SE)
-QLP_Inten <- c(QLP_Inten)
-QLP_Inten_SE <- c(QLP_Inten_SE)
-QLP_Lower <- aperm(QLP_Lower, c(3, 1, 2))
-QLP_Upper <- aperm(QLP_Upper, c(3, 1, 2))
-QLP_Ratio_Lower <- aperm(QLP_Ratio_Lower, c(3, 1, 2))
-QLP_Ratio_Upper <- aperm(QLP_Ratio_Upper, c(3, 1, 2))
-#Prepare estimates for LP
-#Bootstrapped LP Coefficient Estimates
-LP_Coef <- array(0, dim=c(2, length(ISIC)))
-LP_Ratio <- array(0, dim=c(3, length(ISIC)))
-LP_Boot <- array(0, dim=c(2, length(ISIC)))
-LP_Ratio_Boot <- array(0, dim=c(3, length(ISIC)))
-LP_SE <- array(0, dim=c(2, length(ISIC)))
-LP_Ratio_SE <- array(0, dim=c(3, length(ISIC)))
-LP_Lower <- array(0, dim=c(2, length(ISIC)))
-LP_Upper <- array(0, dim=c(2, length(ISIC)))
-LP_Ratio_Lower <- array(0, dim=c(3, length(ISIC)))
-LP_Ratio_Upper <- array(0, dim=c(3, length(ISIC)))
-for (i in 1:length(ISIC)){
-  LP_Coef[,i] <- LPbetahat[[i]]
-  LP_Ratio[,i] <- LPratiohat[[i]]
-  LP_Boot[,i] <- colMeans(LPbetaboot[[i]]) 
-  LP_Ratio_Boot[,i] <- colMeans(LPratioboot[[i]]) 
-  LP_SE[,i] <- apply(LPbetaboot[[i]], 2, sd)
-  LP_Ratio_SE[,i] <- apply(LPratioboot[[i]], 2, sd)
-  #Percentile Method
-  # LP_Lower[,i] <- apply(LPbetaboots[[i]], 2, function(x) quantile(x, 0.05))
-  # LP_Upper[,i] <- apply(LPbetaboots[[i]], 2, function(x) quantile(x, 0.95)) 
-  #Normal Critical Values
-  LP_Lower[,i] <- LP_Coef[,i]+LP_SE[,i]*qnorm(alpha/2)
-  LP_Upper[,i] <- LP_Coef[,i]+LP_SE[,i]*qnorm(1-alpha/2)
-  LP_Ratio_Lower[,i] <- LP_Ratio[,i]+LP_Ratio_SE[,i]*qnorm(alpha/2)
-  LP_Ratio_Upper[,i] <- LP_Ratio[,i]+LP_Ratio_SE[,i]*qnorm(1-alpha/2)
-}
-#Listed by Industry
-#For QLP
-QLP_Coef <- lapply(seq(dim(QLP_Coef)[3]), function(x) QLP_Coef[ , , x])
-QLP_Ratio <- lapply(seq(dim(QLP_Ratio)[3]), function(x) QLP_Ratio[ , , x])
-QLP_Boot <- lapply(seq(dim(QLP_Boot)[3]), function(x) QLP_Boot[ , , x])
-QLP_Ratio_Boot <- lapply(seq(dim(QLP_Ratio_Boot)[3]), function(x) QLP_Ratio_Boot[ , , x])
-QLP_SE <- lapply(seq(dim(QLP_SE)[3]), function(x) QLP_SE[ , , x])
-QLP_Ratio_SE <- lapply(seq(dim(QLP_Ratio_SE)[3]), function(x) QLP_Ratio_SE[ , , x])
-QLP_Upper <- lapply(seq(dim(QLP_Upper)[3]), function(x) QLP_Upper[ , , x])
-QLP_Lower <- lapply(seq(dim(QLP_Lower)[3]), function(x) QLP_Lower[ , , x])
-QLP_Ratio_Upper <- lapply(seq(dim(QLP_Ratio_Upper)[3]), function(x) QLP_Ratio_Upper[ , , x])
-QLP_Ratio_Lower <- lapply(seq(dim(QLP_Ratio_Lower)[3]), function(x) QLP_Ratio_Lower[ , , x])
-#For LP
-LP_Coef <- lapply(seq(dim(LP_Coef)[2]), function(x) LP_Coef[,x])
-LP_Ratio <- lapply(seq(dim(LP_Ratio)[2]), function(x) LP_Ratio[,x])
-LP_Boot <- lapply(seq(dim(LP_Boot)[2]), function(x) LP_Boot[,x])
-LP_Ratio_Boot <- lapply(seq(dim(LP_Ratio_Boot)[2]), function(x) LP_Ratio_Boot[,x])
-LP_SE <- lapply(seq(dim(LP_SE)[2]), function(x) LP_SE[,x])
-LP_Ratio_SE <- lapply(seq(dim(LP_Ratio_SE)[2]), function(x) LP_Ratio_SE[,x])
-LP_Upper <- lapply(seq(dim(LP_Upper)[2]), function(x) LP_Upper[,x])
-LP_Lower <- lapply(seq(dim(LP_Lower)[2]), function(x) LP_Lower[,x])
-LP_Ratio_Upper <- lapply(seq(dim(LP_Ratio_Upper)[2]), function(x) LP_Ratio_Upper[,x])
-LP_Ratio_Lower <- lapply(seq(dim(LP_Ratio_Lower)[2]), function(x) LP_Ratio_Lower[,x])
-#Prepare estimates for OLS and QR
-OLS_Coef <- lm.coef
-OLS_Lower <- lm.CI[,seq(1, ncol(lm.CI), by=2)]
-OLS_Upper <- lm.CI[,seq(2, ncol(lm.CI), by=2)]
-QR_Coef <- lapply(seq(dim(qr.coef)[3]), function(x) qr.coef[ , , x])
-QR_Lower <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(1, ncol(qr.CI), by=2)])
-QR_Upper <- lapply(seq(dim(qr.CI)[3]), function(x) qr.CI[ , , x][,seq(2, ncol(qr.CI), by=2)])
-
-#Make an estimates table for Quantile GMM
-beta_estimates <- data.frame(cbind(rep(tau, length(ISIC)), cbind(do.call(rbind, QLP_Coef), do.call(rbind, QLP_SE))[,c(rbind(c(1:2), 2+(1:2)))]))
-beta_estimates <- cbind(beta_estimates, QLP_RtS, QLP_RtS_SE, QLP_Inten, QLP_Inten_SE)
-ratio_estimates <- data.frame(cbind(do.call(rbind, QLP_Ratio), do.call(rbind, QLP_Ratio_SE))[,c(rbind(c(1:3), 3+(1:3)))])
-estimates <- cbind(beta_estimates, ratio_estimates)
-colnames(estimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RtS', 'RtS_SE', 'Inten', 'Inten_SE', 'Q3Q1', 'se_Q3Q1', 'Q9Q1', 'se_Q9Q1', 'Q95Q05', 'se_Q95Q05')
-#Make a Confidence Interval Table for Quantile GMM
-QLP_beta_CI <- data.frame(cbind(rep(tau, length(ISIC)), cbind(do.call(rbind, QLP_Lower), do.call(rbind, QLP_Upper))[,c(rbind(c(1:2), 2+(1:2)))]))
-QLP_Ratio_CI <- data.frame(cbind(do.call(rbind, QLP_Ratio_Lower), do.call(rbind, QLP_Ratio_Upper))[,c(rbind(c(1:3), 3+(1:3)))])
-QLP_CI <- cbind(QLP_beta_CI, QLP_Ratio_CI)
-colnames(QLP_CI) <- c('Tau', 'Lower_K', 'Upper_K', 'Lower_L', 'Upper_L', 'Lower_7525', 'Upper_7525', 'Lower_9010', 'Upper_9010', 'Lower_9505', 'Upper_9505')
-#Make an estimates table for LP
-LPbeta_estimates <- data.frame(cbind(do.call(rbind, LP_Coef), do.call(rbind, LP_SE))[,c(rbind(c(1:2), 2+(1:2)))])
-LPratio_estimates <- data.frame(cbind(do.call(rbind, LP_Ratio), do.call(rbind, LP_Ratio_SE))[,c(rbind(c(1:3), 3+(1:3)))])
-LP_estimates <- cbind(LPbeta_estimates, LPratio_estimates)
-colnames(LP_estimates) <- c('K',"se_K", 'L', "se_L", 'Q3Q1', 'se_Q3Q1', 'Q9Q1', 'se_Q9Q1', 'Q95Q05', 'se_Q95Q05')
-#Make a Confidence Interval Table for LP
-LPbeta_CI <- data.frame(cbind(do.call(rbind, LP_Lower), do.call(rbind, LP_Upper))[,c(rbind(c(1:2), 2+(1:2)))])
-LPratio_CI <- data.frame(cbind(do.call(rbind, LP_Ratio_Lower), do.call(rbind, LP_Ratio_Upper))[,c(rbind(c(1:3), 3+(1:3)))])
-LP_CI <- cbind(LPbeta_CI, LPratio_CI)
-colnames(LP_CI) <- c('Lower_K', 'Upper_K', 'Lower_L', 'Upper_L', 'Lower_7525', 'Upper_7525', 'Lower_9010', 'Upper_9010', 'Lower_9505', 'Upper_9505')
-#Make an estimates table for OLS
-estimates_OLS <- data.frame(OLS_Coef)
-colnames(estimates_OLS) <- c('K', 'L')
-#Make a Confidence Interval Table for OLS
-OLS_CI <- data.frame(cbind(OLS_Lower, OLS_Upper)[,c(rbind(c(1:2), 2+(1:2)))])
-colnames(OLS_CI) <- c('Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
-#Make an estimates table for QR
-estimates_QR <- data.frame(cbind(rep(tau, length(ISIC)), do.call(rbind, QR_Coef)))
-colnames(estimates_QR) <- c("Tau", "K", "L")
-#Make a Confidence Interval Table for Quantile Regression
-QR_CI <- data.frame(cbind(rep(tau, length(ISIC)), cbind(do.call(rbind, QR_Lower), do.call(rbind, QR_Upper))[,c(rbind(c(1:2), 2+(1:2)))]))
-colnames(QR_CI) <- c('Tau', 'Lower_K', 'Upper_K', 'Lower_L', 'Upper_L')
+#LP RTS Estimates
+LP_RTS <- as.matrix(apply(LP_betahat, 1, sum))
+#LP Capital Intensity Estimates
+LP_IN <- as.matrix(apply(LP_betahat, 1, function(x) x[1]/x[2]))
+#Make an estimates table for QLP Beta Estimates and Standard Deviations
+QLP_betatable <- data.frame(cbind(rep(tauvec, length(ISIC)), cbind(do.call(rbind, lapply(seq(dim(QLP_betahat)[3]), function(x) QLP_betahat[ , , x])), do.call(rbind, lapply(seq(dim(QLP_betaSE)[3]), function(x) QLP_betaSE[ , , x])))[,c(rbind(c(1:dZ), dZ+(1:dZ)))]))
+QLPestimates <- cbind(QLP_betatable, c(QLP_RTS), c(QLP_RTS_SE), c(QLP_IN), c(QLP_IN_SE))
+colnames(QLPestimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In', 'In_SE')
+#Make an estimates table for LP Beta Estimates and Standard Deviations
+LP_betatable <- data.frame(cbind(LP_betahat, LP_betaSE)[,c(rbind(c(1:dZ), dZ+(1:dZ)))])
+LPestimates <- cbind(LP_betatable, LP_RTS, LP_RTS_SE, LP_IN, LP_IN_SE)
+colnames(LPestimates) <- c('K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In', 'In_SE')
 #Prepare estimates for table in paper/presentation
 tau_table <- c(0.1, 0.25, 0.5, 0.9)
 
@@ -233,15 +124,14 @@ tau_table <- c(0.1, 0.25, 0.5, 0.9)
 ISIC_labels <- array(NA, length(tau_table)*length(ISIC)); ISIC_labels[seq(1, length(tau_table)*length(ISIC), by=length(tau_table))] <- ISIC
 ISIC_labels[is.na(ISIC_labels)] <- ""
 
-betaestimates_table <- cbind(ISIC_labels, beta_estimates[rep(tau, length(ISIC))%in%tau_table, ])
-colnames(betaestimates_table) <- c("Industry (ISIC code)", "$\\tau$", "Coef.", 's.e.', "Coef.", 's.e.', "Coef.", "s.e", "Coef.", "s.e")
-
-betaestimates_table <- xtable(betaestimates_table, digits=c(0,0,2,3,4,3,4,3,4,3,4), type="latex", caption="Coefficient Estimates and Standard Errors for Chilean Manufacturing Firms")
-align(betaestimates_table) <- rep('c', 11)
+QLP_Table <- cbind(ISIC_labels, QLPestimates[rep(tauvec, length(ISIC))%in%tau_table, 1:(dZ*2+3)])
+colnames(QLP_Table) <- c("Industry (ISIC code)", "$\\tau$", rep(c("Coef.", "s.e"), dZ+1))
+QLP_Table_X <- xtable(QLP_Table, digits=c(0,0,2,rep(c(3,4), dZ+1)), type="latex", caption="Coefficient Estimates and Standard Errors for Chilean Manufacturing Firms")
+align(QLP_Table_X) <- rep('c', 5+dZ*2)
 addtorow <- list()
 addtorow$pos <- list(-1)
-addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
-print(betaestimates_table, hline.after=c(0,nrow(betaestimates_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Beta_Estimates.tex")
+addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
+print(QLP_Table, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/CHL/Estimates/CHL_Beta_Estimates.tex")
 ##############################################################################################
 ############################Coefficicent Plots######################################
 ################################################################################################
@@ -249,116 +139,53 @@ require(ggplot2)
 require(cowplot)
 require(reshape2)
 #Industry ISIC Code Plot Labels
-QLP_K_plot <- list(); QLP_L_plot <- list()
-QR_K_plot <- list(); QR_L_plot <- list()
+QLP_Kplot <- list(); QLP_Lplot <- list(); QLP_RTSplot <- list()
+QDIF_Kplot <- list(); QDIF_Lplot <- list(); QTFP_plot <- list()
+pcolour <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442")
 for (p in 1:length(ISIC)){
-  #Capital Plot for QLP/LP######################################################
-  #Capital Coefficient Values for QLP
-  qlpk <- split(estimates$K, ceiling(seq_along(estimates$K)/length(tau)))[[p]]
-  #Lower bound CI for QLP
-  qlpklow <- split(QLP_CI$Lower_K, ceiling(seq_along(QLP_CI$Lower_K)/length(tau)))[[p]]
-  #Lower bound CI for LP
-  lpklow <- LP_CI$Lower_K[p]
-  #Upper bound CI for QLP
-  qlpkup <- split(QLP_CI$Upper_K, ceiling(seq_along(QLP_CI$Upper_K)/length(tau)))[[p]]
-  #Upper bound CI for LP
-  lpkup <- LP_CI$Upper_K[p]
-  #Plotting Data
-  QLPK_data <- data.frame(x=tau, y=qlpk, z=LP_estimates$K[p], lower=qlpklow, upper=qlpkup, lower_LP=lpklow, upper_LP=lpkup)
-  #Capital Plot for QR/OLS######################################################
-  qrk <- split(estimates_QR$K, ceiling(seq_along(estimates_QR$K)/length(tau)))[[p]]
-  #Lower bound CI for QR
-  qrklow <- split(QR_CI$Lower_K, ceiling(seq_along(QR_CI$Lower_K)/length(tau)))[[p]]
-  #Lower bound CI for OLS
-  lmklow <- OLS_CI$Lower_K[p]
-  #Upper bound CI for QR
-  qrkup <- split(QR_CI$Upper_K, ceiling(seq_along(QR_CI$Upper_K)/length(tau)))[[p]]
-  #Upper bound CI for OLS
-  lmkup <- OLS_CI$Upper_K[p]
-  #Plotting Data
-  QRK_data <- data.frame(x=tau, y=qrk, z=estimates_OLS$K[p], lower=qrklow, upper=qrkup, lower_OLS=lmklow, upper_OLS=lmkup)
-  #Capital Plots
-  QLP_K_plot[[p]] <- ggplot(QLPK_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QLPK_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QLPK_data$lower_LP, QLPK_data$upper_LP), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpklow, lpklow, qrklow, lmklow), max(qlpkup, lpkup, qrkup, lmkup)))
-  QR_K_plot[[p]] <- ggplot(QRK_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRK_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRK_data$lower_OLS, QRK_data$upper_OLS), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpklow, lpklow, qrklow, lmklow), max(qlpkup, lpkup, qrkup, lmkup)))
-  #Labor Plot for QLP/LP#########################################################
-  #Labor Coefficient Values for QLP
-  qlpl <- split(estimates$L, ceiling(seq_along(estimates$L)/length(tau)))[[p]]
-  #Lower bound CI for QLP
-  qlpllow <- split(QLP_CI$Lower_L, ceiling(seq_along(QLP_CI$Lower_L)/length(tau)))[[p]]
-  #Lower bound CI for LP
-  lpllow <- LP_CI$Lower_L[p]
-  #Upper bound CI for QLP
-  qlplup <- split(QLP_CI$Upper_L, ceiling(seq_along(QLP_CI$Upper_L)/length(tau)))[[p]]
-  #Upper bound CI for LP
-  lplup <- LP_CI$Upper_L[p]
-  #Plotting Data
-  QLPL_data <- data.frame(x=tau, y=qlpl, z=LP_estimates$L[p], lower=qlpllow, upper=qlplup, lower_LP=lpllow, upper_LP=lplup)
-  #Labor Plot for QR/OLS######################################################
-  qrl <- split(estimates_QR$L, ceiling(seq_along(estimates_QR$L)/length(tau)))[[p]]
-  #Lower bound CI for QR
-  qrllow <- split(QR_CI$Lower_L, ceiling(seq_along(QR_CI$Lower_L)/length(tau)))[[p]]
-  #Lower bound CI for OLS
-  lmllow <- OLS_CI$Lower_L[p]
-  #Upper bound CI for QR
-  qrlup <- split(QR_CI$Upper_L, ceiling(seq_along(QR_CI$Upper_L)/length(tau)))[[p]]
-  #Upper bound CI for OLS
-  lmlup <- OLS_CI$Upper_L[p]
-  #Plotting Data
-  QRL_data <- data.frame(x=tau, y=qrl, z=estimates_OLS$L[p], lower=qrllow, upper=qrlup, lower_OLS=lmllow, upper_OLS=lmlup)
-  #Labor Plots
-  QLP_L_plot[[p]] <- ggplot(QLPL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QLPL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QLPL_data$lower_LP, QLPL_data$upper_LP), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpllow, lpllow, qrllow, lmllow), max(qlplup, lplup, qrlup, lmlup)))
-  QR_L_plot[[p]] <- ggplot(QRL_data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=lower, ymax=upper), fill="grey70") + geom_line(aes(y=y)) + geom_hline(yintercept=QRL_data$z, linetype='solid', color='red') + geom_hline(yintercept=c(QRL_data$lower_OLS, QRL_data$upper_OLS), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(qlpllow, lpllow, qrllow, lmllow), max(qlplup, lplup, qrlup, lmlup)))
-###############################Combine Plots ##############################################
-  ############################################################################################
+  #Plotting data for QLP
+  QLPplotcoef <- apply(QLPestimates[c("K", "L", "RTS")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
+  QLPplotsd <- apply(QLPestimates[c("se_K", "se_L", "RTS_SE")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
+  QLPplotCI <- data.frame(LB=QLPplotcoef-QLPplotsd*qnorm(1-alpha/2), UB=QLPplotcoef+QLPplotsd*qnorm(1-alpha/2))
+  QLPplotdat <- data.frame(tau=tauvec, QLPplotcoef, QLPplotsd, QLPplotCI)
+  #Plotting data for LP
+  LPplotcoef <- LPestimates[c("K", "L", "RTS")][p,]
+  LPplotsd <- LPestimates[c("se_K", "se_L", "RTS_SE")][p,]
+  LPplotCI <- data.frame(LB=LPplotcoef-LPplotsd*qnorm(1-alpha/2), UB=LPplotcoef+LPplotsd*qnorm(1-alpha/2))
+  LPplotdat <- data.frame(LPplotcoef, LPplotsd, LPplotCI)
+  #Plots
+  QLP_Kplot[[p]] <- ggplot(QLPplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=LB.K, ymax=UB.K), fill="grey70") + geom_line(aes(y=K)) + geom_hline(yintercept=LPplotdat$K, linetype='solid', color='red') + geom_hline(yintercept=c(LPplotdat$LB.K, LPplotdat$UB.K), linetype='dashed', color='red')
+  QLP_Lplot[[p]] <- ggplot(QLPplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=LB.L, ymax=UB.L), fill="grey70") + geom_line(aes(y=L)) + geom_hline(yintercept=LPplotdat$L, linetype='solid', color='red') + geom_hline(yintercept=c(LPplotdat$LB.L, LPplotdat$UB.L), linetype='dashed', color='red')
+  QLP_RTSplot[[p]] <- ggplot(QLPplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Returns to Scale") + geom_ribbon(aes(ymin=LB.RTS, ymax=UB.RTS), fill="grey70") + geom_line(aes(y=RTS)) + geom_hline(yintercept=LPplotdat$RTS, linetype='solid', color='red') + geom_hline(yintercept=c(LPplotdat$LB.RTS, LPplotdat$UB.RTS), linetype='dashed', color='red')
+  #QTFP Plots
+  taufac <- as.factor(rep(tfptau, each=length(tauvec)))
+  QLP_QTFPdat <- data.frame(tau=rep(tauvec, length(tfptau)), tfptau=taufac, qtfp=c(QTFP_hat[,,p]))
+  QTFP_plot[[p]] <- ggplot(QLP_QTFPdat, aes(x=tau, y=qtfp, group=tfptau)) + xlab(expression('percentile-'*tau)) + ylab("")+ ggtitle(paste("ISIC", ISIC[p], sep=" "))+ geom_line(aes(colour=tfptau)) + scale_colour_manual(name=expression(tau), labels=tfptau, values = pcolour)
+  #Plotting data for QDIF Plots
+  QDIF_dat <- data.frame(tau=tauvec, coef=QDIF_hat[,,p], LB=QDIF_hat[,,p]-QDIF_SE[,,p]*qnorm(1-.05/2), UB=QDIF_hat[,,p]+QDIF_SE[,,p]*qnorm(1-.05/2))
+  #QDIF Plots
+  QDIF_Kplot[[p]] <- ggplot(QDIF_dat, aes(x=tau))+ xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_point(aes(y=coef.1)) + geom_errorbar(aes(ymin=LB.1, ymax=UB.1)) + geom_hline(yintercept=0, linetype='dashed', color='red')
+  QDIF_Lplot[[p]] <- ggplot(QDIF_dat, aes(x=tau))+ xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_point(aes(y=coef.2)) + geom_errorbar(aes(ymin=LB.2, ymax=UB.2)) + geom_hline(yintercept=0, linetype='dashed', color='red')
+  #Combine Plots #######################################################
+  #QLP Coefficient Plots
   ISIC_plots <- ggdraw() + draw_label(paste("ISIC", ISIC[p], sep=" "), fontface="plain", size=22) + theme(plot.title = element_text(hjust = 0.5))
-  Lrow <- plot_grid(QLP_L_plot[[p]], QR_L_plot[[p]])
-  Krow <- plot_grid(QLP_K_plot[[p]], QR_K_plot[[p]])
-  Coef_Plot <- plot_grid(ISIC_plots, Lrow, Krow, ncol=1, align="h", rel_heights = c(0.3, 1, 1))
+  coef_row1 <- plot_grid(QLP_Kplot[[p]], QLP_Lplot[[p]])
+  coef_row2 <- plot_grid(QDIF_Kplot[[p]], QDIF_Lplot[[p]])
+  Coef_Plot <- plot_grid(ISIC_plots, coef_row1, coef_row2, ncol=1, align="h", rel_heights = c(0.3, 1, 1))
   save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_", ISIC[p], ".png", sep=""), Coef_Plot, base_height=8, base_width=7)
 }
-#####################################################################################################
-##############################Productivity Dispersion Plots#########################################
-####################################################################################################
-Q3Q1plot <- list()
-Q9Q1plot <- list()
-Q95Q05plot <- list()
-for (p in 1:length(ISIC)){
-  #QLP
-  #Estimates
-  Q3Q1_QLP <- split(estimates$Q3Q1, ceiling(seq_along(estimates$Q3Q1)/length(tau)))[[p]]
-  Q9Q1_QLP <- split(estimates$Q9Q1, ceiling(seq_along(estimates$Q9Q1)/length(tau)))[[p]]
-  Q95Q05_QLP <- split(estimates$Q95Q05, ceiling(seq_along(estimates$Q95Q05)/length(tau)))[[p]]
-  #Lower CI
-  Q3Q1_QLP_Low <- split(QLP_CI$Lower_7525, ceiling(seq_along(QLP_CI$Lower_7525)/length(tau)))[[p]]
-  Q9Q1_QLP_Low <- split(QLP_CI$Lower_9010, ceiling(seq_along(QLP_CI$Lower_9010)/length(tau)))[[p]]
-  Q95Q05_QLP_Low <- split(QLP_CI$Lower_9505, ceiling(seq_along(QLP_CI$Lower_9505)/length(tau)))[[p]]
-  #Upper CI
-  Q3Q1_QLP_Up <- split(QLP_CI$Upper_7525, ceiling(seq_along(QLP_CI$Upper_7525)/length(tau)))[[p]]
-  Q9Q1_QLP_Up <- split(QLP_CI$Upper_9010, ceiling(seq_along(QLP_CI$Upper_9010)/length(tau)))[[p]]
-  Q95Q05_QLP_Up <- split(QLP_CI$Upper_9505, ceiling(seq_along(QLP_CI$Upper_9505)/length(tau)))[[p]]
-  #Combine plotting data
-  Q3Q1data <- data.frame(x=tau, y=Q3Q1_QLP, z=LP_estimates$Q3Q1[p], lower=Q3Q1_QLP_Low, upper=Q3Q1_QLP_Up, lower_LP=LP_CI$Lower_7525[p], upper_LP=LP_CI$Upper_7525[p])
-  Q9Q1data <- data.frame(x=tau, y=Q9Q1_QLP, z=LP_estimates$Q9Q1[p], lower=Q9Q1_QLP_Low, upper=Q9Q1_QLP_Up, lower_LP=LP_CI$Lower_9010[p], upper_LP=LP_CI$Upper_9010[p])
-  Q95Q05data <- data.frame(x=tau, y=Q95Q05_QLP, z=LP_estimates$Q95Q05[p], lower=Q95Q05_QLP_Low, upper=Q95Q05_QLP_Up, lower_LP=LP_CI$Lower_9505[p], upper_LP=LP_CI$Upper_9505[p])
-  #Plots
-  Q3Q1plot[[p]] <- ggplot(Q3Q1data, aes(x=x)) + xlab(expression('percentile-'*tau)) + ylab("") + geom_line(aes(y=y)) + geom_hline(yintercept=Q3Q1data$z, linetype='solid', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
-  Q9Q1plot[[p]] <- ggplot(Q9Q1data, aes(x=x)) + xlab(expression('percentile-'*tau))+ ylab("")  + geom_line(aes(y=y)) + geom_hline(yintercept=Q9Q1data$z, linetype='solid', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
-  Q95Q05plot[[p]] <- ggplot(Q95Q05data, aes(x=x)) + xlab(expression('percentile-'*tau))+ ylab("") + geom_line(aes(y=y)) + geom_hline(yintercept=Q95Q05data$z, linetype='solid', color='red') + ggtitle(paste("ISIC", ISIC[p], sep=" "))
-}
-Q3Q1_Grid_plot <- plot_grid(Q3Q1plot[[1]], Q3Q1plot[[2]], Q3Q1plot[[3]], Q3Q1plot[[4]])
-Q9Q1_Grid_plot <- plot_grid(Q9Q1plot[[1]], Q9Q1plot[[2]], Q9Q1plot[[3]], Q9Q1plot[[4]])
-Q95Q05_Grid_plot <- plot_grid(Q95Q05plot[[1]], Q95Q05plot[[2]], Q95Q05plot[[3]], Q95Q05plot[[4]])
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Q3Q1_Grid_plot.png", Q3Q1_Grid_plot, base_height=8, base_width=7)
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Q9Q1_Grid_plot.png", Q9Q1_Grid_plot, base_height=8, base_width=7)
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Q95Q05_Grid_plot.png", Q95Q05_Grid_plot, base_height=8, base_width=7)
+#Combine the QTFP plots over industries
+QTFP_plot <- plot_grid(QTFP_plot[[1]], QTFP_plot[[2]], QTFP_plot[[3]], QTFP_plot[[4]])
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QTFP_plot.png", QTFP_plot, base_height=10, base_width=10)
 ###################################################################################################
-###############TFP Over Time#######################################################################
-#####################################################################################################
-estimates_TFP <- estimates[tau%in%tau_t,]
+###############TFP Over Time#######################################################
+######################################################################################################
+tau_t <- c(0.1, 0.25, 0.5, 0.9)
+estimates_TFP <- estimates[tauvec%in%tau_t,]
 All_ISIC_QLP <- data.frame(estimates_TFP[(nrow(estimates_TFP)-(length(tau_t)-1)):nrow(estimates_TFP), c(2,4)])
 All_ISIC_LP <- LP_estimates[nrow(LP_estimates), c(1,3)]
-LP_TFP <- exp(CHLdata$Y-cbind(CHLdata$K, CHLdata$L)%*%as.numeric(All_ISIC_LP))
-QLP_TFP <- data.frame(cbind(CHLdata$id, CHLdata$year, apply(All_ISIC_QLP, 1, function(x) exp(CHLdata$Y-cbind(CHLdata$K, CHLdata$L)%*%as.numeric(x))), LP_TFP))
+LP_TFP <- exp(CHLdata$VA-cbind(CHLdata$K, CHLdata$L)%*%as.numeric(All_ISIC_LP))
+QLP_TFP <- data.frame(cbind(CHLdata$id, CHLdata$year, apply(All_ISIC_QLP, 1, function(x) exp(CHLdata$VA-cbind(CHLdata$K, CHLdata$L)%*%as.numeric(x))), LP_TFP))
 colnames(QLP_TFP) <- c("id", "Year", paste("Q", tau_t, sep=""), "LP")
 TFP_Data <- group_by(QLP_TFP, Year) %>% summarise_at(c(paste("Q", tau_t, sep=""), "LP"), mean, na.rm=TRUE) %>% mutate_at(vars(-Year), function(x) x/x[1L]*100)
 
@@ -367,10 +194,9 @@ TFP <- melt(TFP_Data, "Year")
 TFP_Plot <- ggplot(TFP, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + ggtitle("Productivity Over Time") + theme(plot.title=element_text(size=22, face="plain"))+ scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP_Plot.png", TFP_Plot, base_height=8, base_width=10)
 ################################################################################################
-###################Coefficients over Time ######################################################
-################################################################################################
-tau_t <- c(0.1, 0.25, 0.5, 0.9)
-T <- 2
+###################Coefficients over Time #######################################
+################################################################################
+T <- 5
 dZ <- 2
 time <- seq(min(CHLdata$year), max(CHLdata$year), by=T)
 QLPT_Coef <- array(0, dim=c(length(tau_t), dZ, length(time)))
@@ -380,7 +206,6 @@ for (t in 1:length(time)){
     QLPT_Coef[,,t][q,] <- betahat[,t]
   }
 }
-pcolour <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442")
 KT <- data.frame(cbind(time, t(QLPT_Coef[,1,][,])))
 colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "))
 KT <- melt(KT, "Year")
@@ -392,7 +217,6 @@ LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colou
 Plot_Title <- ggdraw() + draw_label("Output Elasticities Over Time", fontface="plain", size=22) 
 Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)
-
 
 
 

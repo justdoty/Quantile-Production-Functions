@@ -5,39 +5,57 @@ source('PFQR/FUN/QLP_Boot.R')
 require(stringr)
 #Load US dataset
 CHL_panel <- read.csv("PFQR/DATA/CHL/CHLdata.csv")
-#Convert 3 digit NAICS code to 2 digit NAICS and take natural logs
+#Convert 3 digit isic code to 2 digit isic and take natural logs
 CHLdata <- transmute(CHL_panel, id=id, year=year, lny=log(Y), lnva=log(VA), lnk=log(K), lnl=log(L), lnm=log(M), isic3=isic3)
 #Choose which industry to select
 All <- "^3"
 industries <- c("311", "381", "321", All)
 #Vector of quantiles
-tau <- seq(5, 95, length.out=19)/100
+tauvec <- seq(5, 95, length.out=19)/100
+#Vector of quantiles of TFP
+tfptau <- c(0.1, 0.25, 0.5, 0.9)
 tau_n <- length(tau)
 id <- as.numeric(commandArgs(TRUE)[1])
-tau <- tau[id]
+tau <- tauvec[id]
 #The number of bootstrap replications to be used in QLP defined below
 R <- 500
 #The number of parameters being estimated
 dZ <- 2
-#This gives the "true" estimates using the "true" data
+#This gives the estimates using the unsampled data########################
+#Elasticities from QLP
 betahat <- array(0, dim=c(dZ, length(industries)))
-#This gives the "true" estimates of TFP dispersion using the "true" data
-ratiohat <- array(0, dim=c(3, length(industries)))
-#Store results for bootstrap replications across quantiles across industries
+#Elasticities from QR
+qrhat <- array(0, dim=c(dZ, length(industries)))
+#Difference between QLP and QR
+qdifhat <- array(0, dim=c(dZ, length(industries)))
+#Quantiles of TFP
+QTFPhat <- array(0, dim=c(length(tfptau), length(industries)))
+#Store results for bootstrap replications##############################
+#Bootstrapped Elasticiteis from QLP
 betaboot <- array(0, dim=c(R, dZ, length(industries)))
-#Store results for bootstrap replications across quantiles across industries
-ratioboot <- array(0, dim=c(R, 3, length(industries)))
+#Bootstrapped Elasticities from QR
+qrboot <- array(0, dim=c(R, dZ, length(industries)))
+#Bootstrapped differences between QLP and QR
+qdifboot <- array(0, dim=c(R, dZ, length(industries)))
+#Bootstrapped quantiles of TFP
+QTFPboot <- array(0, dim=c(R, length(tfptau), length(industries)))
 
 for (isic in 1:length(industries)){
   CHL <- filter(CHLdata, str_detect(isic3, industries[isic]))
-  soln <- QLP_Boot(tau=tau, idvar=CHL$id, timevar=CHL$year, Y=CHL$lnva, K=CHL$lnk, L=CHL$lnl, proxy=CHL$lnm, binit=NULL, R=R)
-  betahat[,isic] <- soln$betahat
-  ratiohat[,isic] <- soln$ratiohat
+  soln <- QLP_Boot(tau=tau, idvar=CHL$id, timevar=CHL$year, Y=CHL$lnva, K=CHL$lnk, L=CHL$lnl, proxy=CHL$lnm, dZ=dZ, binit=NULL, R=R, tfptau=tfptau)
+  #Bootstrapped Estimates
   betaboot[,,isic] <- soln$betaboot
-  ratioboot[,,isic] <- soln$ratiohat
+  qrboot[,,isic] <- soln$qrboot
+  qdifboot[,,isic] <- soln$qdifboot
+  QTFPboot[,,isic] <- soln$QTFPboot
+  #Estimataes from Unsampled data
+  betahat[,isic] <- soln$betahat
+  qrhat[,isic] <- soln$qrhat
+  qdifhat[,isic] <- soln$qdifhat
+  QTFPhat[,isic] <- soln$QTFPhat
 }
 filename <- paste("PFQR/DATA/CHL/QLP_Environments/QLP_Boot_CHL_Q", id, ".RData", sep="")
-save(betahat, ratiohat, betaboot, ratioboot, file=filename)
+save(tauvec, tfptau, dZ, betahat, qrhat, qdifhat, QTFPhat, betaboot, qrboot, qdifboot, QTFPboot, file=filename)
 
 
 #HPC Job Submissions for batches: qsub -t 1:length(tau) QLP_Boot_CHL.job

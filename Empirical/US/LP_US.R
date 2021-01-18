@@ -16,16 +16,18 @@ industries <- industries[id]
 R <- 500
 #The number of parameters being estimated
 dZ <- 2
+#Vector of quantiles of TFP
+tfptau <- c(0.1, 0.25, 0.5, 0.9)
 
 US <- filter(USdata, str_detect(naics2, industries))
-soln <- LP(idvar=US$id, timevar=US$year, Y=US$lnva, K=US$lnk, L=US$lnl, proxy=US$lnm,  binit=NULL, R=R)
+soln <- LP(idvar=US$id, timevar=US$year, Y=US$lnva, K=US$lnk, L=US$lnl, proxy=US$lnm, dZ=dZ,  binit=NULL, R=R, tfptau=tfptau)
 betahat <- soln$betahat
-ratiohat <- soln$ratiohat
+QTFPhat <- soln$QTFPhat
 betaboot <- soln$betaboot
-ratioboot <- soln$ratioboot
+QTFPboot <- soln$QTFPboot
 
 filename <- paste("PFQR/DATA/US/LP_Environments/LP_US_NAICS_", id, ".RData", sep="")
-save(betahat, ratiohat, betaboot, ratioboot, file=filename)
+save(betahat, QTFPhat, betaboot, QTFPboot, file=filename)
 
 #HPC Job Submissions for batches: qsub -t 1:length(industries) myjob.job
 #Here length(industries)=4
