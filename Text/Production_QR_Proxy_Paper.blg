@@ -13,45 +13,46 @@ Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma a
 while executing---line 1647 of file ecca.bst.bst
 Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
 while executing---line 1647 of file ecca.bst.bst
-You've used 46 entries,
+Warning--missing institution in Kumar1999
+You've used 49 entries,
             3231 wiz_defined-function locations,
-            976 strings with 11656 characters,
-and the built_in function-call counts, 37944 in all, are:
-= -- 3122
-> -- 2340
-< -- 36
-+ -- 1101
-- -- 372
-* -- 3057
-:= -- 5924
-add.period$ -- 134
-call.type$ -- 46
-change.case$ -- 323
-chr.to.int$ -- 45
-cite$ -- 49
-duplicate$ -- 2927
-empty$ -- 2076
-format.name$ -- 417
-if$ -- 6756
+            993 strings with 12020 characters,
+and the built_in function-call counts, 40286 in all, are:
+= -- 3316
+> -- 2474
+< -- 38
++ -- 1163
+- -- 400
+* -- 3259
+:= -- 6287
+add.period$ -- 143
+call.type$ -- 49
+change.case$ -- 345
+chr.to.int$ -- 48
+cite$ -- 53
+duplicate$ -- 3108
+empty$ -- 2206
+format.name$ -- 451
+if$ -- 7173
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 395
-newline$ -- 142
-num.names$ -- 184
-pop$ -- 804
+missing$ -- 422
+newline$ -- 151
+num.names$ -- 196
+pop$ -- 863
 preamble$ -- 1
-purify$ -- 277
+purify$ -- 296
 quote$ -- 0
-skip$ -- 1421
+skip$ -- 1498
 stack$ -- 0
-substring$ -- 2111
-swap$ -- 1943
-text.length$ -- 756
+substring$ -- 2229
+swap$ -- 2064
+text.length$ -- 792
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 414
-warning$ -- 3
-while$ -- 262
+type$ -- 441
+warning$ -- 4
+while$ -- 278
 width$ -- 0
-write$ -- 503
+write$ -- 535
 (There were 3 error messages)

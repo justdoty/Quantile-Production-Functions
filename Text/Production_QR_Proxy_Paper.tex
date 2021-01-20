@@ -93,7 +93,7 @@ While these methods have been useful in identifying the production function para
 
 In our approach we allow firm heterogeneity in production technology beyond Hick's neutral productivity shock to be driven by the rank of the unobserved production shock, $\eta_{it}$.  We simultaneously extend the proxy variable approach to this framework in order to control for the part of production unobservables that are correlated with inputs. Since applying the quantile regression requires non-smooth criterion function, it is not straightforward to estimate the production functions by allowing for endogenous inputs and their heterogeneous coefficients. We are not aware of any published paper which takes into account for the endogeneity issue of production functions in the conventional quantile regression framework. We fill the gap in this paper by proposing an easy-to-implement estimator.
 
-We show through simulation, that our proposed two-step estimator performs relatively well to the most current control function approaches of \cite{Levinsohn2003} and \cite{Ackerberg2015} and is successful in capturing heterogeneous output elasticities along the conditional distribution of firm's output. In our empirical application, we consider several popular firm and plant-level manufacturing datasets and compare our estimator to control function approaches. We show that heterogeneity in these estimates implies differences in capital intensity and TFP growth over time. 
+We show through simulation, that our proposed two-step estimator performs relatively well to the most current control function approach of \cite{Levinsohn2003} and is successful in capturing heterogeneous output elasticities along the conditional distribution of firm's output. In our empirical application, we consider several popular firm and plant-level manufacturing datasets and compare our estimator to control function approaches. We show that heterogeneity in these estimates implies differences in other features of the production function, such as capital intensity and TFP growth over time. 
 
 The rest of the paper is organized as follows. Section \ref{litreview} reviews prior approaches for production function estimation and the literature on panel data quantile regression. Section \ref{ourmodel} introduces the econometric model and the proposed estimator. Section \ref{montecarlo} presents finite-sample behaviors of the estimator via Monte Carlo experiments and Section \ref{application} applies this estimator to US, Chilean, and Colombian manufacturing datasets. Section \ref{conclusion} concludes with directions for future research.
 
@@ -166,10 +166,13 @@ while this identification argument is used in our model, we do not use the estim
 
 \section{A Random Coefficient Production Function} \label{ourmodel}
 We specify a \textit{value-added} production function as a random coefficient model:
-\footnote{A value-added specification is not without loss of generality. Only specific value-added production functions such as the Leontief value-added model can be mapped to its gross-output counterpart while also avoiding the non-identification results of \cite{Gandhi2020}. This becomes more difficult with this specification.}
 \begin{equation} \label{pfrc}
     y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}
 \end{equation}
+A value-added specification in equation \eqref{pfrc} is non-trivial. Value-added production functions are common in the empirical literature, however the objects recovered from a value-added model such as the output elasticities and TFP can only be mapped to its gross-output counterpart under specific structural production functions. Since the production shock enters \eqref{pfrc} non-separably, it is difficult to recover gross-output objects from value-added due to the presence of ex-post shocks. Therefore, in our empirical application we interpret the elasticities and TFP with some caution.\\
+
+ One advantage of the value-added approach is that the rank of $\eta_{it}$ can now be interpreted as the rank of firm-size as measured by value-added which accounts for firm size from the value of output created through capital and labor. There may be other reasons to measure firm-size by other measures such as gross-output (sales) or employment which is sometimes refined as employee weighted average of number of employees \citep{Kumar1999}. The value-added approach also avoids the non-identification results of \cite{Gandhi2020}. We leave the connection between this value-added production function and its possibly underlying gross-output production function as future work. \\
+
 The variables in equation \eqref{pfrc} have the same interpretation as the ones we introduced in the LP model. The only difference here is that we allow the output elasticities to be functionally dependent on the production shock $\eta_{it}$ while productivity still maintains its additive separability. \footnote{More specifically, productivity is only a location shifter of the conditional output distribution. We cannot allow $\omega_{it}=\omega_{it}(\eta_{it})$ since this would violate the scalar unobservability assumption of our proxy variable}
 
 A special case of \eqref{pfrc} is the location scale model,
@@ -359,7 +362,6 @@ so that this bound can be achieved by choosing a weighting matrix $\Sigma_{2}=Va
 
 In practice, it is much easier to compute a numerically equivalent estimate of $Var(\tilde{\Lambda}_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi))^{-1}$ as shown by \cite{Ackerberg2012} which is outlined by \cite{Ackerberg2014} in Section 3.3 of their paper. 
 
-\newpage
 \section{Monte Carlo Experiments} \label{montecarlo}
 We use a location-scale version of \cite{Levinsohn2003} and replicate \cite{Ackerberg2015} simulations sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
 
@@ -376,33 +378,32 @@ We focus on whether our estimate can capture heterogeneity in the output distrib
 
 Figure \ref{fig:simest} graphs the estimated coefficients for QLP and LP. The black line denotes the QLP estimator and its corresponding $90\%$ confidence interval is the gray shaded area. The solid red line denotes the LP estimator and the dotted red lines are its corresponding $90\%$ confidence interval. Capital coefficients are the first column of the graph and labor coefficients are the second column. The first row corresponds to DGP 1 with $\eta_{it}\sim N(0,0.1)$ and the second row corresponds to DGP 2 with $\eta_{it}\sim Laplace(0,0.1)$. The estimator does reasonable well at capturing heterogeneity outside of the conditional mean estimate for both capital and labor. Not surprisingly, the confidence intervals for capital are wider than the interval for labor due to nature of the multi-step procedure. \ref{fig:MSE}  shows that these estimators perform well in finite sample. The MSE for both estimators is plotted over $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ with the black line denoting the QLP estimates and the dotted red line denoting the LP estimates.
 
-\begin{figure}[H] 
+\begin{figure}[ht] 
 \centering
 \caption{QLP estimated coefficients of  $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$. Dotted line is LP estimator}
 \label{fig:simest}
-\includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png}
+\includegraphics[width=13cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png}
 \label{LP_coefficient_plot}
 \end{figure}
 
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \caption{Simulated precision of  QLP estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s. Dotted line is LP estimator.}
-\includegraphics[width=11cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png}
+\includegraphics[width=13cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png}
 \label{fig:MSE}
 \end{figure}
 
 \newpage
 \section{Application} \label{application}
-We apply our estimator to popular firm and plant level manufacturing datasets from the US, Chile, and Colombia to examine heterogeneity in the output distribution \footnote{We thank Mert Demirer for providing the datasets from Chile and Colombia}. For each country we examine estimates across different manufacturing industries as well as how these estimates have changed over time and the implications for heterogeneity in productivity across small and large firms/plants. We use the QLP estimator presented in this paper and compare it to the LP estimates. We estimate the labor coefficient using a partially regression with a 3rd degree polynomial with interactions in capital and materials. To estimate capital, we use the CUE GMM criterion function mentioned earlier with instruments $k_{it}, k_{it-1}, l_{it-1}$ and $m_{it-1}$. We initialize the starting values for the non-linear search using quantile regression estimates of $\beta_{k}(\tau)$. We use bootstrap to estimate standard errors with the number of iterations set to $500$. In the first stage we use a weighted bootstrap with weights drawn from a standard exponential distribution re-sampled at each iteration. In the second stage we use a nonparametric bootstrap and recenter sample moments in each iteration.
+We apply our estimator to popular firm and plant level manufacturing datasets from the US, Chile, and Colombia to examine heterogeneity in the output distribution \footnote{We thank Mert Demirer for providing the datasets from Chile and Colombia}. For each country we examine estimates across different manufacturing industries as well as how these estimates have changed over time and the implications for heterogeneity in productivity across small and large firms/plants. We use the QLP estimator presented in this paper and compare it to the LP estimates. We also compare our estimates to the quantile regression estimates without controlling for productivity. We estimate the labor coefficient using a partially regression with a 3rd degree polynomial with interactions in capital and materials. To estimate capital, we use the CUE GMM criterion function mentioned earlier with instruments $k_{it}, k_{it-1}, l_{it-1}$ and $m_{it-1}$. We initialize the starting values for the non-linear search using quantile regression estimates of $\beta_{k}(\tau)$. We use bootstrap to estimate standard errors with the number of iterations set to $500$. In the first stage we use a weighted bootstrap with weights drawn from a standard exponential distribution re-sampled at each iteration. In the second stage we use a nonparametric bootstrap and recenter sample moments in each iteration.
 
 \subsection{US Compustat}
-The source for the US manufacturing data is from Compustat which covers publicly traded firms and contains data from their financial statements. We collect a sample between 1961 and 2010 on sales, capital expenditures, number of workers, and other expenses to construct measures of output, capital, labor, and material inputs using 3-digit deflators from \cite{nber}. Data preparation follows \cite{Keller2009} and \cite{mert}. Summary statistics for these deflated values are provided in Table 1. We present a series of output elasticity estimates in Table 2 which are illustrated graphically in Figures \ref{fig:31coef}, \ref{fig:32coef}, \ref{fig:33coef}, and \ref{fig:USallcoef}.
-
-For each industry in the US sample, we see that the estimates of the capital elasticity is increasing in the firm size distribution and decreasing in the labor elasticity corresponding to industries 31 and 32. For industry 33 and the combined industries, the labor elasticity is an inverse U-shape; it increases quickly for low $\tau$, but then flattens out after $\tau=0.5$.
+The source for the US manufacturing data is from Compustat which covers publicly traded firms and contains data from their financial statements. We collect a sample between 1961 and 2010 on sales, capital expenditures, number of workers, and other expenses to construct measures of output, capital, labor, and material inputs using 3-digit deflators from \cite{nber}. Data preparation follows \cite{Keller2009} and \cite{mert}. Some issues regarding the Compustat dataset is that since the data is reported in the firm's financial statements, deflated output and input measures may not be completely capture firm's actual usage. Also, since this sample only contains publicly traded firms, it is only a fraction of all manufacturing firms in the US. Summary statistics for these deflated values are provided in Table 1. We present a series of output elasticity estimates in Table 2 which are illustrated graphically in Figures \ref{fig:31coef}, \ref{fig:32coef}, \ref{fig:33coef}, and \ref{fig:USallcoef}.
+ 
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex}
 \label{Tab:USsummary}
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex}
+For each industry in the US sample, we see that the estimates of the capital elasticity is increasing in the firm size distribution and decreasing in the labor elasticity corresponding to industries 31 and 32. For industry 33 and the combined industries, the labor elasticity is an inverse U-shape; it increases quickly for low $\tau$, but then flattens out after $\tau=0.5$. In industries 31 and 32 only the QLP capital estimate is significantly different from the LP estimate. In industry 33 both labor and capital estimates are significantly different from the LP estimate after $\tau=0.25$. In each industry we compare the difference between QLP and QR estimates to test whether our model corrects for endogeneity from unobserved productivity. Bootstrap is used to construct confidence intervals of the difference between the two estimates. We find that there are significant differences between these estimates with the exception of estimates at $\tau=0.05, 0.1$ and $0.15$.\\
 
 \begin{figure}[H]
 \centering
@@ -432,16 +433,28 @@ For each industry in the US sample, we see that the estimates of the capital ela
 \label{fig:USallcoef}
 \end{figure}
 
+We use the estimates from the output elasticities to construct measures of returns to scale and capital intensity in Table 2. The results for returns to scale are puzzling as they are all significantly different from constant returns to scale. We can see in Industry 32 that returns to scale are generally decreasing in firm-size whereas this relationship is increasing in Industry 33. Previous papers that estimate returns to scale using the Compustat dataset such as \cite{Keller2009} and \cite{mert} show constant returns to scale using a gross-output production function. Therefore it is possible that the empirical value-added (deflated sales minus intermediate input expenditure) is a poor proxy for value-added in our model and that value-added biases the returns to scale estimates. Differences in returns to scale in value-added and gross-output production functions are explored by \cite{Basu1997}. We also report estimates of capital intensity measured by the ratio of capital to labor elasticity for each quantile. In each industry, capital intensity is increasing in firm-size. This result is consistent with previous findings such as \cite{Holmes2008}, \cite{Kumar1999} and \cite{mert}.
+
+
+\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex}
+
+We also use our quantile production function estimates to construct measures of firm level productivity which we define as
+\begin{equation}
+\hat{w}_{it}=\exp(y_{it}-\hat{\beta_{k}}(\tau)k_{it}-\hat{\beta_{l}}(\tau)l_{it})
+\end{equation}
+
+
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/TFP_Plot.png}
-\caption{Estimated average TFP over time for the US. Base productivity in 1961 is set to 100.}
+\caption{Estimated average productivity over time for the US. Base productivity in 1961 is set to 100.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QTFP_plot.png}
-\caption{Estimated TFP at different quantiles over the firm-size distribution}
+\caption{Estimated log-productivity at different quantiles over the firm-size distribution}
 \end{figure}
 
 \begin{figure}[H]
@@ -485,13 +498,13 @@ For each industry in the US sample, we see that the estimates of the capital ela
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP_Plot.png}
-\caption{Estimated average TFP over time for Chile. Base productivity in 1979 is set to 100.}
+\caption{Estimated average productivity over time for Chile. Base productivity in 1979 is set to 100.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QTFP_plot.png}
-\caption{Estimated TFP at different quantiles over the firm-size distribution}
+\caption{Estimated log-productivity at different quantiles over the firm-size distribution}
 \end{figure}
 
 \begin{figure}[H]
@@ -535,13 +548,13 @@ For each industry in the US sample, we see that the estimates of the capital ela
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP_Plot.png}
-\caption{Estimated average TFP over time for Colombia. Base productivity in 1978 is set to 100.}
+\caption{Estimated average productivity over time for Colombia. Base productivity in 1978 is set to 100.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QTFP_plot.png}
-\caption{Estimated TFP at different quantiles over the firm-size distribution}
+\caption{Estimated log-productivity at different quantiles over the firm-size distribution}
 \end{figure}
 
 

@@ -34,6 +34,12 @@ print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, 
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
 alpha <- .1
+#Vector of quantiles of firm-size
+tauvec <- seq(5, 95, length.out=19)/100
+#Vector of quantiles of TFP
+tfptau <- c(0.1, 0.25, 0.5, 0.9)
+#Number of parameters
+dZ <- 2
 ###############################################################################
 #Store QLP Results
 ##############################################################################
@@ -181,9 +187,9 @@ save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy
 ###############TFP Over Time#######################################################
 ######################################################################################################
 tau_t <- c(0.1, 0.25, 0.5, 0.9)
-estimates_TFP <- estimates[tauvec%in%tau_t,]
-All_ISIC_QLP <- data.frame(estimates_TFP[(nrow(estimates_TFP)-(length(tau_t)-1)):nrow(estimates_TFP), c(2,4)])
-All_ISIC_LP <- LP_estimates[nrow(LP_estimates), c(1,3)]
+QLPestimatesTFP <- QLPestimates[tauvec%in%tau_t,]
+All_ISIC_QLP <- data.frame(QLPestimatesTFP[(nrow(QLPestimatesTFP)-(length(tau_t)-1)):nrow(QLPestimatesTFP), c(2,4)])
+All_ISIC_LP <- LPestimates[nrow(LPestimates), c(1,3)]
 LP_TFP <- exp(CHLdata$VA-cbind(CHLdata$K, CHLdata$L)%*%as.numeric(All_ISIC_LP))
 QLP_TFP <- data.frame(cbind(CHLdata$id, CHLdata$year, apply(All_ISIC_QLP, 1, function(x) exp(CHLdata$VA-cbind(CHLdata$K, CHLdata$L)%*%as.numeric(x))), LP_TFP))
 colnames(QLP_TFP) <- c("id", "Year", paste("Q", tau_t, sep=""), "LP")

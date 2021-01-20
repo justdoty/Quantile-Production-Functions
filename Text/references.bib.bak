@@ -718,4 +718,35 @@ The contribution of the paper is twofold. First, we propose a new estimation met
   number      = {205},
 }
 
+@Article{Keller2009,
+  author    = {Wolfgang Keller and Stephen R Yeaple},
+  title     = {Multinational Enterprises, International Trade, and Productivity Growth: Firm-Level Evidence from the United States},
+  journal   = {Review of Economics and Statistics},
+  year      = {2009},
+  volume    = {91},
+  number    = {4},
+  pages     = {821--831},
+  month     = {nov},
+  doi       = {10.1162/rest.91.4.821},
+  publisher = {{MIT} Press - Journals},
+}
+
+@TechReport{Davis1997,
+  author    = {Steven Davis and Magnus Henrekson},
+  title     = {Explaining National Differences in the Size and Industry Distribution of Employment},
+  year      = {1997},
+  month     = {oct},
+  doi       = {10.3386/w6246},
+  publisher = {National Bureau of Economic Research},
+}
+
+@TechReport{Kumar1999,
+  author    = {Krishna Kumar and Raghuram Rajan and Luigi Zingales},
+  title     = {What Determines Firm Size?},
+  year      = {1999},
+  month     = {jul},
+  doi       = {10.3386/w7208},
+  publisher = {National Bureau of Economic Research},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
