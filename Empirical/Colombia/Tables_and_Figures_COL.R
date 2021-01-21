@@ -4,6 +4,7 @@ library(xtable)
 library(reshape2)
 #Load COL dataset
 COLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/COLdata.csv")
+COLdata$year <- COLdata$year+1975
 #Industries as listed in QLP_COL.R file
 ISIC <- c("311", "322", "381", "All")
 ISIC_des <- c("Food Products", "Apparel", "Fabricated Metal Products", "All Manufacturing")
@@ -202,7 +203,7 @@ save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy
 ################################################################################################
 ###################Coefficients over Time #######################################
 ################################################################################
-T <- 5
+T <- 2
 dZ <- 2
 time <- seq(min(COLdata$year), max(COLdata$year), by=T)
 QLPT_Coef <- array(0, dim=c(length(tau_t), dZ, length(time)))
@@ -215,11 +216,11 @@ for (t in 1:length(time)){
 KT <- data.frame(cbind(time, t(QLPT_Coef[,1,][,])))
 colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "))
 KT <- melt(KT, "Year")
-KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Capital") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
+KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable))+ scale_x_continuous(breaks = time) + xlab("Year") + ylab("Capital") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
 LT <- data.frame(cbind(time, t(QLPT_Coef[,2,][,])))
 colnames(LT) <- c("Year", paste("Q", tau_t, sep=""))
 LT <- melt(LT, "Year")
-LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
+LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable))+ scale_x_continuous(breaks = time) + xlab("Year") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
 Plot_Title <- ggdraw() + draw_label("Output Elasticities Over Time", fontface="plain", size=22) 
 Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)

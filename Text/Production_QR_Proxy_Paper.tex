@@ -440,121 +440,156 @@ We use the estimates from the output elasticities to construct measures of retur
 
 We also use our quantile production function estimates to construct measures of firm level productivity which we define as
 \begin{equation}
-\hat{w}_{it}=\exp(y_{it}-\hat{\beta_{k}}(\tau)k_{it}-\hat{\beta_{l}}(\tau)l_{it})
+\hat{w}_{it,\tau}=\exp(y_{it}-\hat{\beta_{k}}(\tau)k_{it}-\hat{\beta_{l}}(\tau)l_{it})
 \end{equation}
-
+We use these measured to compare productivity growth over time to LP estimates as well as an exercise to see if there is significant dispersion in the productivity distribution over the distribution of firm size. Figure \ref{fig:USpgrowth} reports average productivity for all US firms in the sample with the base year of the sample period set to 100. We can see that productivity growth was rapid in the beginning of the sample period but then declined after 1970 and increase again after 1980. Growth trends for each percentile of firm-size were similar although larger firms in this sample were more productive than smaller ones. Interestingly, the LP estimates are close to the productivity estimates for smaller firms at $\tau=0.1$. This suggests that there is significant heterogeneity in the conditional firm-size distribution that conditional mean estimates of productivity such as LP cannot capture.
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/TFP_Plot.png}
 \caption{Estimated average productivity over time for the US. Base productivity in 1961 is set to 100.}
+\label{fig:USpgrowth}
 \end{figure}
+
+In Figure \ref{fig:USpdisp} we graph estimates of certain percentiles of log-productivity distribution over the firm-size distribution for each industry in our sample. In industry 31 and 33 log-productivity is decreasing for each percentile of firm-size. Log-productivity falls faster in industry 33 compared to industry 31 for small firms, but reverses for larger firms in each industry. Log-productivity for firms in industry 32 has an inverse U-shaped relationship. It is increasing for small firms, then somewhat stagnant for medium sized firms, but then falls for very large firms. In each industry, there is substantial heterogeneity in productivity dispersion after controlling for differences in firm-size. For example, in industry 31 small firms ($\tau=0.1$) in the 90th percentile of productivity are about 7.1 times more productive than firms in the 10th percentile of productivity. For large firms ($\tau=0.95$), this number is about six. This suggests that there could exist some heterogeneity in common productivity dispersion estimates, such as the 90/10 ratio we use here.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QTFP_plot.png}
 \caption{Estimated log-productivity at different quantiles over the firm-size distribution}
+\label{fig:USpdisp}
 \end{figure}
+
+We are also interested in examining the firm-size distribution over time and whether there are differences in within-firm and across firm technology heterogeneity. Figure \ref{fig:UStimecoef} plots estimates of the output elasticities over 5 year intervals. For labor elasticity, there is heterogeneity across the firm size distribution in the beginning of the sample period. Larger firms had greater estimates of labor elasticity than very small firms. This heterogeneity decreases up until 1980 when the relationship between firm size and labor elasticity reverses. At the end of our sample period, very large firms have smaller estimates of labor elasticity than very small firms. The estimates of capital elasticity appear to be increases, however there is no discernible relationship of these estimates across different firm sizes. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png}
 \caption{Estimated values of production function coefficients over time estimated at 5 year intervals}
+\label{fig:UStimecoef}
 \end{figure}
 
 
 %----------------------------------------------------------------------------------------
 
 \subsection{Chilean Manufacturing}
+This data comes from the census of Chilean manufacturing plants conducted by the Instituto Nacional de Estadist\'ica (INE). The sample is collected between 1979 and 1996 for firms with more than 10 employees. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Fabricated Metals (ISIC 381), and Textiles (ISIC 321). We also aggregate the three industries with the other smaller industries to obtain estimates from the entire sample. Summary statistics for the data we use are provided in Table 3.
 
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Summary.tex}
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Beta_Estimates.tex}
+Figures \ref{fig:CHL311}, \ref{fig:CHL321}, and \ref{fig:CHL381} illustrate our estimates from our model compared to LP estimates as well as their differences to QR estimates. Aside from ISIC 311, the estimates for labor elasticity are decreasing, but not significantly different from the LP estimates. However, since these estimates are significantly different from the QR estimate suggests that our estimator corrects for the endogeneity bias from unobserved productivity. The estimates for capital elasticity are decreasing in ISIC 311 and ISIC 381, but mostly flat for ISIC 321 and all of the industries in the sample. In every industry except for ISIC 321 there are differences between the QLP and LP estimates as well as differences between the QR estimates. These results may suggest that the productivity contributes more to heterogeneity in the estimates than do differences in the rank of the ex-post shock. From Table 4, our estimates of returns to scale are more reasonable compared to the US estimates. Interestingly returns to scale decrease as firm-size increases. Capital intensity decreases in firm-size in ISIC 311 and increases in firm-size in the entire sample.
+
+
+\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Summary.tex}  
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\label{fig:CHL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\label{fig:CHL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\label{fig:CHL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\label{fig:CHLall}
 \end{figure}
+
+\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Beta_Estimates.tex}
+
+Figure \ref{fig:CHLpgrowth} reports average productivity for all Chilean plants in the sample with base period set to 100. Productivity decreases in the beginning of the 1980s but the increases for the rest of the sample period. The LP estimates show higher productivity than the larger firms at $\tau=0.9$ Figure \ref{fig:CHLpdisp} graphs the percentiles of log-productivity over the firm-size distribution for each large industry in Chile. In each industry, log-productivity is increasing in firm-size. Like the estimates in the US, there is heterogeneity in productivity dispersion. For example, in ISIC 381, small firms ($\tau=0.1$) in the 90th percentile of productivity are about more 10.8 times productive than firms in the 10th percentile of productivity. For large firms ($\tau=0.95$), this number is about 14.4. Lastly, Figure \ref{fig:CHLtimecoef} shows the time trends in output elasticities. The estimate of labor elasticity are high for each quantile of firm size and decreases steadily with the exception of small firms ($\tau=0.1$). The estimates for capital elasticities are large aside from $\tau=0.25$, but converge quickly after 1979. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP_Plot.png}
 \caption{Estimated average productivity over time for Chile. Base productivity in 1979 is set to 100.}
+\label{fig:CHLpgrowth}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QTFP_plot.png}
 \caption{Estimated log-productivity at different quantiles over the firm-size distribution}
+\label{fig:CHLpdisp}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Time_Plot.png}
 \caption{Estimated values of production function coefficients over time estimated at 2 year intervals}
+\label{fig:CHLtimecoef}
 \end{figure}
 
 
 %------------------------------------------------------------------------------------------------
 
-\subsection{Colombia Manufacturing}
+\subsection{Colombian Manufacturing}
+This data comes is from the Colombian manufacturing census conducted by the Departamento Administrativo Nacional de Estadistica. The sample is collected between 1977 and 1991 for firms with more than 10 employees. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Apparel (ISIC 322), and Fabricated Metals (ISIC 381). As we did with the Chilean sample, we also aggregate the three industries with other smaller industries to obtain estimates from the entire sample of manufacturing plants. Summary statistics for this data is provided in Table 5.
 
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Summary.tex}
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Beta_Estimates.tex}
+
+Figures \ref{fig:COL311}, \ref{fig:COL321}, and \ref{fig:COL381} illustrate estimates from our model compared to the LP estimates as well as their differences from QR estimates. The first industry, ISIC 311, shows QLP estimates of both capital and labor elasticities significantly different from LP estimates. There are also differences between these estimates and QR estimates which suggests that this method shows heterogeneity in both firm size and productivity in this industry. In ISIC 322, only the QLP estimate of labor elasticity shows significant difference from the LP estimate as well as differences from the QR estimates. There is not much difference in the QLP estimates of capital when compared to LP and QR estimates. Similar results are also true for ISIC 381. With the industries combined, both QLP estimates of capital and labor are significantly different from LP and QR estimates. For each industry, these estimates show a common trend. Capital estimates tend to increase in firm-size whereas labor estimates tend to decrease.
+
+Using these estimates we construct measures of returns to scale and capital intensity for each industry in Table 6. Most firms experience constant returns to scale or slightly decreasing returns to scale and we observe that returns to scale are decreasing in firm-size. The only noticeable trends in capital intensity appear in ISIC 311 and the combined sample which show decreasing relationship in firm-size in ISIC 311 and an increasing relationship in the combined sample.  
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\label{fig:COL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\label{fig:COL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\label{fig:COL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\label{fig:COLall}
 \end{figure}
+
+\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Beta_Estimates.tex}
+
+Figure \ref{fig:COLpgrowth} reports average productivity for all Colombian plants in the sample with base period set to 100. Productivity decreases in the beginning of the sample period but then increases for the rest of the sample period after 1980 with some sharp periods of productivity decline and incline. Each percentile of firm size has similar productivity levels at the beginning of the sample period, but diverge after 1984. The LP estimates show just higher than productivity of small firms at $\tau=0.1$ Figure \ref{fig:COLpdisp} graphs the percentiles of log-productivity over the firm-size distribution for each large industry in Colombia. In each industry, log-productivity is increasing in firm-size. Like the estimates in the US and Chile, there is heterogeneity in productivity dispersion. For example, in ISIC 322, small firms ($\tau=0.1$) in the 90th percentile of productivity are about 4.9 times more productive than firms in the 10th percentile of productivity. For large firms ($\tau=0.95$), this number is about 6.7. Finally, Figure \ref{fig:COLtimecoef} shows the time trends in output elasticities. The estimate of labor elasticity are about 0.6 for each quantile of firm size and increases steadily until about 1981 then starts to decrease. At the end of the sample period there is more heterogeneity in these estimates. Capital elasticity estimates tend to decrease during the sample period for each quantile of firm size.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP_Plot.png}
 \caption{Estimated average productivity over time for Colombia. Base productivity in 1978 is set to 100.}
+\label{fig:COLpgrowth}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QTFP_plot.png}
 \caption{Estimated log-productivity at different quantiles over the firm-size distribution}
+\label{fig:COLpdisp}
 \end{figure}
 
 
@@ -562,14 +597,18 @@ We also use our quantile production function estimates to construct measures of 
 \centering
 \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Time_Plot.png}
 \caption{Estimated values of production function coefficients over time estimated at 2 year intervals}
+\label{fig:COLtimecoef}
 \end{figure}
 
 \section{Conclusions} \label{conclusion}
 
-We proposed a method that extends the intermediate input proxy variable approach to estimating quantiles of the conditional quantiles of firm production. The method is computationally attractive as it resembles the two-stage estimator introduced in the control function literature with conditional quantile restrictions at each stage. As a result, practitioners are able to easily apply the proposed estimator to production function models where the data reveal significant heterogeneous output elasticities along the conditional distribution of firm's output. We showed that this estimator works well in finite samples by replicating the experiment of ACF (2015) and showing that it captures heterogeneity in firm-size under different data generating processes.  
+We proposed a method that extends the intermediate input proxy variable approach to estimating quantiles of the conditional quantiles of firm production. The method is computationally attractive as it resembles the two-stage estimator introduced in the control function literature with conditional quantile restrictions in the first stage. As a result, practitioners are able to easily apply the proposed estimator to production function models where the data reveal significant heterogeneous output elasticities along the conditional firm-size distribution. We showed that identification conditions for second stage estimates based on conditional quantiles are not as straightforward as conditional mean moment restrictions in the presence of two unobservables. Using the concentrated moment approach of \cite{Ackerberg2015} appears to fix this issue.  We showed that this estimator works well in finite samples and showed that it captures heterogeneity in firm-size under different data generating processes. An application to widely used datasets from the US, Chile, and Colombia showed that in some industries, our estimator captures unobserved heterogeneity that the LP estimator does not.
 
-Econometric issues with this estimator are currently being explored. A method to consistently estimate the long-run variance of the sample moment conditions to achieve the semi-parametric efficiency bound under general conditions is desired and extending the asymptotic results of \cite*{qgmm} might not be straightforward. We also seek to estimate and interpret the resulting estimates of total factor productivity. Once these are addressed, an application using data such as the Chilean firm-level data may reveal heterogeneity in production technology along the distribution of firm output. 
-We leave them as future research agenda.
+Improvements and extensions of this estimator are currently being explored. For example, using a value-added production function may show more heterogeneity in estimates of elasticities and productivity than a gross-output production function. However, using a gross-output production function with an intermediate input proxy variable suffers from non-identification problems. Therefore, a structural value-added production function may be preferable. \cite{Kasahara2015} show how to modify OP/LP type moment conditions for a value-added production function from a gross-output production function. It would be interesting to explore whether those methods could be applied here. This paper also makes an interesting connection between the literature on production risk and quantile utility maximization. Currently, quantile utility maximization problems and estimation of these models are being studied by \cite{Castro2017} and \cite{qgmm} in the context of dynamic consumption problems. It would be interesting to explore a model for a firm who maximizes quantile utility of profits which could provide an alternative explanation for unobserved heterogeneity from quantile regression estimates.
+
+This paper contributes to the growing literature on production functions with unobserved heterogeneity. We show that differences in firm-size correspond to the the rank of the ex-post shock. The control function approach used here restricts us from examining other dimensions of firm heterogeneity. For example, this approach only allows us to use a location shift model for productivity. The consequence of this is that estimated growth rates in productivity are the same across firm-size which may not be true in practice. Allowing richer distributional affects of productivity would be an interesting extension. This approach also restricts us from examining non-Hicks neutral productivity shocks factor-augmenting productivity. We are currently working on an extension of this paper to a non-separable model to address these last two points, but the estimator we propose here is computationally attractive and easy to implement in empirical research.    
+
+
 
 
 \pagebreak
