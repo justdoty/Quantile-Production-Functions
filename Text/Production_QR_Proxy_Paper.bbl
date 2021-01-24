@@ -1,4 +1,4 @@
-\begin{thebibliography}{49}
+\begin{thebibliography}{52}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -49,11 +49,6 @@
 \textsc{Aragon, Y.}, \textsc{Daouia, A.} and \textsc{Thomas-Agnan, C.} (2005).
   {NONPARAMETRIC} {FRONTIER} {ESTIMATION}: A {CONDITIONAL} {QUANTILE}-{BASED}
   {APPROACH}. \textit{Econometric Theory}, \textbf{21}~(02).
-
-\bibitem[{Bache \textit{et~al.}(2012)Bache, Dahl and Kristensen}]{Bache2012}
-\textsc{Bache, S. H.~M.}, \textsc{Dahl, C.~M.} and \textsc{Kristensen, J.~T.}
-  (2012). Headlights on tobacco road to low birthweight outcomes.
-  \textit{Empirical Economics}, \textbf{44}~(3), 1593--1633.
 
 \bibitem[{Balat \textit{et~al.}(2018)Balat, Brambilla and Sasaki}]{balat}
 \textsc{Balat, J.}, \textsc{Brambilla, I.} and \textsc{Sasaki, Y.} (2018).
@@ -122,6 +117,10 @@
 \textsc{Chernozhukov, V.} and \textsc{Hansen, C.} (2005). An {IV} model of
   quantile treatment effects. \textit{Econometrica}, \textbf{73}~(1), 245--261.
 
+\bibitem[{Chesher(2003)}]{Chesher2003}
+\textsc{Chesher, A.} (2003). Identification in nonseparable models.
+  \textit{Econometrica}, \textbf{71}~(5), 1405--1441.
+
 \bibitem[{de~Castro \textit{et~al.}(2018)de~Castro, Galvao, Kaplan and
   Liu}]{qgmm}
 \textsc{de~Castro, L.}, \textsc{Galvao, A.~F.}, \textsc{Kaplan, D.~M.} and
@@ -159,6 +158,11 @@
 \textsc{Holmes, T.~J.} and \textsc{Mitchell, M.~F.} (2008). A theory of factor
   allocation and plant size. \textit{The {RAND} Journal of Economics},
   \textbf{39}~(2), 329--351.
+
+\bibitem[{Imbens and Newey(2009)}]{2009a}
+\textsc{Imbens} and \textsc{Newey} (2009). Identification and estimation of
+  triangular simultaneous equations models without additivity.
+  \textit{Econometrica}, \textbf{77}~(5), 1481--1512.
 
 \bibitem[{Just and Pope(1978)}]{Just1978}
 \textsc{Just, R.~E.} and \textsc{Pope, R.~D.} (1978). Stochastic specification
@@ -208,6 +212,11 @@
   {PARTIALLY} {LINEAR} {QUANTILE} {REGRESSION} {MODEL}. \textit{Econometric
   Theory}, \textbf{19}~(01).
 
+\bibitem[{Lee(2007)}]{Lee2007}
+\textsc{---} (2007). Endogeneity in quantile regression models: A control
+  function approach. \textit{Journal of Econometrics}, \textbf{141}~(2),
+  1131--1158.
+
 \bibitem[{Levinsohn and Petrin(2003)}]{Levinsohn2003}
 \textsc{Levinsohn, J.} and \textsc{Petrin, A.} (2003). Estimating production
   functions using inputs to control for unobservables. \textit{Review of
@@ -217,6 +226,11 @@
 \textsc{Li, T.} and \textsc{Sasaki, Y.} (2017). Constructive identification of
   heterogeneous elasticities in the cobb-douglas production function, {Working
   paper}.
+
+\bibitem[{Ma and Koenker(2006)}]{Ma2006}
+\textsc{Ma, L.} and \textsc{Koenker, R.} (2006). Quantile regression methods
+  for recursive structural equation models. \textit{Journal of Econometrics},
+  \textbf{134}~(2), 471--506.
 
 \bibitem[{Manski(1988)}]{Manski1988}
 \textsc{Manski, C.~F.} (1988). Ordinal utility models of decision making under
