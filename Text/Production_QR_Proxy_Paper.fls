@@ -215,9 +215,14 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/bbm/bbm5.tfm
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_Coefficient_Plot.png
-INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png
-INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png
-INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png
+INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Bias_MSE.tex
+INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Bias_MSE.tex
+INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/MSE_Plot.png
+INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/MSE_Plot.png
+INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/MSE_Plot.png
+INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Qdif_Plot.png
+INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Qdif_Plot.png
+INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Qdif_Plot.png
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex
 INPUT /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_31.png

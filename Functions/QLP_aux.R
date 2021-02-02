@@ -31,19 +31,13 @@ block.boot.resample <- function(idvar, R, seed){
   }
   return(new.indices)
 }
+##################################################################################################
+# Smoothing function Itilde() and its derviative Itilde'(); Vector input supported
+##################################################################################################
+Itilde.KS17 <- function(u) {  ifelse(u >= 1, 1, ifelse(u > -1, 1/2 + (105/64)*(u-(5/3)*u^3+(7/5)*u^5 -(3/7)*u^7), 0)) }
+Gfn <- function(v,h){      
+      Itilde.KS17(v/h)    
+    }
 ###########################################################################################################
 ###########################################################################################################
 ###########################################################################################################
-lprq <- function(Y, X, Z, h, m, k, tau){
-  xx <- apply(X, 2, function(x) seq(min(x), max(x), length=m))
-  bx <- xx[1,]
-  for (i in 1:m){
-    x1 <- do.call(cbind, lapply(1:k, function(k) sweep(X, MARGIN=2, xx[i,], `-`)^k))
-    hx <- sapply(1:k, function(k) h^k)
-    wx <- sweep(x2, MARGIN=2, hx, `/`)
-    r <- rq(Y, cbind(Z, x2), weights=wx, tau=tau)
-    bx[i] <- r$coef[2]
-  }
-  b <- mean(bx)
-  return(b)
-}

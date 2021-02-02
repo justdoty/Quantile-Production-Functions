@@ -163,7 +163,7 @@ Another alternative is to make use of valid instruments if they are available. T
 \begin{equation}
 P[y_{it}\leq Q(k_{it}, l_{it}, \tau)|k_{it}, l_{it}, p^{k}_{it}, p^{l}_{it}]=\tau.
 \end{equation}
-We do not use this procedure since input prices may not have enough variation across firms and exogeneity can be violated if they capture input quality differences as shown by \cite{Griliches1986}. However, we use this type of identification strategy in the first stage of our model without endogeneity.
+We do not use this procedure since input prices may not have enough variation across firms and exogeneity can be violated if they capture input quality differences as shown by \cite{Griliches1986}. However, we use this type of identification strategy without endogeneity in the first stage of our model.
 
 
 \section{A Random Coefficient Production Function} \label{ourmodel}
@@ -171,13 +171,15 @@ We specify a \textit{value-added} production function as a random coefficient mo
 \begin{equation} \label{pfrc}
     y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}
 \end{equation}
-A value-added specification in equation \eqref{pfrc} is non-trivial. Value-added production functions are common in the empirical literature, however the objects recovered from a value-added model such as the output elasticities and TFP can only be mapped to its gross-output counterpart under specific structural production functions. Since the production shock enters \eqref{pfrc} non-separably, it is difficult to recover gross-output objects from value-added due to the presence of ex-post shocks. Therefore, in our empirical application we interpret the elasticities and TFP with some caution.\\
+The variables in equation \eqref{pfrc} have the same interpretation as the ones we introduced in the LP model. In this specification we allow the output elasticities to be functionally dependent on the production shock $\eta_{it}$ while productivity $\omega_{it}$ still maintains its additive separability.\footnote{Productivity is only a location shifter of the conditional output distribution. We cannot allow $\omega_{it}=\omega_{it}(\eta_{it})$ since this would violate the scalar unobservability assumption of our proxy variable}
 
- One advantage of the value-added approach is that the rank of $\eta_{it}$ can now be interpreted as the rank of firm-size as measured by value-added which accounts for firm size from the value of output created through capital and labor. There may be other reasons to measure firm-size by other measures such as gross-output (sales) or employment which is sometimes refined as employee weighted average of number of employees \citep{Kumar1999}. The value-added approach also avoids the non-identification results of \cite{Gandhi2020}. We leave the connection between this value-added production function and its possibly underlying gross-output production function as future work. \\
+A value-added specification in equation \eqref{pfrc} is non-trivial. Value-added production functions are common in the empirical literature, however the objects recovered from a value-added model such as the output elasticities and TFP can only be mapped to its gross-output counterpart under special structural production functions such as Leontief value-added. Since the production shock $\eta_{it}$ enters \eqref{pfrc} non-separably, it is difficult to recover gross-output objects from value-added since the latter is composed of the additional error term. One consequence of a value-added model is that estimates of productivity may be more disperse than gross-output estimates which controls for material inputs. Therefore, in our empirical application we interpret the elasticities and productivity with some caution.
 
-The variables in equation \eqref{pfrc} have the same interpretation as the ones we introduced in the LP model. The only difference here is that we allow the output elasticities to be functionally dependent on the production shock $\eta_{it}$ while productivity still maintains its additive separability. \footnote{More specifically, productivity is only a location shifter of the conditional output distribution. We cannot allow $\omega_{it}=\omega_{it}(\eta_{it})$ since this would violate the scalar unobservability assumption of our proxy variable}
+ One advantage of the value-added model is that the rank of $\eta_{it}$ can be interpreted as the rank of firm-size measured by output net of material inputs. This way, we are able to measure firm-size by the value of the firm's contribution to output rather than the value of the units they sell. The value-added approach also avoids the non-identification results of \cite{Gandhi2020}. We leave the connection between this value-added production function and its possibly underlying gross-output production function as future work.
 
-A special case of \eqref{pfrc} is the location scale model,
+ An interesting question that follows from the firm-size interpretation is then what are the determinants of firm-size? In our model, we require that $\eta_{it}$ be independent of the firm's input choices. Controlling for productivity also controls for firm-size determinants such as managerial ability so variation in firm-size might be limited in our model. There is a large and historical literature on the determinants of firm-size. \cite{Kumar1999} survey some of the theories and test them using data. We offer a possible explanation below but we focus on whether there is heterogeneity in firm-size and its consequences. 
+
+A special case of \eqref{pfrc} is the location-scale model,
 
 \begin{equation} \label{locationscale}
     y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it})\eta_{it}
@@ -189,18 +191,20 @@ Q_{y_{it}}(\tau|\mathcal{I}_{it})=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\
 \end{equation}
 where $F^{-1}(\tau)$ is the quantile function of production shocks $\eta_{it}$.
 
-The formulation of \eqref{locationscale} is not new to the production function literature. The assumption that input choices can impact firm's production beyond the conditional mean has important consequences for firm's attitude towards production risk. A volume of literature that originated in the late 1970's challenged the standard stochastic specifications of production functions \citep{Just1978,Just1979} by considering a specification that allowed firm's inputs to both increase or decrease the marginal variability of final output. The most common application of those models are in the agricultural industry where the variance on the yield of harvested crops could be increased by adverse weather or decreased by pesticide usage. Since manufacturing businesses tend to operate in a more controlled environment, risk is less prevalent in these industries so the conditional variance of $\eta_{it}$ may be smaller. A general quantile model such as the one specified in \eqref{pfrc} can be seen as an extension of the higher-order moment estimation of risk initiated by \cite{Antle1983}. However, it can also be seen purely as an econometric specification issue as we are unaware of any tests that could distinguish between higher order moment production risk and misspecification. We choose the latter interpretation for our model. 
+The formulation of \eqref{locationscale} is not new to the production function literature. The idea that input choices can impact firm's production beyond the conditional mean has important consequences for firm's attitude towards production risk. A volume of literature that originated in the late 1970's challenged the standard stochastic specifications of production functions \citep{Just1978,Just1979} by considering a specification that allowed firm's inputs to both increase or decrease the marginal variability of final output. These models are commonly applied to studying the agricultural industry where the variance on the yield of harvested crops could be increased by adverse weather or decreased by pesticide usage. Since manufacturing businesses tend to operate in a more controlled environment, risk is less prevalent in these industries so the conditional variance of $\eta_{it}$ may be smaller.
 
 We note that under quantile preferences a firm who maximizes the $\tau$ level of utility of profits could explain heterogeneity in the output distribution. Unlike risk-neutral firms, firms could have a utility function that is represented by preferences of the firm manager(s) who decides the optimal expenditure on inputs. Different managers may have different preferences for risk. Quantile utility maximization is not a new concept. A short list of papers have considered quantile utility maximization such as \cite{Manski1988}, \cite{ROSTEK2009}, \cite{Chambers2007}, and \cite{Bhattacharya2009}. Dynamic input choices such as investment are much more difficult to solve using the quantile utility framework and the reader can refer to \cite{Castro2017} for a treatment of dynamic quantile utility models. As far as we know, the quantile utility framework has not been applied to firm decision problems and a more thorough treatment of such is outside the scope of this paper.
 
+A general quantile model such as the one specified in \eqref{pfrc} can be seen as an extension of the higher-order moment estimation of risk initiated by \cite{Antle1983}. However, it can also be seen purely as an econometric specification issue as we are unaware of any tests that could distinguish between higher order moment production risk and misspecification. We choose the latter interpretation for our model. 
+
 \subsection{Identification}
 \subsubsection{Production Function in \cite{Levinsohn2003}}
-Returning to our misspecification interpretation in Equation \eqref{pfrc}, we follow LP in the usual set of assumptions on timing of input choices and scalar unobservability.
+We follow LP in the usual set of assumptions on timing of input choices and scalar unobservability.
 
 \begin{assump} \label{qpfassume}
 ~
 \begin{enumerate}[label=(\alph*)]
-	\item The production function $y_{it}=f_{t}(k_{it}, l_{it}, \omega_{it}, \eta_{it})$ is strictly increasing in $\eta_{it}$
+	\item The production function $y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}$ is strictly increasing in $\eta_{it}$
 	\item The firm's information set at time $t$ includes current and past productivity shocks $\{\omega_{it}\}_{t=0}^{t}$, but does not include past productivity shocks $\{\omega_{it}\}_{t=t+1}^{\infty}$. $\eta_{it}$ is independent of $\mathcal{I}_{it}$
 	\item Firm's productivity shocks evolve according to a first-order Markov process
 	\begin{equation}
@@ -209,25 +213,24 @@ Returning to our misspecification interpretation in Equation \eqref{pfrc}, we fo
 	where the iid productivity innovations $\xi_{it}$ satisfy $\mathbbm{E}[\xi_{it}|\mathcal{I}_{it-1}]=0$
 	\item Firms accumulate capital according to
 	\begin{equation}
-	    K_{it}=\kappa_{t}(I_{it-1}, K_{it-1}).
+	    K_{it}=\kappa_{t}(K_{it-1}, I_{it-1}).
 	\end{equation}
 	where $K_{it-1}$ and $I_{it-1}$ denote previous period capital and investment
-	\item Firm's intermediate input demand function is given by $m_{it}=m_{t}(k_{it}, \omega_{it})$
-	\item The intermediate input demand function $m_{t}(k_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
+	\item Firm's intermediate input demand function is given by $m_{it}=m_{t}(k_{it}, \omega_{it})$ and is strictly increasing in $\omega_{it}$
 \end{enumerate}
 \end{assump}
 
-Given these Assumption \eqref{qpfassume}(e, f), we invert intermediate input demand $\omega_{it}=m^{-1}(k_{it}, m_{it})$ and substitute into the production function. We treat $m_{t}^{-1}$ as a nonparametric function $(k_{it}, m_{it})$. We then have:
+Given these Assumption \eqref{qpfassume}(e), we invert intermediate input demand $\omega_{it}=m^{-1}(k_{it}, m_{it})$ and substitute into the production function. We treat $m_{t}^{-1}$ as a nonparametric function $(k_{it}, m_{it})$. We then have:
 \begin{equation} \label{qpf1st}
 y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+m_{t}^{-1}(k_{it}, m_{it})=\beta_{l}(\eta_{it})l_{it}+\Phi(k_{it}, m_{it}, \eta_{it})
 \end{equation}
 
-Using Assumption \eqref{qpfassume}(a, b) we have the following identification condition for the first stage:
+Using Assumption \eqref{qpfassume}(a) and (b) we have the following identification condition for the first stage:
 \begin{equation} \label{1ststageident}
 	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau
 \end{equation}
 
-The equation in \eqref{qpf1st} is a semiparametric partially linear quantile regression model which can be consistently estimated using approaches proposed by \cite{Lee2003}, \cite{KOENKER1994}, or \cite{Chen2009}. We can then plug these estimates back into the production function and apply Assumption \eqref{qpfassume}(c) to obtain:
+The equation in \eqref{qpf1st} is a semi-parametric partially linear quantile regression model which can be consistently estimated using local polynomials \citep{Lee2003}, smoothing splines, \cite{KOENKER1994}, or by sieve minimum distance (SMD) \citep{Chen2009}. We can then plug these estimates back into the production function and apply Assumption \eqref{qpfassume}(c) to obtain:
 \begin{equation} \label{qpf2nd}
 y_{it}=\beta_{k}(\eta_{it})k_{it}+\hat{\beta}_{l}(\tau)l_{it}+g(\hat{\Phi}(k_{it-1}, m_{it-1}; \tau)-\beta_{k}(\eta_{it})k_{it-1})+\xi_{it}
 \end{equation}
@@ -388,12 +391,20 @@ Figure \ref{fig:simest} graphs the estimated coefficients for QLP and LP. The bl
 \label{LP_coefficient_plot}
 \end{figure}
 
+\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Bias_MSE.tex}
 
 \begin{figure}[ht]
 \centering
 \caption{Simulated precision of  QLP estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s. Dotted line is LP estimator.}
-\includegraphics[width=13cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/LP_MSE_Plot.png}
+\includegraphics[width=13cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/MSE_Plot.png}
 \label{fig:MSE}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\caption{Difference between QLP estimators and QR estimates of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s.}
+\includegraphics[width=13cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Qdif_Plot.png}
+\label{fig:QDIF}
 \end{figure}
 
 \newpage
