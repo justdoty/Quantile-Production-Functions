@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  2 FEB 2021 11:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  4 FEB 2021 00:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -699,12 +699,7 @@ ine 444.
 esearch/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAIC
 S_All.png>]
 (/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/US/Estimates/US_Beta_Estimates.tex
-Overfull \hbox (29.35756pt too wide) in paragraph at lines 6--27
- [][] 
- []
-
-)
+irical/US/Estimates/US_Beta_Estimates.tex)
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
 irical/US/Plots/TFP_Plot.png, id=538, 3011.25pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
@@ -795,12 +790,7 @@ uction_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png used on input
 [30 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Empirical/Chile/Plots/Coef_Plot_ISIC_381.png>]
 (/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Chile/Estimates/CHL_Beta_Estimates.tex
-Overfull \hbox (16.8867pt too wide) in paragraph at lines 6--27
- [][] 
- []
-
-)
+irical/Chile/Estimates/CHL_Beta_Estimates.tex)
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
 irical/Chile/Plots/TFP_Plot.png, id=603, 3011.25pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
@@ -895,13 +885,9 @@ put line 585.
 [37 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code
 /Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png>]
 (/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
-irical/Colombia/Estimates/COL_Beta_Estimates.tex
-Overfull \hbox (16.8867pt too wide) in paragraph at lines 6--27
- [][] 
- []
-
-) [38 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Co
-de/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png>]
+irical/Colombia/Estimates/COL_Beta_Estimates.tex) [38 </Users/justindoty/Docume
+nts/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coe
+f_Plot_ISIC_All.png>]
 </Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Emp
 irical/Colombia/Plots/TFP_Plot.png, id=670, 3011.25pt x 2409.0pt>
 File: /Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Cod
@@ -990,7 +976,7 @@ ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/loc
 al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local
 /texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 Output written on /Users/justindoty/Documents/Research/Dissertation/Production_
-QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf (46 pages, 5260277 bytes).
+QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf (46 pages, 5046428 bytes).
 PDF statistics:
  851 PDF objects out of 1000 (max. 8388607)
  721 compressed objects within 8 object streams

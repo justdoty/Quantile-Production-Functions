@@ -49,13 +49,13 @@ colnames(Bias_MSE) <- c('Tau', 'QLP_Bias_K', 'QLP_MSE_K', 'QLP_Bias_L', 'QLP_MSE
 DGP_labels <- array(NA, length(tau_table)*length(DGPs)); DGP_labels[seq(1, length(tau_table)*length(DGPs), by=length(tau_table))] <- c(1:length(DGPs))
 DGP_labels[is.na(DGP_labels)] <- ""
 #######################For Bias and MSE########################################
-Bias_MSE_table <- cbind(DGP_labels, Bias_MSE[rep(tau, length(DGPs))%in%tau_table, ])
-colnames(Bias_MSE_table) <- c("DGP", "$\\tau$","Bias", 'MSE', "Bias",'MSE',"Bias",'MSE', 'Bias', 'MSE')
-Bias_MSE_table <- xtable(Bias_MSE_table, digits=c(0,0,2,4,4,4,4,4,4,4,4), type="latex", caption="Bias and MSE")
-align(Bias_MSE_table) <- rep('c', 11)
+Bias_MSE_table <- cbind(DGP_labels, Bias_MSE[rep(tau, length(DGPs))%in%tau_table, 1:5])
+colnames(Bias_MSE_table) <- c("DGP", "$\\tau$","Bias", 'MSE', "Bias",'MSE')
+Bias_MSE_table <- xtable(Bias_MSE_table, digits=c(0,0,2,4,4,4,4), type="latex", caption="Bias and MSE")
+align(Bias_MSE_table) <- rep('c', 7)
 addtorow_Bias_MSE <- list()
 addtorow_Bias_MSE$pos <- list(-1)
-addtorow_Bias_MSE$command <- '\\hline\\hline & & \\multicolumn{4}{c}{QLP} & \\multicolumn{4}{c}{LP} \\\\ \\cmidrule(lr){3-6} \\cmidrule(lr){7-10} \\\\& & \\multicolumn{2}{c}{$\\beta_{k}$}  & \\multicolumn{2}{c}{$\\beta_{l}$} &\\multicolumn{2}{c}{$\\beta_{k}$} & \\multicolumn{2}{c}{$\\beta_{l}$}  \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
+addtorow_Bias_MSE$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital} & \\multicolumn{2}{c}{Labor} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6}'
 print(Bias_MSE_table, hline.after=c(0,nrow(Bias_MSE_table)), add.to.row=addtorow_Bias_MSE, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Bias_MSE.tex")
 ############################# Plots #############################################
 tau_box <- c(0.1, 0.25, 0.5, 0.75, 0.9)
