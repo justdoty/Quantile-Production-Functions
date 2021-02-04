@@ -1,4 +1,4 @@
-\begin{thebibliography}{52}
+\begin{thebibliography}{47}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -12,27 +12,16 @@
   Identification properties of recent production function estimators.
   \textit{Econometrica}, \textbf{83}~(6), 2411--2451.
 
-\bibitem[{Ackerberg \textit{et~al.}(2012)Ackerberg, Chen and
-  Hahn}]{Ackerberg2012}
-\textsc{---}, \textsc{Chen, X.} and \textsc{Hahn, J.} (2012). A practical
-  asymptotic variance estimator for two-step semiparametric estimators.
-  \textit{Review of Economics and Statistics}, \textbf{94}~(2), 481--498.
-
 \bibitem[{Ackerberg \textit{et~al.}(2014)Ackerberg, Chen, Hahn and
   Liao}]{Ackerberg2014}
-\textsc{---}, \textsc{---}, \textsc{---} and \textsc{Liao, Z.} (2014).
-  Asymptotic efficiency of semiparametric two-step {GMM}. \textit{The Review of
-  Economic Studies}, \textbf{81}~(3), 919--943.
-
-\bibitem[{Ai and Chen(2003)}]{Ai2003}
-\textsc{Ai, C.} and \textsc{Chen, X.} (2003). Efficient estimation of models
-  with conditional moment restrictions containing unknown functions.
-  \textit{Econometrica}, \textbf{71}~(6), 1795--1843.
+\textsc{---}, \textsc{Chen, X.}, \textsc{Hahn, J.} and \textsc{Liao, Z.}
+  (2014). Asymptotic efficiency of semiparametric two-step {GMM}. \textit{The
+  Review of Economic Studies}, \textbf{81}~(3), 919--943.
 
 \bibitem[{Ai and Chen(2012)}]{Ai2012}
-\textsc{---} and \textsc{---} (2012). The semiparametric efficiency bound for
-  models of sequential moment restrictions containing unknown functions.
-  \textit{Journal of Econometrics}, \textbf{170}~(2), 442--457.
+\textsc{Ai, C.} and \textsc{Chen, X.} (2012). The semiparametric efficiency
+  bound for models of sequential moment restrictions containing unknown
+  functions. \textit{Journal of Econometrics}, \textbf{170}~(2), 442--457.
 
 \bibitem[{Aigner \textit{et~al.}(1977)Aigner, Lovell and Schmidt}]{Aigner1977}
 \textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
@@ -73,12 +62,6 @@
 \textsc{Bhattacharya, D.} (2009). Inferring optimal peer assignment from
   experimental data. \textit{Journal of the American Statistical Association},
   \textbf{104}~(486), 486--500.
-
-\bibitem[{Cai \textit{et~al.}(2018)Cai, Chen and Fang}]{Cai2018}
-\textsc{Cai, Z.}, \textsc{Chen, L.} and \textsc{Fang, Y.} (2018). A
-  semiparametric quantile panel data model with an application to estimating
-  the growth effect of {FDI}. \textit{Journal of Econometrics},
-  \textbf{206}~(2), 531--553.
 
 \bibitem[{Canay(2011)}]{Canay2011}
 \textsc{Canay, I.~A.} (2011). A simple approach to quantile regression for
@@ -144,20 +127,14 @@
 \textsc{Griliches, Z.} and \textsc{Hausman, J.~A.} (1986). Errors in variables
   in panel data. \textit{Journal of Econometrics}, \textbf{31}~(1), 93--118.
 
-\bibitem[{Hausman \textit{et~al.}(2019)Hausman, Liu, Luo and
-  Palmer}]{Hausman2019}
-\textsc{Hausman, J.}, \textsc{Liu, H.}, \textsc{Luo, Y.} and \textsc{Palmer,
-  C.} (2019). \textit{Errors in the Dependent Variable of Quantile Regression
-  Models}. Tech. rep.
-
-\bibitem[{He(1997)}]{He1997}
-\textsc{He, X.} (1997). Quantile curves without crossing. \textit{The American
-  Statistician}, \textbf{51}~(2), 186.
-
 \bibitem[{Holmes and Mitchell(2008)}]{Holmes2008}
 \textsc{Holmes, T.~J.} and \textsc{Mitchell, M.~F.} (2008). A theory of factor
   allocation and plant size. \textit{The {RAND} Journal of Economics},
   \textbf{39}~(2), 329--351.
+
+\bibitem[{Horowitz(1998)}]{Horowitz1998}
+\textsc{Horowitz, J.~L.} (1998). Bootstrap methods for median regression
+  models. \textit{Econometrica}, \textbf{66}~(6), 1327.
 
 \bibitem[{Imbens and Newey(2009)}]{2009a}
 \textsc{Imbens} and \textsc{Newey} (2009). Identification and estimation of
@@ -241,16 +218,12 @@
   productivity in the telecommunications equipment industry.
   \textit{Econometrica}, \textbf{64}~(6), 1263.
 
-\bibitem[{Rosen(2012)}]{Rosen2012}
-\textsc{Rosen, A.~M.} (2012). Set identification via quantile restrictions in
-  short panels. \textit{Journal of Econometrics}, \textbf{166}~(1), 127--137.
-
 \bibitem[{Rostek(2009)}]{ROSTEK2009}
 \textsc{Rostek, M.} (2009). Quantile maximization in decision theory.
   \textit{The Review of Economic Studies}, \textbf{77}~(1), 339--371.
 
-\bibitem[{Schennach(2014)}]{2014a}
-\textsc{Schennach, S.} (2014). Entropic latent variable integration via
-  simulation. \textit{Econometrica}, \textbf{82}~(1), 345--385.
+\bibitem[{Whang(2006)}]{Whang2006}
+\textsc{Whang, Y.-J.} (2006). Smoothed empirical likelihood methods for
+  quantile regression models. \textit{Econometric Theory}, \textbf{22}~(02).
 
 \end{thebibliography}
