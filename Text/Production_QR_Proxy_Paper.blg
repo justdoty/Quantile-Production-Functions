@@ -15,7 +15,7 @@ while executing---line 1647 of file ecca.bst.bst
 Warning--missing institution in Kumar1999
 You've used 47 entries,
             3231 wiz_defined-function locations,
-            981 strings with 11606 characters,
+            981 strings with 11574 characters,
 and the built_in function-call counts, 36716 in all, are:
 = -- 3053
 > -- 2118

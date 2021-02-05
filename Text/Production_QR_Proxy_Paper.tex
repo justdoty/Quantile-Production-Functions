@@ -139,11 +139,11 @@ Then, the production function parameters can be estimated from the moment restri
 \begin{equation}
 \begin{split}
 \mathbb{E}[\xi_{it}+\eta_{it}|\mathcal{I}_{it-1}]&=\\
-\mathbb{E}[&\tilde{y}_{it}-\beta_{k}k_{it}\\
+\mathbb{E}[&\hat{y}_{it}-\beta_{k}k_{it}\\
 &-g(\hat{\Phi}_{t-1}(k_{it-1}, m_{it-1})-\beta_{k}k_{it-1})|\mathcal{I}_{it-1}]=0,
 \end{split}
 \end{equation}
-where $\tilde{y}_{it}=y_{it}-\hat{\beta}_{l}l_{it}$ and $\hat{\Phi}$ denotes estimates from the first stage. LP proceed by using instruments from $\mathcal{I}_{it-1}$ and minimize a Generalized Method of Moments (GMM) criterion function. Standard errors are obtained using a bootstrap procedure since the two-step nature of this estimator complicates asymptotic inference.
+where $\hat{y}_{it}=y_{it}-\hat{\beta}_{l}l_{it}$ and $\hat{\Phi}$ denotes estimates from the first stage. LP proceed by using instruments from $\mathcal{I}_{it-1}$ and minimize a Generalized Method of Moments (GMM) criterion function. Standard errors are obtained using a bootstrap procedure since the two-step nature of this estimator complicates asymptotic inference.
 
 
 \subsection{Production Functions and Quantile Regression}
@@ -171,13 +171,12 @@ We specify a \textit{value-added} production function as a random coefficient mo
 \begin{equation} \label{pfrc}
     y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}
 \end{equation}
-The variables in equation \eqref{pfrc} have the same interpretation as the ones we introduced in the LP model. In this specification we allow the output elasticities to be functionally dependent on the production shock $\eta_{it}$ while productivity $\omega_{it}$ still maintains its additive separability.\footnote{Productivity is only a location shifter of the conditional output distribution. We cannot allow $\omega_{it}=\omega_{it}(\eta_{it})$ since this would violate the scalar unobservability assumption of our proxy variable}
-
+The variables in equation \eqref{pfrc} have the same interpretation as the ones we introduced in the LP model. In this specification we allow the output elasticities to be functionally dependent on the production shock $\eta_{it}$ while productivity $\omega_{it}$ still maintains its additive separability.
 A value-added specification in equation \eqref{pfrc} is non-trivial. Value-added production functions are common in the empirical literature, however the objects recovered from a value-added model such as the output elasticities and TFP can only be mapped to its gross-output counterpart under special structural production functions such as Leontief value-added. Since the production shock $\eta_{it}$ enters \eqref{pfrc} non-separably, it is difficult to recover gross-output objects from value-added since the latter is composed of the additional error term. One consequence of a value-added model is that estimates of productivity may be more disperse than gross-output estimates which controls for material inputs. Therefore, in our empirical application we interpret the elasticities and productivity with some caution.
 
  One advantage of the value-added model is that the rank of $\eta_{it}$ can be interpreted as the rank of firm-size measured by output net of material inputs. This way, we are able to measure firm-size by the value of the firm's contribution to output rather than the value of the units they sell. The value-added approach also avoids the non-identification results of \cite{Gandhi2020}. We leave the connection between this value-added production function and its possibly underlying gross-output production function as future research agenda.
 
- An interesting question that follows from the firm-size interpretation is then what are the determinants of firm-size? In our model, we require that $\eta_{it}$ be independent of the firm's input choices. Controlling for productivity also controls for firm-size determinants such as managerial ability so variation in firm-size might be limited in our model. There is a large and historical literature on the determinants of firm-size. \cite{Kumar1999} survey some of the theories and test them using data. We offer a possible explanation below but we focus on whether there is heterogeneity in firm-size and its consequences. 
+ An interesting question that follows from the firm-size interpretation is then what are the determinants of firm-size? Controlling for productivity also controls for firm-size determinants such as managerial ability so variation in firm-size might be limited in our model. There is a large and historical literature on the determinants of firm-size. \cite{Kumar1999} survey some of the theories and test them using data. We offer a possible explanation below, but we focus on whether there is heterogeneity in firm-size and its consequences. 
 
 A special case of \eqref{pfrc} is the location-scale model,
 
@@ -206,11 +205,11 @@ We follow LP in the usual set of assumptions on timing of input choices and scal
 \begin{enumerate}[label=(\alph*)]
 	\item The production function $y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}$ is strictly increasing in $\eta_{it}$
 	\item The firm's information set at time $t$ includes current and past productivity shocks $\{\omega_{it}\}_{t=0}^{t}$, but does not include past productivity shocks $\{\omega_{it}\}_{t=t+1}^{\infty}$. $\eta_{it}$ is independent of $\mathcal{I}_{it}$
-	\item Firm's productivity shocks evolve according to a first-order Markov process
+	\item Firm's productivity shocks evolve exogenously according to a first-order Markov process
 	\begin{equation}
 	\omega_{it}=g(\omega_{it-1})+\xi_{it}
 	\end{equation}
-	where the iid productivity innovations $\xi_{it}$ satisfy $\mathbbm{E}[\xi_{it}|\mathcal{I}_{it-1}]=0$
+	where the iid productivity innovations $\xi_{it}$ satisfy $\mathbbm{E}[\xi_{it}|\mathcal{I}_{it-1}]=0$ and $P[\xi_{it}\leq G^{-1}(\tau_{\xi})|\mathcal{I}_{it-1}]=\tau_{\xi}$, where $G(\cdot)$ is the CDF of $\xi_{it}$
 	\item Firms accumulate capital according to
 	\begin{equation}
 	    K_{it}=\kappa_{t}(K_{it-1}, I_{it-1}).
@@ -227,104 +226,108 @@ y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+m_{t}^{-1}(k_{it}, 
 
 Using Assumption \eqref{qpfassume}(a) and (b) we have the following identification condition for the first stage:
 \begin{equation} \label{1ststageident}
-	P\big(y_{it}\leq \beta_{l}(\tau_{\eta})l_{it}+\Phi(k_{it}, m_{it}; \tau_{\eta})\big|\mathcal{I}_{it})=\tau_{\eta},
+	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau,
 \end{equation}
 
-The equation in \eqref{qpf1st} is a semi-parametric partially linear quantile regression model which can be consistently estimated using local polynomials \citep{Lee2003}, smoothing splines, \cite{KOENKER1994}, or by sieve minimum distance (SMD) \citep{Chen2009}. Let $\hat{y}_{it}=y_{it}-\beta_{l}(\tau_{\eta})l_{it}$ denote output net of the estimated labor contribution. In the second stage we have
+Here we make a distinction between $\tau$ (rank of ex-post shock) and $\tau_{\xi}$ (rank of innovation shock to productivity) since there are multiple unobservables in our model. The equation in \eqref{qpf1st} is a semi-parametric partially linear quantile regression model which can be consistently estimated using local polynomials \citep{Lee2003}, smoothing splines, \cite{KOENKER1994}, or by sieve minimum distance (SMD) \citep{Chen2009}. Let $\hat{y}_{it}=y_{it}-\hat{\beta}_{l}(\tau)l_{it}$ denote output net of the estimated labor contribution. In the second stage we have
 \begin{equation} \label{qpf2nd}
 \hat{y}_{it}=\beta_{k}(\eta_{it})k_{it}+\omega_{it}
 \end{equation}
 The conditional quantile of equation \eqref{qpf2nd} can be obtained by replacing $\omega_{it}$ by its conditional quantile in an iterated approach:
 \begin{equation}\label{iteratedq}
-Q_{y_{it}|\mathcal{I}_{it-1}}(\tau_{\eta}, k_{it}, Q_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1}))=\beta_{k}(\tau_{\eta})k_{it}+Q_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1}),
+Q_{y_{it}|\mathcal{I}_{it-1}}(\tau, k_{it}, Q_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1}))=\beta_{k}(\tau)k_{it}+Q_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1}),
 \end{equation}
-where we have used the assumption of exogeneity of the Markov process for productivity $Q_{\omega_{it}|\mathcal{I}_{it-1}}=Q_{\omega_{it}|\omega_{it-1}}$. In our model, productivity can be written as a function of first stage estimates and the capital elasticity
+where we have used the assumption of exogeneity of the Markov process for productivity $Q_{\omega_{it}|\mathcal{I}_{it-1}}=Q_{\omega_{it}|\omega_{it-1}}$. The conditional quantiles of productivity according to the model we specify in Assumption \eqref{qpfassume}(c) is given by
+\begin{equation}
+Q_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1})=g(\omega_{it-1})+G^{-1}(\tau_{\xi})
+\end{equation}
+In our model, productivity can be written as a function of first stage estimates and the capital elasticity
 \begin{equation}\label{omegaeta}
 \begin{split}
 \omega_{it}&=\Phi(k_{it}, m_{it}, \eta_{it})-\beta_{k}(\eta_{it})k_{it}=\mathbmm{E}[\omega_{it}|\omega_{it-1}, \eta_{it-1}]+\xi_{it}\\
 &=g(\Phi(k_{it-1}, m_{it-1}, \eta_{it-1})-\beta_{k}(\eta_{it-1})k_{it-1})+\xi_{it}
 \end{split}
 \end{equation}
-since $\eta_{it}$ enters the productivity equation in a complicated way, we proceed to integrate equation \eqref{omegaeta} with respect to the marginal distribution of $\eta_{it}$. Using the law of iterated expectations then yields
+The production shock $\eta_{it}$ enters the productivity equation in a complicated way, we proceed to integrate equation \eqref{omegaeta} with respect to the marginal distribution of $\eta_{it}$. Using the law of iterated expectations then yields
 \begin{equation}
 \omega_{it}&=\bar{\Phi}(k_{it}, m_{it})-\bar{\beta}_{k}k_{it}=g(\bar{\Phi}(k_{it-1}, m_{it-1})-\bar{\beta_{k}}k_{it-1})+\xi_{it},
 \end{equation}
-where $\bar{\Phi}(k_{it}, m_{it})=\int_{0}^{1}\Phi(k_{it}, m_{it}, \tau_{\eta})d\tau_{\eta}$ and $\bar{\beta}_{k}=\int_{0}^{1}\beta_{k}(\tau_{\eta})d\tau_{\eta}$. These objects are identified by the conditional mean counterparts of our random coefficient model
+where $\bar{\Phi}(k_{it}, m_{it})=\int_{0}^{1}\Phi(k_{it}, m_{it}, \tau)d\tau$ and $\bar{\beta}_{k}=\int_{0}^{1}\beta_{k}(\tau)d\tau$. These objects are identified by the conditional mean counterparts of our random coefficient model
 \begin{equation}\label{mean1}
 \mathbbm{E}[y_{it}|\mathcal{I}_{it}]=\mathbbm{E}[\beta_{l}(\eta_{it})l_{it}+\Phi(k_{it}, m_{it}, \eta_{it})|\mathcal{I}_{it}]=\bar{\beta}_{l}l_{it}+\bar{\Phi}(k_{it}, m_{it})
 \end{equation}
 and in the second stage
 \begin{equation}\label{mean2}
 \begin{split}
-\mathbbm{E}[\hat{y}_{it}|\mathcal{I}_{it-1}]&=\mathbbm{E}[\beta_{k}(\eta_{it})k_{it}+g(\Phi(k_{it-1}, m_{it-1}, \eta_{it-1})-\beta_{k}(\eta_{it})k_{it-1})+\xi_{it}]\\
+\mathbbm{E}[\hat{y}_{it}|\mathcal{I}_{it-1}]&=\mathbbm{E}[\beta_{k}(\eta_{it})k_{it}+g(\Phi(k_{it-1}, m_{it-1}, \eta_{it-1})-\beta_{k}(\eta_{it-1})k_{it-1})+\xi_{it}]\\
 &=\bar{\beta}_{k}k_{it}+g(\bar{\Phi}(k_{it-1}, m_{it-1})-\bar{\beta_{k}}k_{it-1})
 \end{split}
 \end{equation}
-which identifies $\bar{\beta}_{k}$ and $g(\cdot)$. The conditional mean conditions in this model are used to identify $\bar{\Phi}$ and $\bar{\beta}_{k}$ similar to the LP identification strategy. To identify $G^{-1}(\tau_{\omega})$ we use
+which identifies $\bar{\beta}_{k}$ and $g(\cdot)$. The conditional mean conditions in this model are used to identify $\bar{\Phi}$ and $\bar{\beta}_{k}$ similar to the LP identification strategy. To identify $G^{-1}(\tau_{\xi})$ we use
 \begin{equation}\label{qxi}
-P(\xi_{it}\leq G^{-1}(\tau_{\omega})|\mathcal{I}_{it-1})=P(\xi_{it}\leq G^{-1}(\tau_{\omega}))=\tau_{\omega}
+P(\xi_{it}\leq G^{-1}(\tau_{\xi})|\mathcal{I}_{it-1})=P(\xi_{it}\leq G^{-1}(\tau_{\xi}))=\tau_{\xi}
 \end{equation}
-therefore the conditional quantile $ Q_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1}))$ is identified from \eqref{mean1}, \eqref{mean2} and \eqref{qxi}. Returning to the second stage quantile condition in our model,
+from Assumption \eqref{qpfassume}(c). Therefore the conditional quantile $ Q_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1}))$ is identified from \eqref{mean1}, \eqref{mean2} and \eqref{qxi}. Let $\hat{Q}_{\omega_{it}|\omega_{it-1}}$ denote a consistent estimator of this function. Plugging this into to the second stage conditional quantile in our model yields
 \begin{equation*}
-Q_{y_{it}|\mathcal{I}_{it-1}}(\tau_{\eta}, k_{it}, Q_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1}))=\beta_{k}(\tau_{\eta})k_{it}+\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1}),
+Q_{y_{it}|\mathcal{I}_{it-1}}(\tau, k_{it}, Q_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1}))=\beta_{k}(\tau)k_{it}+\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1}),
 \end{equation*}
-Let $\tilde{y}_{it}=\hat{y}_{it}-\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1})$. Using the conditional moment representation of the above equation we have
+Let $\tilde{y}_{it}=\hat{y}_{it}-\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1})$. Using the conditional moment representation of the above equation we have
 \begin{equation}
-\mathbbm{E}[\Psi_{\tau_{\eta}}(\tilde{y}_{it}-\beta_{k}(\tau_{\eta})k_{it})|\mathcal{I}_{it-1}]=0
+\mathbbm{E}[\Psi_{\tau}(\tilde{y}_{it}-\beta_{k}(\tau)k_{it})|\mathcal{I}_{it-1}]=0
 \end{equation}
-where $\Psi_{\tau_{\eta}}(u)=\tau-\mathbbm{1}\{u<0\}$. The unconditional moments are then
+where $\Psi_{\tau}(u)=\tau-\mathbbm{1}\{u<0\}$. The unconditional moments are then
 \begin{equation}\label{capitalident}
-\mathbbm{E}[Z_{it}\Psi_{\tau_{\eta}}(\tilde{y}_{it}-\beta_{k}(\tau_{\eta})k_{it})]=0
+\mathbbm{E}[Z_{it}\Psi_{\tau}(\tilde{y}_{it}-\beta_{k}(\tau)k_{it})]=0
 \end{equation}
-where $Z_{it}$ is a subset of instrumental variables from $\mathcal{I}_{it-1}$. When $Z_{it}=k_{it}$, equation \eqref{capitalident} is the first-order condition of the quantile regression estimator of $\beta_{k}(\tau_{\eta})$. Over-identification conditions can be pursued, which require additional assumptions from the IVQR literature. For example, \cite{Chernozhukov2005} give strong conditions for global identification of their model using the global version of a full rank assumption. We rely on a much weaker full rank condition that is sufficient for local identification of $\beta_{k}(\tau_{\eta})$ provided by \cite{qgmm}.
+where $Z_{it}$ is a subset of instrumental variables from $\mathcal{I}_{it-1}$. When $Z_{it}=k_{it}$, equation \eqref{capitalident} is the first-order condition of the quantile regression estimator of $\beta_{k}(\tau)$. Over-identification conditions can be pursued, which require additional assumptions from the IVQR literature. For example, \cite{Chernozhukov2005} give strong conditions for global identification of their model using the global version of a full rank assumption. We rely on a much weaker full rank condition that is sufficient for local identification of $\beta_{k}(\tau)$ provided by \cite{qgmm}.
 
 \subsubsection{Production Function in \cite{Ackerberg2015}}
 In the \cite{Ackerberg2015} setting, the intermediate input demand $m_{it}=m_{t}(k_{it}, l_{it}, \omega_{it})$ is conditional on the labor input. This allows a more flexible timing assumption on when labor is chosen by the firm relative to the other inputs. Labor can have dynamic implications and be partially or fully realized before productivity $\omega_{it}$. In this setting, the labor elasticity $\beta_{l}$ cannot be identified in the first stage as in the LP approach. The first stage equation is then:
 \begin{equation}\label{acf1}
 y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+m_{t}^{-1}(k_{it}, l_{it}, m_{it})=\Phi(k_{it}, l_{it}, m_{it}, \eta_{it}),
 \end{equation}
-where we have used monotonicity of the intermediate input demand function in $\omega_{it}$ to control for unobserved productivity. The nonparametric function $\Phi(\cdot;\tau_{\eta})$ can be identified using Assumption \eqref{qpfassume} (a) and (b)
+where we have used monotonicity of the intermediate input demand function in $\omega_{it}$ to control for unobserved productivity. The nonparametric function $\Phi(\cdot;\tau)$ can be identified using Assumption \eqref{qpfassume} (a) and (b)
 \begin{equation} \label{acfqpf1}
-P\big(y_{it}\leq \Phi(k_{it}, l_{it}, m_{it}; \tau_{\eta})\big|\mathcal{I}_{it})=\tau_{\eta}
+P\big(y_{it}\leq \Phi(k_{it}, l_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau
 \end{equation}
-which suggests that the functional $\Phi(\cdot, \tau_{\eta})$ can be estimated by nonparametric quantile methods such local linear or polynomial regression \citep{Chaudhuri1991,Chaudhuri1991a}, smoothing splines \citep{KOENKER1994}, or more general sieve based estimation \citep{2012a}. However, in the productivity equation we specify and average over, suggests that estimation of $\Phi(\cdot, \tau)$ is not actually needed, instead we would use
+so that that the functional $\Phi(\cdot, \tau)$ can be estimated by nonparametric quantile methods such local linear or polynomial regression \citep{Chaudhuri1991,Chaudhuri1991a}, smoothing splines \citep{KOENKER1994}, or more general sieve based estimation \citep{2012a}. However, since we use a conditional mean version of $\Phi$ to estimate productivity it would suggest that estimation of $\Phi(\cdot, \tau)$ is not actually needed, instead we would use
 \begin{equation}\label{ACFmean1}
 \mathbbm{E}[y_{it}|\mathcal{I}_{it}]=\mathbbm{E}[\Phi(k_{it}, l_{it}, m_{it}, \eta_{it})|\mathcal{I}_{it}]=\bar{\Phi}(k_{it}, l_{it}, m_{it})
 \end{equation}
 and in the second stage
 \begin{equation}\label{ACFmean2}
 \begin{split}
-\mathbbm{E}[y_{it}|\mathcal{I}_{it-1}]&=\mathbbm{E}[\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+g(\Phi(k_{it-1}, l_{it-1}, m_{it-1}, \eta_{it-1})-\beta_{k}(\eta_{it})k_{it-1}-\beta_{l}(\eta_{it})l_{it-1})+\xi_{it}]\\
+\mathbbm{E}[y_{it}|\mathcal{I}_{it-1}]&=\mathbbm{E}[\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+g(\Phi(k_{it-1}, l_{it-1}, m_{it-1}, \eta_{it-1})-\beta_{k}(\eta_{it-1})k_{it-1}-\beta_{l}(\eta_{it-1})l_{it-1})+\xi_{it}]\\
 &=\bar{\beta}_{k}k_{it}+\bar{\beta}_{l}l_{it}+g(\bar{\Phi}(k_{it-1}, l_{it-1}, m_{it-1})-\bar{\beta_{k}}k_{it-1}-\bar{\beta_{l}}l_{it-1}),
 \end{split}
 \end{equation}
-which identifies $\bar{\beta}_{l}, \bar{\beta}_{k}$ and $g(\cdot)$. The same identification strategy for $G^{-1}(\tau_{\omega})$ is given by equation \eqref{qxi}. The second stage quantile condition is then
+which identifies $\bar{\beta}_{l}, \bar{\beta}_{k}$ and $g(\cdot)$. The same identification strategy for $G^{-1}(\tau_{\xi})$ is given by equation \eqref{qxi}. The second stage conditional quantile is then
 \begin{equation*}
-Q_{y_{it}|\mathcal{I}_{it-1}}(\tau_{\eta}, k_{it}, l_{it}, Q_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1}))=\beta_{k}(\tau_{\eta})k_{it}+\beta_{l}(\tau_{\eta})l_{it}+\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1}),
+Q_{y_{it}|\mathcal{I}_{it-1}}(\tau, k_{it}, l_{it}, Q_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1}))=\beta_{k}(\tau)k_{it}+\beta_{l}(\tau)l_{it}+\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1}),
 \end{equation*}
-Let $\hat{y}_{it}=y_{it}-\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1})$. Using the conditional moment representation of the above equation we have
+Let $\hat{y}_{it}=y_{it}-\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1})$. Using the conditional moment representation of the above equation we have
 \begin{equation}
-\mathbbm{E}[\Psi_{\tau_{\eta}}(\hat{y}_{it}-\beta_{k}(\tau_{\eta})k_{it}-\beta_{l}(\tau_{\eta})l_{it})|\mathcal{I}_{it-1}]=0
+\mathbbm{E}[\Psi_{\tau}(\hat{y}_{it}-\beta_{k}(\tau)k_{it}-\beta_{l}(\tau)l_{it})|\mathcal{I}_{it-1}]=0
 \end{equation}
 The unconditional moments are then
-\begin{equation}\label{capitalident}
-\mathbbm{E}[Z_{it}\Psi_{\tau_{\eta}}(\hat{y}_{it}-\beta_{k}(\tau_{\eta})k_{it}-\beta_{l}(\tau_{\eta})l_{it})]=0
+\begin{equation}
+\mathbbm{E}[Z_{it}\Psi_{\tau}(\hat{y}_{it}-\beta_{k}(\tau)k_{it}-\beta_{l}(\tau)l_{it})]=0
 \end{equation}
 
 \subsection{Estimation}
-We discuss how to estimate the LP production function in two stages. We omit estimation steps for the ACF production function since they are similar to the LP strategy minus the first step estimator. 
+We abbreviate our estimator as QLP since it is the quantile version of the LP method. We use a similar meaning for the abbreviation QACF. We discuss how to estimate the QLP production function in two stages. We omit the estimation steps for the QACF production function since they are similar to the QLP strategy minus the first step estimator.
 \subsubsection*{First Stage}
 Recall, in the first stage we have the identification condition
 \begin{equation} 
-	P\big(y_{it}\leq \beta_{l}(\tau_{\eta})l_{it}+\Phi(k_{it}, m_{it}; \tau_{\eta})\big|\mathcal{I}_{it})=\tau_{\eta}
+	P\big(y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\big|\mathcal{I}_{it})=\tau
 \end{equation}
 which yields
 \begin{equation} 
-	\mathbbm{E}\big[\mathbbm{1}\{y_{it}\leq \beta_{l}(\tau_{\eta})l_{it}+\Phi(k_{it}, m_{it}; \tau_{\eta})\}-\tau_{\eta}\big|\mathcal{I}_{it}]=0
+	\mathbbm{E}\big[\mathbbm{1}\{y_{it}\leq \beta_{l}(\tau)l_{it}+\Phi(k_{it}, m_{it}; \tau)\}-\tau\big|\mathcal{I}_{it}]=0
 \end{equation}
-Similar to \cite{Olley1996}, $\Phi(\cdot;\tau_{\eta})$ can be approximated by a flexible polynomial so that estimates $\hat{\beta_{l}}(\tau_{\eta})$ and $\hat{\Phi}(\cdot;\tau_{\eta})$ can be obtained from a polynomial quantile regression. A more complete model of $\Phi(\cdot;\tau_{\eta})$ can be obtained using a finite-dimensional sieve and estimated using a minimum distance criterion function. We briefly review this approach.\\
+Similar to \cite{Olley1996}, $\Phi(\cdot;\tau)$ can be approximated by a flexible polynomial so that estimates $\hat{\beta_{l}}(\tau)$ and $\hat{\Phi}(\cdot;\tau)$ can be obtained from a polynomial quantile regression. A more complete model of $\Phi(\cdot;\tau)$ can be obtained using a finite-dimensional sieve and estimated using a minimum distance criterion function. We briefly review this approach.\\
 
-To fix notation, let $x_{it}=(k_{it}, m_{it})$ denote the variables in the nonparametric function, $\Phi$. Let $\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi(x_{it}))=\mathbbm{1}\{y_{it}-\beta_{l}(\tau_{\eta})l_{it}-\Phi(x_{it})\leq 0\}-\tau_{\eta}$. Rephrasing our first stage identification condition as 
+To fix notation, let $x_{it}=(k_{it}, m_{it})$ denote the variables in the nonparametric function, $\Phi$. Let $\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi(x_{it}))=\mathbbm{1}\{y_{it}-\beta_{l}(\tau)l_{it}-\Phi(x_{it})\leq 0\}-\tau$. Rephrasing our first stage identification condition as 
 \begin{equation} \label{residual}
 \mathbbm{E}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi(x_{it}))|\mathcal{I}_{it}]=0
 \end{equation}
@@ -332,24 +335,24 @@ we can see that this resembles the semiparametric moment conditions studied by \
 \begin{equation}
 (\hat{\beta}_{l}, \hat{\Phi})=\underset{\alpha\in(\Theta\times \mathcal{H}_{k(n)})}{\operatorname{argmin}}\sum_{i=1}^{N}\sum_{t=1}^{T}\hat{\mathbbm{E}}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]^{'}\hat{\Sigma}_{1}^{-1}\hat{\mathbbm{E}}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]
 \end{equation}
-where $\Theta\subset \mathbbm{R}$ with $\beta_{l}\in\Theta$ and $\{\mathcal{H}_{k(n)}: k(n)=1,2,\dots\}$ is a sequence of approximating finite dimensional linear sieve spaces which becomes dense as $k(n)\rightarrow \infty$. In practice one could use a tensor-product linear sieve basis function such as B-splines or polynomials. $\hat{\mathbbm{E}}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]$ and $\hat{\Sigma}_{1}$ are nonparametric estimators of $\mathbbm{E}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]$ and $\Sigma_{1}$ which can be obtained using series LS estimator and $\hat{\Sigma}_{1}=\tau_{\eta}(1-\tau_{\eta})$. In our simulation study and empirical application we use a 3rd order polynomial with interactions and estimate the first stage parameters using simple weighted linear quantile regression.
+where $\Theta\subset \mathbbm{R}$ with $\beta_{l}\in\Theta$ and $\{\mathcal{H}_{k(n)}: k(n)=1,2,\dots\}$ is a sequence of approximating finite dimensional linear sieve spaces which becomes dense as $k(n)\rightarrow \infty$. In practice one could use a tensor-product linear sieve basis function such as B-splines or polynomials. $\hat{\mathbbm{E}}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]$ and $\hat{\Sigma}_{1}$ are nonparametric estimators of $\mathbbm{E}[\Lambda_{1}(y_{it}, l_{it}; \beta_{l}, \Phi)|\mathcal{I}_{it}]$ and $\Sigma_{1}$ which can be obtained using series LS estimator and $\hat{\Sigma}_{1}=\tau(1-\tau)$. In our empirical application we use a 3rd order polynomial with interactions and estimate the first stage parameters using simple weighted linear quantile regression.
 
 \subsubsection*{Second Stage}
-Once estimates of $\beta_{l}(\tau_{\eta})$ are obtained construct the new response variable as output net of the labor contribution $\hat{y}_{it}=y_{it}-\hat{\beta}_{l}(\tau_{\eta})l_{it}$. Estimates of the conditional mean counterparts of $\Phi(k_{it}, l_{it}, \eta_{it})$ and $\beta_{k}(\eta_{it})$, $\bar{\Phi}(k_{it}, l_{it})$, $\bar{\beta}_{k}$ and $g(\cdot)$ can be obtained using the LP estimator described in Section \ref{litreview}. Then estimates of $G^{-1}(\tau_{\omega})$ can be obtained from the sample $\tau_{\omega}$-th quantiles of $\hat{\xi_{it}}=\omega_{it}-\hat{g}(\omega_{it-1})$. In practice, the choice of $\tau_{\omega}$ does not matter for estimation of $\beta_{k}(\tau_{\eta})$ so we choose $\tau_{\omega}=0.5$ for every $\tau_{\eta}$. Then the estimates for the conditional quantiles of productivity are given by $\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\omega}, \omega_{it-1})=\hat{g}(\hat{\bar{\Phi}}(k_{it-1}, m_{it-1})-\hat{\bar{\beta}}_{k}k_{it-1})+\hat{G}^{-1}(\tau_{\omega})$ which is subtracted from $\hat{y}_{it}$ which is denoted by $\tilde{y}_{it}$.
+Once estimates of $\beta_{l}(\tau)$ are obtained, construct the new response variable as output net of the labor contribution $\hat{y}_{it}=y_{it}-\hat{\beta}_{l}(\tau)l_{it}$. Estimates of the conditional mean counterparts of $\Phi(k_{it}, l_{it}, \eta_{it})$ and $\beta_{k}(\eta_{it})$, $\bar{\Phi}(k_{it}, l_{it})$, $\bar{\beta}_{k}$ and $g(\cdot)$ can be obtained using the LP estimator described in Section \ref{litreview}. Then estimates of $G^{-1}(\tau_{\xi})$ can be obtained from the sample $\tau_{\xi}$-th quantiles of $\hat{\xi_{it}}=\omega_{it}-\hat{g}(\omega_{it-1})$. In practice, the choice of $\tau_{\xi}$ does not matter for estimation of $\beta_{k}(\tau)$ so we choose $\tau_{\xi}=0.5$ for every $\tau$. Then the estimates for the conditional quantiles of productivity are given by $\hat{Q}_{\omega_{it}|\omega_{it-1}}(\tau_{\xi}, \omega_{it-1})=\hat{g}(\hat{\bar{\Phi}}(k_{it-1}, m_{it-1})-\hat{\bar{\beta}}_{k}k_{it-1})+\hat{G}^{-1}(\tau_{\xi})$ which is subtracted from $\hat{y}_{it}$ to obtain $\tilde{y}_{it}$.
 
-Estimation of $\beta_{k}(\tau_{\eta})$ using the sample moments corresponding to equation \eqref{capitalident} is infeasible due to the indication function inside $\Psi_{\tau_{\eta}}$. Therefore we smooth this function using the method of \cite{Kaplan2016} and consider over-identification conditions using a GMM criterion function from \cite{qgmm}. The smoothed sample moments are then given by
+Estimation of $\beta_{k}(\tau)$ using the sample moments corresponding to equation \eqref{capitalident} is infeasible due to the indicator function inside $\Psi_{\tau}$. Therefore we smooth this function using the method of \cite{Kaplan2016} and consider over-identification conditions using a GMM criterion function from \cite{qgmm}. The smoothed sample moments are then given by
 \begin{equation}
-\hat{M}(\beta_{k}(\tau_{\eta}))=\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}Z_{it}\Bigg[\tilde{\Psi}_{\tau_{\eta}}\Bigg(\frac{\tilde{y}_{it}-\beta_{k}(\tau_{\eta})k_{it}}{h_{n}}\Bigg)\Bigg]
+\hat{M}(\beta_{k}(\tau))=\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}Z_{it}\Bigg[\tilde{\Psi}_{\tau}\Bigg(\frac{\tilde{y}_{it}-\beta_{k}(\tau)k_{it}}{h_{n}}\Bigg)\Bigg]
 \end{equation}
-where $h_{n}$ is a bandwidth sequence and $\tilde{\Psi}_{\tau_{\eta}}(u)=\tau-\tilde{\mathbbm{1}}\{u<0\}$ is a smoothed version of $\Psi_{\tau_{\eta}}(u)$. A version of the smoothed indicator function has been used by \cite{Horowitz1998}, \cite{Whang2006}, and \cite{Kaplan2016} which is given by
+where $h_{n}$ is a bandwidth sequence and $\tilde{\Psi}_{\tau}(u)=\tau-\tilde{\mathbbm{1}}\{u<0\}$ is a smoothed version of $\Psi_{\tau}(u)$. A version of the smoothed indicator function has been used by \cite{Horowitz1998}, \cite{Whang2006}, and \cite{Kaplan2016} which is given by
 \begin{equation*}
 \tilde{\mathbbm{1}}(u)=\mathbbm{1}\{-1\leq u\leq 1\}[0.5+\frac{105}{64}(u-\frac{5}{3}u^{3}+\frac{7}{5}u^{5}-\frac{3}{7}u^{7})]+\mathbbm{1}\{u>1\}
 \end{equation*}
-Then $\beta_{k}(\tau_{\eta})$ can be found by minimizing the GMM criterion function with smoothed sample moments
+Then $\beta_{k}(\tau)$ can be found by minimizing the GMM criterion function with smoothed sample moments
 \begin{equation*}
-\hat{\beta}_{k}(\tau_{\eta})=\text{argmin}\, \hat{M}(\beta_{k}(\tau_{\eta}))^{'}\hat{W}\hat{M}(\beta_{k}(\tau_{\eta}))
+\hat{\beta}_{k}(\tau)=\text{argmin}\, \hat{M}(\beta_{k}(\tau))^{'}\hat{W}\hat{M}(\beta_{k}(\tau))
 \end{equation*}
-where $\hat{W}$ is the weighting matrix. The choice of an optimal weighting matrix is discussed by \cite{Kaplan2016} for the linear IVQR model with iid data and by \cite{qgmm} for the nonlinear IVQR model with iid and weakly dependent data. In practice, we use the weighting matrix from \cite{Kaplan2016} which is an estimate of $[\tau(1-\tau)\mathbbm{E}[Z_{it}Z^{'}_{it}]]^{-1}$. However, an optimal weighting matrix in this step should reflect the noise in the estimates of the previous step. Asymptotic standard errors could be obtained by \cite{Ackerberg2014}, however we do not undertake this task here. Instead we use a nonparametric bootstrap with re-centering of the sample moments in the second stage with over-identification to estimate the standard errors. 
+where $\hat{W}$ is the weighting matrix. The choice of an optimal weighting matrix is discussed by \cite{Kaplan2016} for the linear IVQR model with iid data and by \cite{qgmm} for the nonlinear IVQR model with iid and weakly dependent data. In practice, we use the weighting matrix from \cite{Kaplan2016} which is an estimate of $[\tau(1-\tau)\mathbbm{E}[Z_{it}Z^{'}_{it}]]^{-1}$. However, an optimal weighting matrix in this step should reflect the noise in the estimates of the previous step. Asymptotic standard errors could be obtained using \cite{Ackerberg2014}, however we do not undertake this task here. Instead we use a nonparametric bootstrap with re-centering of the sample moments in the second stage with over-identification to estimate the standard errors. 
 
 % \subsection{Asymptotics}
 % We divide the discussion of asymptotics in two parts. In the first part, we show how the coefficients for the variable inputs identified in the first stage can be efficiently estimated using \cite{Ai2012}. In the second part, we show how the capital coefficient can be efficiently estimated using the appropriate weighting matrix as shown in \cite{Ackerberg2014}.
@@ -395,22 +398,22 @@ where $\hat{W}$ is the weighting matrix. The choice of an optimal weighting matr
 % In practice, it is much easier to compute a numerically equivalent estimate of $Var(\tilde{\Lambda}_{2}(y_{it}, l_{it}, \beta_{l}, \beta, \Phi))^{-1}$ as shown by \cite{Ackerberg2012} which is outlined by \cite{Ackerberg2014} in Section 3.3 of their paper. 
 
 \section{Monte Carlo Experiments} \label{montecarlo}
-We use a location-scale version of \cite{Levinsohn2003} and replicate \cite{Ackerberg2015} simulations sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
+We use a location-scale version of \cite{Levinsohn2003} and replicate \cite{Ackerberg2015} simulations by sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
 
 \begin{equation}
 y_{it}=\beta_{0}+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\gamma_{0}+\gamma_{k}k_{it}+\gamma_{l}l_{it})\eta_{it}
 \end{equation}
 with $\beta_{0}=0, \beta_{k}=0.4$ and $\beta_{l}=0.6$. The location scale parameters are set as $\gamma_{0}=0, \gamma_{k}=0.7$ and $\gamma_{l}=-0.6$ For each simulation we simulate two DGPs with $\eta_{it}\sim N(0,0.1)$ and $\eta_{it}\sim Laplace(0,0.1)$.
 
-Following the DGP 2 in \cite{Ackerberg2015}, we do not allow for any wage variation across firms and labor is chosen at time $t$ with perfect information about $\omega_{it}$. However, we add optimization error in labor. An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$
+Following the data generating process in \cite{Ackerberg2015}, we do not allow for any wage variation across firms and labor is chosen at time $t$ with perfect information about $\omega_{it}$. However, we add optimization error in labor. An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$
 
-We compare the LP estimation procedure with our ``QLP'' two-step procedure under the two different sets of experiments specified earlier. We estimate the model for $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ and use current period capital, $k_{it}$ as our instrument so that our model is exactly identified. For the weighting matrix, we use an estimate of $[\tau(1-\tau)\mathbbm{E}[Z_{it}Z^{'}_{it}]]^{-1}$ and we set $h=0.1$ for simplicity.
+We compare the LP estimation procedure with the QLP two-step procedure under the two different sets of experiments specified earlier. We estimate the model for $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ and use current period capital, $k_{it}$, as our instrument so that our model is exactly identified. For the weighting matrix, we use an estimate of $[\tau(1-\tau)\mathbbm{E}[Z_{it}Z^{'}_{it}]]^{-1}$ and we set $h=0.1$ for simplicity.
 
-Table 1 provides estimates of the bias and MSE for DGP 1 and DGP 2. They are both very small and decrease as the estimates approach $\tau_{\eta}=0.5$. We plot the MSE of our estimator as well as the MSE of the LP estimator compared to the true values of $\beta_{k}(\tau_{\eta})$ and $\beta_{l}(\tau_{\eta})$ in \ref{fig:MSE}. The MSE for both estimators is plotted over $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ with the black line denoting the QLP estimates and the dotted red line denoting the LP estimates. It is clear from this plot that our estimator does relatively well at capturing the heterogeneity in our model. Lastly we test whether our estimates control for unobserved productivity by comparing our estimates to standard quantile regression estimates without controlling for productivity. \ref{fig:QDIF} plots estimates of these difference along with their $95\%$ confidence intervals for each $\tau_{\eta}$. The plots show significant differences in these estimates with capital being overestimated and labor being overestimated in the presence of the simultaneity bias.
+Table 1 provides estimates of the bias and MSE for DGP 1 and DGP 2. They are both very small and decrease as the estimates approach $\tau=0.5$. We plot the MSE of our estimator as well as the MSE of the LP estimator compared to the true values of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ in Figure \ref{fig:MSE}. The MSE for both estimators is plotted over $\tau\in\{0.1, 0.15, \dots, 0.85, 0.9\}$ with the black line denoting the QLP estimates and the dotted red line denoting the LP estimates. It is clear from this plot that our estimator does relatively well at capturing the heterogeneity in our model. Lastly we test whether our estimates control for unobserved productivity by comparing our estimates to standard quantile regression estimates without controlling for productivity. Figure \ref{fig:QDIF} plots estimates of these difference along with their $95\%$ confidence intervals for each $\tau$. The plots show significant differences in these estimates with capital being underestimated and labor being overestimated in the presence of the simultaneity bias.
 
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Bias_MSE.tex}
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \caption{Simulated precision of  QLP estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s. Dotted line is LP estimator.}
 \includegraphics[width=13cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/MSE_Plot.png}
@@ -426,44 +429,44 @@ Table 1 provides estimates of the bias and MSE for DGP 1 and DGP 2. They are bot
 
 \newpage
 \section{Application} \label{application}
-We apply our estimator to popular firm and plant level manufacturing datasets from the US, Chile, and Colombia to examine heterogeneity in the output distribution \footnote{We thank Mert Demirer for providing the datasets from Chile and Colombia}. For each country we examine estimates across different manufacturing industries as well as how these estimates have changed over time and the implications for heterogeneity in productivity across small and large firms/plants. We use the QLP estimator presented in this paper and compare it to the LP estimates. We also compare our estimates to the quantile regression estimates without controlling for productivity. We estimate the labor coefficient using a partially regression with a 3rd degree polynomial with interactions in capital and materials. To estimate capital, we use the smoothed GMM criterion function mentioned earlier with instruments $k_{it}, k_{it-1}, l_{it-1}$ and $m_{it-1}$. We use the plug-in method of \cite{Kaplan2016} for bandwidth selection. We initialize the starting values for the non-linear search using quantile regression estimates of $\beta_{k}(\tau)$ from the exactly identified model. We use bootstrap to estimate standard errors with the number of iterations set to $500$. In the first stage we use a weighted bootstrap with weights drawn from a standard exponential distribution re-sampled at each iteration. In the second stage we use a nonparametric bootstrap and recenter sample moments in each iteration.
+We apply our estimator to popular firm and plant level manufacturing datasets from the US, Chile, and Colombia to examine heterogeneity in the output distribution \footnote{We thank Mert Demirer for providing the datasets from Chile and Colombia}. For each country we examine estimates across different manufacturing industries as well as how these estimates have changed over time. We use the QLP estimator presented in this paper and compare it to the LP estimates. We also compare our estimates to the quantile regression estimates without controlling for productivity. We estimate the labor coefficient and $\Phi$ with a 3rd degree polynomial with interactions in capital and materials. To estimate capital, we use the smoothed GMM criterion function mentioned earlier with instruments $k_{it}, k_{it-1}, l_{it-1}$ and $m_{it-1}$. We use the plug-in method of \cite{Kaplan2016} for bandwidth selection. We initialize the starting values for the non-linear search using quantile regression estimates of $\beta_{k}(\tau)$ from the exactly identified model. We use bootstrap to estimate standard errors with the number of iterations set to $500$. In the first stage we use a weighted bootstrap with weights drawn from a standard exponential distribution re-sampled at each iteration. In the second stage we use a nonparametric bootstrap and re-center sample moments in each iteration.
 
 \subsection{US Compustat}
-The source for the US manufacturing data is from Compustat which covers publicly traded firms and contains data from their financial statements. We collect a sample between 1961 and 2010 on sales, capital expenditures, number of workers, and other expenses to construct measures of output, capital, labor, and material inputs using 3-digit deflators from \cite{nber}. Data preparation follows \cite{Keller2009} and \cite{mert}. Some issues regarding the Compustat dataset is that since the data is reported in the firm's financial statements, deflated output and input measures may not be completely capture firm's actual usage. Also, since this sample only contains publicly traded firms, it is only a fraction of all manufacturing firms in the US. Summary statistics for these deflated values are provided in Table 1. We present a series of output elasticity estimates in Table 2 which are illustrated graphically in Figures \ref{fig:31coef}, \ref{fig:32coef}, \ref{fig:33coef}, and \ref{fig:USallcoef}.
+The source for the US manufacturing data is from Compustat which covers publicly traded firms and contains data from their financial statements. We collect a sample between 1961 and 2010 on sales, capital expenditures, number of workers, and other expenses to construct measures of output, capital, labor, and material inputs using 3-digit deflators from \cite{nber}. Data preparation follows \cite{Keller2009} and \cite{mert}. Some issues regarding the Compustat dataset is that since the data is reported in the firm's financial statements, deflated output and input measures may not completely capture firm's actual usage. Also, since this sample only contains publicly traded firms, it is only a fraction of all manufacturing firms in the US. Summary statistics for these deflated values are provided in Table 1. We present a series of output elasticity estimates in Table 2 which are illustrated graphically in Figures \ref{fig:31coef}, \ref{fig:32coef}, \ref{fig:33coef}, and \ref{fig:USallcoef}.
  
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex}
 \label{Tab:USsummary}
-For each industry in the US sample, we see that the estimates of the capital elasticity is increasing in the firm size distribution and decreasing in the labor elasticity corresponding to industries 31 and 32. For industry 33 and the combined industries, the labor elasticity is an inverse U-shape; it increases quickly for low $\tau$, but then flattens out after $\tau=0.5$. In industries 31 and 32 only the QLP capital estimate is significantly different from the LP estimate. In industry 33 both labor and capital estimates are significantly different from the LP estimate after $\tau=0.25$. In each industry we compare the difference between QLP and QR estimates to test whether our model corrects for endogeneity from unobserved productivity. Bootstrap is used to construct confidence intervals of the difference between the two estimates. We find that there are significant differences between these estimates with the exception of estimates at $\tau=0.05, 0.1$ and $0.15$.\\
+Estimates of the capital elasticity are slightly increasing in the firm-size distribution in every industry except for NAICS 31 where estimates drop dramatically after $\tau=0.1$ then remain flat. The estimates for labor elasticity corresponding to NAICS 31 and 32 are decreasing. For NAICS 33 and the entire sample, the labor elasticity is an inverse U-shape; it increases quickly for low $\tau$ then flattens after $\tau=0.5$. In NAICS 33 and the entire sample only the labor estimates are significantly different from the LP estimate after $\tau=0.25$. In each industry we compare the difference between QLP and QR estimates to test whether our model corrects for endogeneity from unobserved productivity. Bootstrap is used to construct confidence intervals of the difference between the two estimates. We find that there are significant differences between these estimates with the exception of capital elasticity in NAICS 31 for very small firms and medium-sized/large firms in NAICS 32. This may suggest that in these smaller industries that capital usage for these types of firms responds less to productivity shocks and there is not much difference between capital elasticity and the size of the firm. For NAICS 33 and the entire sample, capital usage responds to productivity for all firm sizes, but after controlling for productivity, there is not much variation in capital elasticity between firms.\\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_31.png}
+\includegraphics[width=10cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_31.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:31coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_32.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_32.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:32coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_33.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_33.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:33coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_All.png}
+\includegraphics[width=10cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_All.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:USallcoef}
 \end{figure}
 
-We use the estimates from the output elasticities to construct measures of returns to scale and capital intensity in Table 2. The results for returns to scale are puzzling as they are all significantly different from constant returns to scale. We can see in Industry 32 that returns to scale are generally decreasing in firm-size whereas this relationship is increasing in Industry 33. Previous papers that estimate returns to scale using the Compustat dataset such as \cite{Keller2009} and \cite{mert} show constant returns to scale using a gross-output production function. Therefore it is possible that the empirical value-added (deflated sales minus intermediate input expenditure) is a poor proxy for value-added in our model and that value-added biases the returns to scale estimates. Differences in returns to scale in value-added and gross-output production functions are explored by \cite{Basu1997}. We also report estimates of capital intensity measured by the ratio of capital to labor elasticity for each quantile. In each industry, capital intensity is increasing in firm-size. This result is consistent with previous findings such as \cite{Holmes2008}, \cite{Kumar1999} and \cite{mert}.
+We use the estimates from the output elasticities to construct measures of returns to scale and capital intensity in Table 3. The results for returns to scale are puzzling as they are all significantly different from constant returns to scale. We can see in NAICS 32 that returns to scale are generally decreasing in firm-size whereas this relationship is increasing in NAICS 33 and the entire sample. Previous papers that estimate returns to scale using the Compustat dataset such as \cite{Keller2009} and \cite{mert} show constant returns to scale using a gross-output production function. Therefore it is possible that the empirical value-added (deflated sales minus intermediate input expenditure) is a poor proxy for value-added in our model and that value-added biases the returns to scale estimates. Differences in returns to scale in value-added and gross-output production functions are explored by \cite{Basu1997}. We also report estimates of capital intensity measured by the ratio of capital to labor elasticity for each quantile. Aside from NAICS 31, each industry has increasing capital intensity. This result is consistent with previous findings such as \cite{Holmes2008}, \cite{Kumar1999} and \cite{mert}.
 
 
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex}
@@ -472,7 +475,9 @@ We also use our quantile production function estimates to construct measures of 
 \begin{equation}
 \hat{w}_{it,\tau}=\exp(y_{it}-\hat{\beta_{k}}(\tau)k_{it}-\hat{\beta_{l}}(\tau)l_{it})
 \end{equation}
-We use these measured to compare productivity growth over time to LP estimates as well as an exercise to see if there is significant dispersion in the productivity distribution over the distribution of firm size. Figure \ref{fig:USpgrowth} reports average productivity for all US firms in the sample with the base year of the sample period set to 100. We can see that productivity growth was rapid in the beginning of the sample period but then declined after 1970 and increase again after 1980. Growth trends for each percentile of firm-size were similar although larger firms in this sample were more productive than smaller ones. Interestingly, the LP estimates are close to the productivity estimates for smaller firms at $\tau=0.1$. This suggests that there is significant heterogeneity in the conditional firm-size distribution that conditional mean estimates of productivity such as LP cannot capture.
+We use these measures to compare productivity growth over time to LP estimates over the distribution of firm-size. Figure \ref{fig:USpgrowth} reports average productivity for all US firms in the sample with the base year of the sample period set to 100. We can see that productivity growth was rapid in the beginning of the sample period but then declined after 1970 and increase again after 1980. Growth trends for each percentile of firm-size were similar although larger firms in this sample were more productive than smaller ones. Interestingly, the LP estimates are close to the productivity estimates for smaller firms at $\tau=0.25$. This suggests that there is significant heterogeneity in productivity across the conditional firm-size distribution that conditional mean estimates of productivity such as LP may not capture.
+
+We are also interested in examining the firm-size distribution over time and whether there are differences in within-firm and across firm technology heterogeneity. Figure \ref{fig:UStimecoef} plots estimates of the output elasticities over 5 year intervals. For labor elasticity, there is heterogeneity across the firm-size distribution in the beginning of the sample period. Larger firms had greater estimates of labor elasticity than very small firms. This heterogeneity decreases up until 1980 when the relationship between firm-size and labor elasticity reverses. At the end of our sample period, very large firms have smaller estimates of labor elasticity than very small firms. In the beginning of the sample period, large firms have larger estimates of capital elasticity than smaller firms which are similar in magnitude. These estimates are roughly the same until 1990 when the estimates increase sharply for very small firms but then falls at the year 2000.
 
 
 \begin{figure}[H]
@@ -482,16 +487,14 @@ We use these measured to compare productivity growth over time to LP estimates a
 \label{fig:USpgrowth}
 \end{figure}
 
-In Figure \ref{fig:USpdisp} we graph estimates of certain percentiles of log-productivity distribution over the firm-size distribution for each industry in our sample. In industry 31 and 33 log-productivity is decreasing for each percentile of firm-size. Log-productivity falls faster in industry 33 compared to industry 31 for small firms, but reverses for larger firms in each industry. Log-productivity for firms in industry 32 has an inverse U-shaped relationship. It is increasing for small firms, then somewhat stagnant for medium sized firms, but then falls for very large firms. In each industry, there is substantial heterogeneity in productivity dispersion after controlling for differences in firm-size. For example, in industry 31 small firms ($\tau=0.1$) in the 90th percentile of productivity are about 7.1 times more productive than firms in the 10th percentile of productivity. For large firms ($\tau=0.95$), this number is about six. This suggests that there could exist some heterogeneity in common productivity dispersion estimates, such as the 90/10 ratio we use here.
+% In Figure \ref{fig:USpdisp} we graph estimates of percentiles of the log-productivity distribution for different firm-sizes. In NAICS 31 and 33 log-productivity is decreasing for each percentile of firm-size. Log-productivity falls faster in industry 33 compared to industry 31 for small firms, but reverses for larger firms in each industry. Log-productivity for firms in industry 32 has an inverse U-shaped relationship. It is increasing for small firms, then somewhat stagnant for medium sized firms, but then falls for very large firms. In each industry, there is substantial heterogeneity in productivity dispersion after controlling for differences in firm-size. For example, in industry 31 small firms ($\tau=0.1$) in the 90th percentile of productivity are about 7.1 times more productive than firms in the 10th percentile of productivity. For large firms ($\tau=0.95$), this number is about six. This suggests that there could exist some heterogeneity in common productivity dispersion estimates, such as the 90/10 ratio we use here.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QTFP_plot.png}
-\caption{Estimated log-productivity at different quantiles over the firm-size distribution}
-\label{fig:USpdisp}
-\end{figure}
-
-We are also interested in examining the firm-size distribution over time and whether there are differences in within-firm and across firm technology heterogeneity. Figure \ref{fig:UStimecoef} plots estimates of the output elasticities over 5 year intervals. For labor elasticity, there is heterogeneity across the firm size distribution in the beginning of the sample period. Larger firms had greater estimates of labor elasticity than very small firms. This heterogeneity decreases up until 1980 when the relationship between firm size and labor elasticity reverses. At the end of our sample period, very large firms have smaller estimates of labor elasticity than very small firms. The estimates of capital elasticity appear to be increases, however there is no discernible relationship of these estimates across different firm sizes. 
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QTFP_plot.png}
+% \caption{Estimated log-productivity at different quantiles over the firm-size distribution}
+% \label{fig:USpdisp}
+% \end{figure}
 
 \begin{figure}[H]
 \centering
@@ -504,44 +507,44 @@ We are also interested in examining the firm-size distribution over time and whe
 %----------------------------------------------------------------------------------------
 
 \subsection{Chilean Manufacturing}
-This data comes from the census of Chilean manufacturing plants conducted by the Instituto Nacional de Estadist\'ica (INE). The sample is collected between 1979 and 1996 for firms with more than 10 employees. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Fabricated Metals (ISIC 381), and Textiles (ISIC 321). We also aggregate the three industries with the other smaller industries to obtain estimates from the entire sample. Summary statistics for the data we use are provided in Table 3.
+This data comes from the census of Chilean manufacturing plants conducted by the Instituto Nacional de Estadist\'ica (INE). The sample is collected between 1979 and 1996 for firms with more than 10 employees. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Fabricated Metals (ISIC 381), and Textiles (ISIC 321). We also aggregate the three industries with the other smaller industries to obtain estimates from the entire sample. Summary statistics for the data we use are provided in Table 4.
 
-Figures \ref{fig:CHL311}, \ref{fig:CHL321}, and \ref{fig:CHL381} illustrate our estimates from our model compared to LP estimates as well as their differences to QR estimates. Aside from ISIC 311, the estimates for labor elasticity are decreasing, but not significantly different from the LP estimates. However, since these estimates are significantly different from the QR estimate suggests that our estimator corrects for the endogeneity bias from unobserved productivity. The estimates for capital elasticity are decreasing in ISIC 311 and ISIC 381, but mostly flat for ISIC 321 and all of the industries in the sample. In every industry except for ISIC 321 there are differences between the QLP and LP estimates as well as differences between the QR estimates. These results may suggest that the productivity contributes more to heterogeneity in the estimates than do differences in the rank of the ex-post shock. From Table 4, our estimates of returns to scale are more reasonable compared to the US estimates. Interestingly returns to scale decrease as firm-size increases. Capital intensity decreases in firm-size in ISIC 311 and increases in firm-size in the entire sample.
+Figures \ref{fig:CHL311}, \ref{fig:CHL321}, and \ref{fig:CHL381} illustrate our estimates from our model compared to LP estimates as well as their differences to QR estimates. Aside from ISIC 311, the estimates for labor elasticity are decreasing, but not significantly different from the LP estimates. However, since these estimates are significantly different from the QR estimate it suggests that much of the heterogeneity in the labor estimates come from productivity rather than firm-size. The estimates for capital elasticity are increasing in each industry. In the combined sample, these estimates increase then fall sharply at $\tau=0.75$ then increases sharply for much larger firms. All of the capital estimates are significantly different from the LP estimates. From Table 5, our estimates of returns to scale are more reasonable compared to the US estimates aside from small firms in ISIC 311 who experience decreasing returns to scale. In this industry, returns to scale increase with firm-size.
 
 
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Summary.tex}  
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:CHL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:CHL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:CHL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:CHLall}
 \end{figure}
 
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Beta_Estimates.tex}
 
-Figure \ref{fig:CHLpgrowth} reports average productivity for all Chilean plants in the sample with base period set to 100. Productivity decreases in the beginning of the 1980s but the increases for the rest of the sample period. The LP estimates show higher productivity than the larger firms at $\tau=0.9$ Figure \ref{fig:CHLpdisp} graphs the percentiles of log-productivity over the firm-size distribution for each large industry in Chile. In each industry, log-productivity is increasing in firm-size. Like the estimates in the US, there is heterogeneity in productivity dispersion. For example, in ISIC 381, small firms ($\tau=0.1$) in the 90th percentile of productivity are about more 10.8 times productive than firms in the 10th percentile of productivity. For large firms ($\tau=0.95$), this number is about 14.4. Lastly, Figure \ref{fig:CHLtimecoef} shows the time trends in output elasticities. The estimate of labor elasticity are high for each quantile of firm size and decreases steadily with the exception of small firms ($\tau=0.1$). The estimates for capital elasticities are large aside from $\tau=0.25$, but converge quickly after 1979. 
+Figure \ref{fig:CHLpgrowth} reports average productivity for all Chilean plants in the sample with base period set to 100. Productivity decreases in the beginning of the 1980s but then increases for the rest of the sample period. The LP estimates show higher productivity than the larger firms at $\tau=0.9$. Figure \ref{fig:CHLtimecoef} shows the time trends in output elasticities. The estimate of labor elasticity are high for each quantile of firm-size and decreases steadily with the exception of small firms ($\tau=0.1$). The estimates for capital elasticities follow similar trends however there is no noticeable ranking of the magnitude of the elasticities across firm-size. 
 
 \begin{figure}[H]
 \centering
@@ -550,12 +553,12 @@ Figure \ref{fig:CHLpgrowth} reports average productivity for all Chilean plants 
 \label{fig:CHLpgrowth}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QTFP_plot.png}
-\caption{Estimated log-productivity at different quantiles over the firm-size distribution}
-\label{fig:CHLpdisp}
-\end{figure}
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QTFP_plot.png}
+% \caption{Estimated log-productivity at different quantiles over the firm-size distribution}
+% \label{fig:CHLpdisp}
+% \end{figure}
 
 \begin{figure}[H]
 \centering
@@ -568,45 +571,45 @@ Figure \ref{fig:CHLpgrowth} reports average productivity for all Chilean plants 
 %------------------------------------------------------------------------------------------------
 
 \subsection{Colombian Manufacturing}
-This data comes is from the Colombian manufacturing census conducted by the Departamento Administrativo Nacional de Estadistica. The sample is collected between 1977 and 1991 for firms with more than 10 employees. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Apparel (ISIC 322), and Fabricated Metals (ISIC 381). As we did with the Chilean sample, we also aggregate the three industries with other smaller industries to obtain estimates from the entire sample of manufacturing plants. Summary statistics for this data is provided in Table 5.
+This data comes from the Colombian manufacturing census conducted by the Departamento Administrativo Nacional de Estadistica. The sample is collected between 1977 and 1991. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Apparel (ISIC 322), and Fabricated Metals (ISIC 381). As we did with the Chilean sample, we also aggregate the three industries with other smaller industries to obtain estimates from the entire sample of manufacturing plants. Summary statistics for this data is provided in Table 6.
 
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Summary.tex}
 
-Figures \ref{fig:COL311}, \ref{fig:COL321}, and \ref{fig:COL381} illustrate estimates from our model compared to the LP estimates as well as their differences from QR estimates. The first industry, ISIC 311, shows QLP estimates of both capital and labor elasticities significantly different from LP estimates. There are also differences between these estimates and QR estimates which suggests that this method shows heterogeneity in both firm size and productivity in this industry. In ISIC 322, only the QLP estimate of labor elasticity shows significant difference from the LP estimate as well as differences from the QR estimates. There is not much difference in the QLP estimates of capital when compared to LP and QR estimates. Similar results are also true for ISIC 381. With the industries combined, both QLP estimates of capital and labor are significantly different from LP and QR estimates. For each industry, these estimates show a common trend. Capital estimates tend to increase in firm-size whereas labor estimates tend to decrease.
-
-Using these estimates we construct measures of returns to scale and capital intensity for each industry in Table 6. Most firms experience constant returns to scale or slightly decreasing returns to scale and we observe that returns to scale are decreasing in firm-size. The only noticeable trends in capital intensity appear in ISIC 311 and the combined sample which show decreasing relationship in firm-size in ISIC 311 and an increasing relationship in the combined sample.  
+Figures \ref{fig:COL311}, \ref{fig:COL321}, and \ref{fig:COL381} illustrate estimates from our model compared to the LP estimates as well as their differences from QR estimates. The first industry, ISIC 311, shows QLP estimates of both capital and labor elasticities significantly different from LP estimates. In ISIC 322, both estimates show significant differences from the LP estimate, however the capital elasticity appears to be unreasonably high. In ISIC 381 there are only differences in the labor estimates. With the combined sample both QLP estimates of capital and labor are significantly different from LP and QR estimates.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:COL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:COL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:COL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png}
 \caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:COLall}
 \end{figure}
 
+Using these estimates we construct measures of returns to scale and capital intensity for each industry in Table 7. Most firms experience constant returns to scale or significant increasing returns in ISIC 322. We observe that returns to scale are decreasing in firm-size in each industry, but not the combined sample. Capital intensity increases in firm-size for each industry and the combined sample.
+
 \input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Beta_Estimates.tex}
 
-Figure \ref{fig:COLpgrowth} reports average productivity for all Colombian plants in the sample with base period set to 100. Productivity decreases in the beginning of the sample period but then increases for the rest of the sample period after 1980 with some sharp periods of productivity decline and incline. Each percentile of firm size has similar productivity levels at the beginning of the sample period, but diverge after 1984. The LP estimates show just higher than productivity of small firms at $\tau=0.1$ Figure \ref{fig:COLpdisp} graphs the percentiles of log-productivity over the firm-size distribution for each large industry in Colombia. In each industry, log-productivity is increasing in firm-size. Like the estimates in the US and Chile, there is heterogeneity in productivity dispersion. For example, in ISIC 322, small firms ($\tau=0.1$) in the 90th percentile of productivity are about 4.9 times more productive than firms in the 10th percentile of productivity. For large firms ($\tau=0.95$), this number is about 6.7. Finally, Figure \ref{fig:COLtimecoef} shows the time trends in output elasticities. The estimate of labor elasticity are about 0.6 for each quantile of firm size and increases steadily until about 1981 then starts to decrease. At the end of the sample period there is more heterogeneity in these estimates. Capital elasticity estimates tend to decrease during the sample period for each quantile of firm size.
+Figure \ref{fig:COLpgrowth} reports average productivity for all Colombian plants in the sample with base period set to 100. Productivity decreases in the beginning of the sample period but then increases for the rest of the sample period after 1980 with some sharp periods of productivity decline and incline. Each percentile of firm-size has similar productivity levels at the beginning of the sample period, but diverge after 1984. The LP estimates show just smaller than productivity of large firms at $\tau=0.9$. Figure \ref{fig:COLtimecoef} shows the time trends in output elasticities. The estimates of labor elasticity are about 0.6 for each quantile of firm-size and increases steadily until about 1981 then starts to decrease. At the end of the sample period there is more heterogeneity in these estimates. Capital elasticity estimates tend to move together aside from the very large firms. These estimates have an inverse-U shaped relationship over time.
 
 \begin{figure}[H]
 \centering
@@ -615,12 +618,12 @@ Figure \ref{fig:COLpgrowth} reports average productivity for all Colombian plant
 \label{fig:COLpgrowth}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QTFP_plot.png}
-\caption{Estimated log-productivity at different quantiles over the firm-size distribution}
-\label{fig:COLpdisp}
-\end{figure}
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QTFP_plot.png}
+% \caption{Estimated log-productivity at different quantiles over the firm-size distribution}
+% \label{fig:COLpdisp}
+% \end{figure}
 
 
 \begin{figure}[H]
@@ -632,11 +635,11 @@ Figure \ref{fig:COLpgrowth} reports average productivity for all Colombian plant
 
 \section{Conclusions} \label{conclusion}
 
-We proposed a method that extends the intermediate input proxy variable approach to estimating quantiles of the conditional quantiles of firm production. The method is computationally attractive as it resembles the two-stage estimator introduced in the control function literature with conditional quantile restrictions in the first stage. As a result, practitioners are able to easily apply the proposed estimator to production function models where the data reveal significant heterogeneous output elasticities along the conditional firm-size distribution. We showed that identification conditions for second stage estimates based on conditional quantiles are not as straightforward as conditional mean moment restrictions in the presence of two unobservables. Using the concentrated moment approach of \cite{Ackerberg2015} appears to fix this issue.  We showed that this estimator works well in finite samples and showed that it captures heterogeneity in firm-size under different data generating processes. An application to widely used datasets from the US, Chile, and Colombia showed that in some industries, our estimator captures unobserved heterogeneity that the LP estimator does not.
+We propose a method that extends the intermediate input proxy variable approach to estimating the conditional quantiles of firm-size. The method is computationally attractive as it resembles the two-stage estimator introduced in the control function literature with conditional quantile restrictions in the first and second stage. As a result, practitioners are able to easily apply the proposed estimator to production function models where the data reveal significant heterogeneous output elasticities along the conditional firm-size distribution. We showed that this estimator works well in finite samples and showed that it captures heterogeneity in firm-size under different data generating processes. An application to widely used datasets from the US, Chile, and Colombia showed that in some industries, our estimator captures unobserved heterogeneity that the LP estimator does not.
 
 Improvements and extensions of this estimator are currently being explored. For example, using a value-added production function may show more heterogeneity in estimates of elasticities and productivity than a gross-output production function. However, using a gross-output production function with an intermediate input proxy variable suffers from non-identification problems. Therefore, a structural value-added production function may be preferable. \cite{Kasahara2015} show how to modify OP/LP type moment conditions for a value-added production function from a gross-output production function. It would be interesting to explore whether those methods could be applied here. This paper also makes an interesting connection between the literature on production risk and quantile utility maximization. Currently, quantile utility maximization problems and estimation of these models are being studied by \cite{Castro2017} and \cite{qgmm} in the context of dynamic consumption problems. It would be interesting to explore a model for a firm who maximizes quantile utility of profits which could provide an alternative explanation for unobserved heterogeneity from quantile regression estimates.
 
-This paper contributes to the growing literature on production functions with unobserved heterogeneity. We show that differences in firm-size correspond to the the rank of the ex-post shock. The control function approach used here restricts us from examining other dimensions of firm heterogeneity. For example, this approach only allows us to use a location shift model for productivity. The consequence of this is that estimated growth rates in productivity are the same across firm-size which may not be true in practice. Allowing richer distributional affects of productivity would be an interesting extension. This approach also restricts us from examining non-Hicks neutral productivity shocks factor-augmenting productivity. We are currently working on an extension of this paper to a non-separable model to address these last two points, but the estimator we propose here is computationally attractive and easy to implement in empirical research.    
+This paper contributes to the growing literature on production functions with unobserved heterogeneity. We show that differences in firm-size correspond to the the rank of the ex-post shock. The control function approach used here restricts us from examining other dimensions of firm heterogeneity. Allowing richer distributional effects of productivity would be an interesting extension. This approach also restricts us from examining non-Hicks neutral productivity shocks such as factor-augmenting productivity. We are currently working on an extension of this paper to a non-separable model to address these last two points, but the estimator we propose here is computationally attractive and easy to implement in empirical research.    
 
 
 

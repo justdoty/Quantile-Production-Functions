@@ -36,8 +36,8 @@
 \bibitem[{Aragon \textit{et~al.}(2005)Aragon, Daouia and
   Thomas-Agnan}]{Aragon2005}
 \textsc{Aragon, Y.}, \textsc{Daouia, A.} and \textsc{Thomas-Agnan, C.} (2005).
-  {NONPARAMETRIC} {FRONTIER} {ESTIMATION}: A {CONDITIONAL} {QUANTILE}-{BASED}
-  {APPROACH}. \textit{Econometric Theory}, \textbf{21}~(02).
+  Nonparametric frontier estimation: A conditional quantile based approach.
+  \textit{Econometric Theory}, \textbf{21}~(02).
 
 \bibitem[{Balat \textit{et~al.}(2018)Balat, Brambilla and Sasaki}]{balat}
 \textsc{Balat, J.}, \textsc{Brambilla, I.} and \textsc{Sasaki, Y.} (2018).
@@ -185,9 +185,9 @@
   for panel data. \textit{Journal of Econometrics}, \textbf{157}~(2), 396--408.
 
 \bibitem[{Lee(2003)}]{Lee2003}
-\textsc{Lee, S.} (2003). {EFFICIENT} {SEMIPARAMETRIC} {ESTIMATION} {OF} a
-  {PARTIALLY} {LINEAR} {QUANTILE} {REGRESSION} {MODEL}. \textit{Econometric
-  Theory}, \textbf{19}~(01).
+\textsc{Lee, S.} (2003). Efficient semiparametric estimation of a partially
+  linear quantile regression model. \textit{Econometric Theory},
+  \textbf{19}~(01).
 
 \bibitem[{Lee(2007)}]{Lee2007}
 \textsc{---} (2007). Endogeneity in quantile regression models: A control
