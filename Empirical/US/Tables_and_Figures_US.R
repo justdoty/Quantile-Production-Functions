@@ -143,6 +143,7 @@ QDIF_Kplot <- list(); QDIF_Lplot <- list(); QTFP_plot <- list()
 pcolour <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442")
 tau_t <- c(0.1, 0.25, 0.5, 0.9)
 for (p in 1:length(NAICS)){
+  print(p)
   #Plotting data for QLP
   QLPplotcoef <- apply(QLPestimates[c("K", "L", "RTS")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
   QLPplotsd <- apply(QLPestimates[c("se_K", "se_L", "RTS_SE")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
@@ -158,10 +159,10 @@ for (p in 1:length(NAICS)){
   QLP_Lplot[[p]] <- ggplot(QLPplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=LB.L, ymax=UB.L), fill="grey70") + geom_line(aes(y=L)) + geom_hline(yintercept=LPplotdat$L, linetype='solid', color='red') + geom_hline(yintercept=c(LPplotdat$LB.L, LPplotdat$UB.L), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(min(QLPplotdat$LB.K), LPplotdat$LB.K, LPplotdat$LB.L, min(QLPplotdat$LB.L)), max(max(QLPplotdat$UB.K), LPplotdat$UB.K, LPplotdat$UB.L, max(QLPplotdat$UB.L))))
   QLP_RTSplot[[p]] <- ggplot(QLPplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Returns to Scale") + geom_ribbon(aes(ymin=LB.RTS, ymax=UB.RTS), fill="grey70") + geom_line(aes(y=RTS)) + geom_hline(yintercept=LPplotdat$RTS, linetype='solid', color='red') + geom_hline(yintercept=c(LPplotdat$LB.RTS, LPplotdat$UB.RTS), linetype='dashed', color='red')
   #QTFP Plots
-  QTFP <- QTFP_hat[,,p][tauvec%in%tau_t,]
-  taufac <- as.factor(rep(tau_t, each=length(tfptau)))
-  QLP_QTFPdat <- data.frame(tfptau=rep(tfptau, length(tau_t)), tauvec=taufac, qtfp=c(t(QTFP)))
-  QTFP_plot[[p]] <- ggplot(QLP_QTFPdat, aes(x=tfptau, y=qtfp, group=tauvec)) + xlab(expression('percentile-'*tau)) + ylab("")+ ggtitle(paste("NAICS", NAICS[p], sep=" "))+ geom_line(aes(colour=tauvec)) + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
+  QTFP <- QTFP_hat[,,p][,tfptau%in%tau_t]
+  taufac <- as.factor(rep(tau_t, each=length(tauvec)))
+  QLP_QTFPdat <- data.frame(tau=rep(tauvec, length(tau_t)), tfptau=taufac, qtfp=c(QTFP))
+  QTFP_plot[[p]] <- ggplot(QLP_QTFPdat, aes(x=tau, y=qtfp, group=tfptau)) + xlab(expression('percentile-'*tau)) + ylab("")+ ggtitle(paste("NAICS", NAICS[p], sep=" "))+ geom_line(aes(colour=tfptau)) + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
   #Plotting data for QDIF Plots
   QDIF_dat <- data.frame(tau=tauvec, coef=QDIF_hat[,,p], LB=QDIF_hat[,,p]-QDIF_SE[,,p]*qnorm(1-.05/2), UB=QDIF_hat[,,p]+QDIF_SE[,,p]*qnorm(1-.05/2))
   #QDIF Plots
