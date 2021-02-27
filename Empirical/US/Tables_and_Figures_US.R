@@ -74,14 +74,6 @@ LP_IN_SE <- array(0, c(length(NAICS), 1))
 #Load LP and QLP Results
 #############################################################################@
 for (i in 1:length(NAICS)){
-  load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/LP_US_NAICS_%s.RData", i))
-  #LP Estimates and Standard Deviations
-  LP_betahat[i,] <- betahat
-  LP_betaSE[i,] <- apply(betaboot, 2, sd)
-  #LP RTS Standard Deviations
-  LP_RTS_SE[i,] <- sd(apply(betaboot, 1, sum))
-  #LP Capital Intensity Standard Deviations
-  LP_IN_SE[i,] <- sd(apply(betaboot, 1, function(x) x[1]/x[2]))
   for (j in 1:length(tauvec)){
     load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QLP_Boot_US_Q%s.RData", j))
     #QLP Estimates and Standard Deviations
@@ -102,6 +94,16 @@ for (i in 1:length(NAICS)){
     #QLP Capital Intensity Estimates and Standard Deviations
     QLP_IN[j,i] <- betahat[,i][1]/betahat[,i][2]
     QLP_IN_SE[j,i] <- sd(apply(betaboot[,,i], 1, function(x) x[1]/x[2]))
+    #Load the LP estimates from a single quantile environment: they should be the same across quantiles
+    if (tauvec[j]==0.1){
+      #LP Estimates and Standard Deviations
+      LP_betahat[i,] <- LPhat[,i]
+      LP_betaSE[i,] <- apply(LPboot[,,i], 2, sd)
+      #Store LP RTS Standard Deviations
+      LP_RTS_SE[i,] <- sd(apply(LPboot[,,i], 1, sum))
+      #Store LP Capital Intensity Standard Deviations
+      LP_IN_SE[i,] <- sd(apply(LPboot[,,i], 1, function(x) x[1]/x[2]))
+    }
   }
 }
 #LP RTS Estimates
@@ -143,7 +145,6 @@ QDIF_Kplot <- list(); QDIF_Lplot <- list(); QTFP_plot <- list()
 pcolour <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442")
 tau_t <- c(0.1, 0.25, 0.5, 0.9)
 for (p in 1:length(NAICS)){
-  print(p)
   #Plotting data for QLP
   QLPplotcoef <- apply(QLPestimates[c("K", "L", "RTS")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
   QLPplotsd <- apply(QLPestimates[c("se_K", "se_L", "RTS_SE")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
@@ -201,20 +202,24 @@ T <- 5
 dZ <- 2
 time <- seq(min(USdata$year), max(USdata$year), by=T)
 QLPT_Coef <- array(0, dim=c(length(tau_t), dZ, length(time)))
+LPT_Coef <- array(0, dim=c(length(time), dZ))
 for (t in 1:length(time)){
   for (q in 1:length(tau_t)){
     load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QLPT_US_Q%s.RData", q))
     QLPT_Coef[,,t][q,] <- betahat[,t]
+    if (tau_t[q]==0.5){
+      LPT_Coef[t,] <- LPhat[,t]
+    }
   }
 }
-KT <- data.frame(cbind(time, t(QLPT_Coef[,1,][,])))
-colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "))
+KT <- data.frame(cbind(time, t(QLPT_Coef[,1,][,]), LPT_Coef[,1]))
+colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "), "LP")
 KT <- melt(KT, "Year")
-KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Capital") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
-LT <- data.frame(cbind(time, t(QLPT_Coef[,2,][,])))
-colnames(LT) <- c("Year", paste("Q", tau_t, sep=""))
+KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Capital") + scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
+LT <- data.frame(cbind(time, t(QLPT_Coef[,2,][,]), LPT_Coef[,2]))
+colnames(LT) <- c("Year", paste("Q", tau_t, sep=""), "LP")
 LT <- melt(LT, "Year")
-LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
+LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
 Plot_Title <- ggdraw() + draw_label("Output Elasticities Over Time", fontface="plain", size=22) 
 Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)

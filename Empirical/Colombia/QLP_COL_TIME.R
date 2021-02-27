@@ -14,20 +14,21 @@ id <- as.numeric(commandArgs(TRUE)[1])
 tau_t <- tau_t[id]
 #The number of parameters being estimated
 dZ <- 2
+h <- NULL
 betahat <- array(0, dim=c(dZ, length(split)))
-ratiohat <- array(0, dim=c(3, length(split)))
+LPhat <- array(0, dim=c(dZ, length(split)))
 for (t in 1:length(split)){
   COL <- filter(COLdata, year %in% split[[t]])
-  soln <- QLP(tau=tau_t, idvar=COL$id, timevar=COL$year, Y=COL$lnva, K=COL$lnk, L=COL$lnl, proxy=COL$lnm, binit=NULL)
+  soln <- QLP(tau=tau_t, h=h, idvar=COL$id, timevar=COL$year, Y=COL$lnva, K=COL$lnk, L=COL$lnl, proxy=COL$lnm, dZ=dZ, binit=NULL)
   betahat[,t] <- soln$betahat
-  ratiohat[,t] <- soln$ratiohat
+  LPhat[,t] <- soln$LPhat
 }
 filename <- paste("PFQR/DATA/COL/QLP_Environments/Time_Estimates/QLPT_COL_Q", id, ".RData", sep="")
-save(betahat, ratiohat, file=filename)
+save(betahat, LPhat, file=filename)
 
 
 #HPC Job Submissions for batches: qsub -t 1:length(tau_t) myjob.job
-#Here length(tau_t)=5
+#Here length(tau_t)=4
 
 
 

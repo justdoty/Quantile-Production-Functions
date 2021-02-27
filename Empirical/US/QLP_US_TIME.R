@@ -16,19 +16,20 @@ id <- as.numeric(commandArgs(TRUE)[1])
 tau_t <- tau_t[id]
 #The number of parameters being estimated
 dZ <- 2
+h <- NULL
 betahat <- array(0, dim=c(dZ, length(split)))
-ratiohat <- array(0, dim=c(3, length(split)))
+LPhat <- array(0, dim=c(dZ, length(split)))
 for (t in 1:length(split)){
   US <- filter(USdata, year %in% split[[t]])
-  soln <- QLP(tau=tau_t, idvar=US$id, timevar=US$year, Y=US$lnva, K=US$lnk, L=US$lnl, proxy=US$lnm, binit=NULL)
+  soln <- QLP(tau=tau_t, h=h, idvar=US$id, timevar=US$year, Y=US$lnva, K=US$lnk, L=US$lnl, proxy=US$lnm, dZ=dZ, binit=NULL)
   betahat[,t] <- soln$betahat
-  ratiohat[,t] <- soln$ratiohat
+  LPhat[,t] <- soln$LPhat
 }
 filename <- paste("PFQR/DATA/US/QLP_Environments/Time_Estimates/QLPT_US_Q", id, ".RData", sep="")
-save(betahat, ratiohat, file=filename)
+save(betahat, LPhat, file=filename)
 
 
-#HPC Job Submissions for batches: qsub -t 1:length(tau_t) myjob.job
+#HPC Job Submissions for batches: qsub -t 1:length(tau_t) QLP_US_TIME.job
 #Here length(tau_t)=4
 
 

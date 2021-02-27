@@ -3,18 +3,18 @@
 #Kaplan, and Liu (2018). See David Kaplan's website for more details
 #https://faculty.missouri.edu/~kaplandm/
 #Some data preparation follows prodest.R (Gabrielle Rovigatti)
-source('PFQR/FUN/gmmq_aux.R')
-#Required for 1st step estimation
+source('PFQR/FUN/QLP_aux.R')
+source('PFQR/FUN/BW.R')
 require(quantreg)
-#Required for QGMM estimation variations
-require(pracma)
 require(dplyr)
+require(pracma)
+require(GenSA)
 ###################################################################################
 ###################################################################################
 #This function initializes the estimation procedure which calls finalQLP
 ###################################################################################
 ###################################################################################
-QLP <- function(tau, idvar, timevar, Y, K, L, proxy, binit=NULL){
+QLP <- function(tau, h, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL){
   seed <- 123456
   #Make all data arguments into matrices
   idvar <- as.matrix(idvar)
@@ -28,123 +28,127 @@ QLP <- function(tau, idvar, timevar, Y, K, L, proxy, binit=NULL){
   #This function computes the "true" beta and sample moments evaluated at the "true" parameters
   #using the "true" data used for recentering the moments in the bootstrap
   #Here ind denotes the index that does tells finalQLP not resample the original data
-  res <- finalQLP(tau=tau, data=data, binit=binit, gbar=0, seed=seed)
+  res <- finalQLP(tau=tau, h=h, data=data, binit=binit, seed=seed)
   #"True" parameters
   betahat <- res$beta
-  #"True" TFP dispersion ratios
-  ratiohat <- res$dispersion
-  #True sample moments
-  gbartrue <- res$gbar
-  return(list(betahat=betahat, ratiohat=ratiohat))
+  LPhat <- res$LPhat
+  return(list(betahat=betahat, LPhat=LPhat))
 }
 ###########################################################################
 ###########################################################################
 #Function to estimate and to bootstrap QLP
 ###########################################################################
 ###########################################################################
-finalQLP <- function(tau, data, binit, gbar, seed){
+finalQLP <- function(tau, h, data, binit, seed){
   set.seed(seed)
   #######################################################################
   #First Stage of LP
   #######################################################################
-  regvars <- data.frame(reg1=data$L, reg2=data$K, reg3=data$proxy, reg4=data$proxy*data$K, reg5=data$K^2, reg6=data$proxy^2, reg7=data$proxy*(data$K^2), reg8=(data$proxy^2)*data$K, reg9=data$K^3, reg10=data$proxy^3)
-  w <- rexp(nrow(data))
-  firststage <- rq(data$Y~as.matrix(regvars[, grepl('reg', colnames(regvars))]), tau=tau, weights=w)
-  init <- rq(data$Y~data$L+data$K, tau=tau)
-  kinit <- as.numeric(coef(init)[3])
-  phi0 <- as.numeric(coef(firststage)[1])
-  LP_Labor <-  as.numeric(coef(firststage)[2])
+  #Dataframe for regressors in first stage polynomial
+  regvars <- data.frame(reg1=data$K, reg2=data$L, reg3=data$proxy, reg4=data$proxy*data$K, reg5=data$K^2, reg6=data$proxy^2, reg7=data$proxy*(data$K^2), reg8=(data$proxy^2)*data$K, reg9=data$K^3, reg10=data$proxy^3)
+  #First stage estimates for LP
+  LPfirststage <- lm(data$Y~as.matrix(regvars[, grepl('reg', colnames(regvars))]))
+  #Labor Estimate for LP
+  LPLabor <-  as.numeric(coef(LPfirststage)[3])
+  #QR estimates
+  QR <- rq(data$Y~data$K+data$L, tau=tau)
+  qrhat <- as.numeric(coef(QR)[-1])
+  #Linear regression estimates (used for starting values)
+  LM <- lm(data$Y~data$K+data$L)
   #Clean Phi from the effects of free variables
-  phi <- fitted(firststage)-as.matrix(data$L)%*%LP_Labor
+  LPphi <- fitted(LPfirststage)-as.matrix(data$L)%*%LPLabor
   #Calculate Contempory and Lag Values for 2nd stage estimation
-  newdata <- lagdata(idvar=data$idvar, X=cbind(data$Y, data$K, data$L, data$proxy, phi))
-  names(newdata) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "phicon", "Ylag", "Klag", "Llag", "Pxlag", "philag")
-  #Output net of labor
-  mY <- as.matrix(newdata$Ycon-newdata$Lcon*LP_Labor)
-  #Contemporary State Variables
-  mX <- as.matrix(newdata$Kcon)
-  #Lagged State Variables
-  mlX <- as.matrix(newdata$Klag)
-  #Contemporary phi estimates
-  fitphi <- as.matrix(newdata$phicon)
-  #Lagged phi estimates
-  fitlagphi <- as.matrix(newdata$philag)
+  newdata <- lagdata(idvar=data$idvar, X=cbind(data$Y, data$K, data$L, data$proxy, LPphi))
+  names(newdata) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "LPphicon", "Ylag", "Klag", "Llag", "Pxlag", "LPphilag")
+  #LP Output net of labor
+  LPmY <-  as.matrix(newdata$Ycon-newdata$Lcon*LPLabor)
+  #LP Contemporary State Variables
+  LPmX <- as.matrix(newdata$Kcon)
+  #LP Lagged State Variables
+  LPmlX <- as.matrix(newdata$Klag)
+  #LP Contemporary phi estimates
+  LPfitphi <- as.matrix(newdata$LPphicon)
+  #LP Lagged phi estimates
+  LPfitlagphi <- as.matrix(newdata$LPphilag)
+  #LP Instruments (Exact Identification)
+  LPmZ <- as.matrix(newdata$Kcon)
+  #Starting values for LP estimates from OLS
+  LPkinit <- as.numeric(coef(LM)[2])
+  #LP estimates for Capital
+  LPkhat <- optim(par=LPkinit, fn=function(b) LPobj(b, mY=LPmY, mX=LPmX, mlX=LPmlX, mZ=LPmZ, fitphi=LPfitphi, fitlagphi=LPfitlagphi), gr=NULL, method="L-BFGS-B", lower=0, upper=1)$par
+  #Estimates of productivity from LP
+  wfit <- newdata$LPphicon-newdata$Kcon*LPkhat
+  #Output net of productivity
+  mY <- as.matrix(newdata$Ycon-wfit)
+  #State Variables
+  mX <- cbind(newdata$Kcon, newdata$Lcon)
   #Instruments
-  mZ <- cbind(as.matrix(newdata$Kcon), as.matrix(newdata$Klag), as.matrix(newdata$Llag), as.matrix(newdata$Pxlag))
-  #If not specified, starting point is the first stage estimates
-  if (is.null(binit)){
-    # binit <- 1-LP_Labor
-    binit <- kinit
-
+  mZ <- cbind(as.matrix(newdata$Kcon), as.matrix(newdata$Lcon), as.matrix(newdata$Klag), as.matrix(newdata$Llag), as.matrix(newdata$Pxcon), as.matrix(newdata$Pxlag))
+  #QLP Estimates for Capital from (QR) good starting values as well
+  mom <- rq(mY~mX-1, tau=tau)
+  init <- as.numeric(coef(mom))
+  if (is.null(h)){
+    h <- ivqr.bw(p=tau, Y=mY, X=mX, b.init=init)
   }
-  #Overidentification
-  if (ncol(mZ)>ncol(mX)){
-    soln <- optim(par=binit, fn=function(b) QLPobj(b, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau), gr=NULL, method="L-BFGS-B", lower=0, upper=1)
-    gbar <- gbar(b=soln$par, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau)
-    TFP <- exp(data$Y-cbind(data$K, data$L)%*%c(soln$par, LP_Labor))
-    Q3Q1hat <- as.numeric(quantile(TFP, .75)/quantile(TFP, .25))
-    Q9Q1hat <- as.numeric(quantile(TFP, .9)/quantile(TFP, .1))
-    Q95Q05hat <- as.numeric(quantile(TFP, .95)/quantile(TFP, .05))
-    betahat <- c(soln$par, LP_Labor)
-    dispersion <- c(Q3Q1hat, Q9Q1hat, Q95Q05hat)
-    print(betahat)
-    print(dispersion)
-    return(list(betahat=betahat, gbar=gbar, dispersion=dispersion))
-    #Exact Identifciation (No recentering)
-  } else if (ncol(mZ)==ncol(mX)){
-    soln <- optim(par=binit, fn=function(b) QLPobj(b, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=fitphi, fitlagphi=fitlagphi, gbar=gbar, tau=tau), gr=NULL, method="L-BFGS-B", lower=0, upper=1)
-    gbar <- 0
-    TFP <- exp(data$Y-cbind(data$K, data$L)%*%c(soln$par, LP_Labor))
-    Q3Q1hat <- as.numeric(quantile(TFP, .75)/quantile(TFP, .25))
-    Q9Q1hat <- as.numeric(quantile(TFP, .9)/quantile(TFP, .1))
-    Q95Q05hat <- as.numeric(quantile(TFP, .95)/quantile(TFP, .05))
-    betahat <- c(soln$par, LP_Labor)
-    dispersion <- c(Q3Q1hat, Q9Q1hat, Q95Q05hat)
-    return(list(betahat=betahat, gbar=gbar, dispersion=dispersion))
-  }
+  betahat <- GenSA(par=init, fn=QLPobj, mY=mY, mX=mX, mZ=mZ, h=h, tau=tau, lower=c(0,0), upper=c(1,1), control=list(max.time=1))$par
+  #LP Estiates
+  LPhat <- c(LPkhat, LPLabor)
+  return(list(betahat=betahat, LPhat=LPhat))
 }
 ############################################################################################
 #This function calculates the residuals used for the moment equations and objective function
 ###########################################################################################
-Lambda <- function(b, mY, mX, mlX, fitphi, fitlagphi, tau){
+Lambda <- function(b, mY, mX, Qfit){
+  resid <- mY-mX*b-Qfit
+  return(resid)
+} 
+#QLP GMM objective function
+ QLPobj <- function(b, mY, mX, mZ, Qfit, tau, h){
+  resid <- Lambda(b=b, mY=mY, mX=mX, Qfit=Qfit)
+  gni <- mZ*repmat((Gfn(-resid, h)-tau), 1, ncol(mZ))
+  gbar <- as.matrix(colMeans(gni))
+  W <- solve(tau*(1-tau)*t(mZ)%*%mZ/nrow(mZ))
+  go <- nrow(mZ)*t(gbar)%*%W%*%gbar
+  return(go)
+
+} 
+############################################################################################
+#Functions for Estimating QLP Coefficients
+###########################################################################################
+#Function that defines the residuals
+Lambda <- function(b, mY, mX){
+  b <- as.matrix(as.numeric(b))
+  resid <- mY-mX%*%b
+  return(resid)
+} 
+#QLP GMM objective function
+ QLPobj <- function(b, mY, mX, mZ, gbar, tau, h){
+  resid <- Lambda(b=b, mY=mY, mX=mX)
+  gni <- mZ*repmat((Gfn(-resid, h)-tau), 1, ncol(mZ))
+  gbar <- as.matrix(colMeans(gni))
+  W <- solve(tau*(1-tau)*t(mZ)%*%mZ/nrow(mZ))
+  go <- nrow(mZ)*t(gbar)%*%W%*%gbar
+  return(go)
+} 
+############################################################################################
+#Functions for Estimating LP Coefficients
+###########################################################################################
+#Function that defines the residuals
+LP_Lambda <- function(b, mY, mX, mlX, fitphi, fitlagphi){
+  b <- as.matrix(as.numeric(b))
   A <- fitphi-mX%*%b[1:ncol(mX)]
   B <- fitlagphi-mlX%*%b[1:ncol(mX)]
   step1 <- lm(A~B+I(B^2)+I(B^3))
   step1param <- as.numeric(coef(step1))
-  xifit <- A-cbind(1, B, B^2, B^3)%*%step1param
-  return(xifit)
+  wfit <- cbind(1, B, B^2, B^3)%*%step1param
+  resid <- mY-mX%*%b[1:ncol(mX)]-wfit
+  return(resid)
 } 
-gbar <- function(b, mY, mX, mlX, mZ, fitphi, fitlagphi, gbar, tau){
-     xifit <- matrix(Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau), ncol=1)
-     gni <- sweep(mZ*repmat(xifit,1, ncol(mZ)), MARGIN=2, gbar, `-`)
-     gbar <- as.matrix(colMeans(gni)) 
-     return(gbar)
-  }
- QLPobj <- function(b, mY, mX, mlX, mZ, fitphi, fitlagphi, gbar, tau){
-  xifit <- Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi, tau=tau)
-  gni <- sweep(mZ*repmat(xifit,1, ncol(mZ)), MARGIN=2, gbar, `-`)
-  gbar <- as.matrix(colMeans(gni))
-  W <- solve(var(gni))
-  go <- nrow(mY)*t(gbar)%*%W%*%gbar
+#LP GMM objective function
+LPobj <- function(b, mY, mX, mZ, mlX, fitphi, fitlagphi){
+  resid <- LP_Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi)
+  gni <- mZ*repmat(resid,1, ncol(mZ))
+  gnic <- colSums(gni)
+  go <- sum(gnic^2)
   return(go)
-
 }
-############################################################################################
-#This function calculates the jacobian of Lambda
-###########################################################################################
-# Lambda.derivative <- function(b, mY, mX, mlX, fitphi, fitlagphi, tau){
-#   b <- as.matrix(as.numeric(b))
-#   A <- fitphi-mX%*%b[1:ncol(mX)]
-#   B <- fitlagphi-mlX%*%b[1:ncol(mX)]
-#   step1 <- lm(A~B+I(B^2)+I(B^3))
-#   rho <- as.numeric(coef(step1))
-#   deriv <- -mX+mlX*rowSums(sweep(cbind(1,B,B^2), MARGIN=2, seq(1,length(rho))*rho, `*`))
-#   return(deriv)
-# } 
-##################################################################################
-##################################################################################
-##################################################################################
-
-
-
-
