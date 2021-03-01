@@ -1,4 +1,4 @@
-\begin{thebibliography}{47}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -11,17 +11,6 @@
 \textsc{Ackerberg, D.}, \textsc{Caves, K.} and \textsc{Frazer, G.} (2015).
   Identification properties of recent production function estimators.
   \textit{Econometrica}, \textbf{83}~(6), 2411--2451.
-
-\bibitem[{Ackerberg \textit{et~al.}(2014)Ackerberg, Chen, Hahn and
-  Liao}]{Ackerberg2014}
-\textsc{---}, \textsc{Chen, X.}, \textsc{Hahn, J.} and \textsc{Liao, Z.}
-  (2014). Asymptotic efficiency of semiparametric two-step {GMM}. \textit{The
-  Review of Economic Studies}, \textbf{81}~(3), 919--943.
-
-\bibitem[{Ai and Chen(2012)}]{Ai2012}
-\textsc{Ai, C.} and \textsc{Chen, X.} (2012). The semiparametric efficiency
-  bound for models of sequential moment restrictions containing unknown
-  functions. \textit{Journal of Econometrics}, \textbf{170}~(2), 442--457.
 
 \bibitem[{Aigner \textit{et~al.}(1977)Aigner, Lovell and Schmidt}]{Aigner1977}
 \textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
@@ -76,26 +65,6 @@
 \textsc{Chambers, C.~P.} (2007). Ordinal aggregation and quantiles.
   \textit{Journal of Economic Theory}, \textbf{137}~(1), 416--431.
 
-\bibitem[{Chaudhuri(1991{\natexlab{a}})}]{Chaudhuri1991}
-\textsc{Chaudhuri, P.} (1991{\natexlab{a}}). Global nonparametric estimation of
-  conditional quantile functions and their derivatives. \textit{Journal of
-  Multivariate Analysis}, \textbf{39}~(2), 246--269.
-
-\bibitem[{Chaudhuri(1991{\natexlab{b}})}]{Chaudhuri1991a}
-\textsc{---} (1991{\natexlab{b}}). Nonparametric estimates of regression
-  quantiles and their local bahadur representation. \textit{The Annals of
-  Statistics}, \textbf{19}~(2), 760--777.
-
-\bibitem[{Chen and Pouzo(2012)}]{2012a}
-\textsc{Chen} and \textsc{Pouzo} (2012). Estimation of nonparametric
-  conditional moment models with possibly nonsmooth generalized residuals.
-  \textit{Econometrica}, \textbf{80}~(1), 277--321.
-
-\bibitem[{Chen and Pouzo(2009)}]{Chen2009}
-\textsc{Chen, X.} and \textsc{Pouzo, D.} (2009). Efficient estimation of
-  semiparametric conditional moment models with possibly nonsmooth residuals.
-  \textit{Journal of Econometrics}, \textbf{152}~(1), 46--60.
-
 \bibitem[{Chernozhukov and Hansen(2005)}]{Chernozhukov2005}
 \textsc{Chernozhukov, V.} and \textsc{Hansen, C.} (2005). An {IV} model of
   quantile treatment effects. \textit{Econometrica}, \textbf{73}~(1), 245--261.
@@ -132,10 +101,6 @@
   allocation and plant size. \textit{The {RAND} Journal of Economics},
   \textbf{39}~(2), 329--351.
 
-\bibitem[{Horowitz(1998)}]{Horowitz1998}
-\textsc{Horowitz, J.~L.} (1998). Bootstrap methods for median regression
-  models. \textit{Econometrica}, \textbf{66}~(6), 1327.
-
 \bibitem[{Imbens and Newey(2009)}]{2009a}
 \textsc{Imbens} and \textsc{Newey} (2009). Identification and estimation of
   triangular simultaneous equations models without additivity.
@@ -151,11 +116,6 @@
   related risk considerations. \textit{American Journal of Agricultural
   Economics}, \textbf{61}~(2), 276--284.
 
-\bibitem[{Kaplan and Sun(2016)}]{Kaplan2016}
-\textsc{Kaplan, D.~M.} and \textsc{Sun, Y.} (2016). Smoothed estimating
-  equations for instrumental variables quantile regression. \textit{Econometric
-  Theory}, \textbf{33}~(1), 105--157.
-
 \bibitem[{Kasahara \textit{et~al.}(2017)Kasahara, Schrimpf and
   Suzuki}]{Kasahara2015}
 \textsc{Kasahara, H.}, \textsc{Schrimpf, P.} and \textsc{Suzuki, M.} (2017).
@@ -167,10 +127,6 @@
   enterprises, international trade, and productivity growth: Firm-level
   evidence from the united states. \textit{Review of Economics and Statistics},
   \textbf{91}~(4), 821--831.
-
-\bibitem[{Koekner \textit{et~al.}(1994)Koekner, Ng and Portnoy}]{KOENKER1994}
-\textsc{Koekner, R.}, \textsc{Ng, P.} and \textsc{Portnoy, S.} (1994). Quantile
-  smoothing splines. \textit{Biometrika}, \textbf{81}~(4), 673--680.
 
 \bibitem[{Koenker(2004)}]{Koenker2004}
 \textsc{Koenker, R.} (2004). Quantile regression for longitudinal data.
@@ -184,13 +140,8 @@
 \textsc{Lamarche, C.} (2010). Robust penalized quantile regression estimation
   for panel data. \textit{Journal of Econometrics}, \textbf{157}~(2), 396--408.
 
-\bibitem[{Lee(2003)}]{Lee2003}
-\textsc{Lee, S.} (2003). Efficient semiparametric estimation of a partially
-  linear quantile regression model. \textit{Econometric Theory},
-  \textbf{19}~(01).
-
 \bibitem[{Lee(2007)}]{Lee2007}
-\textsc{---} (2007). Endogeneity in quantile regression models: A control
+\textsc{Lee, S.} (2007). Endogeneity in quantile regression models: A control
   function approach. \textit{Journal of Econometrics}, \textbf{141}~(2),
   1131--1158.
 
@@ -221,9 +172,5 @@
 \bibitem[{Rostek(2009)}]{ROSTEK2009}
 \textsc{Rostek, M.} (2009). Quantile maximization in decision theory.
   \textit{The Review of Economic Studies}, \textbf{77}~(1), 339--371.
-
-\bibitem[{Whang(2006)}]{Whang2006}
-\textsc{Whang, Y.-J.} (2006). Smoothed empirical likelihood methods for
-  quantile regression models. \textit{Econometric Theory}, \textbf{22}~(02).
 
 \end{thebibliography}

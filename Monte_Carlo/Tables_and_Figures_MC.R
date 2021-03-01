@@ -9,6 +9,7 @@ load("simulation_LP.Rdata")
 #####################Compute Estimates and Standard Errors##################
 tau_table <- c(0.1, 0.25, 0.5, 0.75, 0.9)
 dB <- 2
+beta <- alpha
 #Store QLP Estimates and Standard Deviations
 QLP_coef <- replicate(length(DGPs), list(array(0, dim=c(length(tau), dB))))
 QLP_se <- replicate(length(DGPs), list(array(0, dim=c(length(tau), dB))))

@@ -13,45 +13,45 @@ while executing---line 1647 of file ecca.bst.bst
 Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
 while executing---line 1647 of file ecca.bst.bst
 Warning--missing institution in Kumar1999
-You've used 47 entries,
+You've used 36 entries,
             3231 wiz_defined-function locations,
-            981 strings with 11574 characters,
-and the built_in function-call counts, 36716 in all, are:
-= -- 3053
-> -- 2118
-< -- 40
-+ -- 985
-- -- 360
-* -- 2959
-:= -- 5732
-add.period$ -- 137
-call.type$ -- 47
-change.case$ -- 325
-chr.to.int$ -- 46
-cite$ -- 50
-duplicate$ -- 2847
-empty$ -- 2104
-format.name$ -- 415
-if$ -- 6606
-int.to.chr$ -- 2
+            913 strings with 10110 characters,
+and the built_in function-call counts, 28088 in all, are:
+= -- 2341
+> -- 1616
+< -- 31
++ -- 750
+- -- 280
+* -- 2266
+:= -- 4383
+add.period$ -- 104
+call.type$ -- 36
+change.case$ -- 250
+chr.to.int$ -- 36
+cite$ -- 39
+duplicate$ -- 2173
+empty$ -- 1603
+format.name$ -- 324
+if$ -- 5056
+int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 398
-newline$ -- 145
-num.names$ -- 188
-pop$ -- 792
+missing$ -- 303
+newline$ -- 112
+num.names$ -- 144
+pop$ -- 613
 preamble$ -- 1
-purify$ -- 278
+purify$ -- 214
 quote$ -- 0
-skip$ -- 1338
+skip$ -- 1028
 stack$ -- 0
-substring$ -- 2032
-swap$ -- 1859
-text.length$ -- 656
+substring$ -- 1555
+swap$ -- 1412
+text.length$ -- 496
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 423
+type$ -- 324
 warning$ -- 3
-while$ -- 262
+while$ -- 200
 width$ -- 0
-write$ -- 514
+write$ -- 393
 (There were 3 error messages)
