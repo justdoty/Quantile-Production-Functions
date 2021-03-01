@@ -14,6 +14,7 @@ panelT <- max(COL_data$year)-min(COL_data$year)
 print(panelT)
 print(nrow(COL_data))
 
+
 path_out <- '/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/'
 fileName <- paste(path_out, 'COLdata.csv',sep = '')
 write.csv(COL_data, fileName, row.names=FALSE)

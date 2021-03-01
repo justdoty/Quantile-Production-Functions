@@ -36,12 +36,12 @@ dB <- 2
 ############################################################################################
 ###############Moment Equation Objective Function############################################
 #############################################################################################
-Lambda <- function(theta, mY, mX, wfit){
-  resid <- (mY-wfit)-mX%*%theta[1:ncol(mX)]
+Lambda <- function(theta, mY, mX){
+  resid <- mY-mX%*%theta[1:ncol(mX)]
   return(resid)
 }
-QLP <- function(theta, mY, mX, mZ, wfit, h, tau){
-  xifit <- Lambda(theta=theta, mY=mY, mX=mX, wfit=wfit)
+QLP <- function(theta, mY, mX, mZ, h, tau){
+  xifit <- Lambda(theta=theta, mY=mY, mX=mX)
   gbar <- as.matrix(colMeans(mZ*repmat((Gfn(-xifit, h)-tau), 1, ncol(mZ))))
   W <- solve(tau*(1-tau)*t(mZ)%*%mZ/nrow(mZ))
   go <- nrow(mZ)*t(gbar)%*%W%*%gbar
@@ -56,9 +56,10 @@ LP <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
   step1param <- as.numeric(coef(step1))
   wfit <- cbind(1,B)%*%step1param
   xsi <- mY-mX%*%theta[1:ncol(mX)]-wfit
-  mom <- mZ*array(xsi, dim(mZ))
-  momc <- colSums(mom)
-  go <- sum(momc^2)
+  go <- crossprod(xsi)
+  # mom <- mZ*array(xsi, dim(mZ))
+  # momc <- colSums(mom^2)
+  # go <- sum(momc)
   return(go)
 }
 ##################################################################################
@@ -288,13 +289,14 @@ for (d in 1:length(DGPs)){
     innerloop_QLP <- function(q){
       QR <- as.numeric(coef(rq(Output~Capital+Labor, tau=tau[q])))
       #Output
-      mY <- Output
+      mY <- Output-wfit
       #Matrix of Instruments
       mZ <- cbind(Capital, Labor)
       #Contemporary Values
       mX <- cbind(Capital, Labor)
-      QRresults <- GenSA(par=c(alphak0[q], alphal0[q]), fn=QLP, mY=mY, mX=mX, mZ=mZ, wfit=wfit,
-        h=0.1, tau=tau[q], lower=c(0,0), upper=c(1,1), control=list(max.time=1))$par
+      # QRresults <- GenSA(par=c(alphak0[q], alphal0[q]), fn=QLP, mY=mY, mX=mX, mZ=mZ,
+      #   h=0.1, tau=tau[q], lower=c(0,0), upper=c(1,1), control=list(max.time=1))$par
+      QRresults <- as.numeric(coef(rq(mY~mX-1, tau=tau[q])))
       #############################################################
       QDIFresults <- c(QRresults[1]-QR[2], QRresults[2]-QR[3])
       return(c(QRresults, QDIFresults))
@@ -304,11 +306,11 @@ for (d in 1:length(DGPs)){
       # resmat_LPQ[,,,d][j,,] <- t(matrix(unlist(lapply(1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
       q.time <- proc.time()
       resmat <- t(matrix(unlist(parLapply(cl, 1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
-      resmat_LPQ[,,,d][j,,] <- resmat[,1:2]
-      resmat_Qdif[,,,d][j,,] <- resmat[,3:4]
+      resmat_LPQ[,,,d][j,,] <- t(resmat[,1:2])
+      resmat_Qdif[,,,d][j,,] <- t(resmat[,3:4])
       ####################################################################
       print("Q-GMM Estimates")
-      print(resmat[,1:2])
+      print(resmat_LPQ[,,,d][j,,])
       print(proc.time()-q.time)
   }
 }

@@ -126,17 +126,17 @@ finalQLP <- function(tau, h, ind, data, binit, gbar, seed, tfptau){
   mZ <- cbind(as.matrix(newdata$Kcon), as.matrix(newdata$Lcon), as.matrix(newdata$Klag), as.matrix(newdata$Llag), as.matrix(newdata$Pxcon), as.matrix(newdata$Pxlag))
   #QLP Estimates for Capital from (QR) good starting values as well
   mom <- rq(mY~mX-1, tau=tau)
-  init <- as.numeric(coef(mom))
-  if (is.null(h)){
-    h <- ivqr.bw(p=tau, Y=mY, X=mX, b.init=init)
-  }
-  betahat <- GenSA(par=init, fn=QLPobj, mY=mY, mX=mX, mZ=mZ, gbar=gbar, h=h, tau=tau, lower=c(0,0), upper=c(1,1), control=list(max.time=1))$par
+  betahat <- as.numeric(coef(mom))
+  # if (is.null(h)){
+  #   h <- ivqr.bw(p=tau, Y=mY, X=mX, b.init=init)
+  # }
+  # betahat <- GenSA(par=init, fn=QLPobj, mY=mY, mX=mX, mZ=mZ, gbar=gbar, h=h, tau=tau, lower=c(0,0), upper=c(1,1), control=list(max.time=1))$par
   #LP Estiates
   LPhat <- c(LPkhat, LPLabor)
   #Difference between QLP and QR estimates
   qdifhat <- betahat-qrhat
   #QLP Value of Moments
-  gbar <- gbar(b=betahat, mY=mY, mX=mX, mZ=mZ, tau=tau, h=h)
+  # gbar <- gbar(b=betahat, mY=mY, mX=mX, mZ=mZ, tau=tau, h=h)
   # gbar <- 0
   #QLP TFP estimates (in logs)
   TFP <- data$Y-cbind(data$K, data$L)%*%betahat
@@ -185,12 +185,15 @@ LP_Lambda <- function(b, mY, mX, mlX, fitphi, fitlagphi){
   return(resid)
 } 
 #LP GMM objective function
-LPobj <- function(b, mY, mX, mZ, mlX, fitphi, fitlagphi){
+LPobj <- function(b, mY, mX, mlX, mZ, fitphi, fitlagphi){
   resid <- LP_Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi)
-  gni <- mZ*repmat(resid,1, ncol(mZ))
-  gnic <- colSums(gni)
-  go <- sum(gnic^2)
-  return(go)
+  #Since capital is exogeneous in this model, we do not consider using instruments in estimation
+  #Instead, simply use sum of squared errors to get a consistent estimate of capital elasticity
+  xi <- crossprod(resid)
+  # gni <- mZ*repmat(resid,1, ncol(mZ))
+  # gnic <- colSums(gni^2)
+  # xi <- sum(gnic)
+  return(xi)
 }
 
 
