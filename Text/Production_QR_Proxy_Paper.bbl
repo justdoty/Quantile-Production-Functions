@@ -1,4 +1,4 @@
-\begin{thebibliography}{36}
+\begin{thebibliography}{37}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -65,9 +65,13 @@
 \textsc{Chambers, C.~P.} (2007). Ordinal aggregation and quantiles.
   \textit{Journal of Economic Theory}, \textbf{137}~(1), 416--431.
 
+\bibitem[{Chernozhukov(2005)}]{Chernozhukov2005a}
+\textsc{Chernozhukov, V.} (2005). Extremal quantile regression. \textit{The
+  Annals of Statistics}, \textbf{33}~(2), 806--839.
+
 \bibitem[{Chernozhukov and Hansen(2005)}]{Chernozhukov2005}
-\textsc{Chernozhukov, V.} and \textsc{Hansen, C.} (2005). An {IV} model of
-  quantile treatment effects. \textit{Econometrica}, \textbf{73}~(1), 245--261.
+\textsc{---} and \textsc{Hansen, C.} (2005). An {IV} model of quantile
+  treatment effects. \textit{Econometrica}, \textbf{73}~(1), 245--261.
 
 \bibitem[{Chesher(2003)}]{Chesher2003}
 \textsc{Chesher, A.} (2003). Identification in nonseparable models.

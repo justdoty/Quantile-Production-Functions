@@ -506,7 +506,7 @@ The contribution of the paper is twofold. First, we propose a new estimation met
 
 @Article{Aragon2005,
   author    = {Y. Aragon and A. Daouia and C. Thomas-Agnan},
-  title     = {{NONPARAMETRIC} {FRONTIER} {ESTIMATION}: A {CONDITIONAL} {QUANTILE}-{BASED} {APPROACH}},
+  title     = {Nonparametric Frontier Estimation: A Conditional Quantile Based Approach},
   journal   = {Econometric Theory},
   year      = {2005},
   volume    = {21},
@@ -531,7 +531,7 @@ The contribution of the paper is twofold. First, we propose a new estimation met
 
 @Article{Lee2003,
   author    = {Sokbae Lee},
-  title     = {{EFFICIENT} {SEMIPARAMETRIC} {ESTIMATION} {OF} A {PARTIALLY} {LINEAR} {QUANTILE} {REGRESSION} {MODEL}},
+  title     = {Efficient Semiparametric Estimation of a Partially Linear Quantile Regression Model},
   journal   = {Econometric Theory},
   year      = {2003},
   volume    = {19},
