@@ -228,5 +228,102 @@ save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy
 ###############################################################################
 ###############################################################################
 ###############################################################################
+#APPENDIX PLOTS AND TABLES (OPTIONAL)#########################################
+###############################################################################
+###############################################################################
+###############################################################################
 
+###############################################################################
+#Store QACF Results
+##############################################################################
+#Store QACF Estimates and Standard Deviations
+QACF_betahat <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QACF_betaSE <- array(0, c(length(tauvec), dZ, length(NAICS)))
+#Store QR Estimates and Standard Deviations
+QR_betahat <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QR_betaSE <- array(0, c(length(tauvec), dZ, length(NAICS)))
+#Store QDIF Estimates and Standard Deviations
+QDIF_hat <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QDIF_SE <- array(0, c(length(tauvec), dZ, length(NAICS)))
+#Store QTFP Estimates and Standard Deviations
+QTFP_hat <- array(0, c(length(tauvec), length(tfptau), length(NAICS)))
+QTFP_SE <- array(0, c(length(tauvec), length(tfptau), length(NAICS)))
+#Store QACF RTS Estimates and Standard Deviations
+QACF_RTS <- array(0, c(length(tauvec), length(NAICS)))
+QACF_RTS_SE <- array(0, c(length(tauvec), length(NAICS)))
+#Store QACF Capital Intensity Estimates and Standard Deviations
+QACF_IN <- array(0, c(length(tauvec), length(NAICS)))
+QACF_IN_SE <- array(0, c(length(tauvec), length(NAICS)))
+#############################################################################
+#Store ACF Results
+#############################################################################
+#Store ACF Estimates and Standard Devitaions
+ACF_betahat <- array(0, c(length(NAICS), dZ))
+ACF_betaSE <- array(0, c(length(NAICS), dZ))
+#Store ACF RTS Standard Deviations
+ACF_RTS_SE <- array(0, c(length(NAICS), 1))
+#Store ACF Capital Intensity Standard Deviations
+ACF_IN_SE <- array(0, c(length(NAICS), 1))
+##############################################################################
+#Load ACF and QACF Results
+#############################################################################@
+for (i in 1:length(NAICS)){
+  for (j in 1:length(tauvec)){
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QACF/QACF_Boot_US_Q%s.RData", j))
+    #QACF Estimates and Standard Deviations
+    QACF_betahat[,,i][j,] <- betahat[,i]
+    QACF_betaSE[,,i][j,] <- apply(betaboot[,,i], 2, sd)
+    #QR Estimates and Standard Deviations
+    QR_betahat[,,i][j,] <- qrhat[,i]
+    QR_betaSE[,,i][j,] <- apply(qrboot[,,i], 2, sd)
+    #QACF-QR Estimates and Standard Deviations
+    QDIF_hat[,,i][j,] <- qdifhat[,i]
+    QDIF_SE[,,i][j,] <- apply(qdifboot[,,i], 2, sd)
+    #QACF QTFP Estimates and Standard Deviations
+    QTFP_hat[,,i][j,] <- QTFPhat[,i]
+    QTFP_SE[,,i][j,] <- apply(QTFPboot[,,i], 2, sd)
+    #QACF RTS Estimates and Standard Deviations
+    QACF_RTS[j,i] <- sum(betahat[,i])
+    QACF_RTS_SE[j,i] <- sd(apply(betaboot[,,i], 1, sum))
+    #QACF Capital Intensity Estimates and Standard Deviations
+    QACF_IN[j,i] <- betahat[,i][1]/betahat[,i][2]
+    QACF_IN_SE[j,i] <- sd(apply(betaboot[,,i], 1, function(x) x[1]/x[2]))
+    #Load the ACF estimates from a single quantile environment: they should be the same across quantiles
+    if (tauvec[j]==0.1){
+      #ACF Estimates and Standard Deviations
+      ACF_betahat[i,] <- ACFhat[,i]
+      ACF_betaSE[i,] <- apply(ACFboot[,,i], 2, sd)
+      #Store ACF RTS Standard Deviations
+      ACF_RTS_SE[i,] <- sd(apply(ACFboot[,,i], 1, sum))
+      #Store ACF Capital Intensity Standard Deviations
+      ACF_IN_SE[i,] <- sd(apply(ACFboot[,,i], 1, function(x) x[1]/x[2]))
+    }
+  }
+}
+#ACF RTS Estimates
+ACF_RTS <- as.matrix(apply(ACF_betahat, 1, sum))
+#ACF Capital Intensity Estimates
+ACF_IN <- as.matrix(apply(ACF_betahat, 1, function(x) x[1]/x[2]))
+#Make an estimates table for QACF Beta Estimates and Standard Deviations
+QACF_betatable <- data.frame(cbind(rep(tauvec, length(NAICS)), cbind(do.call(rbind, lapply(seq(dim(QACF_betahat)[3]), function(x) QACF_betahat[ , , x])), do.call(rbind, lapply(seq(dim(QACF_betaSE)[3]), function(x) QACF_betaSE[ , , x])))[,c(rbind(c(1:dZ), dZ+(1:dZ)))]))
+QACFestimates <- cbind(QACF_betatable, c(QACF_RTS), c(QACF_RTS_SE), c(QACF_IN), c(QACF_IN_SE))
+colnames(QACFestimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In', 'In_SE')
+#Make an estimates table for ACF Beta Estimates and Standard Deviations
+ACF_betatable <- data.frame(cbind(ACF_betahat, ACF_betaSE)[,c(rbind(c(1:dZ), dZ+(1:dZ)))])
+ACFestimates <- cbind(ACF_betatable, ACF_RTS, ACF_RTS_SE, ACF_IN, ACF_IN_SE)
+colnames(ACFestimates) <- c('K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In', 'In_SE')
+#Prepare estimates for table in paper/presentation
+tau_table <- c(0.1, 0.25, 0.5, 0.9)
 
+#Table Labels
+NAICS_labels <- array(NA, length(tau_table)*length(NAICS)); NAICS_labels[seq(1, length(tau_table)*length(NAICS), by=length(tau_table))] <- NAICS
+NAICS_labels[is.na(NAICS_labels)] <- ""
+
+QACF_Table <- cbind(NAICS_labels, QACFestimates[rep(tauvec, length(NAICS))%in%tau_table, ])
+colnames(QACF_Table) <- c("NAICS", "$\\tau$", rep(c("Coef.", "s.e"), dZ+2))
+QACF_Table_X <- xtable(QACF_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex", caption="ACF Coefficient Estimates and Standard Errors for US Manufacturing Firms")
+align(QACF_Table_X) <- rep('c', 7+dZ*2)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
+print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_ACF_Estimates.tex")

@@ -788,18 +788,6 @@ The contribution of the paper is twofold. First, we propose a new estimation met
   publisher = {Elsevier {BV}},
 }
 
-@Article{2009a,
-  author    = {Imbens and Newey},
-  title     = {Identification and Estimation of Triangular Simultaneous Equations Models Without Additivity},
-  journal   = {Econometrica},
-  year      = {2009},
-  volume    = {77},
-  number    = {5},
-  pages     = {1481--1512},
-  doi       = {10.3982/ecta7108},
-  publisher = {The Econometric Society},
-}
-
 @Article{Chesher2003,
   author    = {Andrew Chesher},
   title     = {Identification in Nonseparable Models},
