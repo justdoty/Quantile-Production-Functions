@@ -23,12 +23,15 @@ NAICS_labels[is.na(NAICS_labels)] <- ""
 summary_table <- cbind(NAICS_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
 colnames(summary_table) <- c("Industry (NAICS code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")
 
-summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex", caption="Summary Statistics (in logs) for the US Manufacturing Data")
+summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex")
 align(summary_table) <- rep('c', 8)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline '
-print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex")
+#For copy pasting into latex
+print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#Saves to file
+print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex")
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
@@ -127,12 +130,15 @@ NAICS_labels[is.na(NAICS_labels)] <- ""
 
 QLP_Table <- cbind(NAICS_labels, QLPestimates[rep(tauvec, length(NAICS))%in%tau_table, ])
 colnames(QLP_Table) <- c("NAICS", "$\\tau$", rep(c("Coef.", "s.e"), dZ+2))
-QLP_Table_X <- xtable(QLP_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex", caption="Coefficient Estimates and Standard Errors for US Manufacturing Firms")
+QLP_Table_X <- xtable(QLP_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex")
 align(QLP_Table_X) <- rep('c', 7+dZ*2)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
-print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex")
+#For copy pasting to latex
+print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#For saving to file
+print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex")
 ##############################################################################################
 ############################Coefficicent Plots######################################
 ################################################################################################
@@ -321,9 +327,12 @@ NAICS_labels[is.na(NAICS_labels)] <- ""
 
 QACF_Table <- cbind(NAICS_labels, QACFestimates[rep(tauvec, length(NAICS))%in%tau_table, ])
 colnames(QACF_Table) <- c("NAICS", "$\\tau$", rep(c("Coef.", "s.e"), dZ+2))
-QACF_Table_X <- xtable(QACF_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex", caption="ACF Coefficient Estimates and Standard Errors for US Manufacturing Firms")
+QACF_Table_X <- xtable(QACF_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex")
 align(QACF_Table_X) <- rep('c', 7+dZ*2)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
-print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_ACF_Estimates.tex")
+#For copy pasting to latex
+print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#For saving to file
+print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_ACF_Estimates.tex")

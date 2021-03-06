@@ -1,5 +1,5 @@
-# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/QLP_aux.R')
-source('PFQR/FUN/QLP_aux.R')
+source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/QLP_aux.R')
+# source('PFQR/FUN/QLP_aux.R')
 #For Paralelization
 require(snow)
 #For MM 
@@ -18,46 +18,28 @@ cl <- makeCluster(5)
 #Specifications for Error Distributions
 DGPs <- c("normal", "student", "log")
 #MC Replications
-nreps <- 1000
-# nreps <- 3
+# nreps <- 1000
+nreps <- 3
 #Vector of quantiles
 # tau <- seq(5,95,by=5)/100
 tau <- c(0.1, 0.25, 0.5, 0.75, 0.9)
 #Standard deviation of log wage process
-siglnw <- 0
+siglnw <- 0.1
 #Labor chosen at time timeb
-timeb <- 0
+timeb <- 0.5
 #Standard deviation of optimization error
-sigoptl <- 0.37
-#Number of parameters to estimate in QGMM
+sigoptl <- 0
+#Number of parameters to estimate 
 dB <- 2
-############################################################################################
-###############Moment Equation Objective Function############################################
-#############################################################################################
-Lambda <- function(theta, mY, mX){
-  resid <- mY-mX%*%theta[1:ncol(mX)]
-  return(resid)
-}
-QLP <- function(theta, mY, mX, mZ, h, tau){
-  xifit <- Lambda(theta=theta, mY=mY, mX=mX)
-  gbar <- as.matrix(colMeans(mZ*repmat((Gfn(-xifit, h)-tau), 1, ncol(mZ))))
-  W <- solve(tau*(1-tau)*t(mZ)%*%mZ/nrow(mZ))
-  go <- nrow(mZ)*t(gbar)%*%W%*%gbar
-  return(go)
-
-}
-############ LP Moment Equations############################
-LP <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
+############ ACF Moment Equations############################
+ACF <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
   A <- fitphi-mX%*%theta[1:ncol(mX)]
   B <- fitlagphi-mlX%*%theta[1:ncol(mX)]
   step1 <- lm(A~B)
   step1param <- as.numeric(coef(step1))
-  wfit <- cbind(1,B)%*%step1param
-  xsi <- mY-mX%*%theta[1:ncol(mX)]-wfit
-  go <- crossprod(xsi)
-  # mom <- mZ*array(xsi, dim(mZ))
-  # momc <- colSums(mom^2)
-  # go <- sum(momc)
+  xifit <- A-cbind(1,B)%*%step1param
+  mW <- solve(crossprod(mZ))/nrow(mZ)
+  go <- t(crossprod(mZ, xifit))%*%mW%*%(crossprod(mZ, xifit))
   return(go)
 }
 ##################################################################################
@@ -66,10 +48,10 @@ LP <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
 #############################################################################################
 ####################Initialize Matrices to Store Results#####################################
 #Store results for quantile estimators
-resmat_LPQ <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
+resmat_ACFQ <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
 resmat_QR <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
-#Store results for LP estimator
-resmat_LP <- array(0, dim=c(nreps, dB, length(DGPs)))
+#Store results for ACF estimator
+resmat_ACF <- array(0, dim=c(nreps, dB, length(DGPs)))
 #Time entire code
 overall.start.time <- Sys.time()
 ####################DGP########################################################
@@ -260,44 +242,40 @@ for (d in 1:length(DGPs)){
     Productivity_t_minus_b_Con <- c(t(omgdataminusb[,(starttime+2):(overallt)]))
     True_Labor_Con <- c(t(truelnldata[,(starttime+2):(overallt)]))
 
-    ##########################LP Estimation################################
+    ##########################ACF Estimation################################
     ################################################################################
     #First Stage########################################################
-    firststage_LP <- lm(Output~Capital+Labor+Materials)
-    phi0 <- firststage_LP$coefficients[1]
-    LP_Labor <- firststage_LP$coefficients[3]
-    resmat_LP[,,d][j,][2] <- LP_Labor
-    phi <- fitted(firststage_LP)-as.matrix(Labor)%*%LP_Labor
-    phi_LP <- phi
-    dim(phi_LP) <- c(t, n)
-    phi_Lag_1_LP <- c(phi_LP[1:(t-1),])
-    phi_Con_LP <- c(phi_LP[2:t,])
-    mY <- as.matrix(Output_Con-as.matrix(Labor_Con)%*%LP_Labor)
+    firststage_ACF <- lm(Output~Capital+Labor+Materials)
+    phi <- fitted(firststage_ACF)
+    phi_ACF <- phi
+    dim(phi_ACF) <- c(t, n)
+    phi_Lag_1_ACF <- c(phi_ACF[1:(t-1),])
+    phi_Con_ACF <- c(phi_ACF[2:t,])
+    #Output
+    mY <- as.matrix(Output_Con)
     #Matrix of Instruments
-    mZ <- as.matrix(Capital_Con)
+    mZ <- cbind(Capital_Con, Labor_Lag_1)
     #Contemporary Values
-    mX <- as.matrix(Capital_Con)
+    mX <- cbind(Capital_Con, Labor_Con)
     #Lag Values
-    mlX <- as.matrix(Capital_Lag_1)
-    # results_LP <- GenSA(par=alphak, fn=LP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_LP, fitlagphi=phi_Lag_1_LP,  
-    #   lower=0, upper=1, control=list(max.time=5))$par
-    results_LP <- optim(par=alphak, fn=function(theta) LP(theta, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_LP, fitlagphi=phi_Lag_1_LP), gr=NULL, method="L-BFGS-B", lower=0, upper=1)$par
+    mlX <- cbind(Capital_Lag_1, Labor_Lag_1)
+    results_ACF <- optim(par=c(alphak, alphal), fn=function(theta) ACF(theta, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_ACF, fitlagphi=phi_Lag_1_ACF), gr=NULL, method="L-BFGS-B", lower=c(0,0), upper=c(1,1))$par
     #Estimated productivity
-    wfit <- phi-Capital*results_LP
+    wfit <- phi-cbind(Capital, Labor)%*%as.matrix(as.numeric(results_ACF))
     ############################################################
-    resmat_LP[,,d][j,][1] <- results_LP[1]
-    print("LP Estimates")
-    print(resmat_LP[,,d][j,])
+    resmat_ACF[,,d][j,] <- results_ACF
+    print("ACF Estimates")
+    print(resmat_ACF[,,d][j,])
     ##################################Estimation############################################
     ##########################################################################################
     # ##########################################################################################
     clusterExport(cl, c('n','overallt','t','starttime','nreps', 'tau', 'dB', 'siglnw', 'timeb',
-    'sigoptl', 'Lambda', 'resmat_LPQ', 'QLP', 'rq', 'fitted',
+    'sigoptl', 'Lambda', 'resmat_ACFQ', 'rq', 'fitted',
     'Output', 'Capital', 'Labor', 'Materials',
     'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Con', 'Output_Con',
     'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0', 'repmat',
     'Itilde.KS17', 'GenSA','Gfn', 'wfit', 'resmat_QR'), envir=environment())
-    innerloop_QLP <- function(q){
+    innerloop_QACF <- function(q){
       QR <- as.numeric(coef(rq(Output~Capital+Labor, tau=tau[q])))
       #Output
       mY <- Output-wfit
@@ -305,18 +283,16 @@ for (d in 1:length(DGPs)){
       mZ <- cbind(Capital, Labor)
       #Contemporary Values
       mX <- cbind(Capital, Labor)
-      # QRresults <- GenSA(par=c(alphak0[q], alphal0[q]), fn=QLP, mY=mY, mX=mX, mZ=mZ,
-      #   h=0.1, tau=tau[q], lower=c(0,0), upper=c(1,1), control=list(max.time=1))$par
       QRresults <- as.numeric(coef(rq(mY~mX-1, tau=tau[q])))
       #############################################################
       return(c(QRresults, QR[-1]))
       ##################################################################
     }
       #Optional for serial computing
-      # resmat_LPQ[,,,d][j,,] <- t(matrix(unlist(lapply(1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
+      # resmat_ACFQ[,,,d][j,,] <- t(matrix(unlist(lapply(1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
       q.time <- proc.time()
       resmat <- t(matrix(unlist(parLapply(cl, 1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
-      resmat_LPQ[,,,d][j,,] <- t(resmat[,1:2])
+      resmat_ACFQ[,,,d][j,,] <- t(resmat[,1:2])
       resmat_QR[,,,d][j,,] <- t(resmat[,3:4])
       ####################################################################
       print("Q-GMM Estimates")
@@ -339,7 +315,7 @@ beta3 <- cbind(betak3, betal3)
 #Combined
 beta <- rbind(beta1, beta2, beta3)
 #Save Results
-save(nreps, DGPs, resmat_LP, resmat_LPQ, resmat_QR, beta, tau, file="PFQR/SIM/simulation_LP.Rdata")
+# save(nreps, DGPs, resmat_ACF, resmat_ACF, resmat_QR, beta, tau, dB, file="PFQR/SIM/simulation_ACF.Rdata")
 
 
 

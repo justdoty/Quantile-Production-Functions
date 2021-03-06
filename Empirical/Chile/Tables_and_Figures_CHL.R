@@ -24,12 +24,13 @@ ISIC_labels[is.na(ISIC_labels)] <- ""
 summary_table <- cbind(ISIC_labels, rep(c("Output", "Capital", "Labor", "Materials"), 4), sumstat)
 colnames(summary_table) <- c("Industry (ISIC code)", " ", "1st Qu.", 'Median', "3rd Qu.", 'Mean', "sd")
 
-summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex", caption="Summary Statistics (in logs) for Chile Manufacturing Data")
+summary_table <- xtable(summary_table, digits=c(2,2,0,4,4,2,2,2), type="latex")
 align(summary_table) <- rep('c', 8)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline '
-print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Summary.tex")
+print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Summary.tex")
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
@@ -128,12 +129,13 @@ ISIC_labels[is.na(ISIC_labels)] <- ""
 
 QLP_Table <- cbind(ISIC_labels, QLPestimates[rep(tauvec, length(ISIC))%in%tau_table, ])
 colnames(QLP_Table) <- c("ISIC", "$\\tau$", rep(c("Coef.", "s.e"), dZ+2))
-QLP_Table_X <- xtable(QLP_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex", caption="Coefficient Estimates and Standard Errors for Chilean Manufacturing Firms")
+QLP_Table_X <- xtable(QLP_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex")
 align(QLP_Table_X) <- rep('c', 7+dZ*2)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
-print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Beta_Estimates.tex")
+print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Beta_Estimates.tex")
 ##############################################################################################
 ############################Coefficicent Plots######################################
 ################################################################################################
@@ -321,12 +323,13 @@ ISIC_labels[is.na(ISIC_labels)] <- ""
 
 QACF_Table <- cbind(ISIC_labels, QACFestimates[rep(tauvec, length(ISIC))%in%tau_table, ])
 colnames(QACF_Table) <- c("ISIC", "$\\tau$", rep(c("Coef.", "s.e"), dZ+2))
-QACF_Table_X <- xtable(QACF_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex", caption="ACF Coefficient Estimates and Standard Errors for Chilean Manufacturing Firms")
+QACF_Table_X <- xtable(QACF_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex")
 align(QACF_Table_X) <- rep('c', 7+dZ*2)
 addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
-print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, caption.placement="top", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_ACF_Estimates.tex")
+print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_ACF_Estimates.tex")
 
 
 

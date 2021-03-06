@@ -69,7 +69,7 @@ A Proxy Variable Approach for Quantile Production Functions
 
 
 \begin{abstract}
-We propose a new approach to estimate firm-level production functions in which output elasticities are heterogeneous across the firm size distribution. 
+We propose a new approach to estimate production functions in which output elasticities are heterogeneous across the firm size distribution. 
 This paper extends the proxy variable approach for estimating production functions to the conditional quantiles of firm production. Production function parameters are estimated in a simple two-stage approach which relies a location-shift assumption on unobserved productivity. We show that this method allows us to capture heterogeneity in output elasticities along the firm size distribution that may not be found in conditional mean estimates of \cite{Olley1996} and \cite{Levinsohn2003}. We provide small-sample evidence in a Monte Carlo study to show that this approach is robust compared to other production function estimators. The method is applied to firm and plant-level manufacturing data from the US, Chile, and Colombia.
 \end{abstract}
 
@@ -198,99 +198,179 @@ The connection between production risk and heterogeneity in quantiles is interes
 A general quantile model such as the one specified in \eqref{pfrc} can be seen as an extension of the higher-order moment estimation of risk initiated by \cite{Antle1983}. However, it can also be seen purely as an econometric specification issue as we are unaware of any tests that could distinguish between higher order moment production risk and misspecification. We choose the latter interpretation for our model. 
 
 \subsection{A Two-Step Estimator for Quantile Production Functions}
-Let $\varepsilon_{it}=k_{it}[\beta_{k}(\eta_{it})-\beta^{\mu}_{k}]+l_{it}[\beta_{l}(\eta_{it})-\beta^{\mu}_{l}]$ where $(\beta_{k}^{\mu}, \beta_{l}^{\mu})=\boldsymbol{\beta}^{\mu}=\mathbbm{E}[\boldsymbol{\beta}(\eta_{it})]$ is the mean of the random coefficient. The conditional mean version of the random coefficient production function can then be written as
+Let $\varepsilon_{it}=k_{it}[\beta_{k}(\eta_{it})-\beta^{\mu}_{k}]+l_{it}[\beta_{l}(\eta_{it})-\beta^{\mu}_{l}]$ where $(\beta_{k}^{\mu}, \beta_{l}^{\mu})=\boldsymbol{\beta}^{\mu}=\mathbbm{E}[\boldsymbol{\beta}(\eta_{it})]$ is the mean of the random coefficients. The conditional mean version of the random coefficient production function can then be written as
 \begin{equation}
 y_{it}=(\beta_{0}+\omega_{it})+\beta_{k}^{\mu}k_{it}+\beta_{l}^{\mu}l_{it}+\varepsilon_{it},
 \end{equation}
-where $\mathbbm{E}[\varepsilon_{it}|\mathcal{I}_{it}]=0$. This identity is useful since we can now use a consistent estimator of $(\beta_{0}+\omega_{it})$ which can be plugged into the random coefficient production function in equation \eqref{pfrc}. For example, if one is willing to make the appropriate assumptions regarding the timing of labor decisions and the structure of the proxy variable mentioned earlier, then $(\beta_{0}\hat{+}\omega_{it})=\hat{\Phi}_{t}(k_{it}, m_{it})-\hat{\beta}_{k}^{\mu}k_{it}$ in the LP procedure. The ACF estimator can likewise be implemented by using  $(\beta_{0}\hat{+}\omega_{it})=\hat{\Phi}_{t}(k_{it}, l_{it}, m_{it})-\hat{\beta}_{k}^{\mu}k_{it}-\hat{\beta}_{l}^{\mu}l_{it}$ as the labor elasticity is estimated in the second stage of their procedure.
+where $\mathbbm{E}[\varepsilon_{it}|\mathcal{I}_{it}]=0$. This identity is useful since we can now use a consistent estimator of $(\beta_{0}+\omega_{it})$ which can be plugged into the random coefficient production function in equation \eqref{pfrc}. For example, if one is willing to make the appropriate assumptions regarding the timing of labor decisions and the structure of the proxy variable mentioned earlier, then $(\widehat{\beta_{0}+\omega_{it}})=\hat{\Phi}_{t}(k_{it}, m_{it})-\hat{\beta}_{k}^{\mu}k_{it}$ in the LP procedure. The ACF estimator can likewise be implemented by using  $(\widehat{\beta_{0}+\omega_{it}})=\hat{\Phi}_{t}(k_{it}, l_{it}, m_{it})-\hat{\beta}_{k}^{\mu}k_{it}-\hat{\beta}_{l}^{\mu}l_{it}$ as the labor elasticity is estimated in the second stage of their procedure.
 
-Intuitively, the appropriate choice for estimation of $(\beta_{0}+\omega_{it})$ places an identification restriction on the location of the conditional distribution of $S_{t}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}$. \cite{Canay2011} approaches identification more formally. He shows using a deconvolution type argument that the distribution of the random coefficient component of the response variable is identified up to a location. The location of the conditional distribution in his model is identified from regularity conditions in a panel data model with first-differences of an unobserved individual effect. It is not straightforward how to extend this idea to our model where the unobserved effect, productivity, varies over time and exhibits serial correlation. We are currently working on a paper that proposes a flexible identification strategy for $S_{t}$ and where the location of the conditional distribution can be identified under alternative production function approaches. For example, one may be interested in utilizing the methodology of \cite{Gandhi2020} to estimate productivity using an average gross-output production function. 
+Intuitively, the appropriate choice for estimation of $(\beta_{0}+\omega_{it})$ places an identification restriction on the location of the conditional distribution of $S_{t}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}$. \cite{Canay2011} approaches identification more formally. He shows using a deconvolution type argument that the distribution of the random coefficient component of the response variable is identified up to a location. The location of the conditional distribution in his model is identified from regularity conditions in a panel data model with first-differences of an unobserved individual effect. It is not straightforward how to extend this idea to our model where the unobserved effect, productivity, varies over time and exhibits serial correlation. It would be interesting to explore whether a flexible identification strategy for $S_{t}$ could be proposed such that the location of the conditional distribution can be identified under alternative production function approaches. For example, one may be interested in utilizing the methodology of \cite{Gandhi2020} to estimate productivity using an average gross-output production function. We leave this as future research agenda.
 
 Once estimates of $(\beta_{0}+\omega_{it})$ are obtained, estimates of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$
 can be obtained from a quantile regression of $\hat{y}_{it}=y_{it}-(\beta_{0}\hat{+}\omega_{it})$ with a constant omitted in estimation. To summarize these steps:
 \begin{enumerate}
-	\item Let $\hat{\beta}_{k}^{\mu}$ and $\hat{\beta}_{k}^{\mu}$ be consistent estimators of $\beta_{k}^{\mu}$ and $\beta_{k}^{\mu}$ from a value-added production function. For example, using the OP, LP, or ACF estimation strategy. Construct the estimator, $(\beta_{0}\hat{+}\omega_{it})$ using these estimates
-	\item Let $\hat{y}_{it}=y_{it}-(\beta_{0}\hat{+}\omega_{it})$ and define the two-step estimator of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ as:
+	\item Let $\hat{\beta}_{k}^{\mu}$ and $\hat{\beta}_{l}^{\mu}$ be consistent estimators of $\beta_{k}^{\mu}$ and $\beta_{l}^{\mu}$ from a value-added production function. For example, using the OP, LP, or ACF estimation strategy. Construct the estimator, $(\widehat{\beta_{0}+\omega_{it}})$ using these estimates
+	\item Let $\boldsymbol{\beta}(\tau)=(\beta_{k}(\tau), \beta_{l}(\tau))$ and $\hat{y}_{it}=y_{it}-(\widehat{\beta_{0}+\omega_{it}})$. Define the two-step estimator of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ as:
 	\begin{equation*}
 	\hat{\boldsymbol{\beta}}(\tau)=\underset{\boldsymbol{\beta}\in\mathcal{B}}{\operatorname{argmin}}\, \mathbbm{E}\big[\rho_{\tau}(\hat{y}_{it}-\beta_{k}k_{it}-\beta_{l}l_{it})\big],
 	\end{equation*}
-	where $\rho_{\tau}(u)=u[\tau-\mathbbm{I}\{u<0\}]$ and $\mathbbm{I}\{\cdot\}$ denotes the indicator function.
+	where $\mathcal{B}$ is a compact and convex parameter space, $\rho_{\tau}(u)=u[\tau-\mathbbm{I}\{u<0\}]$ and $\mathbbm{I}\{\cdot\}$ denotes the indicator function.
 \end{enumerate}
 
 \section{Monte Carlo Experiments} \label{montecarlo}
-We use a location-scale version of \cite{Levinsohn2003} and replicate \cite{Ackerberg2015} simulations by sampling 500 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. 
+In this section we investigate the performance of our estimator in a set of Monte Carlo experiments. We use a location-scale model for production given by Equation \eqref{locationscale} which we provide again in Equation \eqref{simmodel} below.
 
-\begin{equation}
-y_{it}=(\beta_{0}+\omega_{it})+\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\gamma_{k}k_{it}+\gamma_{l}l_{it})\eta_{it}
+\begin{equation} \label{simmodel}
+y_{it}=(\beta_{0}+\omega_{it})+\beta_{k}k_{it}+\beta_{l}l_{it}+(\gamma_{k}k_{it}+\gamma_{l}l_{it})\eta_{it},
 \end{equation}
-with $\beta_{0}=0, \beta_{k}=0.4$ and $\beta_{l}=0.6$. The location scale parameters are set as $\gamma_{k}=0.7$ and $\gamma_{l}=-0.6$ For each simulation we simulate two DGPs with $\eta_{it}\sim N(0,0.1)$ and $\eta_{it}\sim Laplace(0,0.1)$.
+where $\beta_{0}=0, \beta_{k}=0.4$ and $\beta_{l}=0.6$. We replicate \cite{Ackerberg2015} simulations by sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. We consider three different data generating processes (DGPs) for the scale parameters and the distribution of $\eta_{it}$. For DGP1, we let $\gamma_{k}=0.6$, $\gamma_{l}=-0.6$ and $\eta_{it}\sim N(0,\sigma_{\eta}^{2})$ where $\sigma_{\eta}^{2}=0.01$. This follows the original specification for the error term in \cite{Ackerberg2015}. In DGP2, $\gamma_{k}=0.4$, $\gamma_{l}=-0.4$ and $\eta_{it}\sim (\sqrt{3\sigma_{\eta}^{2}/5})t_{5}$ so that the error variance is the same as that of DGP1. In DGP3, we add considerable skewness to the ex-post shocks by letting $\gamma_{k}=0.5$, $\gamma_{l}=-0.5$ and $\eta_{it}\sim Lognormal(0.15,\sigma_{\eta}^{2})$. 
 
-Following the data generating process in \cite{Ackerberg2015}, we do not allow for any wage variation across firms and labor is chosen at time $t$ with perfect information about $\omega_{it}$. We add optimization error to labor decisions to break the functional dependence problem. An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$. We compare the LP estimation procedure with the QLP two-step procedure under the two different sets of experiments specified earlier. We estimate the model for $\tau\in\{0.05, 0.1, \dots, 0.9, 0.95\}$ 
+We show that our estimator is flexible using previously proposed proxy variable estimators. It should only matter that $\hat{\beta}_{k}^{\mu}$ and $\hat{\beta}_{l}^{\mu}$ can be identified and consistently estimated. It is well known that under certain timing assumptions, that the labor elasticity may not be identified using the first stage of \cite{Levinsohn2003}. Clearly, this would affect our estimates of productivity which we use in the second stage of our estimator. Therefore, we follow \cite{Ackerberg2015} in considering two DGPs where labor can and cannot be identified\footnote{Refer to \cite{Ackerberg2015} for a detailed discussion on how to generate the simulated data.}. In the DGPs prefixed by ``LP'' in Table \ref{simresults}, we add optimization error to labor which breaks the functional dependence problem argued by ACF. Therefore, LP and ACF estimates of labor and hence productivity, should be consistent. We use the LP estimator for this DGP. In the DGPs prefixed by ``ACF'' we add serially correlated wages and allow for labor to be chosen in a sub-period $t-b$, where $b=0.5$. In this setup, we know that the ACF estimates will be consistent since their estimator conditions on labor in the first stage whereas LP does not. Therefore, we use the ACF estimator for this DGP. An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$. 
 
-Table 1 provides estimates of the bias and MSE for DGP 1 and DGP 2. They are both very small and decrease as the estimates approach $\tau=0.5$ in DGP 2. We plot the MSE of our estimator as well as the MSE of the LP estimator compared to the true values of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ in Figure \ref{fig:MSE}. The MSE for both estimators is plotted over $\tau\in\{0.05, 0.1, \dots, 0.9, 0.95\}$  with the black line denoting the QLP estimates and the dotted red line denoting the LP estimate. It is clear from this plot that our estimator does relatively well at capturing the heterogeneity in our model. Lastly we test whether our estimates control for unobserved productivity by comparing our estimates to standard quantile regression estimates without controlling for productivity. Figure \ref{fig:QDIF} plots estimates of these differences along with their $95\%$ confidence intervals for each $\tau$. The plots show significant differences in these estimates with capital being underestimated and labor being overestimated in the presence of the simultaneity bias.
+Table \ref{simresults} provides estimates of the bias and mean-squared error (MSE) for each DGP of our proposed estimator (DS) and naive quantile regression (QR) that does not control for simultaneity bias. Our estimator performs very well. The bias of our estimator remains low for each $\tau$ under each DGP for the error distribution and each DGP under LP and ACF estimates for productivity. The MSE is also small and reaches its minimum at the median ($\tau=0.5$). Not surprisingly, the QR estimates do not perform well in any situation. Both the bias and MSE are large compared to our estimates and the sign of the bias is positive for capital estimates and negative for labor estimates.
 
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Bias_MSE.tex}
-
-\begin{figure}[H]
-\centering
-\caption{Simulated precision of  QLP estimators of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s. Dotted line is LP estimator.}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/MSE_Plot.png}
-\label{fig:MSE}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\caption{Difference between QLP estimators and QR estimates of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$s.}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Qdif_Plot.png}
-\label{fig:QDIF}
-\end{figure}
-
+\pagebreak
 \newpage
+
+\begin{table}[H]
+\centering
+\caption{Monte Carlo Results for Capital and Labor Estimates}
+\begin{tabular}{cccccccccc}
+  \hline\hline & & & \multicolumn{2}{c}{DS} & & & \multicolumn{2}{c}{QR} \\ \cmidrule(lr){3-6} \cmidrule(lr){7-10} \\ & & \multicolumn{2}{c}{Capital} & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Capital} & \multicolumn{2}{c}{Labor} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}DGP & $\tau$ & Bias & MSE & Bias & MSE & Bias & MSE & Bias & MSE \\ 
+  \hline
+LP 1 & 0.10 & -0.0149 & 0.0004 & 0.0199 & 0.0004 & 0.2691 & 0.0830 & -0.2771 & 0.0865 \\ 
+   & 0.25 & -0.0045 & 0.0002 & 0.0065 & 0.0000 & 0.2905 & 0.0971 & -0.2975 & 0.1008 \\ 
+   & 0.50 & 0.0010 & 0.0002 & 0.0000 & 0.0000 & 0.3140 & 0.1143 & -0.3210 & 0.1183 \\ 
+   & 0.75 & 0.0065 & 0.0002 & -0.0065 & 0.0000 & 0.3375 & 0.1329 & -0.3445 & 0.1380 \\ 
+   & 0.90 & 0.0169 & 0.0005 & -0.0199 & 0.0004 & 0.3589 & 0.1513 & -0.3659 & 0.1560 \\ 
+  LP 2 & 0.10 & -0.0097 & 0.0003 & 0.0127 & 0.0002 & 0.2833 & 0.0610 & -0.2903 & 0.0635 \\ 
+   & 0.25 & -0.0035 & 0.0002 & 0.0035 & 0.0000 & 0.2985 & 0.0870 & -0.3065 & 0.0905 \\ 
+   & 0.50 & 0.0000 & 0.0002 & 0.0000 & 0.0000 & 0.3140 & 0.1149 & -0.3210 & 0.1190 \\ 
+   & 0.75 & 0.0035 & 0.0002 & -0.0035 & 0.0000 & 0.3285 & 0.1460 & -0.3365 & 0.1506 \\ 
+   & 0.90 & 0.0097 & 0.0003 & -0.0127 & 0.0002 & 0.3447 & 0.1849 & -0.3517 & 0.1910 \\ 
+  LP 3 & 0.10 & -0.0053 & 0.0002 & 0.0083 & 0.0001 & 0.2857 & 0.0975 & -0.2927 & 0.1013 \\ 
+   & 0.25 & -0.0015 & 0.0002 & 0.0035 & 0.0000 & 0.2935 & 0.0998 & -0.3005 & 0.1036 \\ 
+   & 0.50 & 0.0004 & 0.0002 & -0.0004 & 0.0000 & 0.3064 & 0.1056 & -0.3144 & 0.1096 \\ 
+   & 0.75 & 0.0049 & 0.0002 & -0.0059 & 0.0000 & 0.3269 & 0.1196 & -0.3349 & 0.1245 \\ 
+   & 0.90 & 0.0167 & 0.0005 & -0.0197 & 0.0004 & 0.3537 & 0.1459 & -0.3617 & 0.1513 \\ 
+   \hline
+ACF 1 & 0.10 & -0.0099 & 0.0003 & 0.0129 & 0.0003 & 0.2881 & 0.0831 & -0.2941 & 0.0865 \\ 
+   & 0.25 & -0.0035 & 0.0003 & 0.0045 & 0.0001 & 0.3115 & 0.0971 & -0.3175 & 0.1008 \\ 
+   & 0.50 & -0.0010 & 0.0002 & 0.0000 & 0.0001 & 0.3380 & 0.1143 & -0.3440 & 0.1184 \\ 
+   & 0.75 & 0.0025 & 0.0003 & -0.0035 & 0.0001 & 0.3645 & 0.1329 & -0.3715 & 0.1380 \\ 
+   & 0.90 & 0.0089 & 0.0003 & -0.0119 & 0.0002 & 0.3889 & 0.1513 & -0.3949 & 0.1560 \\ 
+  ACF 2 & 0.10 & -0.0057 & 0.0002 & 0.0087 & 0.0002 & 0.3053 & 0.0611 & -0.3103 & 0.0635 \\ 
+   & 0.25 & -0.0015 & 0.0002 & 0.0025 & 0.0001 & 0.3225 & 0.0870 & -0.3285 & 0.0906 \\ 
+   & 0.50 & 0.0000 & 0.0002 & 0.0000 & 0.0001 & 0.3390 & 0.1150 & -0.3450 & 0.1190 \\ 
+   & 0.75 & 0.0025 & 0.0002 & -0.0025 & 0.0001 & 0.3555 & 0.1461 & -0.3615 & 0.1506 \\ 
+   & 0.90 & 0.0067 & 0.0003 & -0.0077 & 0.0001 & 0.3727 & 0.1850 & -0.3787 & 0.1910 \\ 
+  ACF 3 & 0.10 & -0.0043 & 0.0003 & 0.0043 & 0.0001 & 0.3067 & 0.0975 & -0.3127 & 0.1013 \\ 
+   & 0.25 & -0.0015 & 0.0003 & 0.0015 & 0.0001 & 0.3145 & 0.0998 & -0.3205 & 0.1036 \\ 
+   & 0.50 & -0.0006 & 0.0003 & 0.0006 & 0.0001 & 0.3294 & 0.1057 & -0.3354 & 0.1096 \\ 
+   & 0.75 & 0.0019 & 0.0003 & -0.0029 & 0.0001 & 0.3519 & 0.1196 & -0.3579 & 0.1245 \\ 
+   & 0.90 & 0.0097 & 0.0004 & -0.0137 & 0.0003 & 0.3817 & 0.1459 & -0.3877 & 0.1513 \\ 
+   \hline
+\end{tabular}
+\caption*{1000 replications; ``DS'' is our estimator; ``QR'' is quantile regression with no correction for simultaneity bias; ``LP'' uses estimates of productivity from \cite{Levinsohn2003} under the DGPs that are favorable to their procedure;``ACF'' uses estimates of productivity from \cite{Ackerberg2015} under the DGPs that are favorable to their procedure}
+\label{simresults}
+\end{table}
+\pagebreak
+\newpage
+
 \section{Application} \label{application}
-We apply our estimator to popular firm and plant level manufacturing datasets from the US, Chile, and Colombia to examine heterogeneity in the output distribution \footnote{We thank Mert Demirer for providing the datasets from Chile and Colombia}. For each country we examine estimates across different manufacturing industries as well as how these estimates have changed over time. We use the QLP estimator presented in this paper and compare it to the LP estimates. We also compare our estimates to the quantile regression estimates without controlling for productivity. In the LP estimation procedure, we estimate the labor coefficient and $\Phi$ with a 3rd degree polynomial with interactions in capital and materials. To estimate capital, we use the LP criterion function mentioned earlier. Since we only need a consistent estimator of the production function parameters, we do not consider any over-identification conditions in this step. We use bootstrap to estimate standard errors of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ with the number of iterations set to $500$.
+We apply our estimator to popular firm and plant level manufacturing datasets from the US, Chile, and Colombia to examine heterogeneity in the output distribution.\footnote{We thank Mert Demirer for providing the datasets from Chile and Colombia} For each country, we examine estimates across different manufacturing industries as well as how these estimates have changed over time. We use the DS estimator presented in this paper and compare it to the LP estimates. In the case where timing assumptions on labor matter for which proxy variable approach is used to estimate productivity, we provide ACF estimates in the Appendix. We also compare our estimates to the quantile regression estimates without controlling for productivity. In the LP estimation procedure, we estimate the labor coefficient and $\Phi$ with a 3rd degree polynomial with interactions in capital and materials. To estimate capital, we use the LP criterion function mentioned earlier. Since we only need a consistent estimator of the production function parameters, we do not consider any over-identification conditions in this step. We use bootstrap to estimate standard errors of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ with the number of iterations set to $500$.
 \subsection{US Compustat}
-The source for the US manufacturing data is from Compustat which covers publicly traded firms and contains data from their financial statements. We collect a sample between 1961 and 2010 on sales, capital expenditures, number of workers, and other expenses to construct measures of output, capital, labor, and material inputs using 3-digit deflators from \cite{nber}. Data preparation follows \cite{Keller2009} and \cite{mert}. Some issues regarding the Compustat dataset is that since the data is reported in the firm's financial statements, deflated output and input measures may not completely capture firm's actual usage. Also, since this sample only contains publicly traded firms, it is only a fraction of all manufacturing firms in the US. Summary statistics for these deflated values are provided in Table 2. We present a series of output elasticity estimates in Table 3 which are illustrated graphically in Figures \ref{fig:31coef}, \ref{fig:32coef}, \ref{fig:33coef}, and \ref{fig:USallcoef}.
+The source for the US manufacturing data is from Compustat which covers publicly traded firms and contains data from their financial statements. We collect a sample between 1961 and 2010 on sales, capital expenditures, number of workers, and other expenses to construct measures of output, capital, labor, and material inputs using 3-digit deflators from \cite{nber}. Data preparation follows \cite{Keller2009} and \cite{mert}. Some issues regarding the Compustat dataset is that since the data is reported in the firm's financial statements, deflated output and input measures may not completely capture firm's actual usage. Also, since this sample only contains publicly traded firms, it is only a fraction of all manufacturing firms in the US. Summary statistics for these deflated values are provided in Table \ref{USsum} . We present a series of output elasticity estimates in Table \ref{USestLP} which are illustrated graphically in Figures \ref{fig:31coef}, \ref{fig:32coef}, \ref{fig:33coef}, and \ref{fig:USallcoef}.
 
 Estimates of the capital elasticity are slightly increasing in the firm size distribution in every industry as well as the combined sample. The estimates for labor elasticity for each industry and the combined sample are decreasing. For NAICS 33, the labor elasticity increases at very small $\tau$, but then decreases. In each industry, there is evidence that our model captures some heterogeneity compared to the LP model. In NAICS 31, the capital elasticity is smaller and the labor elasticity is larger than the LP estimates for very small $\tau$. In NAICS 32, there is more heterogeneity in the tails of the firm size distribution for capital estimates, but only the labor estimates are lower than the LP estimate for very large $\tau$. The same relationship in these estimates is true in NAICS 33 and in the combined sample.
  
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex}
-\label{Tab:USsummary}
+\begin{table}[H]
+\centering
+\caption{Summary Statistics (in logs) for US Manufacturing Data}
+\begin{tabular}{ccccccc}
+  \hline\hline Industry (NAICS code) &   & 1st Qu. & Median & 3rd Qu. & Mean & sd \\ 
+  \hline
+31 (Total=3271) & Output & 19.05 & 20.24 & 21.57 & 20.3 & 1.77 \\ 
+   & Capital & 18.66 & 20.37 & 21.76 & 20.19 & 2.12 \\ 
+   & Labor & 17.42 & 19.08 & 20.61 & 19.02 & 2.21 \\ 
+   & Materials & 17.96 & 19.59 & 21.15 & 19.54 & 2.21 \\ 
+  32 (Total=7207) & Output & 15.67 & 17.04 & 18.51 & 17.01 & 2.05 \\ 
+   & Capital & 15.65 & 17.51 & 19.13 & 17.31 & 2.41 \\ 
+   & Labor & 14.44 & 16.01 & 17.57 & 16.01 & 2.29 \\ 
+   & Materials & 14.89 & 16.53 & 18.25 & 16.52 & 2.37 \\ 
+  33 (Total=13978) & Output & 7.38 & 8.58 & 9.8 & 8.5 & 1.67 \\ 
+   & Capital & 6.67 & 8.29 & 9.74 & 8.15 & 1.95 \\ 
+   & Labor & 6.01 & 7.42 & 8.91 & 7.48 & 1.93 \\ 
+   & Materials & 6.33 & 7.82 & 9.29 & 7.82 & 1.95 \\ 
+  All (Total=24456) & Output & 18.58 & 19.78 & 21.23 & 19.85 & 1.79 \\ 
+   & Capital & 18.14 & 19.86 & 21.26 & 19.67 & 2.16 \\ 
+   & Labor & 16.98 & 18.59 & 20.13 & 18.56 & 2.17 \\ 
+   & Materials & 17.49 & 19.12 & 20.66 & 19.06 & 2.2 \\ 
+   \hline
+\end{tabular}
+\label{USsum}
+\end{table}
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_31.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:31coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_32.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:32coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_33.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:33coef}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=10cm, height=11cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_All.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:USallcoef}
 \end{figure}
 
-In each industry we compare the differences between QLP and QR estimates to test whether our model corrects for endogeneity from unobserved productivity. Bootstrap is used to construct confidence intervals of the difference between the two estimates. We find that there are significant differences between these estimates in all of the samples. This suggests that even after controlling for productivity differences across firms, there is still unaccounted heterogeneity between firms.
+In each industry we compare the differences between DS and QR estimates to test whether our model corrects for endogeneity from unobserved productivity. Bootstrap is used to construct confidence intervals of the difference between the two estimates. We find that there are significant differences between these estimates in all of the samples. This suggests that even after controlling for productivity differences across firms, there is still unaccounted heterogeneity between firms.
 
-We use the estimates from the output elasticities to construct measures of returns to scale and capital intensity in Table 3. The results for returns to scale are puzzling as they are all significantly different from constant returns to scale. Each sample and each quantile of firm size exhibits large decreasing returns to scale and these returns decrease when $\tau$ increases. Previous papers that estimate returns to scale using the Compustat dataset such as \cite{Keller2009} and \cite{mert} show constant returns to scale using a gross-output production function. Therefore it is possible that the empirical value-added (deflated sales minus intermediate input expenditure) is a poor proxy for value-added in our model and that value-added biases the returns to scale estimates. Differences in returns to scale in value-added and gross-output production functions are explored by \cite{Basu1997}. We also report estimates of capital intensity measured by the ratio of capital to labor elasticity for each quantile. Each industry has estimates of capital intensity that increases with $\tau$. This result is consistent with previous findings such as \cite{Holmes2008}, \cite{Kumar1999} and \cite{mert}.
+We use the estimates from the output elasticities to construct measures of returns to scale and capital intensity in Table \ref{USestLP}. The results for returns to scale are puzzling as they are all significantly different from constant returns to scale. Each sample and each quantile of firm size exhibits large decreasing returns to scale and these returns decrease when $\tau$ increases. We compare the results to those obtained by using ACF to estimate productivity in Table \ref{USestACF}. The results using ACF seem more reasonable. There are large differences in the labor coefficient when either LP or ACF are used. This suggests the timing of labor is critical in the US manufacturing data. The ACF estimates show similar trends in capital and labor elasticities in relation to firm size. Returns to scale are constant, but decrease slightly when $\tau$ increases. We also report estimates of capital intensity measured by the ratio of capital to labor elasticity for each quantile. Each industry has estimates of capital intensity that increases with $\tau$. This result is consistent with previous findings such as \cite{Holmes2008}, \cite{Kumar1999} and \cite{mert}.
 
 
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex}
+\begin{table}[H]
+\centering
+\caption{Coefficient Estimates and Standard Errors for US Manufacturing Firms}
+\begin{tabular}{cccccccccc}
+  \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}NAICS & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+  \hline
+31 & 0.10 & 0.062 & 0.0176 & 0.587 & 0.0269 & 0.649 & 0.0318 & 0.105 & 0.0305 \\ 
+   & 0.25 & 0.091 & 0.0184 & 0.550 & 0.0303 & 0.641 & 0.0329 & 0.165 & 0.0366 \\ 
+   & 0.50 & 0.144 & 0.0201 & 0.469 & 0.0329 & 0.614 & 0.0333 & 0.307 & 0.0522 \\ 
+   & 0.90 & 0.190 & 0.0226 & 0.423 & 0.0382 & 0.614 & 0.0346 & 0.450 & 0.0879 \\ 
+  32 & 0.10 & 0.054 & 0.0113 & 0.656 & 0.0313 & 0.710 & 0.0280 & 0.083 & 0.0190 \\ 
+   & 0.25 & 0.086 & 0.0107 & 0.613 & 0.0285 & 0.699 & 0.0266 & 0.140 & 0.0203 \\ 
+   & 0.50 & 0.115 & 0.0101 & 0.574 & 0.0267 & 0.689 & 0.0259 & 0.201 & 0.0217 \\ 
+   & 0.90 & 0.181 & 0.0129 & 0.482 & 0.0300 & 0.663 & 0.0265 & 0.376 & 0.0428 \\ 
+  33 & 0.10 & 0.000 & 0.0224 & 0.422 & 0.0609 & 0.422 & 0.0459 & 0.000 & 0.0709 \\ 
+   & 0.25 & 0.045 & 0.0163 & 0.372 & 0.0363 & 0.417 & 0.0323 & 0.120 & 0.0591 \\ 
+   & 0.50 & 0.088 & 0.0160 & 0.315 & 0.0332 & 0.403 & 0.0305 & 0.279 & 0.0816 \\ 
+   & 0.90 & 0.169 & 0.0165 & 0.211 & 0.0296 & 0.379 & 0.0278 & 0.800 & 0.1931 \\ 
+  All & 0.10 & 0.022 & 0.0107 & 0.498 & 0.0293 & 0.519 & 0.0259 & 0.043 & 0.0245 \\ 
+   & 0.25 & 0.071 & 0.0100 & 0.432 & 0.0246 & 0.503 & 0.0234 & 0.163 & 0.0300 \\ 
+   & 0.50 & 0.107 & 0.0100 & 0.387 & 0.0235 & 0.494 & 0.0228 & 0.276 & 0.0379 \\ 
+   & 0.90 & 0.179 & 0.0107 & 0.296 & 0.0222 & 0.474 & 0.0214 & 0.604 & 0.0734 \\ 
+   \hline
+\end{tabular}
+\label{USestLP}
+\end{table}
 
 We also use our quantile production function estimates to construct measures of firm level productivity which we define as
 \begin{equation}
@@ -319,44 +399,94 @@ We are also interested in examining the firm size distribution over time and whe
 %----------------------------------------------------------------------------------------
 
 \subsection{Chilean Manufacturing}
-This data comes from the census of Chilean manufacturing plants conducted by the Instituto Nacional de Estadist\'ica (INE). The sample is collected between 1979 and 1996 for firms with more than 10 employees. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Fabricated Metals (ISIC 381), and Textiles (ISIC 321). We also aggregate the three industries with the other smaller industries to obtain estimates from the entire sample. Summary statistics for the data we use are provided in Table 4.
+This data comes from the census of Chilean manufacturing plants conducted by the Instituto Nacional de Estadist\'ica (INE). The sample is collected between 1979 and 1996 for firms with more than 10 employees. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Fabricated Metals (ISIC 381), and Textiles (ISIC 321). We also aggregate the three industries with the other smaller industries to obtain estimates from the entire sample. Summary statistics for the data we use are provided in Table \ref{CHLsum}.
 
-Figures \ref{fig:CHL311}, \ref{fig:CHL321}, and \ref{fig:CHL381} illustrate our estimates from our model compared to LP estimates as well as their differences to QR estimates. In each industry and the combined sample, estimates of capital elasticity are increasing in firm size. In ISIC 311 and ISIC 381, our model estimates lower capital elasticities than the LP estimate for small $\tau$. In ISIC 321 and the combined sample, there are differences between these estimates for both small and large $\tau$. The labor estimates in ISIC 311 are increasing and different than the LP estimate for large $\tau$. In ISIC 321, labor estimates are decreasing and not different from the LP estimate. In ISIC 381, labor estimates are mostly constant and not different from the LP estimate. Finally, in the combined sample, our estimates exhibit a U-shaped relationship although overall these are not different from the LP estimate. In ISIC 321 our capital estimates do not differ much from QR estimates. From Table 5, our estimates of returns to scale are more reasonable compared to the US estimates except for small firms who experience decreasing returns to scale. In each industry, returns to scale are increasing with firm size. Capital intensity is increasing as well except for large firms at $\tau=0.9$ in ISIC 311.
+Figures \ref{fig:CHL311}, \ref{fig:CHL321}, and \ref{fig:CHL381} illustrate our estimates from our model compared to LP estimates as well as their differences to QR estimates. In each industry and the combined sample, estimates of capital elasticity are increasing in firm size. In ISIC 311 and ISIC 381, our model estimates lower capital elasticities than the LP estimate for small $\tau$. In ISIC 321 and the combined sample, there are differences between these estimates for both small and large $\tau$. The labor estimates in ISIC 311 are increasing and different than the LP estimate for large $\tau$. In ISIC 321, labor estimates are decreasing and not different from the LP estimate. In ISIC 381, labor estimates are mostly constant and not different from the LP estimate. Finally, in the combined sample, our estimates exhibit a U-shaped relationship although overall these are not different from the LP estimate. In ISIC 321 our capital estimates do not differ much from QR estimates. From Table \ref{CHLestLP}, our estimates of returns to scale are more reasonable compared to the US estimates except for small firms who experience decreasing returns to scale. In each industry, returns to scale are increasing with firm size. Capital intensity is increasing as well except for large firms at $\tau=0.9$ in ISIC 311.
 
 Figure \ref{fig:CHLpgrowth} reports average productivity for all Chilean plants in the sample with base period set to 100. Productivity decreases in the beginning of the 1980s but then increases for the rest of the sample period. These estimates suggest that small firms had higher productivity than large firms. The LP estimates are similar to productivity of medium-sized firms at $\tau=0.5$. Figure \ref{fig:CHLtimecoef} shows the time trends in output elasticities. The estimate of labor elasticity are high for each quantile of firm size and decreases steadily with the exception of small firms ($\tau=0.1$). The estimates for capital elasticities follow similar trends for each quantile. Capital elasticity estimates are higher for large firms than small firms.
 
 
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Summary.tex}  
+\begin{table}[H]
+\centering
+\caption{Summary Statistics (in logs) for Chilean Manufacturing Plants}
+\begin{tabular}{ccccccc}
+  \hline\hline Industry (ISIC code) &   & 1st Qu. & Median & 3rd Qu. & Mean & sd \\ 
+  \hline
+311 (Total=13838) & Output & 10.21 & 10.84 & 12.22 & 11.36 & 1.58 \\ 
+   & Capital & 10.56 & 11.4 & 12.4 & 11.52 & 1.37 \\ 
+   & Labor & 10.49 & 11.4 & 12.54 & 11.53 & 1.43 \\ 
+   & Materials & 10.38 & 11.28 & 12.53 & 11.56 & 1.6 \\ 
+  381 (Total=4311) & Output & 6.69 & 7.66 & 9.06 & 8.02 & 1.98 \\ 
+   & Capital & 7.52 & 8.51 & 9.7 & 8.65 & 1.68 \\ 
+   & Labor & 7.21 & 8.34 & 9.56 & 8.4 & 1.72 \\ 
+   & Materials & 7.22 & 8.35 & 9.72 & 8.54 & 1.92 \\ 
+  321 (Total=4302) & Output & 2.77 & 3.22 & 3.91 & 3.49 & 0.99 \\ 
+   & Capital & 2.89 & 3.47 & 4.22 & 3.71 & 1.08 \\ 
+   & Labor & 2.94 & 3.48 & 4.37 & 3.69 & 0.95 \\ 
+   & Materials & 2.89 & 3.43 & 4.28 & 3.67 & 1.02 \\ 
+  All (Total=51567) & Output & 9.84 & 10.46 & 11.81 & 10.94 & 1.56 \\ 
+   & Capital & 9.91 & 10.75 & 11.79 & 10.86 & 1.41 \\ 
+   & Labor & 9.68 & 10.62 & 11.75 & 10.73 & 1.48 \\ 
+   & Materials & 9.81 & 10.68 & 11.89 & 10.93 & 1.62 \\ 
+   \hline
+\end{tabular}
+\label{CHLsum}
+\end{table} 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_311.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:CHL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_321.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:CHL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_381.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:CHL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coef_Plot_ISIC_All.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:CHLall}
 \end{figure}
 
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_Beta_Estimates.tex}
+\begin{table}[H]
+\centering
+\caption{Coefficient Estimates and Standard Errors for Chilean Manufacturing Plants}
+\begin{tabular}{cccccccccc}
+  \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+  \hline
+311 & 0.10 & 0.190 & 0.0230 & 0.373 & 0.0388 & 0.563 & 0.0314 & 0.511 & 0.1097 \\ 
+   & 0.25 & 0.236 & 0.0207 & 0.424 & 0.0277 & 0.660 & 0.0266 & 0.557 & 0.0747 \\ 
+   & 0.50 & 0.294 & 0.0197 & 0.422 & 0.0227 & 0.716 & 0.0245 & 0.695 & 0.0714 \\ 
+   & 0.90 & 0.326 & 0.0208 & 0.569 & 0.0344 & 0.895 & 0.0305 & 0.574 & 0.0622 \\ 
+  381 & 0.10 & 0.243 & 0.0315 & 0.630 & 0.0621 & 0.872 & 0.0457 & 0.386 & 0.0848 \\ 
+   & 0.25 & 0.306 & 0.0262 & 0.604 & 0.0450 & 0.910 & 0.0380 & 0.506 & 0.0725 \\ 
+   & 0.50 & 0.372 & 0.0253 & 0.553 & 0.0398 & 0.925 & 0.0350 & 0.672 & 0.0826 \\ 
+   & 0.90 & 0.436 & 0.0309 & 0.579 & 0.0573 & 1.015 & 0.0422 & 0.753 & 0.1175 \\ 
+  321 & 0.10 & 0.172 & 0.0364 & 0.676 & 0.0657 & 0.848 & 0.0470 & 0.254 & 0.0749 \\ 
+   & 0.25 & 0.246 & 0.0306 & 0.637 & 0.0456 & 0.883 & 0.0381 & 0.386 & 0.0694 \\ 
+   & 0.50 & 0.325 & 0.0296 & 0.559 & 0.0432 & 0.884 & 0.0371 & 0.581 & 0.0874 \\ 
+   & 0.90 & 0.407 & 0.0308 & 0.543 & 0.0472 & 0.950 & 0.0390 & 0.750 & 0.1168 \\ 
+  All & 0.10 & 0.222 & 0.0117 & 0.506 & 0.0240 & 0.728 & 0.0176 & 0.437 & 0.0407 \\ 
+   & 0.25 & 0.302 & 0.0103 & 0.467 & 0.0177 & 0.769 & 0.0141 & 0.648 & 0.0415 \\ 
+   & 0.50 & 0.374 & 0.0094 & 0.422 & 0.0142 & 0.796 & 0.0123 & 0.888 & 0.0449 \\ 
+   & 0.90 & 0.439 & 0.0115 & 0.491 & 0.0206 & 0.930 & 0.0148 & 0.893 & 0.0572 \\ 
+   \hline
+\end{tabular}
+\label{CHLestLP}
+\end{table}
 
 \begin{figure}[H]
 \centering
@@ -376,42 +506,93 @@ Figure \ref{fig:CHLpgrowth} reports average productivity for all Chilean plants 
 %------------------------------------------------------------------------------------------------
 
 \subsection{Colombian Manufacturing}
-This data comes from the Colombian manufacturing census conducted by the Departamento Administrativo Nacional de Estadistica. The sample is collected between 1977 and 1991. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Apparel (ISIC 322), and Fabricated Metals (ISIC 381). As we did with the Chilean sample, we also aggregate the three industries with other smaller industries to obtain estimates from the entire sample of manufacturing plants. Summary statistics for this data is provided in Table 6.
+This data comes from the Colombian manufacturing census conducted by the Departamento Administrativo Nacional de Estadistica. The sample is collected between 1977 and 1991. We divide our estimates into the three largest manufacturing industries: Food (ISIC 311), Apparel (ISIC 322), and Fabricated Metals (ISIC 381). As we did with the Chilean sample, we also aggregate the three industries with other smaller industries to obtain estimates from the entire sample of manufacturing plants. Summary statistics for this data is provided in Table \ref{COLsum}.
 
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Summary.tex}
+\begin{table}[H]
+\centering
+\caption{Summary Statistics (in logs) for Colombian Manufacturing Plants}
+\begin{tabular}{ccccccc}
+  \hline\hline Industry (ISIC code) &   & 1st Qu. & Median & 3rd Qu. & Mean & sd \\ 
+  \hline
+311 (Total=13215) & Output & 9.03 & 10.21 & 11.59 & 10.42 & 1.8 \\ 
+   & Capital & 8.69 & 9.37 & 10.22 & 9.49 & 1.18 \\ 
+   & Labor & 8.52 & 9.3 & 10.33 & 9.54 & 1.43 \\ 
+   & Materials & 8.7 & 9.62 & 10.88 & 9.92 & 1.67 \\ 
+  322 (Total=12182) & Output & 6.02 & 7.07 & 8.35 & 7.24 & 1.78 \\ 
+   & Capital & 5.47 & 6.14 & 6.93 & 6.23 & 1.21 \\ 
+   & Labor & 5.89 & 6.75 & 7.81 & 6.93 & 1.55 \\ 
+   & Materials & 5.9 & 6.89 & 8.16 & 7.12 & 1.77 \\ 
+  381 (Total=7411) & Output & 2.56 & 3.09 & 3.97 & 3.36 & 1.1 \\ 
+   & Capital & 2.77 & 3.3 & 3.95 & 3.42 & 0.92 \\ 
+   & Labor & 2.64 & 3.18 & 3.91 & 3.37 & 0.98 \\ 
+   & Materials & 2.71 & 3.3 & 4.11 & 3.5 & 1.09 \\ 
+  All (Total=87783) & Output & 8.39 & 9.73 & 11.26 & 9.87 & 2 \\ 
+   & Capital & 7.62 & 8.53 & 9.46 & 8.48 & 1.51 \\ 
+   & Labor & 7.77 & 8.65 & 9.72 & 8.8 & 1.58 \\ 
+   & Materials & 7.89 & 8.93 & 10.26 & 9.15 & 1.88 \\ 
+   \hline
+\end{tabular}
+\label{COLsum}
+\end{table}
 
 Figures \ref{fig:COL311}, \ref{fig:COL321}, and \ref{fig:COL381} illustrate estimates from our model compared to the LP estimates as well as their differences from QR estimates. The capital estimates in each industry are increasing a significantly different than the LP estimates. The labor estimates in each industry are decreasing. In ISIC 311, 322, and the combined sample, these estimates are significantly different from LP estimates. In ISIC 381, there are only differences in the tails of the firm size distribution. In this industry, there is also not much difference between our estimates and the QR estimates.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_311.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:COL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_322.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:COL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_381.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:COL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coef_Plot_ISIC_All.png}
-\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between QLP and quantile regression estimates and their 95\% confidence intervals.}
+\caption{Top row: Estimated values of production function coefficients and their point-wise 90\% confidence interval. Bottom row: Difference between DS and quantile regression estimates and their 95\% confidence intervals.}
 \label{fig:COLall}
 \end{figure}
 
-Using these estimates we construct measures of returns to scale and capital intensity for each industry in Table 7. Most firms experience constant or slightly decreasing returns to scale. Returns to scale and capital intensity are increasing in firm size.
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_Beta_Estimates.tex}
+Using these estimates we construct measures of returns to scale and capital intensity for each industry in Table \ref{COLestLP}. Most firms experience constant or slightly decreasing returns to scale. Returns to scale and capital intensity are increasing in firm size.
+
+\begin{table}[H]
+\centering
+\caption{Coefficient Estimates and Standard Errors for Colombian Manufacturing Plants}
+\begin{tabular}{cccccccccc}
+  \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+  \hline
+311 & 0.10 & 0.165 & 0.0283 & 0.641 & 0.0361 & 0.805 & 0.0361 & 0.257 & 0.0530 \\ 
+   & 0.25 & 0.234 & 0.0267 & 0.619 & 0.0202 & 0.853 & 0.0300 & 0.378 & 0.0476 \\ 
+   & 0.50 & 0.323 & 0.0268 & 0.532 & 0.0185 & 0.855 & 0.0293 & 0.608 & 0.0582 \\ 
+   & 0.90 & 0.510 & 0.0286 & 0.350 & 0.0302 & 0.860 & 0.0326 & 1.457 & 0.1759 \\ 
+  322 & 0.10 & 0.148 & 0.0246 & 0.691 & 0.0298 & 0.839 & 0.0310 & 0.214 & 0.0394 \\ 
+   & 0.25 & 0.213 & 0.0253 & 0.668 & 0.0272 & 0.881 & 0.0290 & 0.319 & 0.0434 \\ 
+   & 0.50 & 0.311 & 0.0259 & 0.586 & 0.0277 & 0.897 & 0.0287 & 0.530 & 0.0562 \\ 
+   & 0.90 & 0.506 & 0.0332 & 0.421 & 0.0442 & 0.927 & 0.0320 & 1.203 & 0.1780 \\ 
+  381 & 0.10 & 0.150 & 0.0402 & 0.952 & 0.0588 & 1.102 & 0.0529 & 0.158 & 0.0471 \\ 
+   & 0.25 & 0.259 & 0.0360 & 0.872 & 0.0356 & 1.131 & 0.0450 & 0.297 & 0.0446 \\ 
+   & 0.50 & 0.366 & 0.0362 & 0.762 & 0.0327 & 1.127 & 0.0434 & 0.480 & 0.0538 \\ 
+   & 0.90 & 0.509 & 0.0398 & 0.661 & 0.0417 & 1.171 & 0.0436 & 0.770 & 0.0861 \\ 
+  All & 0.10 & 0.091 & 0.0118 & 0.748 & 0.0146 & 0.839 & 0.0136 & 0.122 & 0.0173 \\ 
+   & 0.25 & 0.178 & 0.0110 & 0.715 & 0.0104 & 0.893 & 0.0121 & 0.248 & 0.0172 \\ 
+   & 0.50 & 0.263 & 0.0109 & 0.654 & 0.0090 & 0.916 & 0.0116 & 0.402 & 0.0194 \\ 
+   & 0.90 & 0.410 & 0.0120 & 0.573 & 0.0125 & 0.983 & 0.0122 & 0.715 & 0.0321 \\ 
+   \hline
+\end{tabular}
+\label{COLestLP}
+\end{table}
 
 Figure \ref{fig:COLpgrowth} reports average productivity for all Colombian plants in the sample with base period set to 100. Productivity decreases in the beginning of the sample period but then increases for the rest of the sample period after 1980 with some sharp periods of productivity decline and incline. Each percentile of firm size has similar productivity levels at the beginning of the sample period, but slightly diverges after 1984. The LP estimates show just smaller than productivity of other estimates after this time period. Figure \ref{fig:COLtimecoef} shows the time trends in output elasticities. The estimates of labor elasticity are about 0.6 for each quantile of firm size and increases steadily until about 1981 then starts to decrease. At the end of the sample period there is more heterogeneity in these estimates. Capital estimates exhibit a clear distinction across quantiles with the larger firms having higher estimates than smaller firms. These estimates are mostly increasing until 1985 when they begin to decrease.
 
@@ -421,14 +602,6 @@ Figure \ref{fig:COLpgrowth} reports average productivity for all Colombian plant
 \caption{Estimated average productivity over time for Colombia. Base productivity in 1978 is set to 100.}
 \label{fig:COLpgrowth}
 \end{figure}
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QTFP_plot.png}
-% \caption{Estimated log-productivity at different quantiles over the firm size distribution}
-% \label{fig:COLpdisp}
-% \end{figure}
-
 
 \begin{figure}[H]
 \centering
@@ -469,20 +642,88 @@ This paper contributes to the growing literature on production functions with un
 \bibliographystyle{ecca.bst}
 \bibliography{references}
 
-\pagebreak
-\newpage
-
 \section*{Appendix} \label{Appendix}
 \subsection{Estimates using \cite{Ackerberg2015}}
 \subsubsection{US}
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_ACF_Estimates.tex}
-\pagebreak
-\newpage
+\begin{table}[H]
+\centering
+\caption{Coefficient Estimates and Standard Errors for US Manufacturing Firms using ACF Estimates of Productivity}
+\begin{tabular}{cccccccccc}
+  \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}NAICS & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+  \hline
+31 & 0.10 & 0.137 & 0.0305 & 0.906 & 0.1027 & 1.042 & 0.0843 & 0.151 & 0.0542 \\ 
+   & 0.25 & 0.171 & 0.0304 & 0.860 & 0.1015 & 1.031 & 0.0837 & 0.198 & 0.0692 \\ 
+   & 0.50 & 0.218 & 0.0327 & 0.792 & 0.1034 & 1.010 & 0.0840 & 0.275 & 0.1052 \\ 
+   & 0.90 & 0.272 & 0.0341 & 0.729 & 0.1019 & 1.001 & 0.0826 & 0.373 & 0.2503 \\ 
+  32 & 0.10 & 0.086 & 0.0150 & 0.975 & 0.0989 & 1.061 & 0.0926 & 0.088 & 0.0367 \\ 
+   & 0.25 & 0.113 & 0.0145 & 0.938 & 0.0973 & 1.052 & 0.0918 & 0.121 & 0.0543 \\ 
+   & 0.50 & 0.144 & 0.0152 & 0.896 & 0.0976 & 1.040 & 0.0918 & 0.161 & 0.1014 \\ 
+   & 0.90 & 0.207 & 0.0178 & 0.810 & 0.0977 & 1.017 & 0.0914 & 0.256 & 0.7521 \\ 
+  33 & 0.10 & 0.005 & 0.0226 & 1.072 & 0.0507 & 1.077 & 0.0311 & 0.005 & 0.0223 \\ 
+   & 0.25 & 0.052 & 0.0176 & 1.020 & 0.0347 & 1.072 & 0.0214 & 0.051 & 0.0196 \\ 
+   & 0.50 & 0.093 & 0.0172 & 0.969 & 0.0313 & 1.062 & 0.0189 & 0.096 & 0.0213 \\ 
+   & 0.90 & 0.168 & 0.0180 & 0.876 & 0.0304 & 1.044 & 0.0173 & 0.192 & 0.0278 \\ 
+  All & 0.10 & 0.054 & 0.0134 & 1.044 & 0.0286 & 1.099 & 0.0184 & 0.052 & 0.0139 \\ 
+   & 0.25 & 0.102 & 0.0119 & 0.983 & 0.0240 & 1.085 & 0.0159 & 0.103 & 0.0141 \\ 
+   & 0.50 & 0.138 & 0.0118 & 0.939 & 0.0231 & 1.077 & 0.0153 & 0.147 & 0.0155 \\ 
+   & 0.90 & 0.206 & 0.0127 & 0.853 & 0.0229 & 1.060 & 0.0145 & 0.242 & 0.0202 \\ 
+   \hline
+\end{tabular}
+\label{USestACF}
+\end{table}
 \subsubsection{Chile}
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Estimates/CHL_ACF_Estimates.tex}
-\pagebreak
-\newpage
+\begin{table}[H]
+\centering
+\caption{Coefficient Estimates and Standard Errors for Chilean Manufacturing Plants using ACF Estimates of Productivity}
+\begin{tabular}{cccccccccc}
+  \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+  \hline
+311 & 0.10 & 0.299 & 0.0594 & 0.302 & 0.2360 & 0.600 & 0.1808 & 0.991 & 0.4485 \\ 
+   & 0.25 & 0.350 & 0.0591 & 0.340 & 0.2372 & 0.690 & 0.1819 & 1.027 & 0.3810 \\ 
+   & 0.50 & 0.398 & 0.0582 & 0.362 & 0.2355 & 0.760 & 0.1810 & 1.101 & 0.3679 \\ 
+   & 0.90 & 0.442 & 0.0592 & 0.486 & 0.2375 & 0.928 & 0.1821 & 0.909 & 0.2710 \\ 
+  381 & 0.10 & 0.152 & 0.0696 & 0.918 & 0.2512 & 1.070 & 0.1864 & 0.165 & 0.1743 \\ 
+   & 0.25 & 0.208 & 0.0667 & 0.910 & 0.2453 & 1.118 & 0.1830 & 0.228 & 0.1908 \\ 
+   & 0.50 & 0.268 & 0.0664 & 0.873 & 0.2439 & 1.141 & 0.1819 & 0.307 & 0.2226 \\ 
+   & 0.90 & 0.351 & 0.0675 & 0.860 & 0.2450 & 1.211 & 0.1822 & 0.408 & 0.2582 \\ 
+  321 & 0.10 & 0.164 & 0.0388 & 0.893 & 0.0780 & 1.057 & 0.0469 & 0.183 & 0.0553 \\ 
+   & 0.25 & 0.217 & 0.0337 & 0.901 & 0.0620 & 1.118 & 0.0373 & 0.241 & 0.0539 \\ 
+   & 0.50 & 0.303 & 0.0334 & 0.809 & 0.0637 & 1.112 & 0.0390 & 0.375 & 0.0672 \\ 
+   & 0.90 & 0.388 & 0.0331 & 0.784 & 0.0680 & 1.172 & 0.0435 & 0.496 & 0.0831 \\ 
+  All & 0.10 & 0.120 & 0.0667 & 1.222 & 0.2676 & 1.342 & 0.2031 & 0.098 & 0.1751 \\ 
+   & 0.25 & 0.193 & 0.0659 & 1.203 & 0.2661 & 1.396 & 0.2023 & 0.161 & 0.2101 \\ 
+   & 0.50 & 0.265 & 0.0657 & 1.159 & 0.2655 & 1.425 & 0.2020 & 0.229 & 0.2651 \\ 
+   & 0.90 & 0.346 & 0.0660 & 1.193 & 0.2659 & 1.538 & 0.2021 & 0.290 & 0.2803 \\ 
+   \hline
+\end{tabular}
+\label{CHLestACF}
+\end{table}
 \subsubsection{Colombia}
-\input{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_ACF_Estimates.tex}
+\begin{table}[H]
+\centering
+\caption{Coefficient Estimates and Standard Errors for Colombian Manufacturing Plants using ACF Estimates of Productivity}
+\begin{tabular}{cccccccccc}
+  \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+  \hline
+311 & 0.10 & 0.067 & 0.1100 & 1.294 & 0.4251 & 1.361 & 0.3188 & 0.052 & 0.3438 \\ 
+   & 0.25 & 0.145 & 0.1079 & 1.250 & 0.4205 & 1.395 & 0.3161 & 0.116 & 0.4429 \\ 
+   & 0.50 & 0.232 & 0.1075 & 1.167 & 0.4192 & 1.399 & 0.3154 & 0.198 & 0.7060 \\ 
+   & 0.90 & 0.434 & 0.1057 & 0.969 & 0.4154 & 1.403 & 0.3135 & 0.448 & 12.6684 \\ 
+  322 & 0.10 & -0.005 & 0.0416 & 1.064 & 0.1293 & 1.059 & 0.0928 & -0.005 & 0.1080 \\ 
+   & 0.25 & 0.045 & 0.0409 & 1.066 & 0.1285 & 1.111 & 0.0925 & 0.042 & 0.1228 \\ 
+   & 0.50 & 0.139 & 0.0420 & 0.994 & 0.1292 & 1.133 & 0.0925 & 0.139 & 0.2139 \\ 
+   & 0.90 & 0.370 & 0.0433 & 0.773 & 0.1305 & 1.143 & 0.0929 & 0.479 & 4.1910 \\ 
+  381 & 0.10 & 0.078 & 0.0440 & 1.156 & 0.1203 & 1.235 & 0.0940 & 0.068 & 0.0512 \\ 
+   & 0.25 & 0.186 & 0.0361 & 1.081 & 0.1073 & 1.267 & 0.0889 & 0.172 & 0.0510 \\ 
+   & 0.50 & 0.283 & 0.0363 & 0.986 & 0.1047 & 1.269 & 0.0872 & 0.288 & 0.0700 \\ 
+   & 0.90 & 0.443 & 0.0391 & 0.855 & 0.1078 & 1.298 & 0.0880 & 0.519 & 0.1154 \\ 
+  All & 0.10 & 0.114 & 0.0106 & 1.115 & 0.0228 & 1.229 & 0.0141 & 0.102 & 0.0115 \\ 
+   & 0.25 & 0.194 & 0.0098 & 1.093 & 0.0211 & 1.287 & 0.0132 & 0.178 & 0.0121 \\ 
+   & 0.50 & 0.274 & 0.0096 & 1.042 & 0.0205 & 1.316 & 0.0128 & 0.263 & 0.0140 \\ 
+   & 0.90 & 0.436 & 0.0109 & 0.935 & 0.0229 & 1.371 & 0.0139 & 0.467 & 0.0225 \\ 
+   \hline
+\end{tabular}
+\label{COLestACF}
+\end{table}
 
 \end{document}
