@@ -1,6 +1,10 @@
 library(stringr)
 library(dplyr)
 library(xtable)
+library(reshape2)
+library(RColorBrewer)
+library(ggplot2)
+library(cowplot)
 #Load US dataset
 USdata <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/USdata.csv') %>% 
   select(id, year, Y, VA, K, L, M, naics3) %>% transmute(id=id, year=year, Y=log(Y), VA=log(VA), K=log(K), L=log(L), M=log(M), naics3=as.character(naics3), naics2=as.numeric(str_extract(as.character(naics3), "^.{2}")))
@@ -35,11 +39,12 @@ print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, 
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################
+#Significance Levels for CI
 alpha <- .1
 #Vector of quantiles of firm-size
 tauvec <- seq(5, 95, length.out=19)/100
-#Vector of quantiles of TFP
-tfptau <- seq(5, 95, length.out=19)/100
+#Selected vectors for plotting
+tau_t <- c(0.1, 0.25, 0.5, 0.9)
 #Number of parameters
 dZ <- 2
 ###############################################################################
@@ -49,14 +54,17 @@ dZ <- 2
 QLP_betahat <- array(0, c(length(tauvec), dZ, length(NAICS)))
 QLP_betaSE <- array(0, c(length(tauvec), dZ, length(NAICS)))
 #Store QR Estimates and Standard Deviations
-QR_betahat <- array(0, c(length(tauvec), dZ, length(NAICS)))
-QR_betaSE <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QLP_QR_betahat <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QLP_QR_betaSE <- array(0, c(length(tauvec), dZ, length(NAICS)))
 #Store QDIF Estimates and Standard Deviations
-QDIF_hat <- array(0, c(length(tauvec), dZ, length(NAICS)))
-QDIF_SE <- array(0, c(length(tauvec), dZ, length(NAICS)))
-#Store QTFP Estimates and Standard Deviations
-QTFP_hat <- array(0, c(length(tauvec), length(tfptau), length(NAICS)))
-QTFP_SE <- array(0, c(length(tauvec), length(tfptau), length(NAICS)))
+QLP_QDIF_hat <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QLP_QDIF_SE <- array(0, c(length(tauvec), dZ, length(NAICS)))
+#Store QTFP Estimates
+QLP_QTFP_hat <- list()
+#Store LP TFP Estimates
+LP_TFP_hat <- list()
+#Store Omega Estimates
+LP_omega_hat <- list()
 #Store QLP RTS Estimates and Standard Deviations
 QLP_RTS <- array(0, c(length(tauvec), length(NAICS)))
 QLP_RTS_SE <- array(0, c(length(tauvec), length(NAICS)))
@@ -77,31 +85,33 @@ LP_IN_SE <- array(0, c(length(NAICS), 1))
 #Load LP and QLP Results
 #############################################################################@
 for (i in 1:length(NAICS)){
+  QLP_QTFP_hat[[i]] <- list()
   for (j in 1:length(tauvec)){
     load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QLP_Boot_US_Q%s.RData", j))
     #QLP Estimates and Standard Deviations
-    QLP_betahat[,,i][j,] <- betahat[,i]
-    QLP_betaSE[,,i][j,] <- apply(betaboot[,,i], 2, sd)
+    QLP_betahat[,,i][j,] <- QLPbetahat[,i]
+    QLP_betaSE[,,i][j,] <- apply(QLPbetaboot[,,i], 2, sd)
     #QR Estimates and Standard Deviations
-    QR_betahat[,,i][j,] <- qrhat[,i]
-    QR_betaSE[,,i][j,] <- apply(qrboot[,,i], 2, sd)
+    QLP_QR_betahat[,,i][j,] <- QLPqrhat[,i]
+    QLP_QR_betaSE[,,i][j,] <- apply(QLPqrboot[,,i], 2, sd)
     #QLP-QR Estimates and Standard Deviations
-    QDIF_hat[,,i][j,] <- qdifhat[,i]
-    QDIF_SE[,,i][j,] <- apply(qdifboot[,,i], 2, sd)
-    #QLP QTFP Estimates and Standard Deviations
-    QTFP_hat[,,i][j,] <- QTFPhat[,i]
-    QTFP_SE[,,i][j,] <- apply(QTFPboot[,,i], 2, sd)
+    QLP_QDIF_hat[,,i][j,] <- QLPqdifhat[,i]
+    QLP_QDIF_SE[,,i][j,] <- apply(QLPqdifboot[,,i], 2, sd)
     #QLP RTS Estimates and Standard Deviations
-    QLP_RTS[j,i] <- sum(betahat[,i])
-    QLP_RTS_SE[j,i] <- sd(apply(betaboot[,,i], 1, sum))
+    QLP_RTS[j,i] <- sum(QLPbetahat[,i])
+    QLP_RTS_SE[j,i] <- sd(apply(QLPbetaboot[,,i], 1, sum))
     #QLP Capital Intensity Estimates and Standard Deviations
-    QLP_IN[j,i] <- betahat[,i][1]/betahat[,i][2]
-    QLP_IN_SE[j,i] <- sd(apply(betaboot[,,i], 1, function(x) x[1]/x[2]))
+    QLP_IN[j,i] <- QLPbetahat[,i][1]/QLPbetahat[,i][2]
+    QLP_IN_SE[j,i] <- sd(apply(QLPbetaboot[,,i], 1, function(x) x[1]/x[2]))
+    #QTFP Estimates
+    QLP_QTFP_hat[[i]][[j]] <- exp(QLPTFPhat[[i]])
     #Load the LP estimates from a single quantile environment: they should be the same across quantiles
     if (tauvec[j]==0.1){
       #LP Estimates and Standard Deviations
       LP_betahat[i,] <- LPhat[,i]
       LP_betaSE[i,] <- apply(LPboot[,,i], 2, sd)
+      LP_TFP_hat[[i]] <- exp(LPTFPhat[[i]])
+      LP_omega_hat[[i]] <- exp(LPomegahat[[i]])
       #Store LP RTS Standard Deviations
       LP_RTS_SE[i,] <- sd(apply(LPboot[,,i], 1, sum))
       #Store LP Capital Intensity Standard Deviations
@@ -121,14 +131,12 @@ colnames(QLPestimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In'
 LP_betatable <- data.frame(cbind(LP_betahat, LP_betaSE)[,c(rbind(c(1:dZ), dZ+(1:dZ)))])
 LPestimates <- cbind(LP_betatable, LP_RTS, LP_RTS_SE, LP_IN, LP_IN_SE)
 colnames(LPestimates) <- c('K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In', 'In_SE')
-#Prepare estimates for table in paper/presentation
-tau_table <- c(0.1, 0.25, 0.5, 0.9)
 
 #Table Labels
-NAICS_labels <- array(NA, length(tau_table)*length(NAICS)); NAICS_labels[seq(1, length(tau_table)*length(NAICS), by=length(tau_table))] <- NAICS
+NAICS_labels <- array(NA, length(tau_t)*length(NAICS)); NAICS_labels[seq(1, length(tau_t)*length(NAICS), by=length(tau_t))] <- NAICS
 NAICS_labels[is.na(NAICS_labels)] <- ""
 
-QLP_Table <- cbind(NAICS_labels, QLPestimates[rep(tauvec, length(NAICS))%in%tau_table, ])
+QLP_Table <- cbind(NAICS_labels, QLPestimates[rep(tauvec, length(NAICS))%in%tau_t, ])
 colnames(QLP_Table) <- c("NAICS", "$\\tau$", rep(c("Coef.", "s.e"), dZ+2))
 QLP_Table_X <- xtable(QLP_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex")
 align(QLP_Table_X) <- rep('c', 7+dZ*2)
@@ -138,18 +146,33 @@ addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multic
 #For copy pasting to latex
 print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 #For saving to file
-print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Beta_Estimates.tex")
-##############################################################################################
-############################Coefficicent Plots######################################
-################################################################################################
-require(ggplot2)
-require(cowplot)
-require(reshape2)
+print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_LP_Estimates.tex")
+####################################################################################################
+#TFP Data Formatting
+####################################################################################################
+#Combine quantiles of QTFP
+QLP_QTFP <- lapply(QLP_QTFP_hat,  function(x) do.call(cbind, x))
+#Combine with LP TFP and LP productivity
+industries <- c("31", "32", "33", "^3")
+QLP_TFP_data <- lapply(1:length(NAICS), function(x) data.frame(cbind(subset(USdata, str_detect(naics2, industries[x]))$id, subset(USdata, str_detect(naics2, industries[x]))$year, QLP_QTFP[[x]], LP_TFP_hat[[x]], LP_omega_hat[[x]])))
+QLP_TFP_data <- lapply(QLP_TFP_data, setNames, nm = c("id", "year", paste("Q", tauvec, sep=" "), "TFP", "Omega"))
+#Take un-weighted averages and set base year to 100
+QLP_TFP_AVG <- lapply(QLP_TFP_data, function(x) group_by(x, year) %>% summarise_at(c(paste("Q", tauvec, sep=" "), "TFP", "Omega"), mean, na.rm=TRUE) %>% mutate_at(vars(-year), function(z) z/z[1L]*100))
+#Subset Quantiles of interest for plotting and group by quantile
+QLP_TFP <- lapply(QLP_TFP_AVG, function(x) melt(x[,c("year", paste("Q", tau_t), "TFP")], "year"))
+#Plot entire industry sample
+pcolour <- brewer.pal(n=length(tau_t), "Spectral")
+LP_TFP_Plot <- ggplot(QLP_TFP[[length(NAICS)]], aes(x=year, y=value, group=variable, linetype=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + scale_colour_manual(name="", labels=c(paste("TFP" ,tau_t), "LP TFP"), values=c(pcolour, "black")) + theme(legend.text.align = 0) + scale_linetype_manual(name="", labels=c(paste("TFP" ,tau_t), "LP TFP"), values=c("TFP 0.1"="solid", "TFP 0.25"="solid", "TFP 0.5"="solid","TFP 0.9"="solid", "TFP"="longdash", "NA"))
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/LP_TFP_Plot.png", LP_TFP_Plot, base_height=8, base_width=10)
+#Create table for productivity growth rates
+TFP_growth <- lapply(QLP_TFP_AVG, function(x) cbind(x$year, apply(x[,-1], 2, function(y) ((lead(y)/y)-1)*100)))
+#Create table for differences across columns
+QLP_TFP_tau_t <- lapply(QLP_TFP_AVG, function(x) x[,c("year", paste("Q", rev(tau_t)), "TFP", "Omega")])
+QLP_TFP_DIF <- lapply(QLP_TFP_tau_t, function(x) t(apply(x[,-1], 1, function(y) y-lead(y)))[,c(1:(length(tau_t)-1))])
+#Coefficient Plots
 #Industry NAICS Code Plot Labels
 QLP_Kplot <- list(); QLP_Lplot <- list(); QLP_RTSplot <- list()
-QDIF_Kplot <- list(); QDIF_Lplot <- list(); QTFP_plot <- list()
-pcolour <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442")
-tau_t <- c(0.1, 0.25, 0.5, 0.9)
+QLP_QDIF_Kplot <- list(); QLP_QDIF_Lplot <- list()
 for (p in 1:length(NAICS)){
   #Plotting data for QLP
   QLPplotcoef <- apply(QLPestimates[c("K", "L", "RTS")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
@@ -165,47 +188,22 @@ for (p in 1:length(NAICS)){
   QLP_Kplot[[p]] <- ggplot(QLPplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=LB.K, ymax=UB.K), fill="grey70") + geom_line(aes(y=K)) + geom_hline(yintercept=LPplotdat$K, linetype='solid', color='red') + geom_hline(yintercept=c(LPplotdat$LB.K, LPplotdat$UB.K), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(min(QLPplotdat$LB.K), LPplotdat$LB.K, LPplotdat$LB.L, min(QLPplotdat$LB.L)), max(max(QLPplotdat$UB.K), LPplotdat$UB.K, LPplotdat$UB.L, max(QLPplotdat$UB.L))))
   QLP_Lplot[[p]] <- ggplot(QLPplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=LB.L, ymax=UB.L), fill="grey70") + geom_line(aes(y=L)) + geom_hline(yintercept=LPplotdat$L, linetype='solid', color='red') + geom_hline(yintercept=c(LPplotdat$LB.L, LPplotdat$UB.L), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(min(QLPplotdat$LB.K), LPplotdat$LB.K, LPplotdat$LB.L, min(QLPplotdat$LB.L)), max(max(QLPplotdat$UB.K), LPplotdat$UB.K, LPplotdat$UB.L, max(QLPplotdat$UB.L))))
   QLP_RTSplot[[p]] <- ggplot(QLPplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Returns to Scale") + geom_ribbon(aes(ymin=LB.RTS, ymax=UB.RTS), fill="grey70") + geom_line(aes(y=RTS)) + geom_hline(yintercept=LPplotdat$RTS, linetype='solid', color='red') + geom_hline(yintercept=c(LPplotdat$LB.RTS, LPplotdat$UB.RTS), linetype='dashed', color='red')
-  #QTFP Plots
-  QTFP <- QTFP_hat[,,p][,tfptau%in%tau_t]
-  taufac <- as.factor(rep(tau_t, each=length(tauvec)))
-  QLP_QTFPdat <- data.frame(tau=rep(tauvec, length(tau_t)), tfptau=taufac, qtfp=c(QTFP))
-  QTFP_plot[[p]] <- ggplot(QLP_QTFPdat, aes(x=tau, y=qtfp, group=tfptau)) + xlab(expression('percentile-'*tau)) + ylab("")+ ggtitle(paste("NAICS", NAICS[p], sep=" "))+ geom_line(aes(colour=tfptau)) + scale_colour_manual(name=expression(tau), labels=tau_t, values = pcolour)
   #Plotting data for QDIF Plots
-  QDIF_dat <- data.frame(tau=tauvec, coef=QDIF_hat[,,p], LB=QDIF_hat[,,p]-QDIF_SE[,,p]*qnorm(1-.05/2), UB=QDIF_hat[,,p]+QDIF_SE[,,p]*qnorm(1-.05/2))
+  QLP_QDIF_dat <- data.frame(tau=tauvec, coef=QLP_QDIF_hat[,,p], LB=QLP_QDIF_hat[,,p]-QLP_QDIF_SE[,,p]*qnorm(1-alpha/2), UB=QLP_QDIF_hat[,,p]+QLP_QDIF_SE[,,p]*qnorm(1-alpha/2))
   #QDIF Plots
-  QDIF_Kplot[[p]] <- ggplot(QDIF_dat, aes(x=tau))+ xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_point(aes(y=coef.1)) + geom_errorbar(aes(ymin=LB.1, ymax=UB.1)) + geom_hline(yintercept=0, linetype='dashed', color='red') + coord_cartesian(ylim =c(min(min(QDIF_dat$LB.1), min(QDIF_dat$LB.2), 0), max(max(QDIF_dat$UB.1), max(QDIF_dat$UB.2), 0)))
-  QDIF_Lplot[[p]] <- ggplot(QDIF_dat, aes(x=tau))+ xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_point(aes(y=coef.2)) + geom_errorbar(aes(ymin=LB.2, ymax=UB.2)) + geom_hline(yintercept=0, linetype='dashed', color='red') + coord_cartesian(ylim =c(min(min(QDIF_dat$LB.1), min(QDIF_dat$LB.2), 0), max(max(QDIF_dat$UB.1), max(QDIF_dat$UB.2), 0)))
+  QLP_QDIF_Kplot[[p]] <- ggplot(QLP_QDIF_dat, aes(x=tau))+ xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_point(aes(y=coef.1)) + geom_errorbar(aes(ymin=LB.1, ymax=UB.1)) + geom_hline(yintercept=0, linetype='dashed', color='red') + coord_cartesian(ylim =c(min(min(QLP_QDIF_dat$LB.1), min(QLP_QDIF_dat$LB.2), 0), max(max(QLP_QDIF_dat$UB.1), max(QLP_QDIF_dat$UB.2), 0)))
+  QLP_QDIF_Lplot[[p]] <- ggplot(QLP_QDIF_dat, aes(x=tau))+ xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_point(aes(y=coef.2)) + geom_errorbar(aes(ymin=LB.2, ymax=UB.2)) + geom_hline(yintercept=0, linetype='dashed', color='red') + coord_cartesian(ylim =c(min(min(QLP_QDIF_dat$LB.1), min(QLP_QDIF_dat$LB.2), 0), max(max(QLP_QDIF_dat$UB.1), max(QLP_QDIF_dat$UB.2), 0)))
   #Combine Plots #######################################################
   #QLP Coefficient Plots
-  NAICS_plots <- ggdraw() + draw_label(paste("NAICS", NAICS[p], sep=" "), fontface="plain", size=22) + theme(plot.title = element_text(hjust = 0.5))
-  coef_row1 <- plot_grid(QLP_Kplot[[p]], QLP_Lplot[[p]])
-  coef_row2 <- plot_grid(QDIF_Kplot[[p]], QDIF_Lplot[[p]])
-  Coef_Plot <- plot_grid(NAICS_plots, coef_row1, coef_row2, ncol=1, align="h", rel_heights = c(0.3, 1, 1))
-  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Coef_Plot_NAICS_", NAICS[p], ".png", sep=""), Coef_Plot, base_height=8, base_width=7)
+  QLP_coef_row1 <- plot_grid(QLP_Kplot[[p]], QLP_Lplot[[p]])
+  QLP_coef_row2 <- plot_grid(QLP_QDIF_Kplot[[p]], QLP_QDIF_Lplot[[p]])
+  QLP_Coef_Plot <- plot_grid(QLP_coef_row1, QLP_coef_row2, ncol=1, align="h", rel_heights = c(1, 1))
+  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QLP_Coef_Plot_NAICS_", NAICS[p], ".png", sep=""), QLP_Coef_Plot, base_height=8, base_width=7)
 }
-#Combine the QTFP plots over industries
-QTFP_plot <- plot_grid(QTFP_plot[[1]], QTFP_plot[[2]], QTFP_plot[[3]], QTFP_plot[[4]])
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QTFP_plot.png", QTFP_plot, base_height=10, base_width=10)
-###################################################################################################
-###############TFP Over Time#######################################################
-######################################################################################################
-QLPestimatesTFP <- QLPestimates[tauvec%in%tau_t,]
-All_NAICS_QLP <- data.frame(QLPestimatesTFP[(nrow(QLPestimatesTFP)-(length(tau_t)-1)):nrow(QLPestimatesTFP), c(2,4)])
-All_NAICS_LP <- LPestimates[nrow(LPestimates), c(1,3)]
-LP_TFP <- exp(USdata$VA-cbind(USdata$K, USdata$L)%*%as.numeric(All_NAICS_LP))
-QLP_TFP <- data.frame(cbind(USdata$id, USdata$year, apply(All_NAICS_QLP, 1, function(x) exp(USdata$VA-cbind(USdata$K, USdata$L)%*%as.numeric(x))), LP_TFP))
-colnames(QLP_TFP) <- c("id", "Year", paste("Q", tau_t, sep=""), "LP")
-TFP_Data <- group_by(QLP_TFP, Year) %>% summarise_at(c(paste("Q", tau_t, sep=""), "LP"), mean, na.rm=TRUE) %>% mutate_at(vars(-Year), function(x) x/x[1L]*100)
-
-TFP_Plot_Title <- ggdraw() + draw_label("Productivity Over Time", fontface="plain", size=22)
-TFP <- melt(TFP_Data, "Year")
-TFP_Plot <- ggplot(TFP, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + ggtitle("Productivity Over Time") + theme(plot.title=element_text(size=22, face="plain"))+ scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/TFP_Plot.png", TFP_Plot, base_height=8, base_width=10)
 ################################################################################################
 ###################Coefficients over Time #######################################
 ################################################################################
 T <- 5
-dZ <- 2
 time <- seq(min(USdata$year), max(USdata$year), by=T)
 QLPT_Coef <- array(0, dim=c(length(tau_t), dZ, length(time)))
 LPT_Coef <- array(0, dim=c(length(time), dZ))
@@ -221,23 +219,22 @@ for (t in 1:length(time)){
 KT <- data.frame(cbind(time, t(QLPT_Coef[,1,][,]), LPT_Coef[,1]))
 colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "), "LP")
 KT <- melt(KT, "Year")
-KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Capital") + scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
+KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable, linetype=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Capital") + scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "black"))+theme(legend.text.align = 0) + scale_linetype_manual(name="", labels=c(tau_t, "LP"), values=c("0.1"="solid", "0.25"="solid", "0.5"="solid","0.9"="solid", "LP"="longdash", "NA"))
 LT <- data.frame(cbind(time, t(QLPT_Coef[,2,][,]), LPT_Coef[,2]))
 colnames(LT) <- c("Year", paste("Q", tau_t, sep=""), "LP")
 LT <- melt(LT, "Year")
-LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "red"))
+LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable, linetype=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name="", labels=c(tau_t, "LP"), values=c(pcolour, "black"))+theme(legend.text.align = 0) + scale_linetype_manual(name="", labels=c(tau_t, "LP"), values=c("0.1"="solid", "0.25"="solid", "0.5"="solid","0.9"="solid", "LP"="longdash", "NA"))
 Plot_Title <- ggdraw() + draw_label("Output Elasticities Over Time", fontface="plain", size=22) 
-Time_Plot <- plot_grid(Plot_Title, plot_grid(LTplot, KTplot), ncol=1, rel_heights = c(0.3, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/Time_Plot.png", Time_Plot, base_height=6, base_width=10)
+Time_Plot <- plot_grid(KTplot, LTplot, rel_heights = 0.7)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QLP_Time_Plot.png", Time_Plot, base_height=6, base_width=10)
 
-
-###############################################################################
-###############################################################################
-###############################################################################
-#APPENDIX PLOTS AND TABLES (OPTIONAL)#########################################
-###############################################################################
-###############################################################################
-###############################################################################
+############################################################################################################
+###########################################################################################################
+###########################################################################################################
+#QACF ESTIMATES###########################################################################################
+#############################################################################################################
+############################################################################################################
+############################################################################################################
 
 ###############################################################################
 #Store QACF Results
@@ -246,14 +243,17 @@ save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy
 QACF_betahat <- array(0, c(length(tauvec), dZ, length(NAICS)))
 QACF_betaSE <- array(0, c(length(tauvec), dZ, length(NAICS)))
 #Store QR Estimates and Standard Deviations
-QR_betahat <- array(0, c(length(tauvec), dZ, length(NAICS)))
-QR_betaSE <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QACF_QR_betahat <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QACF_QR_betaSE <- array(0, c(length(tauvec), dZ, length(NAICS)))
 #Store QDIF Estimates and Standard Deviations
-QDIF_hat <- array(0, c(length(tauvec), dZ, length(NAICS)))
-QDIF_SE <- array(0, c(length(tauvec), dZ, length(NAICS)))
-#Store QTFP Estimates and Standard Deviations
-QTFP_hat <- array(0, c(length(tauvec), length(tfptau), length(NAICS)))
-QTFP_SE <- array(0, c(length(tauvec), length(tfptau), length(NAICS)))
+QACF_QDIF_hat <- array(0, c(length(tauvec), dZ, length(NAICS)))
+QACF_QDIF_SE <- array(0, c(length(tauvec), dZ, length(NAICS)))
+#Store QTFP Estimates
+QACF_QTFP_hat <- list()
+#Store ACF TFP Estimates
+ACF_TFP_hat <- list()
+#Store Omega Estimates
+ACF_omega_hat <- list()
 #Store QACF RTS Estimates and Standard Deviations
 QACF_RTS <- array(0, c(length(tauvec), length(NAICS)))
 QACF_RTS_SE <- array(0, c(length(tauvec), length(NAICS)))
@@ -274,31 +274,33 @@ ACF_IN_SE <- array(0, c(length(NAICS), 1))
 #Load ACF and QACF Results
 #############################################################################@
 for (i in 1:length(NAICS)){
+  QACF_QTFP_hat[[i]] <- list()
   for (j in 1:length(tauvec)){
     load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QACF/QACF_Boot_US_Q%s.RData", j))
     #QACF Estimates and Standard Deviations
-    QACF_betahat[,,i][j,] <- betahat[,i]
-    QACF_betaSE[,,i][j,] <- apply(betaboot[,,i], 2, sd)
+    QACF_betahat[,,i][j,] <- QACFbetahat[,i]
+    QACF_betaSE[,,i][j,] <- apply(QACFbetaboot[,,i], 2, sd)
     #QR Estimates and Standard Deviations
-    QR_betahat[,,i][j,] <- qrhat[,i]
-    QR_betaSE[,,i][j,] <- apply(qrboot[,,i], 2, sd)
+    QACF_QR_betahat[,,i][j,] <- QACFqrhat[,i]
+    QACF_QR_betaSE[,,i][j,] <- apply(QACFqrboot[,,i], 2, sd)
     #QACF-QR Estimates and Standard Deviations
-    QDIF_hat[,,i][j,] <- qdifhat[,i]
-    QDIF_SE[,,i][j,] <- apply(qdifboot[,,i], 2, sd)
-    #QACF QTFP Estimates and Standard Deviations
-    QTFP_hat[,,i][j,] <- QTFPhat[,i]
-    QTFP_SE[,,i][j,] <- apply(QTFPboot[,,i], 2, sd)
+    QACF_QDIF_hat[,,i][j,] <- QACFqdifhat[,i]
+    QACF_QDIF_SE[,,i][j,] <- apply(QACFqdifboot[,,i], 2, sd)
     #QACF RTS Estimates and Standard Deviations
-    QACF_RTS[j,i] <- sum(betahat[,i])
-    QACF_RTS_SE[j,i] <- sd(apply(betaboot[,,i], 1, sum))
+    QACF_RTS[j,i] <- sum(QACFbetahat[,i])
+    QACF_RTS_SE[j,i] <- sd(apply(QACFbetaboot[,,i], 1, sum))
     #QACF Capital Intensity Estimates and Standard Deviations
-    QACF_IN[j,i] <- betahat[,i][1]/betahat[,i][2]
-    QACF_IN_SE[j,i] <- sd(apply(betaboot[,,i], 1, function(x) x[1]/x[2]))
+    QACF_IN[j,i] <- QACFbetahat[,i][1]/QACFbetahat[,i][2]
+    QACF_IN_SE[j,i] <- sd(apply(QACFbetaboot[,,i], 1, function(x) x[1]/x[2]))
+    #QTFP Estimates
+    QACF_QTFP_hat[[i]][[j]] <- exp(QACFTFPhat[[i]])
     #Load the ACF estimates from a single quantile environment: they should be the same across quantiles
     if (tauvec[j]==0.1){
       #ACF Estimates and Standard Deviations
       ACF_betahat[i,] <- ACFhat[,i]
       ACF_betaSE[i,] <- apply(ACFboot[,,i], 2, sd)
+      ACF_TFP_hat[[i]] <- exp(ACFTFPhat[[i]])
+      ACF_omega_hat[[i]] <- exp(ACFomegahat[[i]])
       #Store ACF RTS Standard Deviations
       ACF_RTS_SE[i,] <- sd(apply(ACFboot[,,i], 1, sum))
       #Store ACF Capital Intensity Standard Deviations
@@ -318,14 +320,12 @@ colnames(QACFestimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In
 ACF_betatable <- data.frame(cbind(ACF_betahat, ACF_betaSE)[,c(rbind(c(1:dZ), dZ+(1:dZ)))])
 ACFestimates <- cbind(ACF_betatable, ACF_RTS, ACF_RTS_SE, ACF_IN, ACF_IN_SE)
 colnames(ACFestimates) <- c('K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In', 'In_SE')
-#Prepare estimates for table in paper/presentation
-tau_table <- c(0.1, 0.25, 0.5, 0.9)
 
 #Table Labels
-NAICS_labels <- array(NA, length(tau_table)*length(NAICS)); NAICS_labels[seq(1, length(tau_table)*length(NAICS), by=length(tau_table))] <- NAICS
+NAICS_labels <- array(NA, length(tau_t)*length(NAICS)); NAICS_labels[seq(1, length(tau_t)*length(NAICS), by=length(tau_t))] <- NAICS
 NAICS_labels[is.na(NAICS_labels)] <- ""
 
-QACF_Table <- cbind(NAICS_labels, QACFestimates[rep(tauvec, length(NAICS))%in%tau_table, ])
+QACF_Table <- cbind(NAICS_labels, QACFestimates[rep(tauvec, length(NAICS))%in%tau_t, ])
 colnames(QACF_Table) <- c("NAICS", "$\\tau$", rep(c("Coef.", "s.e"), dZ+2))
 QACF_Table_X <- xtable(QACF_Table, digits=c(0,0,2,rep(c(3,4), dZ+2)), type="latex")
 align(QACF_Table_X) <- rep('c', 7+dZ*2)
@@ -336,3 +336,88 @@ addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multic
 print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 #For saving to file
 print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_ACF_Estimates.tex")
+####################################################################################################
+#TFP Data Formatting
+####################################################################################################
+#Combine quantiles of QTFP
+QACF_QTFP <- lapply(QACF_QTFP_hat,  function(x) do.call(cbind, x))
+#Combine with ACF TFP and ACF productivity
+industries <- c("31", "32", "33", "^3")
+QACF_TFP_data <- lapply(1:length(NAICS), function(x) data.frame(cbind(subset(USdata, str_detect(naics2, industries[x]))$id, subset(USdata, str_detect(naics2, industries[x]))$year, QACF_QTFP[[x]], ACF_TFP_hat[[x]], ACF_omega_hat[[x]])))
+QACF_TFP_data <- lapply(QACF_TFP_data, setNames, nm = c("id", "year", paste("Q", tauvec, sep=" "), "TFP", "Omega"))
+#Take un-weighted averages and set base year to 100
+QACF_TFP_AVG <- lapply(QACF_TFP_data, function(x) group_by(x, year) %>% summarise_at(c(paste("Q", tauvec, sep=" "), "TFP", "Omega"), mean, na.rm=TRUE) %>% mutate_at(vars(-year), function(z) z/z[1L]*100))
+#Subset Quantiles of interest for plotting and group by quantile
+QACF_TFP <- lapply(QACF_TFP_AVG, function(x) melt(x[,c("year", paste("Q", tau_t), "TFP")], "year"))
+ACF_TFP_Plot <- ggplot(QACF_TFP[[length(NAICS)]], aes(x=year, y=value, group=variable, linetype=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + scale_colour_manual(name="", labels=c(paste("TFP" ,tau_t), "ACF TFP"), values=c(pcolour, "black", "black")) + theme(legend.text.align = 0) + scale_linetype_manual(name="", labels=c(paste("TFP" ,tau_t), "ACF TFP"), values=c("TFP 0.1"="solid", "TFP 0.25"="solid", "TFP 0.5"="solid","TFP 0.9"="solid", "TFP"="longdash", "NA"))
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/ACF_TFP_Plot.png", ACF_TFP_Plot, base_height=8, base_width=10)
+#Create table for productivity growth rates
+TFP_growth <- lapply(QACF_TFP_AVG, function(x) cbind(x$year, apply(x[,-1], 2, function(y) ((lead(y)/y)-1)*100)))
+#Create table for differences across columns
+QACF_TFP_tau_t <- lapply(QACF_TFP_AVG, function(x) x[,c("year", paste("Q", rev(tau_t)), "TFP", "Omega")])
+QACF_TFP_DIF <- lapply(QACF_TFP_tau_t, function(x) t(apply(x[,-1], 1, function(y) y-lead(y)))[,c(1:(length(tau_t)-1))])
+#Coefficient Plots
+#Industry NAICS Code Plot Labels
+QACF_Kplot <- list(); QACF_Lplot <- list(); QACF_RTSplot <- list()
+QACF_QDIF_Kplot <- list(); QACF_QDIF_Lplot <- list()
+for (p in 1:length(NAICS)){
+  #Plotting data for QACF
+  QACFplotcoef <- apply(QACFestimates[c("K", "L", "RTS")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
+  QACFplotsd <- apply(QACFestimates[c("se_K", "se_L", "RTS_SE")], 2, function(x) split(x, ceiling(seq_along(x)/length(tauvec)))[[p]])
+  QACFplotCI <- data.frame(LB=QACFplotcoef-QACFplotsd*qnorm(1-alpha/2), UB=QACFplotcoef+QACFplotsd*qnorm(1-alpha/2))
+  QACFplotdat <- data.frame(tau=tauvec, QACFplotcoef, QACFplotsd, QACFplotCI)
+  #Plotting data for ACF
+  ACFplotcoef <- ACFestimates[c("K", "L", "RTS")][p,]
+  ACFplotsd <- ACFestimates[c("se_K", "se_L", "RTS_SE")][p,]
+  ACFplotCI <- data.frame(LB=ACFplotcoef-ACFplotsd*qnorm(1-alpha/2), UB=ACFplotcoef+ACFplotsd*qnorm(1-alpha/2))
+  ACFplotdat <- data.frame(ACFplotcoef, ACFplotsd, ACFplotCI)
+  #Plots
+  QACF_Kplot[[p]] <- ggplot(QACFplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_ribbon(aes(ymin=LB.K, ymax=UB.K), fill="grey70") + geom_line(aes(y=K)) + geom_hline(yintercept=ACFplotdat$K, linetype='solid', color='red') + geom_hline(yintercept=c(ACFplotdat$LB.K, ACFplotdat$UB.K), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(min(QACFplotdat$LB.K), ACFplotdat$LB.K, ACFplotdat$LB.L, min(QACFplotdat$LB.L)), max(max(QACFplotdat$UB.K), ACFplotdat$UB.K, ACFplotdat$UB.L, max(QACFplotdat$UB.L))))
+  QACF_Lplot[[p]] <- ggplot(QACFplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_ribbon(aes(ymin=LB.L, ymax=UB.L), fill="grey70") + geom_line(aes(y=L)) + geom_hline(yintercept=ACFplotdat$L, linetype='solid', color='red') + geom_hline(yintercept=c(ACFplotdat$LB.L, ACFplotdat$UB.L), linetype='dashed', color='red') + coord_cartesian(ylim=c(min(min(QACFplotdat$LB.K), ACFplotdat$LB.K, ACFplotdat$LB.L, min(QACFplotdat$LB.L)), max(max(QACFplotdat$UB.K), ACFplotdat$UB.K, ACFplotdat$UB.L, max(QACFplotdat$UB.L))))
+  QACF_RTSplot[[p]] <- ggplot(QACFplotdat, aes(x=tau)) + xlab(expression('percentile-'*tau)) + ylab("Returns to Scale") + geom_ribbon(aes(ymin=LB.RTS, ymax=UB.RTS), fill="grey70") + geom_line(aes(y=RTS)) + geom_hline(yintercept=ACFplotdat$RTS, linetype='solid', color='red') + geom_hline(yintercept=c(ACFplotdat$LB.RTS, ACFplotdat$UB.RTS), linetype='dashed', color='red')
+  #Plotting data for QDIF Plots
+  QACF_QDIF_dat <- data.frame(tau=tauvec, coef=QACF_QDIF_hat[,,p], LB=QACF_QDIF_hat[,,p]-QACF_QDIF_SE[,,p]*qnorm(1-alpha/2), UB=QACF_QDIF_hat[,,p]+QACF_QDIF_SE[,,p]*qnorm(1-alpha/2))
+  #QDIF Plots
+  QACF_QDIF_Kplot[[p]] <- ggplot(QACF_QDIF_dat, aes(x=tau))+ xlab(expression('percentile-'*tau)) + ylab("Capital") + geom_point(aes(y=coef.1)) + geom_errorbar(aes(ymin=LB.1, ymax=UB.1)) + geom_hline(yintercept=0, linetype='dashed', color='red') + coord_cartesian(ylim =c(min(min(QACF_QDIF_dat$LB.1), min(QACF_QDIF_dat$LB.2), 0), max(max(QACF_QDIF_dat$UB.1), max(QACF_QDIF_dat$UB.2), 0)))
+  QACF_QDIF_Lplot[[p]] <- ggplot(QACF_QDIF_dat, aes(x=tau))+ xlab(expression('percentile-'*tau)) + ylab("Labor") + geom_point(aes(y=coef.2)) + geom_errorbar(aes(ymin=LB.2, ymax=UB.2)) + geom_hline(yintercept=0, linetype='dashed', color='red') + coord_cartesian(ylim =c(min(min(QACF_QDIF_dat$LB.1), min(QACF_QDIF_dat$LB.2), 0), max(max(QACF_QDIF_dat$UB.1), max(QACF_QDIF_dat$UB.2), 0)))
+  #Combine Plots #######################################################
+  #QACF Coefficient Plots
+  QACF_coef_row1 <- plot_grid(QACF_Kplot[[p]], QACF_Lplot[[p]])
+  QACF_coef_row2 <- plot_grid(QACF_QDIF_Kplot[[p]], QACF_QDIF_Lplot[[p]])
+  QACF_Coef_Plot <- plot_grid(QACF_coef_row1, QACF_coef_row2, ncol=1, align="h", rel_heights = c(1, 1))
+  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QACF_Coef_Plot_NAICS_", NAICS[p], ".png", sep=""), QACF_Coef_Plot, base_height=8, base_width=7)
+}
+################################################################################################
+###################Coefficients over Time #######################################
+################################################################################
+T <- 5
+time <- seq(min(USdata$year), max(USdata$year), by=T)
+QACFT_Coef <- array(0, dim=c(length(tau_t), dZ, length(time)))
+ACFT_Coef <- array(0, dim=c(length(time), dZ))
+for (t in 1:length(time)){
+  for (q in 1:length(tau_t)){
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Environments/QACF/QACFT_US_Q%s.RData", q))
+    QACFT_Coef[,,t][q,] <- QACFbetahat[,t]
+    if (tau_t[q]==0.5){
+      ACFT_Coef[t,] <- ACFhat[,t]
+    }
+  }
+}
+KT <- data.frame(cbind(time, t(QACFT_Coef[,1,][,]), ACFT_Coef[,1]))
+colnames(KT) <- c("Year", paste("Q", tau_t, sep=" "), "ACF")
+KT <- melt(KT, "Year")
+KTplot <- ggplot(KT, aes(x=Year, y=value, group=variable, linetype=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Capital") + scale_colour_manual(name="", labels=c(tau_t, "ACF"), values=c(pcolour, "black"))+theme(legend.text.align = 0) + scale_linetype_manual(name="", labels=c(tau_t, "ACF"), values=c("0.1"="solid", "0.25"="solid", "0.5"="solid","0.9"="solid", "ACF"="longdash", "NA"))
+LT <- data.frame(cbind(time, t(QACFT_Coef[,2,][,]), ACFT_Coef[,2]))
+colnames(LT) <- c("Year", paste("Q", tau_t, sep=""), "ACF")
+LT <- melt(LT, "Year")
+LTplot <- ggplot(LT, aes(x=Year, y=value, group=variable, linetype=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("Labor") + scale_colour_manual(name="", labels=c(tau_t, "ACF"), values=c(pcolour, "black"))+theme(legend.text.align = 0) + scale_linetype_manual(name="", labels=c(tau_t, "ACF"), values=c("0.1"="solid", "0.25"="solid", "0.5"="solid","0.9"="solid", "ACF"="longdash", "NA"))
+Plot_Title <- ggdraw() + draw_label("Output Elasticities Over Time", fontface="plain", size=22) 
+Time_Plot <- plot_grid(KTplot, LTplot, rel_heights = 0.7)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QACF_Time_Plot.png", Time_Plot, base_height=6, base_width=10)
+
+
+
+
+
+
+

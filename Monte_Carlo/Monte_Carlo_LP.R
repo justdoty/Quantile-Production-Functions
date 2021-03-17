@@ -339,7 +339,7 @@ beta3 <- cbind(betak3, betal3)
 #Combined
 beta <- rbind(beta1, beta2, beta3)
 #Save Results
-save(nreps, DGPs, resmat_LP, resmat_LPQ, resmat_QR, beta, tau, file="PFQR/SIM/simulation_LP.Rdata")
+save(nreps, DGPs, resmat_LP, resmat_LPQ, resmat_QR, beta, tau, dB, file="PFQR/SIM/simulation_LP.Rdata")
 
 
 

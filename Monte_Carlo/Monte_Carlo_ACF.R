@@ -35,9 +35,9 @@ dB <- 2
 ACF <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
   A <- fitphi-mX%*%theta[1:ncol(mX)]
   B <- fitlagphi-mlX%*%theta[1:ncol(mX)]
-  step1 <- lm(A~B)
+  step1 <- lm(A~B-1)
   step1param <- as.numeric(coef(step1))
-  xifit <- A-cbind(1,B)%*%step1param
+  xifit <- A-B*step1param
   mW <- solve(crossprod(mZ))/nrow(mZ)
   go <- t(crossprod(mZ, xifit))%*%mW%*%(crossprod(mZ, xifit))
   return(go)
@@ -246,15 +246,16 @@ for (d in 1:length(DGPs)){
     ################################################################################
     #First Stage########################################################
     firststage_ACF <- lm(Output~Capital+Labor+Materials)
+    phi0 <- as.numeric(coef(firststage_ACF)[1])
     phi <- fitted(firststage_ACF)
-    phi_ACF <- phi
+    phi_ACF <- phi-phi0
     dim(phi_ACF) <- c(t, n)
     phi_Lag_1_ACF <- c(phi_ACF[1:(t-1),])
     phi_Con_ACF <- c(phi_ACF[2:t,])
     #Output
     mY <- as.matrix(Output_Con)
     #Matrix of Instruments
-    mZ <- cbind(Capital_Con, Labor_Lag_1)
+    mZ <- cbind(1, Capital_Con, Capital_Lag_1, Labor_Lag_1, Labor_Lag_2)
     #Contemporary Values
     mX <- cbind(Capital_Con, Labor_Con)
     #Lag Values
@@ -262,6 +263,7 @@ for (d in 1:length(DGPs)){
     results_ACF <- optim(par=c(alphak, alphal), fn=function(theta) ACF(theta, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_ACF, fitlagphi=phi_Lag_1_ACF), gr=NULL, method="L-BFGS-B", lower=c(0,0), upper=c(1,1))$par
     #Estimated productivity
     wfit <- phi-cbind(Capital, Labor)%*%as.matrix(as.numeric(results_ACF))
+    print(mean(wfit-phi0))
     ############################################################
     resmat_ACF[,,d][j,] <- results_ACF
     print("ACF Estimates")
@@ -270,7 +272,7 @@ for (d in 1:length(DGPs)){
     ##########################################################################################
     # ##########################################################################################
     clusterExport(cl, c('n','overallt','t','starttime','nreps', 'tau', 'dB', 'siglnw', 'timeb',
-    'sigoptl', 'Lambda', 'resmat_ACFQ', 'rq', 'fitted',
+    'sigoptl', 'resmat_ACFQ', 'rq', 'fitted',
     'Output', 'Capital', 'Labor', 'Materials',
     'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Con', 'Output_Con',
     'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0', 'repmat',
@@ -291,7 +293,7 @@ for (d in 1:length(DGPs)){
       #Optional for serial computing
       # resmat_ACFQ[,,,d][j,,] <- t(matrix(unlist(lapply(1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
       q.time <- proc.time()
-      resmat <- t(matrix(unlist(parLapply(cl, 1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
+      resmat <- t(matrix(unlist(parLapply(cl, 1:length(tau), innerloop_QACF)), nrow=4, ncol=length(tau)))
       resmat_ACFQ[,,,d][j,,] <- t(resmat[,1:2])
       resmat_QR[,,,d][j,,] <- t(resmat[,3:4])
       ####################################################################
@@ -315,7 +317,7 @@ beta3 <- cbind(betak3, betal3)
 #Combined
 beta <- rbind(beta1, beta2, beta3)
 #Save Results
-# save(nreps, DGPs, resmat_ACF, resmat_ACF, resmat_QR, beta, tau, dB, file="PFQR/SIM/simulation_ACF.Rdata")
+# save(nreps, DGPs, resmat_ACFQ, resmat_ACF, resmat_QR, beta, tau, dB, file="PFQR/SIM/simulation_ACF.Rdata")
 
 
 

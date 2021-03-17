@@ -3,7 +3,6 @@ require(xtable)
 require(ggplot2)
 require(cowplot)
 require(abind)
-dB <- 2
 ############################ For LP Simulations###################################################
 load("simulation_LP.Rdata")
 #####################Compute Estimates and Standard Errors##################
