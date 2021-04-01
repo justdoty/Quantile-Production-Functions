@@ -12,8 +12,6 @@ All <- "^3"
 industries <- c("31", "32", "33", All)
 #Vector of quantiles of firm-size
 tauvec <- seq(5, 95, length.out=19)/100
-#Vector of quantiles of TFP
-tfptau <- seq(5, 95, length.out=19)/100
 tau_n <- length(tau)
 id <- as.numeric(commandArgs(TRUE)[1])
 tau <- tauvec[id]
@@ -21,47 +19,51 @@ tau <- tauvec[id]
 R <- 500
 #The number of parameters being estimated
 dZ <- 2
-#Bandwidth specification
-h <- NULL
 #This gives the estimates using the unsampled data########################
 #Elasticities from QLP
-betahat <- array(0, dim=c(dZ, length(industries)))
+QLPbetahat <- array(0, dim=c(dZ, length(industries)))
 LPhat <- array(0, dim=c(dZ, length(industries)))
 #Elasticities from QR
-qrhat <- array(0, dim=c(dZ, length(industries)))
+QLPqrhat <- array(0, dim=c(dZ, length(industries)))
 #Difference between QLP and QR
-qdifhat <- array(0, dim=c(dZ, length(industries)))
-#Quantiles of TFP
-QTFPhat <- array(0, dim=c(length(tfptau), length(industries)))
+QLPqdifhat <- array(0, dim=c(dZ, length(industries)))
+#QTFP Estimates
+QLPTFPhat <- list()
+#TFP Estimates
+LPTFPhat <- list()
+#Omega Estimates
+LPomegahat <- list()
+#Expost shock estimates
+LPexpost <- list()
 #Store results for bootstrap replications##############################
 #Bootstrapped Elasticiteis from QLP
-betaboot <- array(0, dim=c(R, dZ, length(industries)))
+QLPbetaboot <- array(0, dim=c(R, dZ, length(industries)))
 LPboot <- array(0, dim=c(R, dZ, length(industries)))
 #Bootstrapped Elasticities from QR
-qrboot <- array(0, dim=c(R, dZ, length(industries)))
+QLPqrboot <- array(0, dim=c(R, dZ, length(industries)))
 #Bootstrapped differences between QLP and QR
-qdifboot <- array(0, dim=c(R, dZ, length(industries)))
-#Bootstrapped quantiles of TFP
-QTFPboot <- array(0, dim=c(R, length(tfptau), length(industries)))
+QLPqdifboot <- array(0, dim=c(R, dZ, length(industries)))
 
 for (naics in 1:length(industries)){
   US <- filter(USdata, str_detect(naics2, industries[naics]))
-  soln <- QLP_Boot(tau=tau, h=h, idvar=US$id, timevar=US$year, Y=US$lnva, K=US$lnk, L=US$lnl, proxy=US$lnm, dZ=dZ, binit=NULL, R=R, tfptau=tfptau)
+  soln <- QLP_Boot(tau=tau, idvar=US$id, timevar=US$year, Y=US$lnva, K=US$lnk, L=US$lnl, proxy=US$lnm, dZ=dZ, binit=NULL, R=R)
   #Bootstrapped Estimates
-  betaboot[,,naics] <- soln$betaboot
+  QLPbetaboot[,,naics] <- soln$betaboot
   LPboot[,,naics] <- soln$LPboot
-  qrboot[,,naics] <- soln$qrboot
-  qdifboot[,,naics] <- soln$qdifboot
-  QTFPboot[,,naics] <- soln$QTFPboot
+  QLPqrboot[,,naics] <- soln$qrboot
+  QLPqdifboot[,,naics] <- soln$qdifboot
   #Estimataes from Unsampled data
-  betahat[,naics] <- soln$betahat
+  QLPbetahat[,naics] <- soln$betahat
   LPhat[,naics] <- soln$LPhat
-  qrhat[,naics] <- soln$qrhat
-  qdifhat[,naics] <- soln$qdifhat
-  QTFPhat[,naics] <- soln$QTFPhat
+  QLPqrhat[,naics] <- soln$qrhat
+  QLPqdifhat[,naics] <- soln$qdifhat
+  QLPTFPhat[[naics]] <- soln$QTFPhat
+  LPTFPhat[[naics]] <- soln$TFPhat
+  LPomegahat[[naics]] <- soln$omegahat
+  LPexpost[[naics]] <- soln$expost
 }
 filename <- paste("PFQR/DATA/US/QLP_Environments/QLP_Boot_US_Q", id, ".RData", sep="")
-save(tauvec, tfptau, dZ, betahat, LPhat, qrhat, qdifhat, QTFPhat, betaboot, LPboot, qrboot, qdifboot, QTFPboot, file=filename)
+save(tauvec, dZ, QLPbetahat, LPhat, QLPqrhat, QLPqdifhat, QLPTFPhat, LPTFPhat, LPomegahat, QLPbetaboot, LPboot, QLPqrboot, QLPqdifboot, LPexpost=LPexpost, file=filename)
 
 
 #HPC Job Submissions for batches: qsub -t 1:length(tau) QLP__Boot_US.job

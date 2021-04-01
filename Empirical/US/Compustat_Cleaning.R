@@ -2,6 +2,7 @@ library(dplyr)
 library(stringr)
 library(reshape2)
 library(purrr)
+library(readstata13)
 #Data for output, materials, and labor deflators from NBER Manufacturing Productivity Database
 nberprod <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/naicsdef.csv', header=TRUE)
 #Data for capital deflators from the BLS: start date 1987 and 2010 base year. 
@@ -43,21 +44,24 @@ compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Producti
 	select(gvkey, year, sale, employ, ppegt, ppent, cogs, dpact, dp, xsga, capx, naics, fic) %>% group_by(gvkey) %>%
 	#remove firms with nonpositive values
 	filter(!any(sale<=0), !any(employ<0.01), !any(ppegt<=0), !any(ppent<=0), !any(cogs<=0), !any(xsga<=0), !any(dp<=0), !any(capx<=0)) %>%
-	#Only manufacturing firms
+	#Only manufacturing firms incorporated in the US between 1961 adn 2010
 	ungroup() %>% filter(str_detect(naics, "^31|^32|^33"), fic=="USA", year>=1961, year<=2010) %>%
 	#Merge with NBER price deflator data
 	mutate(naics=str_extract(as.character(naics), "^.{3}")) %>% inner_join(nberdeflators, c("naics", "year")) %>%
 	#Use PPI method to calculate capital stocks
-	group_by(gvkey) %>% mutate(realcap=ifelse(year==first(year), ppent/iprice, 0)) %>% 
-	mutate(realcap=ifelse(year==first(year), first(realcap), lag(dep)*lag(realcap)+lag(capx/iprice))) %>% ungroup() %>%
-	#Unit changes
-	transmute(id=gvkey, year=year, Y=(sale/yprice)*1e6, VA=(sale*1e6-(cogs*1e6+xsga*1e6-dp*1e6-employ*lprice*1e3))/yprice, K=realcap*1e6, L=employ*1e3, M=(cogs*1e6+xsga*1e6-dp*1e6-employ*lprice*1e3)/mprice, I=capx/iprice, dep=dep, naics3=naics) %>% group_by(id) %>%
-	#Year-to-year changes for output and inputs, firms with extreme changes are dropped
-	mutate(Yratio=ifelse(year==first(year), 0, abs((Y-lag(Y))/lag(Y))), Kratio=ifelse(year==first(year), 0, abs((K-lag(Y))/lag(K))), Lratio=ifelse(year==first(year), 0, abs((L-lag(L))/lag(L))), Mratio=ifelse(year==first(year), 0, abs((M-lag(M))/lag(M))), Iratio=ifelse(year==first(year), 0, abs((I-lag(I))/lag(I)))) %>%
-	#Year-to-year changes for total input/output ratio, firms with values extremely different from one are dropped
-	mutate(IOratio=ifelse(year==first(year), 0, ((K+L+M-lag(K+L+M))/lag(K+L+M))/((Y-lag(Y))/lag(Y)))) %>%
-	filter(!any(M<=0), !any(VA<=0), !any(abs(IOratio)>500),!any(Yratio>500), !any(Kratio>500), !any(Lratio>500), !any(Mratio>500)) %>% ungroup() %>%
-	select(id, year, Y, VA, K, L, M, I, naics3)
+	#Or use PPENT 
+	group_by(gvkey) %>% 
+	# mutate(realcap=ifelse(year==first(year), ppent/iprice, 0)) %>% 
+	# mutate(realcap=ifelse(year==first(year), first(realcap), lag(dep)*lag(realcap)+lag(capx/iprice))) %>% ungroup() %>%
+	#Unit changes and deflate: Sales (by industry-level price index), Capital (by investment price index), Investment (by investment price index), Materials (by price-index)
+	transmute(id=gvkey, year=year, Y=(sale/yprice)*1e6, K=ppent*1e6/iprice, L=employ*1e3, M=(cogs*1e6+xsga*1e6-dp*1e6-employ*lprice*1e3)/yprice, I=capx*1e6/iprice, dep=dep, naics3=naics) %>% group_by(id) %>%
+	#Year-to-year changes for output and inputs, firms with extreme changes are dropped (optional)
+	# mutate(Yratio=ifelse(year==first(year), 0, abs((Y-lag(Y))/lag(Y))), Kratio=ifelse(year==first(year), 0, abs((K-lag(Y))/lag(K))), Lratio=ifelse(year==first(year), 0, abs((L-lag(L))/lag(L))), Mratio=ifelse(year==first(year), 0, abs((M-lag(M))/lag(M))), Iratio=ifelse(year==first(year), 0, abs((I-lag(I))/lag(I)))) %>%
+	#Year-to-year changes for total input/output ratio, firms with values extremely different from one are dropped (optional)
+	# mutate(IOratio=ifelse(year==first(year), 0, ((K+L+M-lag(K+L+M))/lag(K+L+M))/((Y-lag(Y))/lag(Y)))) %>%
+	# filter(!any(abs(IOratio)>500),!any(Yratio>500), !any(Kratio>500), !any(Lratio>500), !any(Mratio>500)) %%
+	filter(!any(M<=0)) %>% mutate(VA=Y-M) %>% filter(!any(VA<=0)) %>% ungroup() %>%
+	select(id, year, Y, VA, K, L, M, I, dep, naics3)
 ####################################################################################################
 #Summary statistics for the cleaned data set
 print(summary(compstat))

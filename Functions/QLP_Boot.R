@@ -1,6 +1,5 @@
 #We use the bootstrap code in prodest.R, an R package for production function estimation written by Gabrielle Rovigatti
-source('PFQR/FUN/QLP_aux.R')
-source('PFQR/FUN/BW.R')
+source('PFQR/FUN/Aux_Fun.R')
 require(quantreg)
 require(dplyr)
 require(pracma)
@@ -10,7 +9,7 @@ require(GenSA)
 #This function initializes the estimation procedure which calls finalQLP
 ###################################################################################
 ###################################################################################
-QLP_Boot <- function(tau, h, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20, tfptau){
+QLP_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20){
   seed <- 123456
   #Make all data arguments into matrices
   idvar <- as.matrix(idvar)
@@ -24,52 +23,50 @@ QLP_Boot <- function(tau, h, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=2
   #This function computes the "true" beta and sample moments evaluated at the "true" parameters
   #using the "true" data used for recentering the moments in the bootstrap
   #Here ind denotes the index that does tells finalQLP not resample the original data
-  trueboot <- finalQLP(tau=tau, h=h, ind=TRUE, data=data, binit=binit, gbar=0, seed=seed, tfptau=tfptau)
+  trueboot <- finalQLP(tau=tau, ind=TRUE, data=data, binit=binit, seed=seed)
   #Estimates from the un-resampled###############################################################
   #Elasticities from QLP
   betahat <- trueboot$betahat
   LPhat <- trueboot$LPhat
-  #TFP quantiles
-  QTFPhat <- trueboot$QTFPhat
   #Estimates from QR
   qrhat <- trueboot$qrhat
   #Difference between QLP and QR
   qdifhat <- trueboot$qdifhat
-  #Sample Moments used for recentering
-  gbartrue <- trueboot$gbar
+  #QTFP estimates
+  QTFPhat <- trueboot$QTFPhat
+  #TFP estimates
+  TFPhat <- trueboot$TFPhat
+  #Omega estimates
+  omegahat <- trueboot$omegahat
+  expost <- trueboot$expost
   #Initialize bootstrap#############################################################################
   #Indices used for resampling firm ID's
   bootind <- block.boot.resample(idvar, R, seed)
   #Bootstrapped elasticities for QLP
   betaboot <- matrix(0, nrow=R, ncol=dZ)
   LPboot <- matrix(0, nrow=R, ncol=dZ)
-  #Bootstrapped quantiles of TFP
-  QTFPboot <- matrix(0, nrow=R, ncol=length(tfptau))
   #Bootstrapped QR estimates
   qrboot <- matrix(0, nrow=R, ncol=dZ)
   #Bootstrapped differences between QLP and QR
   qdifboot <- matrix(0, nrow=R, ncol=dZ)
-  #Bootstrap Procedure: finalQLP now computes the beta estimates where the sample moments
-  #from GMM are recentered by truegbar, the sample moments evaluated at the true data
   for (i in 1:R){
     print(i)
     seed <- seed+i
-    boot <- finalQLP(tau=tau, h=h, ind=bootind[[i]], data=data, binit=binit, gbar=gbartrue, seed=seed, tfptau=tfptau)
+    boot <- finalQLP(tau=tau, ind=bootind[[i]], data=data, binit=binit, seed=seed)
     betaboot[i,] <- boot$betahat
     LPboot[i,] <- boot$LPhat
-    QTFPboot[i,] <- boot$QTFPhat
     qrboot[i,] <- boot$qrhat
     qdifboot[i,] <- boot$qdifhat
   }
-  return(list(betahat=betahat, LPhat=LPhat, qrhat=qrhat, qdifhat=qdifhat, QTFPhat=QTFPhat,  betaboot=betaboot, LPboot=LPboot, 
-    qrboot=qrboot, qdifboot=qdifboot, QTFPboot=QTFPboot))
+  return(list(betahat=betahat, LPhat=LPhat, qrhat=qrhat, qdifhat=qdifhat, QTFPhat=QTFPhat, TFPhat=TFPhat, omegahat=omegahat,  betaboot=betaboot, LPboot=LPboot, 
+    qrboot=qrboot, qdifboot=qdifboot, expost=expost))
 }
 ###########################################################################
 ###########################################################################
 #Function to estimate and to bootstrap QLP
 ###########################################################################
 ###########################################################################
-finalQLP <- function(tau, h, ind, data, binit, gbar, seed, tfptau){
+finalQLP <- function(tau, ind, data, binit, seed){
   set.seed(seed)
   ##########################################################################
   #Bootstrap Component
@@ -97,6 +94,8 @@ finalQLP <- function(tau, h, ind, data, binit, gbar, seed, tfptau){
   LM <- lm(data$Y~data$K+data$L)
   #Clean Phi from the effects of free variables
   LPphi <- fitted(LPfirststage)-as.matrix(data$L)%*%LPLabor
+  #Ex-post shocks
+  expost <- data$Y-fitted(LPfirststage)
   #Calculate Contempory and Lag Values for 2nd stage estimation
   newdata <- lagdata(idvar=data$idvar, X=cbind(data$Y, data$K, data$L, data$proxy, LPphi))
   names(newdata) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "LPphicon", "Ylag", "Klag", "Llag", "Pxlag", "LPphilag")
@@ -117,59 +116,24 @@ finalQLP <- function(tau, h, ind, data, binit, gbar, seed, tfptau){
   #LP estimates for Capital
   LPkhat <- optim(par=LPkinit, fn=function(b) LPobj(b, mY=LPmY, mX=LPmX, mlX=LPmlX, mZ=LPmZ, fitphi=LPfitphi, fitlagphi=LPfitlagphi), gr=NULL, method="L-BFGS-B", lower=0, upper=1)$par
   #Estimates of productivity from LP
-  wfit <- newdata$LPphicon-newdata$Kcon*LPkhat
+  omegahat <- LPphi-data$K*LPkhat
   #Output net of productivity
-  mY <- as.matrix(newdata$Ycon-wfit)
+  mY <- as.matrix(data$Y-omegahat)
   #State Variables
-  mX <- cbind(newdata$Kcon, newdata$Lcon)
-  #Instruments
-  mZ <- cbind(as.matrix(newdata$Kcon), as.matrix(newdata$Lcon), as.matrix(newdata$Klag), as.matrix(newdata$Llag), as.matrix(newdata$Pxcon), as.matrix(newdata$Pxlag))
+  mX <- cbind(data$K, data$L)
   #QLP Estimates for Capital from (QR) good starting values as well
   mom <- rq(mY~mX-1, tau=tau)
   betahat <- as.numeric(coef(mom))
-  # if (is.null(h)){
-  #   h <- ivqr.bw(p=tau, Y=mY, X=mX, b.init=init)
-  # }
-  # betahat <- GenSA(par=init, fn=QLPobj, mY=mY, mX=mX, mZ=mZ, gbar=gbar, h=h, tau=tau, lower=c(0,0), upper=c(1,1), control=list(max.time=1))$par
-  #LP Estiates
+  #LP Estimates
   LPhat <- c(LPkhat, LPLabor)
   #Difference between QLP and QR estimates
   qdifhat <- betahat-qrhat
-  #QLP Value of Moments
-  # gbar <- gbar(b=betahat, mY=mY, mX=mX, mZ=mZ, tau=tau, h=h)
-  # gbar <- 0
   #QLP TFP estimates (in logs)
-  TFP <- data$Y-cbind(data$K, data$L)%*%betahat
-  #Quantiles of log TFP
-  QTFPhat <- as.numeric(quantile(TFP, tfptau))
-  return(list(betahat=betahat, LPhat=LPhat, qrhat=qrhat, qdifhat=qdifhat, QTFPhat=QTFPhat, gbar=gbar, h=h))
+  QTFPhat <- data$Y-cbind(data$K, data$L)%*%betahat
+  #LP TFP estimates (in logs)
+  TFPhat <- data$Y-cbind(data$K, data$L)%*%LPhat
+  return(list(betahat=betahat, LPhat=LPhat, qrhat=qrhat, qdifhat=qdifhat, QTFPhat=QTFPhat, TFPhat=TFPhat, omegahat=omegahat, expost=expost))
 }
-############################################################################################
-#Functions for Estimating QLP Coefficients
-###########################################################################################
-#Function that defines the residuals
-Lambda <- function(b, mY, mX){
-  b <- as.matrix(as.numeric(b))
-  resid <- mY-mX%*%b
-  return(resid)
-} 
-#Calculates the value of the moments for QLP
-gbar <- function(b, mY, mX, mZ, tau, h){
-     resid <- matrix(Lambda(b=b, mY=mY, mX=mX), ncol=1)
-     gni <- mZ*repmat((Gfn(-resid, h)-tau), 1, ncol(mZ))
-     gbar <- as.matrix(colMeans(gni)) 
-     return(gbar)
-  }
-#QLP GMM objective function
- QLPobj <- function(b, mY, mX, mZ, gbar, tau, h){
-  resid <- Lambda(b=b, mY=mY, mX=mX)
-  gni <- sweep(mZ*repmat((Gfn(-resid, h)-tau), 1, ncol(mZ)), MARGIN=2, gbar, `-`)
-  gbar <- as.matrix(colMeans(gni))
-  W <- solve(tau*(1-tau)*t(mZ)%*%mZ/nrow(mZ))
-  go <- nrow(mZ)*t(gbar)%*%W%*%gbar
-  return(go)
-
-} 
 ############################################################################################
 #Functions for Estimating LP Coefficients
 ###########################################################################################
