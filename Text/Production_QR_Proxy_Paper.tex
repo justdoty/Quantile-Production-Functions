@@ -26,6 +26,7 @@
 \newtheorem{assump}{Assumption}[section]
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{theorem}{Theorem}[section]
+\newcommand{\indep}{\perp \!\!\! \perp}
 
 
 \usepackage[multiple]{footmisc}
@@ -70,7 +71,7 @@ A Proxy Variable Approach for Quantile Production Functions
 
 \begin{abstract}
 We propose a new approach to estimate production functions in which output elasticities are heterogeneous across the firm size distribution. 
-This paper extends the proxy variable approach for estimating production functions to the conditional quantiles of firm production. Production function parameters are estimated in a simple two-stage approach which relies a location-shift assumption on unobserved productivity. We show that this method allows us to capture heterogeneity in output elasticities along the firm size distribution that may not be found in conditional mean estimates of \cite{Olley1996} and \cite{Levinsohn2003}. We provide small-sample evidence in a Monte Carlo study to show that this approach is robust compared to other production function estimators. The method is applied to firm and plant-level manufacturing data from the US, Chile, and Colombia.
+This paper extends the proxy variable approach for estimating production functions to the conditional quantiles of firm production. Production function parameters are estimated in a simple two-stage approach which relies a location-shift assumption on unobserved productivity. We show that this method allows us to capture heterogeneity in output elasticities along the firm size distribution that may not be found in conditional mean estimates of \cite{Levinsohn2003} and \cite{Ackerberg2015}. We provide small-sample evidence in a Monte Carlo study to show that this approach is robust compared to other production function estimators. The method is applied to plant-level manufacturing data from Chile and Colombia.
 \end{abstract}
 
 
@@ -104,12 +105,12 @@ The rest of the paper is organized as follows. Section \ref{litreview} reviews p
 \section{Literature Review} \label{litreview}
 \subsection{Production Function Estimation}
 
-We briefly review the ACF (2015) procedure for estimating a \textit{value-added} production function (in logs) \footnote{We consider a value-added production function here to be consistent with the model we introduce in Section \ref{ourmodel}}.
+We briefly review the ACF (2015) procedure for estimating a \textit{value-added} production function (in logs):
 
 \begin{equation}
-y_{it}=(\beta_{0}+\omega_{it})+\beta_{k}k_{it}+\beta_{l}l_{it}+\eta_{it},
+y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+\eta_{it},
 \end{equation}
-where $y_{it}$ denotes value-added output for firm $i$ at time $t$, $l_{it}$ denotes labor input, $k_{it}$ denotes capital input, $\omega_{it}$ is unobserved productivity and $\eta_{it}$ denotes an iid shock to production.\footnote{We present the production function this way (with the constant and productivity in parenthesis) since the constant is not separately identified from the mean of productivity. This notation is consistent with our model we introduce later.}
+where $y_{it}$ denotes value-added output for firm $i$ at time $t$, $l_{it}$ denotes labor input, $k_{it}$ denotes capital input, $\omega_{it}$ is unobserved productivity and $\eta_{it}$ denotes an iid shock to production.\footnote{We omit the constant $\beta_{0}$ because it is not separately identified from the mean of productivity}
 
 To control for the correlation between $\omega_{it}$ and inputs $k_{it}$ and $l_{it}$, ACF introduces an intermediate input demand defined as
 \begin{equation}
@@ -160,7 +161,7 @@ Addressing the first point, we will argue that recent quantile panel data and qu
 
 Another alternative is to make use of valid instruments if they are available. The conventional argument for using input prices $p^{k}_{it}$ and $p^{l}_{it}$ as instruments is that they must be uncorrelated with the error term $\omega_{it}+\eta_{it}$ and correlated with input choices for capital and labor. Then one could use two-stage least squares to obtain consistent estimates of $\beta_{k}$ and $\beta_{l}$. This idea can be extended to quantile-IV models such as \cite{Chernozhukov2005}. In their identification arguments, one would need to strengthen assumptions to conditional independence as well as monotonicity of a quantile structural function (QSF) in $U_{it}=\omega_{it}+\eta_{it}$. Then if one writes the QSF for the production function as $y_{it}=Q(k_{it}, l_{it}, U_{it})$, their the model is identified using
 \begin{equation}
-P[y_{it}\leq Q(k_{it}, l_{it}, \tau)|k_{it}, l_{it}, p^{k}_{it}, p^{l}_{it}]=\tau, \quad \tau\in (0,1].
+P[y_{it}\leq Q_{\tau}(y_{it}|k_{it}, l_{it})|k_{it}, l_{it}, p^{k}_{it}, p^{l}_{it}]=\tau, \quad \tau\in (0,1].
 \end{equation}
 We do not use this procedure since input prices may not have enough variation across firms and exogeneity can be violated if they capture input quality differences as shown by \cite{Griliches1986}. Therefore, it is not straightforward to develop an identification strategy that also leads to a computationally simple estimator. This is a common challenge in the quantile IV literature. However, we will show that a simple adaption of the \cite{Canay2011} estimator works well in practice.
 
@@ -168,9 +169,9 @@ We do not use this procedure since input prices may not have enough variation ac
 \section{A Random Coefficient Production Function} \label{ourmodel}
 We specify a \textit{value-added} production function as a random coefficient model:
 \begin{equation} \label{pfrc}
-    y_{it}=(\beta_{0}+\omega_{it})+\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}
+    y_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}
 \end{equation}
-The variables in equation \eqref{pfrc} have the same interpretation as the ones we introduced in the LP model. In this specification we allow the output elasticities to be functionally dependent on the production shock $\eta_{it}$ while productivity $\omega_{it}$ maintains its additive separability. The model presented here assumes that $(\beta_{0}+\omega_{it})$ is only a location-shift of the conditional output distribution. We assume the constant in the production function does not vary over $\tau$ since the constant is not separately identified from the mean of productivity. The location-shift specification is crucial in our approach since $(\beta_{0}+\omega_{it})$ also appears in the conditional mean counterpart of equation \eqref{pfrc} so that if this object can be consistently estimated from popular proxy variable approaches such as OP, LP or ACF, then with additional restrictions from the quantile IV literature, the production function parameters $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ can also be consistently estimated.
+The variables in equation \eqref{pfrc} have the same interpretation as the ones we introduced in the ACF model. In this specification we allow the output elasticities to be functionally dependent on the production shock $\eta_{it}$ while productivity $\omega_{it}$ maintains its additive separability. The model presented here assumes that $\omega_{it}$ is only a location-shift of the conditional output distribution. We assume the constant in the production function does not vary over $\tau$ since the constant is not separately identified from the mean of productivity. The location-shift specification is crucial in our approach since $(\beta_{0}+\omega_{it})$ also appears in the conditional mean counterpart of equation \eqref{pfrc} so that if this object can be consistently estimated from popular proxy variable approaches such as OP, LP or ACF, then with additional restrictions from the quantile IV literature, the production function parameters $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ can also be consistently estimated.
 
 We should also mention that a value-added specification in equation \eqref{pfrc} is non-trivial. Value-added production functions are common in the empirical literature, however the objects recovered from a value-added model such as the output elasticities and TFP can only be mapped to its gross-output counterpart under special structural production functions such as Leontief value-added. Since the production shock $\eta_{it}$ enters \eqref{pfrc} non-separably, it is difficult to recover gross-output objects from value-added since the latter is composed of the additional error term. One consequence of a value-added model is that estimates of productivity may be more disperse than gross-output estimates which controls for material inputs. Therefore, in our empirical application we interpret the elasticities and productivity with some caution.
 
@@ -181,12 +182,12 @@ We should also mention that a value-added specification in equation \eqref{pfrc}
 A special case of \eqref{pfrc} is the location-scale model,
 
 \begin{equation} \label{locationscale}
-    y_{it}=(\beta_{0}+\omega_{it})+\beta_{k}k_{it}+\beta_{l}l_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it})\eta_{it}
+    y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it})\eta_{it}
 \end{equation}
 Which implies that the $\tau$-th conditional quantile of $y_{it}$ is given by
 
 \begin{equation}
-Q_{y_{it}}(\tau|\mathcal{I}_{it})=(\beta_{0}+\omega_{it})+\beta_{k}k_{it}+\beta_{l}l_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it})F^{-1}(\tau)
+Q_{\tau}(y_{it}|\mathcal{I}_{it})=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it})F^{-1}(\tau)
 \end{equation}
 where $F^{-1}(\tau)$ is the quantile function of production shocks $\eta_{it}$.
 
@@ -196,20 +197,136 @@ The connection between production risk and heterogeneity in quantiles is interes
 
 A general quantile model such as the one specified in \eqref{pfrc} can be seen as an extension of the higher-order moment estimation of risk initiated by \cite{Antle1983}. However, it can also be seen purely as an econometric specification issue as we are unaware of any tests that could distinguish between higher order moment production risk and misspecification. We choose the latter interpretation for our model. 
 
-\subsection{A Two-Step Estimator for Quantile Production Functions}
-Let $\varepsilon_{it}=k_{it}[\beta_{k}(\eta_{it})-\beta^{\mu}_{k}]+l_{it}[\beta_{l}(\eta_{it})-\beta^{\mu}_{l}]$ where $(\beta_{k}^{\mu}, \beta_{l}^{\mu})=\boldsymbol{\beta}^{\mu}=\mathbbm{E}[\boldsymbol{\beta}(\eta_{it})]$ is the mean of the random coefficients. The conditional mean version of the random coefficient production function can then be written as
-\begin{equation}
-y_{it}=(\beta_{0}+\omega_{it})+\beta_{k}^{\mu}k_{it}+\beta_{l}^{\mu}l_{it}+\varepsilon_{it},
+\subsection{Identification}
+
+We show that the production function coefficients $\boldsymbol{\beta}(\tau)=(\beta_{k}(\tau), \beta_{l}(\tau))$ are non-parametrically identified with $T=2$ under conditional independence assumptions and other mild regularity conditions used in conditional deconvolution arguments. Similar ideas have been used in panel data models such as \cite{Canay2011}, \cite{Neumann2007}, and \cite{evdo2010}. To simplify notation, we let $x_{i1}=(k_{i1}, l_{i1}), x_{i2}=(k_{i2}, l_{i2})$ and $x_{i}=(x_{i1}, x_{i2})$. Let $Z_{it}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{ti})l_{it}$ for $t\in\{1,2\}$. We then write two consecutive period of output as $y_{i1}&=Z_{i1}+\omega_{i1}$ and $y_{i2}&=Z_{i2}+\omega_{i2}$. We assume a linear AR(1) process for productivity $\omega_{i2}=\rho\omega_{i1}+\xi_{i2}$. Plugging into the second line of the previous equation allows us to write $y_{i2}=Z_{i2}+\rho\omega_{i1}+\xi_{i2}$. Dividing by $\rho$ we write $\tilde{y}_{i2}=y_{i2}/\rho=\tilde{Z}_{i2}+\tilde{\xi}_{i2}+\omega_{i1}$. Therefore, our two repeated measures of productivity are given by:
+\begin{equation} \label{repeatedmeas}
+\begin{split}
+y_{i1}&=Z_{i1}+\omega_{i1}\\
+\tilde{y}_{i2}&=\tilde{Z}_{i2}+\tilde{\xi}_{i2}+\omega_{i1}
+\end{split}
 \end{equation}
-where $\mathbbm{E}[\varepsilon_{it}|\mathcal{I}_{it}]=0$. This identity is useful since we can now use a consistent estimator of $(\beta_{0}+\omega_{it})$ which can be plugged into the random coefficient production function in equation \eqref{pfrc}. For example, if one is willing to make the appropriate assumptions regarding the timing of labor decisions and the structure of the proxy variable mentioned earlier, then $(\widehat{\beta_{0}+\omega_{it}})=\hat{\Phi}_{t}(k_{it}, m_{it})-\hat{\beta}_{k}^{\mu}k_{it}$ in the LP procedure. The ACF estimator can likewise be implemented by using  $(\widehat{\beta_{0}+\omega_{it}})=\hat{\Phi}_{t}(k_{it}, l_{it}, m_{it})-\hat{\beta}_{k}^{\mu}k_{it}-\hat{\beta}_{l}^{\mu}l_{it}$ as the labor elasticity is estimated in the second stage of their procedure.
+ We present our identification argument in two steps. In the first steps, we utilize conditional deconvolution arguments to identify relevant conditional characteristic functions which are known up to parameters $\rho$ as well as the mean production coefficients $\boldsymbol{\beta}^{\mu}=(\beta_{k}^{\mu}, \beta_{l}^{\mu})=\mathbbm{E}[\boldsymbol{\beta}(\eta_{it})]$. In the second step, we argue that these parameters are identified by standard assumptions in the proxy variable approach of \cite{Olley1996}, \cite{Levinsohn2003}, or \cite{Ackerberg2015} which are both based on conditional mean restrictions. We begin with some assumptions.
 
-Intuitively, the appropriate choice for estimation of $(\beta_{0}+\omega_{it})$ places an identification restriction on the location of the conditional distribution of $S_{t}=\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}$. \cite{Canay2011} approaches identification more formally. He shows using a deconvolution type argument that the distribution of the random coefficient component of the response variable is identified up to a location. The location of the conditional distribution in his model is identified from regularity conditions in a panel data model with first-differences of an unobserved individual effect. It is not straightforward how to extend this idea to our model where the unobserved effect, productivity, varies over time and exhibits serial correlation. It would be interesting to explore whether a flexible identification strategy for $S_{t}$ could be proposed such that the location of the conditional distribution can be identified under alternative production function approaches. For example, one may be interested in utilizing the methodology of \cite{Gandhi2020} to estimate productivity using an average gross-output production function. We leave this as future research agenda.
+\begin{assump} \label{idpart1}
+Suppose the following set of assumptions 
+	\begin{enumerate}[label=(\alph*)]
+		\item Random Sample: The random variables $(y_{i}, Z_{i}, \omega_{i})_{i=1}^{N}$ are identically and independently distributed and $T=2$
+		\item Conditional Independence: (i) $f_{Z_{it}|x_{i}, Z_{is}, \omega_{it}}(Z_{it}|x_{i}, Z_{is}, \omega_{it})=f_{Z_{it}|x_{i}}(Z_{it}|x_{i})\, \forall t\neq s$ and $t\in\{1,2\}$ and (ii) $f_{\xi_{i2}|x_{i}, Z_{it}, \omega_{i1}}(\xi_{i2}|x_{i}, Z_{it}, \omega_{i1})=f_{\xi_{i2}|x_{i}}(\xi_{i2}|x_{i})$ for $t\in\{1,2\}$
+		\item Characteristic Functions: The conditional characteristic functions $\phi_{Z_{i1}|x_{i}}(s|x_{i})$, $\phi_{\omega_{i1}|x_{i}}(s|x_{i})$ and $\phi_{\xi_{i2}|x_{i}}(s|x_{i})$  do not vanish $\forall s\in \mathbbm{R}$
+		\item Quantiles: $\eta_{it}\indep (x_{i}, \omega_{it})$ where $\eta_{it}\sim U[0,1]$ and $Z_{it}$ is strictly increasing in $\eta_{it}$
+	\end{enumerate}
+\end{assump}
+In addition to Assumption \ref{idpart1} we restate and augment the assumptions in \cite{Ackerberg2015}
+\begin{assump} \label{idpart2}
+Suppose the following set of assumptions 
+	\begin{enumerate}[label=(\alph*)]
+		\item Information Set: The firm's information set at time $t$ is given by $\mathcal{I}_{it}$ and includes current and past productivity shocks, but does not include future productivity shocks
+		\item Productivity: The evolution of productivity follows a linear AR(1) process: $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\mathbbm{E}[\xi_{it}|\mathcal{I}_{it-1}]$ and $\omega_{it}$ is strictly stationary, $f_{\omega_{i1}}(\omega_{i1})=f_{\omega_{i2}}(\omega_{i2})$
+		\item Timing of  Input Choices: Firms accumulate capital according to
+		\begin{equation*}
+		k_{it}=\kappa(k_{it-1}, k_{it-1})
+		\end{equation*}
+		\item Scalar Unobservable: Firm's intermediate input demand is given by
+		\begin{equation*}
+		m_{it}=m_{t}(k_{it}. l_{it}, \omega_{it})
+		\end{equation*}
+		\item Strict Monotonicity: $m_{t}(k_{it}. l_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
+		\item Location: $\boldsymbol{\beta}^{\mu}=(\beta_{k}^{\mu}, \beta_{l}^{\mu})=\mathbbm{E}[\boldsymbol{\beta}(\eta_{it})]$ is non-singular with finite norm
+	\end{enumerate}
+\end{assump}
 
-Once estimates of $(\beta_{0}+\omega_{it})$ are obtained, estimates of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$
-can be obtained from a quantile regression of $\hat{y}_{it}=y_{it}-(\beta_{0}\hat{+}\omega_{it})$ with a constant omitted in estimation. To summarize these steps:
+Assumption \ref{idpart1}(b)(i) implies that the ex-post production shocks are mutually independent over time and independent from productivity $\omega_{it}$. This is a potentially strong condition, but commonly used in nonseparable panel data models. Related conditions are used in \cite{Hu2019} who assume that $\eta_{it}$ is independent of $\omega_{it}$ conditional an $x_{i}$. Part (ii) of this assumption implies that the innovation shocks to productivity $\xi_{it}$ are independent of the ex-post shocks $\eta_{it}$ and that these shocks are independent of lagged productivity $\omega_{it-1}$. Assumption \ref{idpart1}(c) are mild technical conditions on characteristic functions. Most standard families of distributions satisfy this property. Lastly, \ref{idpart1} (d) extends the independence assumptions of $\eta_{it}$ and $\omega_{it}$ to $x_{i}$. A similar independence assumption is used in \cite{Gandhi2020}. This assumption is used to identify the relevant conditional quantiles.
+
+Assumption \ref{idpart2} extends some of the assumptions in \cite{Ackerberg2015} to identify $\boldsymbol{\beta}^{\mu}$ and $\rho$ which are necessary in our deconvolution argument. \ref{idpart2}(b) requires productivity to follow an linear AR(1) process. Although restrictive, this allows us to easily adapt a repeated measure type argument used for deconvolution. Strict stationarity is also restrictive and is used to achieve identification of the marginal distribution of productivity for each time period. \ref{idpart2}(f) implies that $\boldsymbol{\beta}^{\mu}$ exists which is also assumed in \cite{Canay2011} so that the location of $Z_{it}$ is well defined. With these assumptions stated we are now ready to state the main identification result.
+
+\begin{theorem}
+Under Assumptions \ref{idpart1} and \ref{idpart2}, the location $\boldsymbol{\beta}^{\mu}$, coefficient $\rho$ and function $\boldsymbol{\beta}(\tau)$ are identified
+\end{theorem}
+\textit{Proof:}
+Using Assumption \ref{idpart1}(b)(i) we can write the characteristic functions of \eqref{repeatedmeas} as
+\begin{equation} \label{repchar}
+\begin{split}
+\phi_{y_{i1}|x_{i}}(s|x_{i})&=\phi_{Z_{i1}|x_{i}}(s|x_{i})\phi_{\omega_{i1}|x_{i}}(s|x_{i})\\
+\phi_{\tilde{y}_{i2}|x_{i}}(s|x_{i})&=\phi_{\tilde{Z}_{i2}|x_{i}}(s|x_{i})\phi_{\tilde{\xi}_{i2}|x_{i}}(s|x_{i})\phi_{\omega_{i1}|x_{i}}(s|x_{i})\\
+\end{split}
+\end{equation}
+The joint characteristic function of $(y_{i1}, \tilde{y}_{i2})|x_{i}$ can then be written as:
+\begin{equation} \label{jointchar}
+\begin{split}
+\Psi_{&(y_{i1}, \tilde{y}_{i2})|x_{i}}(s_{1}, s_{2}|x_{i})=\mathbbm{E}[\exp(i[s_{1}y_{i1}+s_{2}\tilde{y}_{i2}])|x_{i}]\\
+&=\mathbbm{E}[\exp(i[s_{1}Z_{i1}+s_{2}\tilde{Z}_{i2}+s_{2}\tilde{\xi}_{i2}+(s_{1}+s_{2})\omega_{i1}])|x_{i}]\\
+&=\phi_{Z_{i1}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{Z}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{\xi}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\omega_{i1}|x_{i}}((s_{1}+s_{2})|x_{i})
+\end{split}
+\end{equation}
+where the last equality of \eqref{jointchar} uses Assumption \ref{idpart1}(b)(i-ii). Taking the derivative of \eqref{jointchar} with respect to its first component yields
+\begin{equation*}
+\begin{split}
+\partial_{s_{1}}\Psi_{(y_{i1}, \tilde{y}_{i2})|x_{i}}(s_{1}, s_{2}|x_{i})&=\partial_{s_{1}}\phi_{Z_{i1}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{Z}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{\xi}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\omega_{i1}|x_{i}}((s_{1}+s_{2})|x_{i})\\
+&+\phi_{Z_{i1}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{Z}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{\xi}_{i2}|x_{i}}(s_{1}|x_{i})\partial_{s_{1}}\phi_{\omega_{i1}|x_{i}}(s_{1}+s_{2}|x_{i})
+\end{split}
+\end{equation*}
+Thus,
+\begin{equation*}
+\frac{\partial_{s_{1}}\Psi_{(y_{i1}, \tilde{y}_{i2})|x_{i}}(s_, -s|x_{i})}{\Psi_{(y_{i1}, \tilde{y}_{i2})|x_{i}}(s, -s|x_{i})}=\frac{\phi^{'}_{Z_{i1}|x_{i}}(s|x_{i})}{\phi_{Z_{i1}|x_{i}}(s|x_{i})}+\frac{\phi^{'}_{\omega_{i1}|x_{i}}(0|x_{i})}{\phi_{\omega_{i1}|x_{i}}(0|x_{i})}
+\end{equation*}
+where $\phi_{\omega_{i1}|x_{i}}(0|x_{i})=1$ and $\phi^{'}_{\omega_{i1}|x_{i}}(0|x_{i})=i\mathbmm{E}[\omega_{i1}|x_{i}]$ by properties of characteristic functions. We first discuss identification of $\mathbmm{E}[\omega_{i1}|x_{i}]$. Note that,
+\begin{equation*}
+\begin{split}
+\mathbmm{E}[\omega_{i1}|x_{i}]&=\mathbbm{E}[y_{i1}-Z_{i1}|x_{i}]=\mathbbm{E}[y_{i1}-x_{i1}\beta(\eta_{i1})|x_{i}]=\mathbbm{E}[y_{i1}|x_{i}]-x_{i1}\mathbbm{E}[\beta(\eta_{i1})|x_{i}]\\
+&=\mathbbm{E}[y_{i1}|x_{i}]-x_{i1}\mathbbm{E}[\beta(\eta_{i1})]=\mathbbm{E}[y_{i1}|x_{i}]-x_{i1}\boldsymbol{\beta}^{\mu}
+\end{split}
+\end{equation*}
+where the second to last equality follows from the independence assumption in \eqref{idpart1}(d). In order to identify $\mathbmm{E}[\omega_{i1}|x_{i}]$ we must identify $\boldsymbol{\beta}^{\mu}$. The location parameters are identified by Assumption \ref{idpart2}. Then the conditional characteristic function $\phi_{Z_{i1}|x_{i}}(s|x_{i})$ is identified through
+\begin{equation*}
+\phi_{Z_{i1}|x_{i}}(s|x_{i})=\exp\Bigg(\int_{0}^{s}\frac{i\mathbbm{E}[y_{i1}\exp(i\gamma(y_{i1}-\tilde{y}_{i2}))|x_{i}]}{\phi_{y_{i1}-\tilde{y}_{i2}|x_{i}}(\gamma|x_{i})}d\gamma-is\mathbmm{E}[\omega_{i1}|x_{i}]\Bigg)
+\end{equation*}
+Then the characteristic function $\phi_{\omega_{i1}|x_{i}}(s|x_{i})$ is identified using
+\begin{equation*}
+\phi_{\omega_{i1}|x_{i}}(s|x_{i})=\frac{\phi_{y_{i1}|x_{i}}(s|x_{i})}{\phi_{Z_{i1}|x_{i}}(s|x_{i})}
+\end{equation*}
+From the productivity process, we have $\tilde{\omega_{i1}}=\omega_{i2}/\rho=\omega_{i1}+\tilde{\xi}_{i2}$. Using Assumption \ref{idpart1}(b)(ii) we can write the characteristic function of $\phi_{\omega_{i2}|x_{i}}(s|x_{i})$ as
+\begin{equation*}
+\phi_{\tilde{\omega}_{i2}|x_{i}}(s|x_{i})=\phi_{\omega_{i1}|x_{i}}(s|x_{i})\phi_{\tilde{\xi}_{i2}|x_{i}}(s|x_{i})
+\end{equation*}
+Then using Assumption \ref{idpart2}(b) the characteristic functions $\phi_{\omega_{i1}|x_{i}}(s|x_{i})=\phi_{\omega_{i2}|x_{i}}(s|x_{i})$ so we can write
+\begin{equation*}
+\phi_{\xi_{i2}|x_{i}}(s|x_{i})=\frac{\phi_{\omega_{i1}|x_{i}}(s|x_{i})}{\phi_{\omega_{i1}|x_{i}}(\rho s|x_{i})}
+\end{equation*}
+Finally, $\phi_{Z_{i2}|x_{i}}(s|x_{i})$ is identified using
+\begin{equation*}
+\phi_{Z_{i2}|x_{i}}(s|x_{i})=\frac{\phi_{y_{i2}|x_{i}}(s|x_{i})}{\phi_{\xi_{i2}|x_{i}}(s|x_{i})\phi_{\omega_{i1}|x_{i}}(\rho s|x_{i})}
+\end{equation*}
+The characteristic functions are identified up to an unknown parameter $\rho$. This parameter is identified from Assumption \ref{idpart2}(b) via the moment condition $\mathbbm{E}[\xi_{it}|\mathcal{I}_{it-1}]=\mathbbm{E}[\omega_{it}-\rho\omega_{it-1}|\mathcal{I}_{it-1}]$ where $\omega_{it}=\hat{\Phi}_{t}(k_{it}, l_{it}, m_{it})-\beta^{\mu}_{k}k_{it}-\beta^{\mu}_{l}l_{it}$ using ACF. Identification of the conditional characteristic function implies identification of the conditional distributions. For example, the distribution of $Z_{i1}|x_{i}$ and $Z_{i2}|x_{i}$ can be recovered using the result of \cite{gil}
+\begin{equation*}
+\begin{split}
+F_{Z_{i1}|x_{i}}(Z_{i1}|x_{i})&=\frac{1}{2}-\underset{\upsilon\rightarrow \infty}{\operatorname{lim}}\int_{-\upsilon}^{\upsilon}\frac{e^{-isZ_{i1}}}{2\pi is}\phi_{Z_{i1}|x_{i}}(s|x_{i})ds\\
+F_{Z_{i2}|x_{i}}(Z_{i2}|x_{i})&=\frac{1}{2}-\underset{\upsilon\rightarrow \infty}{\operatorname{lim}}\int_{-\upsilon}^{\upsilon}\frac{e^{-isZ_{i2}}}{2\pi is}\phi_{Z_{i2}|x_{i}}(s|x_{i})ds
+\end{split}
+\end{equation*}
+The conditional quantiles are the inverse of the conditional distribution functions given by
+\begin{equation*}
+\begin{split}
+Q_{\tau}(Z_{i1}|x_{i})&=Q_{\tau}(x_{i1}\boldsymbol\beta(\eta_{i1})|x_{i})=x_{i1}\boldsymbol\beta(\tau)\\
+Q_{\tau}(Z_{i2}|x_{i})&=Q_{\tau}(x_{i2}\boldsymbol\beta(\eta_{i2})|x_{i})=x_{i2}\boldsymbol\beta(\tau)
+\end{split}
+\end{equation*}
+where the third equality in each equation follows from Assumption \eqref{idpart1}(d)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{A Two-Step Estimator for Quantile Production Functions}
+Instead of using sample analogues based on the identification approach in the previous section, we propose a more simple estimation routine. Let $\varepsilon_{it}=k_{it}[\beta_{k}(\eta_{it})-\beta^{\mu}_{k}]+l_{it}[\beta_{l}(\eta_{it})-\beta^{\mu}_{l}]$ where $(\beta_{k}^{\mu}, \beta_{l}^{\mu})=\boldsymbol{\beta}^{\mu}=\mathbbm{E}[\boldsymbol{\beta}(\eta_{it})]$ is the mean of the random coefficients. The conditional mean version of the random coefficient production function can then be written as
+\begin{equation}
+y_{it}=\beta_{k}^{\mu}k_{it}+\beta_{l}^{\mu}l_{it}+\omega_{it}+\varepsilon_{it},
+\end{equation}
+where $\mathbbm{E}[\varepsilon_{it}|\mathcal{I}_{it}]=0$. This identity is useful since we can now use a consistent estimator of $\omega_{it}$ which can be plugged into the random coefficient production function in equation \eqref{pfrc}. In the ACF approach, productivity is estimated as $\omega_{it}=\hat{\Phi}_{t}(k_{it}, l_{it}, m_{it})-\hat{\beta}^{\mu}_{k}k_{it}-\hat{\beta}^{\mu}_{l}l_{it}$. Although we use ACF to identify the location in our model, we can easily extend the results of OP or LP when investment is used as a proxy or when the timing of labor matters. Recently, there has been criticism of these proxy variable approaches as they do not identify the elasticity of the flexible input in a gross-output production function. Therefore, it would be important to include the identification results of \cite{Gandhi2020} in our model. We briefly outline how to do this in the Appendix and focus on estimation of productivity using ACF for simplicity.
+
+Once estimates of $\omega_{it}$ are obtained, estimates of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$
+can be obtained from a quantile regression of $\hat{y}_{it}=y_{it}-\hat{\omega}_{it}$ with a constant omitted in estimation. To summarize these steps:
 \begin{enumerate}
-	\item Let $\hat{\beta}_{k}^{\mu}$ and $\hat{\beta}_{l}^{\mu}$ be consistent estimators of $\beta_{k}^{\mu}$ and $\beta_{l}^{\mu}$ from a value-added production function. For example, using the OP, LP, or ACF estimation strategy. Construct the estimator, $(\widehat{\beta_{0}+\omega_{it}})$ using these estimates
-	\item Let $\boldsymbol{\beta}(\tau)=(\beta_{k}(\tau), \beta_{l}(\tau))$ and $\hat{y}_{it}=y_{it}-(\widehat{\beta_{0}+\omega_{it}})$. Define the two-step estimator of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ as:
+	\item Let $\hat{\beta}_{k}^{\mu}$ and $\hat{\beta}_{l}^{\mu}$ be consistent estimators of $\beta_{k}^{\mu}$ and $\beta_{l}^{\mu}$ from a value-added production function. For example, using the OP, LP, or ACF estimation strategy. Construct the estimator, $\hat{\omega}_{it}$ using these estimates
+	\item Let $\boldsymbol{\beta}(\tau)=(\beta_{k}(\tau), \beta_{l}(\tau))$ and $\hat{y}_{it}=y_{it}-\hat{\omega}_{it})$. Define the two-step estimator of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ as:
 	\begin{equation*}
 	\hat{\boldsymbol{\beta}}(\tau)=\underset{\boldsymbol{\beta}\in\mathcal{B}}{\operatorname{argmin}}\, \mathbbm{E}\big[\rho_{\tau}(\hat{y}_{it}-\beta_{k}k_{it}-\beta_{l}l_{it})\big],
 	\end{equation*}
@@ -220,7 +337,7 @@ can be obtained from a quantile regression of $\hat{y}_{it}=y_{it}-(\beta_{0}\ha
 In this section we investigate the performance of our estimator in a set of Monte Carlo experiments. We use a location-scale model for production given by Equation \eqref{locationscale} which we provide again in Equation \eqref{simmodel} below.
 
 \begin{equation} \label{simmodel}
-y_{it}=(\beta_{0}+\omega_{it})+\beta_{k}k_{it}+\beta_{l}l_{it}+(\gamma_{k}k_{it}+\gamma_{l}l_{it})\eta_{it},
+y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\gamma_{k}k_{it}+\gamma_{l}l_{it})\eta_{it},
 \end{equation}
 where $\beta_{0}=0, \beta_{k}=0.4$ and $\beta_{l}=0.6$. We replicate \cite{Ackerberg2015} simulations by sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. We consider three different data generating processes (DGPs) for the scale parameters and the distribution of $\eta_{it}$. For DGP1, we let $\gamma_{k}=0.6$, $\gamma_{l}=-0.6$ and $\eta_{it}\sim N(0,\sigma_{\eta}^{2})$ where $\sigma_{\eta}^{2}=0.01$. This follows the original specification for the error term in \cite{Ackerberg2015}. In DGP2, $\gamma_{k}=0.4$, $\gamma_{l}=-0.4$ and $\eta_{it}\sim (\sqrt{3\sigma_{\eta}^{2}/5})t_{5}$ so that the error variance is the same as that of DGP1. In DGP3, we add considerable skewness to the ex-post shocks by letting $\gamma_{k}=0.5$, $\gamma_{l}=-0.5$ and $\eta_{it}\sim Lognormal(0.15,\sigma_{\eta}^{2})$. 
 
@@ -276,96 +393,17 @@ ACF 1 & 0.10 & -0.0099 & 0.0003 & 0.0129 & 0.0003 & 0.2881 & 0.0831 & -0.2941 & 
 \pagebreak
 \newpage
 
+\begin{figure}[H]
+\centering
+\caption{Monte Carlo Results for Total Factor Productivity Estimates}
+\includegraphics[width=12cm, height=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/TFPplot.png}
+\label{fig:MCTFP}
+\end{figure}
+
+We are also interested in the differences in Total Factor Productivity (TFP) at the median and the mean. For Figure \ref{fig:MCTFP} we plot densities of TFP using our method and the method of LP and ACF. It is clear for the first two rows DGP1 and DGP2 produce equivalent estimates of TFP since the error distribution was specified as symmetric (Normal for DGP1 and Student-t for DGP2). In DGP3, where the error distribution was specified as log-normal, there are differences between the two estimates. This implies that when the distribution of production shocks are skewed, as is often the case in empirical applications, the median estimate of TFP will be robust to outliers. 
+
 \section{Application} \label{application}
-We apply our estimator to popular firm and plant level manufacturing datasets from the US, Chile, and Colombia to examine heterogeneity in the output distribution.\footnote{We thank Mert Demirer for providing the datasets from Chile and Colombia} For each country, we examine estimates across different manufacturing industries as well as how these estimates have changed over time. We use the DS estimator presented in this paper and compare it to the LP estimates. In the case where timing assumptions on labor matter for which proxy variable approach is used to estimate productivity, we provide ACF estimates in the Appendix. We also compare our estimates to the quantile regression estimates without controlling for productivity. In the LP estimation procedure, we estimate the labor coefficient and $\Phi$ with a 3rd degree polynomial with interactions in capital and materials. To estimate capital, we use the LP criterion function mentioned earlier. Since we only need a consistent estimator of the production function parameters, we do not consider any over-identification conditions in this step. We use bootstrap to estimate standard errors of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ with the number of iterations set to $500$.
-\subsection{US Compustat}
-The source for the US manufacturing data is from Compustat which covers publicly traded firms and contains data from their financial statements. We collect a sample between 1961 and 2010 on sales, capital expenditures, number of workers, and other expenses to construct measures of output, capital, labor, and material inputs using 3-digit deflators from \cite{nber}. Data preparation follows \cite{Keller2009} and \cite{mert}. Some issues regarding the Compustat dataset is that since the data is reported in the firm's financial statements, deflated output and input measures may not completely capture firm's actual usage. Also, since this sample only contains publicly traded firms, it is only a fraction of all manufacturing firms in the US. Summary statistics for these deflated values are provided in Table \ref{USsum} . We present a series of output elasticity estimates in Table \ref{USestACF} which are illustrated graphically in Figures \ref{fig:ACF31coef}, \ref{fig:ACF32coef}, \ref{fig:ACF33coef}, and \ref{fig:ACFUSallcoef}.
-
-Estimates of the capital elasticity are increasing in the firm size distribution and nearly double from $\tau=0.1$ to $\tau=0.9$ in every industry as well as the combined sample.  The estimates for labor elasticity for each industry and the combined sample are decreasing. For NAICS 33, the labor elasticity increases at very small $\tau=0.1$, but then decreases. There is evidence that our model captures some heterogeneity compared to the LP model. In NAICS 32, there is more heterogeneity in the tails of the firm size distribution for capital estimates, but only the labor estimates are lower than the LP estimate for very large $\tau$. The same relationship in these estimates is true in NAICS 33 and in the combined sample. 
-
-In each industry we compare the differences between DS and QR estimates to test whether our model corrects for endogeneity from unobserved productivity. Bootstrap is used to construct confidence intervals of the difference between the two estimates. In NAICS 31, only the capital estimates appear to be different from the QR estimates. For every other industry, both capital and labor estimates are different from QR estimates. In NAICS 32, as $\tau$ increases, the differences between our estimator and the QR estimator become larger. The opposite is true for NAICS 33 and the combined sample.
-\begin{figure}[H]
-\centering
-\caption{Estimated Coefficients of Capital and Labor for US: NAICS 31}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QACF_Coef_Plot_NAICS_31.png}
-\label{fig:ACF31coef}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Estimated Coefficients of Capital and Labor for US: NAICS 32}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QACF_Coef_Plot_NAICS_32.png}
-\label{fig:ACF32coef}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Estimated Coefficients of Capital and Labor for US: NAICS 33}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QACF_Coef_Plot_NAICS_33.png}
-\label{fig:ACF33coef}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Estimated Coefficients of Capital and Labor for All US Manufacturing Firms}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QACF_Coef_Plot_NAICS_All.png}
-\label{fig:ACFUSallcoef}
-\end{figure}
-
-We use the estimates from the output elasticities to construct measures of returns to scale and capital intensity in Table \ref{USestACF}. Estimates for returns to scale are not statistically different from constant returns. Returns to scale decrease slightly when $\tau$ increases. We compare the results to those obtained by using ACF to estimate productivity in Table \ref{USestACF}. We also report estimates of capital intensity measured by the ratio of capital to labor elasticity for each quantile. Each industry has estimates of capital intensity that increases with $\tau$. This result is consistent with previous findings such as \cite{Holmes2008}, \cite{Kumar1999} and \cite{mert}.
-
-
-\begin{table}[H]
-\centering
-\caption{Coefficient Estimates and Standard Errors for US Manufacturing Firms}
-\begin{tabular}{cccccccccc}
-  \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}NAICS & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-31 & 0.10 & 0.142 & 0.0330 & 0.893 & 0.0754 & 1.035 & 0.0482 & 0.159 & 0.0437 \\ 
-   & 0.25 & 0.179 & 0.0323 & 0.842 & 0.0740 & 1.021 & 0.0476 & 0.213 & 0.0487 \\ 
-   & 0.50 & 0.225 & 0.0342 & 0.776 & 0.0765 & 1.001 & 0.0482 & 0.290 & 0.0608 \\ 
-   & 0.90 & 0.281 & 0.0361 & 0.711 & 0.0771 & 0.992 & 0.0473 & 0.395 & 0.0795 \\ 
-  32 & 0.10 & 0.101 & 0.0153 & 0.977 & 0.0303 & 1.078 & 0.0192 & 0.103 & 0.0172 \\ 
-   & 0.25 & 0.127 & 0.0149 & 0.945 & 0.0286 & 1.071 & 0.0181 & 0.134 & 0.0182 \\ 
-   & 0.50 & 0.159 & 0.0155 & 0.900 & 0.0293 & 1.059 & 0.0182 & 0.176 & 0.0208 \\ 
-   & 0.90 & 0.220 & 0.0172 & 0.817 & 0.0318 & 1.037 & 0.0187 & 0.270 & 0.0286 \\ 
-  33 & 0.10 & 0.025 & 0.0222 & 1.056 & 0.0451 & 1.082 & 0.0257 & 0.024 & 0.0230 \\ 
-   & 0.25 & 0.084 & 0.0180 & 0.974 & 0.0319 & 1.059 & 0.0179 & 0.087 & 0.0216 \\ 
-   & 0.50 & 0.127 & 0.0175 & 0.919 & 0.0287 & 1.046 & 0.0155 & 0.138 & 0.0237 \\ 
-   & 0.90 & 0.191 & 0.0172 & 0.850 & 0.0261 & 1.041 & 0.0134 & 0.225 & 0.0274 \\ 
-  All & 0.10 & 0.076 & 0.0134 & 1.003 & 0.0249 & 1.078 & 0.0139 & 0.075 & 0.0150 \\ 
-   & 0.25 & 0.130 & 0.0119 & 0.926 & 0.0202 & 1.056 & 0.0111 & 0.140 & 0.0154 \\ 
-   & 0.50 & 0.168 & 0.0118 & 0.876 & 0.0192 & 1.044 & 0.0104 & 0.192 & 0.0171 \\ 
-   & 0.90 & 0.232 & 0.0127 & 0.801 & 0.0198 & 1.033 & 0.0101 & 0.290 & 0.0222 \\ 
-   \hline
-\end{tabular}
-\caption*{\footnotesize $^{*}$Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using ACF}
-\label{USestACF}
-\end{table}
-
-We also use our quantile production function estimates to construct measures of firm level productivity which we define as
-\begin{equation}
-TFP_{it}(\tau)=\exp(y_{it}-\hat{\beta_{k}}(\tau)k_{it}-\hat{\beta_{l}}(\tau)l_{it})
-\end{equation}
-We use these measures to compare productivity growth over time to ACF estimates over the distribution of firm size. Figure \ref{fig:ACFUSpgrowth} reports average productivity for all US firms in the sample with the base year of the sample period set to 100. We can see that productivity growth was rapid in the beginning of the sample period but then declined after 1970, but then increases after 1980. Growth trends for each percentile of firm size were similar although larger firms in this sample were more productive than smaller ones. The ACF estimates are close to the productivity estimates for medium-sized firms at $\tau=0.5$.
-
-We are also interested in examining the firm size distribution over time and whether there are differences in factor intensities over time. Figure \ref{fig:ACFUStimecoef} plots estimates of the output elasticities over 5 year intervals. The panel on the left are the estimates of capital elasticity. These are similar for the beginning of the sample period and increase sharply. Dispersion between the estimates at $\tau=0.9$ and $\tau=0.1$ become quite high after 1970. and for each $\tau$ these estimates are decreasing in magnitude. After this decade, these estimates increase, but remain disperse. Estimates are increasing in $\tau$. The panel on the right are estimates of labor elasticity. In the beginning of the sample period, the estimates range from 0.7 to 0.85. There is a sharp increase, then a steady decrease after 1970. Estimates are decreasing in $\tau$.
-
-\begin{figure}[H]
-\centering
-\caption{US Productivity Over Time}
-\includegraphics[width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/ACF_TFP_Plot.png}
-\label{fig:ACFUSpgrowth}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Estimates of Capital and Labor Elasticities Over Time}
-\includegraphics[height=5cm, width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QACF_Time_Plot.png}
-\label{fig:ACFUStimecoef}
-\end{figure}
-
-
+We apply our estimator to popular plant level manufacturing datasets from Chile and Colombia to examine heterogeneity in the output distribution. For both countries, we examine estimates across different manufacturing industries as well as how these estimates have changed over time. We use the DS estimator presented in this paper and compare it to the ACF estimates. We also compare our estimates to the quantile regression estimates without controlling for productivity. In the ACF estimation procedure, we estimate the function $\Phi$ with a 3rd degree polynomial with interactions in capital, labor and materials. To estimate the coefficient on capital and labor, we use the ACF criterion function mentioned earlier. Since we only need a consistent estimator of the production function parameters, we do not consider any over-identification conditions in this step. We use bootstrap to estimate standard errors of $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ with the number of iterations set to $500$.
 %----------------------------------------------------------------------------------------
 
 \subsection{Chilean Manufacturing}
@@ -378,28 +416,28 @@ Figure \ref{fig:ACFCHLpgrowth} reports average productivity for all Chilean plan
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Chile: ISIC 311}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QACF_Coef_Plot_ISIC_311.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_311.png}
 \label{fig:ACFCHL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Chile: ISIC 381}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QACF_Coef_Plot_ISIC_381.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_381.png}
 \label{fig:ACFCHL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Chile: ISIC 321}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QACF_Coef_Plot_ISIC_321.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_321.png}
 \label{fig:ACFCHL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for all Chilean Manufacturing Plants}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QACF_Coef_Plot_ISIC_All.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_All.png}
 \label{fig:ACFCHLall}
 \end{figure}
 
@@ -433,17 +471,18 @@ Figure \ref{fig:ACFCHLpgrowth} reports average productivity for all Chilean plan
 
 \begin{figure}[H]
 \centering
-\caption{Chile Productivity Over Time}
-\includegraphics[width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/ACF_TFP_Plot.png}
-\label{fig:ACFCHLpgrowth}
+\caption{Mean and Median Estimates of Total Factor Productivity}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP/QACF_TFP_Plot.png}
+\label{fig:ACFCHLTFPDens}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Estimates of Capital and Labor Elasticities Over Time}
-\includegraphics[height=5cm, width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QACF_Time_Plot.png}
-\label{fig:ACFCHLtimecoef}
+\caption{Chile Productivity Over Time}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP/QACF_TFPgrowth_Plot.png}
+\label{fig:ACFCHLpgrowth}
 \end{figure}
+
 
 
 %------------------------------------------------------------------------------------------------
@@ -456,28 +495,28 @@ Figures \ref{fig:ACFCOL311}, \ref{fig:ACFCOL321}, and \ref{fig:ACFCOL381} illust
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Colombia: ISIC 311}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QACF_Coef_Plot_ISIC_311.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_311.png}
 \label{fig:ACFCOL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Colombia: ISIC 321}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QACF_Coef_Plot_ISIC_322.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_322.png}
 \label{fig:ACFCOL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Colombia: ISIC 381}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QACF_Coef_Plot_ISIC_381.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_381.png}
 \label{fig:ACFCOL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for all Colombian Manufacturing Plants}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QACF_Coef_Plot_ISIC_All.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_All.png}
 \label{fig:ACFCOLall}
 \end{figure}
 
@@ -515,16 +554,16 @@ Figure \ref{fig:ACFCOACFgrowth} reports average productivity for all Colombian p
 
 \begin{figure}[H]
 \centering
-\caption{Colombia Productivity Over Time}
-\includegraphics[width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/ACF_TFP_Plot.png}
-\label{fig:ACFCOLpgrowth}
+\caption{Mean and Median Estimates of Total Factor Productivity}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QACF_TFP_Plot.png}
+\label{fig:ACFCOLTFPDens}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Estimates of Capital Labor Elasticities Over Time}
-\includegraphics[height=5cm, width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QACF_Time_Plot.png}
-\label{fig:ACFCOLtimecoef}
+\caption{Chile Productivity Over Time}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QACF_TFPgrowth_Plot.png}
+\label{fig:ACFCOLpgrowth}
 \end{figure}
 
 \section{Conclusions} \label{conclusion}
@@ -649,78 +688,6 @@ This paper contributes to the growing literature on production functions with un
 
 \subsection{Estimates using \cite{Levinsohn2003}}
 
-\subsubsection{US}
-
-\begin{table}[H]
-\centering
-\caption{Coefficient Estimates and Standard Errors for US Manufacturing Firms}
-\begin{tabular}{cccccccccc}
-  \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}NAICS & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-31 & 0.10 & 0.054 & 0.0174 & 0.601 & 0.0269 & 0.654 & 0.0318 & 0.089 & 0.0296 \\ 
-   & 0.25 & 0.085 & 0.0182 & 0.560 & 0.0302 & 0.645 & 0.0329 & 0.152 & 0.0355 \\ 
-   & 0.50 & 0.138 & 0.0198 & 0.480 & 0.0325 & 0.618 & 0.0332 & 0.288 & 0.0499 \\ 
-   & 0.90 & 0.185 & 0.0223 & 0.433 & 0.0375 & 0.618 & 0.0344 & 0.428 & 0.0830 \\ 
-  32 & 0.10 & 0.051 & 0.0109 & 0.661 & 0.0306 & 0.713 & 0.0277 & 0.077 & 0.0181 \\ 
-   & 0.25 & 0.079 & 0.0102 & 0.626 & 0.0279 & 0.705 & 0.0264 & 0.126 & 0.0188 \\ 
-   & 0.50 & 0.112 & 0.0098 & 0.581 & 0.0265 & 0.692 & 0.0259 & 0.192 & 0.0207 \\ 
-   & 0.90 & 0.177 & 0.0127 & 0.490 & 0.0298 & 0.667 & 0.0265 & 0.361 & 0.0415 \\ 
-  33 & 0.10 & -0.009 & 0.0224 & 0.438 & 0.0608 & 0.429 & 0.0459 & -0.020 & 0.0667 \\ 
-   & 0.25 & 0.042 & 0.0162 & 0.376 & 0.0360 & 0.419 & 0.0322 & 0.112 & 0.0573 \\ 
-   & 0.50 & 0.086 & 0.0158 & 0.319 & 0.0331 & 0.405 & 0.0305 & 0.270 & 0.0796 \\ 
-   & 0.90 & 0.167 & 0.0163 & 0.214 & 0.0293 & 0.381 & 0.0278 & 0.782 & 0.1859 \\ 
-  All & 0.10 & 0.017 & 0.0107 & 0.506 & 0.0292 & 0.523 & 0.0259 & 0.033 & 0.0239 \\ 
-   & 0.25 & 0.067 & 0.0099 & 0.439 & 0.0244 & 0.506 & 0.0233 & 0.153 & 0.0292 \\ 
-   & 0.50 & 0.104 & 0.0098 & 0.393 & 0.0235 & 0.497 & 0.0228 & 0.263 & 0.0369 \\ 
-   & 0.90 & 0.176 & 0.0106 & 0.300 & 0.0222 & 0.476 & 0.0215 & 0.587 & 0.0713 \\ 
-   \hline
-\end{tabular}
-\caption*{\footnotesize $^{*}$Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using LP}
-\label{USestLP}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\caption{Estimated Coefficients of Capital and Labor for US: NAICS 31}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QLP_Coef_Plot_NAICS_31.png}
-\label{fig:LP31coef}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Estimated Coefficients of Capital and Labor for US: NAICS 32}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QLP_Coef_Plot_NAICS_32.png}
-\label{fig:LP32coef}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Estimated Coefficients of Capital and Labor for US: NAICS 33}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QLP_Coef_Plot_NAICS_33.png}
-\label{fig:LP33coef}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Estimated Coefficients of Capital and Labor for All US Manufacturing Firms}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QLP_Coef_Plot_NAICS_All.png}
-\label{fig:LPUSallcoef}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{US Productivity Over Time}
-\includegraphics[width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/LP_TFP_Plot.png}
-\label{fig:LPUSpgrowth}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\caption{Estimates of Capital and Labor Elasticities Over Time}
-\includegraphics[height=5cm, width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/QLP_Time_Plot.png}
-\label{fig:LPUStimecoef}
-\end{figure}
-
 \subsubsection{Chile}
 
 \begin{table}[H]
@@ -754,43 +721,43 @@ This paper contributes to the growing literature on production functions with un
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Chile: ISIC 311}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QLP_Coef_Plot_ISIC_311.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_311.png}
 \label{fig:LPCHL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Chile: ISIC 381}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QLP_Coef_Plot_ISIC_381.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_381.png}
 \label{fig:LPCHL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Chile: ISIC 321}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QLP_Coef_Plot_ISIC_321.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_321.png}
 \label{fig:LPCHL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for all Chilean Manufacturing Plants}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QLP_Coef_Plot_ISIC_All.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_All.png}
 \label{fig:LPCHLall}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Chile Productivity Over Time}
-\includegraphics[width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/LP_TFP_Plot.png}
-\label{fig:LPCHLpgrowth}
+\caption{Mean and Median Estimates of Total Factor Productivity}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP/QLP_TFP_Plot.png}
+\label{fig:LPTFPDens}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Estimates of Capital and Labor Elasticities Over Time}
-\includegraphics[height=5cm, width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/QLP_Time_Plot.png}
-\label{fig:LPCHLtimecoef}
+\caption{Chile Productivity Over Time}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP/QLP_TFPgrowth_Plot.png}
+\label{fig:LPCHLpgrowth}
 \end{figure}
 
 \subsubsection{Colombia}
@@ -826,43 +793,43 @@ This paper contributes to the growing literature on production functions with un
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Colombia: ISIC 311}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QLP_Coef_Plot_ISIC_311.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_311.png}
 \label{fig:LPCOL311}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Colombia: ISIC 321}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QLP_Coef_Plot_ISIC_322.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_322.png}
 \label{fig:LPCOL321}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for Colombia: ISIC 381}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QLP_Coef_Plot_ISIC_381.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_381.png}
 \label{fig:LPCOL381}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \caption{Estimated Coefficients of Capital and Labor for all Colombian Manufacturing Plants}
-\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QLP_Coef_Plot_ISIC_All.png}
+\includegraphics[width=9cm, height=9cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_All.png}
 \label{fig:LPCOLall}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Colombia Productivity Over Time}
-\includegraphics[width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/LP_TFP_Plot.png}
-\label{fig:LPCOLpgrowth}
+\caption{Mean and Median Estimates of Total Factor Productivity}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QLP_TFP_Plot.png}
+\label{fig:LPTFPDens}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\caption{Estimates of Capital Labor Elasticities Over Time}
-\includegraphics[height=5cm, width=10cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/QLP_Time_Plot.png}
-\label{fig:LPCOLtimecoef}
+\caption{Chile Productivity Over Time}
+\includegraphics[width=12cm]{/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QLP_TFPgrowth_Plot.png}
+\label{fig:LPCHLpgrowth}
 \end{figure}
 
 

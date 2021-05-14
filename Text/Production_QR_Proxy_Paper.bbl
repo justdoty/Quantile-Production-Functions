@@ -1,4 +1,4 @@
-\begin{thebibliography}{36}
+\begin{thebibliography}{35}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -32,10 +32,6 @@
 \textsc{Balat, J.}, \textsc{Brambilla, I.} and \textsc{Sasaki, Y.} (2018).
   {Heterogeneous firms: skilled-labor productivity and the destination of
   exports}, {Working paper}.
-
-\bibitem[{Bartelsman and Gray(1996)}]{nber}
-\textsc{Bartelsman} and \textsc{Gray} (1996). \textit{The NBER Manufacturing
-  Productivity Database}. Tech. Rep. 205, National Bureau of Economic Research.
 
 \bibitem[{Bernini \textit{et~al.}(2004)Bernini, Freo and Gardini}]{Bernini2004}
 \textsc{Bernini, C.}, \textsc{Freo, M.} and \textsc{Gardini, A.} (2004).
@@ -82,28 +78,27 @@
 \textsc{de~Castro, L.~I.} and \textsc{Galvao, A.~F.} (2017). Dynamic quantile
   models of rational behavior. \textit{{SSRN} Electronic Journal}.
 
-\bibitem[{Dermirer(2020)}]{mert}
-\textsc{Dermirer, M.} (2020). Production function estimation with factor
-  augmenting technology: An application to markups.
+\bibitem[{Evdokimov(2010)}]{evdo2010}
+\textsc{Evdokimov, K.} (2010). Identification and estimation of a nonparametric
+  panel data model with unobserved heterogeneity, w.
 
 \bibitem[{Gandhi \textit{et~al.}(2020)Gandhi, Navarro and Rivers}]{Gandhi2020}
 \textsc{Gandhi, A.}, \textsc{Navarro, S.} and \textsc{Rivers, D.~A.} (2020). On
   the identification of gross output production functions. \textit{Journal of
   Political Economy}, pp. 000--000.
 
+\bibitem[{Gil-Pelaez(1951)}]{gil}
+\textsc{Gil-Pelaez, J.} (1951). Note on the inversion theorem.
+  \textit{Biometrika}, \textbf{38}~(3-4), 481--482.
+
 \bibitem[{Griliches and Hausman(1986)}]{Griliches1986}
 \textsc{Griliches, Z.} and \textsc{Hausman, J.~A.} (1986). Errors in variables
   in panel data. \textit{Journal of Econometrics}, \textbf{31}~(1), 93--118.
 
-\bibitem[{Holmes and Mitchell(2008)}]{Holmes2008}
-\textsc{Holmes, T.~J.} and \textsc{Mitchell, M.~F.} (2008). A theory of factor
-  allocation and plant size. \textit{The {RAND} Journal of Economics},
-  \textbf{39}~(2), 329--351.
-
-\bibitem[{Imbens and Newey(2009)}]{2009a}
-\textsc{Imbens} and \textsc{Newey} (2009). Identification and estimation of
-  triangular simultaneous equations models without additivity.
-  \textit{Econometrica}, \textbf{77}~(5), 1481--1512.
+\bibitem[{Hu \textit{et~al.}(2019)Hu, Huang and Sasaki}]{Hu2019}
+\textsc{Hu, Y.}, \textsc{Huang, G.} and \textsc{Sasaki, Y.} (2019). Estimating
+  production functions with robustness against errors in the proxy variables.
+  \textit{Journal of Econometrics}.
 
 \bibitem[{Just and Pope(1978)}]{Just1978}
 \textsc{Just, R.~E.} and \textsc{Pope, R.~D.} (1978). Stochastic specification
@@ -120,12 +115,6 @@
 \textsc{Kasahara, H.}, \textsc{Schrimpf, P.} and \textsc{Suzuki, M.} (2017).
   Identification and estimation of production function with unobserved
   heterogeneity, {Working paper}.
-
-\bibitem[{Keller and Yeaple(2009)}]{Keller2009}
-\textsc{Keller, W.} and \textsc{Yeaple, S.~R.} (2009). Multinational
-  enterprises, international trade, and productivity growth: Firm-level
-  evidence from the united states. \textit{Review of Economics and Statistics},
-  \textbf{91}~(4), 821--831.
 
 \bibitem[{Koenker(2004)}]{Koenker2004}
 \textsc{Koenker, R.} (2004). Quantile regression for longitudinal data.
@@ -162,6 +151,11 @@
 \bibitem[{Manski(1988)}]{Manski1988}
 \textsc{Manski, C.~F.} (1988). Ordinal utility models of decision making under
   uncertainty. \textit{Theory and Decision}, \textbf{25}~(1), 79--104.
+
+\bibitem[{Neumann(2007)}]{Neumann2007}
+\textsc{Neumann, M.~H.} (2007). Deconvolution from panel data with unknown
+  error distribution. \textit{Journal of Multivariate Analysis},
+  \textbf{98}~(10), 1955--1968.
 
 \bibitem[{Olley and Pakes(1996)}]{Olley1996}
 \textsc{Olley, G.~S.} and \textsc{Pakes, A.} (1996). The dynamics of

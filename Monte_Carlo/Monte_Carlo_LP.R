@@ -1,5 +1,5 @@
-# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/QLP_aux.R')
-source('PFQR/FUN/QLP_aux.R')
+# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/Aux_Fun.R')
+source('PFQR/FUN/Aux_Fun.R')
 #For Paralelization
 require(snow)
 #For MM 
@@ -21,8 +21,8 @@ DGPs <- c("normal", "student", "log")
 nreps <- 1000
 # nreps <- 3
 #Vector of quantiles
-# tau <- seq(5,95,by=5)/100
-tau <- c(0.1, 0.25, 0.5, 0.75, 0.9)
+tau <- seq(5,95,by=5)/100
+# tau <- c(0.1, 0.25, 0.5, 0.75, 0.9)
 #Standard deviation of log wage process
 siglnw <- 0
 #Labor chosen at time timeb
@@ -65,9 +65,17 @@ LP <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
 #############################################################################################
 #############################################################################################
 ####################Initialize Matrices to Store Results#####################################
+# Number of Firms
+n <- 1000
+# Number of Time Periods
+overallt <- 100
+starttime <- 90
+t <- overallt - starttime
 #Store results for quantile estimators
 resmat_LPQ <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
 resmat_QR <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
+resmat_TFP <- array(0, dim=c(nreps, n*t, length(DGPs)))
+resmat_QTFP <- array(0, dim=c(nreps, n*t, length(DGPs)))
 #Store results for LP estimator
 resmat_LP <- array(0, dim=c(nreps, dB, length(DGPs)))
 #Time entire code
@@ -77,12 +85,6 @@ for (d in 1:length(DGPs)){
   for (j in 1:nreps){
     print(sprintf("DGP %i, Iteration %i", d, j))
     set.seed(123456+j)
-    # Number of Firms
-    n <- 1000
-    # Number of Time Periods
-    overallt <- 100
-    starttime <- 90
-    t <- overallt - starttime
     #Production Function Parameters
     alpha0 <- 0
     alphal <- 0.6
@@ -279,11 +281,10 @@ for (d in 1:length(DGPs)){
     mX <- as.matrix(Capital_Con)
     #Lag Values
     mlX <- as.matrix(Capital_Lag_1)
-    # results_LP <- GenSA(par=alphak, fn=LP, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_LP, fitlagphi=phi_Lag_1_LP,  
-    #   lower=0, upper=1, control=list(max.time=5))$par
     results_LP <- optim(par=alphak, fn=function(theta) LP(theta, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_LP, fitlagphi=phi_Lag_1_LP), gr=NULL, method="L-BFGS-B", lower=0, upper=1)$par
     #Estimated productivity
     wfit <- phi-Capital*results_LP
+    resmat_TFP[,,d][j,] <- Output-cbind(Capital, Labor)%*%as.matrix(c(results_LP, LP_Labor))
     ############################################################
     resmat_LP[,,d][j,][1] <- results_LP[1]
     print("LP Estimates")
@@ -292,11 +293,10 @@ for (d in 1:length(DGPs)){
     ##########################################################################################
     # ##########################################################################################
     clusterExport(cl, c('n','overallt','t','starttime','nreps', 'tau', 'dB', 'siglnw', 'timeb',
-    'sigoptl', 'Lambda', 'resmat_LPQ', 'QLP', 'rq', 'fitted',
+    'sigoptl', 'resmat_LPQ', 'rq', 'fitted',
     'Output', 'Capital', 'Labor', 'Materials',
     'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Con', 'Output_Con',
-    'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0', 'repmat',
-    'Itilde.KS17', 'GenSA','Gfn', 'wfit', 'resmat_QR'), envir=environment())
+    'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0', 'wfit', 'resmat_QR'), envir=environment())
     innerloop_QLP <- function(q){
       QR <- as.numeric(coef(rq(Output~Capital+Labor, tau=tau[q])))
       #Output
@@ -305,23 +305,21 @@ for (d in 1:length(DGPs)){
       mZ <- cbind(Capital, Labor)
       #Contemporary Values
       mX <- cbind(Capital, Labor)
-      # QRresults <- GenSA(par=c(alphak0[q], alphal0[q]), fn=QLP, mY=mY, mX=mX, mZ=mZ,
-      #   h=0.1, tau=tau[q], lower=c(0,0), upper=c(1,1), control=list(max.time=1))$par
       QRresults <- as.numeric(coef(rq(mY~mX-1, tau=tau[q])))
+      QTFP <- Output-mX%*%QRresults
       #############################################################
-      return(c(QRresults, QR[-1]))
+      return(list(QRresults, QR[-1], QTFP))
       ##################################################################
     }
       #Optional for serial computing
-      # resmat_LPQ[,,,d][j,,] <- t(matrix(unlist(lapply(1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
-      q.time <- proc.time()
-      resmat <- t(matrix(unlist(parLapply(cl, 1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
-      resmat_LPQ[,,,d][j,,] <- t(resmat[,1:2])
-      resmat_QR[,,,d][j,,] <- t(resmat[,3:4])
+      # resmat <- lapply(1:length(tau), innerloop_QLP)
+      resmat <- parLapply(cl, 1:length(tau), innerloop_QLP)
+      resmat_LPQ[,,,d][j,,] <- sapply(1:length(tau), function(l) rbind(resmat[[l]][[1]]))
+      resmat_QR[,,,d][j,,] <- sapply(1:length(tau), function(l) rbind(resmat[[l]][[2]]))
+      resmat_QTFP[,,d][j,] <- resmat[[(length(tau)+1)/2]][[3]]
       ####################################################################
       print("Q-GMM Estimates")
-      print(resmat)
-      print(proc.time()-q.time)
+      print(t(resmat_LPQ[,,,d][j,,]))
   }
 }
 stopCluster(cl); print("Cluster stopped.")
@@ -338,8 +336,27 @@ betak3 <- alphak+etak[3]*qlnorm(tau, meanlog=location, sdlog=shape); betal3 <- a
 beta3 <- cbind(betak3, betal3)
 #Combined
 beta <- rbind(beta1, beta2, beta3)
+#Calculate Estimates for Mean TFP densities and Confidence Intervals
+#QTFP
+QTFP <- array(0, dim=c(n*t, length(DGPs)))
+QTFPUB <- array(0, dim=c(n*t, length(DGPs)))
+QTFPLB <- array(0, dim=c(n*t, length(DGPs)))
+#TFP
+TFP <- array(0, dim=c(n*t, length(DGPs)))
+TFPUB <- array(0, dim=c(n*t, length(DGPs)))
+TFPLB <- array(0, dim=c(n*t, length(DGPs)))
+for (i in 1:length(DGPs)){
+  #QTFP
+  QTFP[,i] <- colMeans(resmat_QTFP[,,i])
+  QTFPUB[,i] <- apply(resmat_QTFP[,,i], 2, function(q) quantile(q, probs=0.975))
+  QTFPLB[,i] <- apply(resmat_QTFP[,,i], 2, function(q) quantile(q, probs=0.025))
+  #TFP
+  TFP[,i] <- colMeans(resmat_TFP[,,i])
+  TFPUB[,i] <- apply(resmat_TFP[,,i], 2, function(q) quantile(q, probs=0.975))
+  TFPLB[,i] <- apply(resmat_TFP[,,i], 2, function(q) quantile(q, probs=0.025))
+}
 #Save Results
-save(nreps, DGPs, resmat_LP, resmat_LPQ, resmat_QR, beta, tau, dB, file="PFQR/SIM/simulation_LP.Rdata")
+save(nreps, DGPs, resmat_LP, resmat_LPQ, resmat_QR, QTFP, QTFPUB, QTFPLB, TFP, TFPUB, TFPLB, beta, tau, dB, file="PFQR/SIM/simulation_LP.Rdata")
 
 
 

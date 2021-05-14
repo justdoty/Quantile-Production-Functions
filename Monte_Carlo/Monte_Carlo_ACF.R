@@ -1,5 +1,5 @@
-source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/QLP_aux.R')
-# source('PFQR/FUN/QLP_aux.R')
+# source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/Aux_Fun.R')
+source('PFQR/FUN/Aux_Fun.R')
 #For Paralelization
 require(snow)
 #For MM 
@@ -18,11 +18,11 @@ cl <- makeCluster(5)
 #Specifications for Error Distributions
 DGPs <- c("normal", "student", "log")
 #MC Replications
-# nreps <- 1000
-nreps <- 3
+nreps <- 1000
+# nreps <- 3
 #Vector of quantiles
-# tau <- seq(5,95,by=5)/100
-tau <- c(0.1, 0.25, 0.5, 0.75, 0.9)
+tau <- seq(5,95,by=5)/100
+# tau <- c(0.1, 0.25, 0.5, 0.75, 0.9)
 #Standard deviation of log wage process
 siglnw <- 0.1
 #Labor chosen at time timeb
@@ -35,9 +35,9 @@ dB <- 2
 ACF <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
   A <- fitphi-mX%*%theta[1:ncol(mX)]
   B <- fitlagphi-mlX%*%theta[1:ncol(mX)]
-  step1 <- lm(A~B-1)
+  step1 <- lm(A~B)
   step1param <- as.numeric(coef(step1))
-  xifit <- A-B*step1param
+  xifit <- A-cbind(1,B)%*%step1param
   mW <- solve(crossprod(mZ))/nrow(mZ)
   go <- t(crossprod(mZ, xifit))%*%mW%*%(crossprod(mZ, xifit))
   return(go)
@@ -47,9 +47,17 @@ ACF <- function(theta, mY, mX, mlX, mZ, fitphi, fitlagphi){
 #############################################################################################
 #############################################################################################
 ####################Initialize Matrices to Store Results#####################################
+# Number of Firms
+n <- 1000
+# Number of Time Periods
+overallt <- 100
+starttime <- 90
+t <- overallt - starttime
 #Store results for quantile estimators
 resmat_ACFQ <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
 resmat_QR <- array(0, dim=c(nreps, dB, length(tau), length(DGPs)))
+resmat_TFP <- array(0, dim=c(nreps, n*t, length(DGPs)))
+resmat_QTFP <- array(0, dim=c(nreps, n*t, length(DGPs)))
 #Store results for ACF estimator
 resmat_ACF <- array(0, dim=c(nreps, dB, length(DGPs)))
 #Time entire code
@@ -59,12 +67,6 @@ for (d in 1:length(DGPs)){
   for (j in 1:nreps){
     print(sprintf("DGP %i, Iteration %i", d, j))
     set.seed(123456+j)
-    # Number of Firms
-    n <- 1000
-    # Number of Time Periods
-    overallt <- 100
-    starttime <- 90
-    t <- overallt - starttime
     #Production Function Parameters
     alpha0 <- 0
     alphal <- 0.6
@@ -246,16 +248,15 @@ for (d in 1:length(DGPs)){
     ################################################################################
     #First Stage########################################################
     firststage_ACF <- lm(Output~Capital+Labor+Materials)
-    phi0 <- as.numeric(coef(firststage_ACF)[1])
     phi <- fitted(firststage_ACF)
-    phi_ACF <- phi-phi0
+    phi_ACF <- phi
     dim(phi_ACF) <- c(t, n)
     phi_Lag_1_ACF <- c(phi_ACF[1:(t-1),])
     phi_Con_ACF <- c(phi_ACF[2:t,])
     #Output
     mY <- as.matrix(Output_Con)
     #Matrix of Instruments
-    mZ <- cbind(1, Capital_Con, Capital_Lag_1, Labor_Lag_1, Labor_Lag_2)
+    mZ <- cbind(Capital_Con, Labor_Lag_1)
     #Contemporary Values
     mX <- cbind(Capital_Con, Labor_Con)
     #Lag Values
@@ -263,7 +264,7 @@ for (d in 1:length(DGPs)){
     results_ACF <- optim(par=c(alphak, alphal), fn=function(theta) ACF(theta, mY=mY, mX=mX, mlX=mlX, mZ=mZ, fitphi=phi_Con_ACF, fitlagphi=phi_Lag_1_ACF), gr=NULL, method="L-BFGS-B", lower=c(0,0), upper=c(1,1))$par
     #Estimated productivity
     wfit <- phi-cbind(Capital, Labor)%*%as.matrix(as.numeric(results_ACF))
-    print(mean(wfit-phi0))
+    resmat_TFP[,,d][j,] <- Output-cbind(Capital, Labor)%*%as.matrix(as.numeric(results_ACF))
     ############################################################
     resmat_ACF[,,d][j,] <- results_ACF
     print("ACF Estimates")
@@ -275,8 +276,7 @@ for (d in 1:length(DGPs)){
     'sigoptl', 'resmat_ACFQ', 'rq', 'fitted',
     'Output', 'Capital', 'Labor', 'Materials',
     'Capital_Con','Capital_Lag_1', 'Labor_Lag_1', 'Labor_Con', 'Output_Con',
-    'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0', 'repmat',
-    'Itilde.KS17', 'GenSA','Gfn', 'wfit', 'resmat_QR'), envir=environment())
+    'alphak', 'alphal', 'rho', 'j', 'd', 'DGPs', 'alphak0', 'alphal0', 'wfit', 'resmat_QR'), envir=environment())
     innerloop_QACF <- function(q){
       QR <- as.numeric(coef(rq(Output~Capital+Labor, tau=tau[q])))
       #Output
@@ -286,20 +286,20 @@ for (d in 1:length(DGPs)){
       #Contemporary Values
       mX <- cbind(Capital, Labor)
       QRresults <- as.numeric(coef(rq(mY~mX-1, tau=tau[q])))
+      QTFP <- Output-mX%*%QRresults
       #############################################################
-      return(c(QRresults, QR[-1]))
+      return(list(QRresults, QR[-1], QTFP))
       ##################################################################
     }
       #Optional for serial computing
-      # resmat_ACFQ[,,,d][j,,] <- t(matrix(unlist(lapply(1:length(tau), innerloop_QLP)), nrow=4, ncol=length(tau)))
-      q.time <- proc.time()
-      resmat <- t(matrix(unlist(parLapply(cl, 1:length(tau), innerloop_QACF)), nrow=4, ncol=length(tau)))
-      resmat_ACFQ[,,,d][j,,] <- t(resmat[,1:2])
-      resmat_QR[,,,d][j,,] <- t(resmat[,3:4])
+      # resmat <- lapply(1:length(tau), innerloop_QACF)
+      resmat <- parLapply(cl, 1:length(tau), innerloop_QACF)
+      resmat_ACFQ[,,,d][j,,] <- sapply(1:length(tau), function(l) rbind(resmat[[l]][[1]]))
+      resmat_QR[,,,d][j,,] <- sapply(1:length(tau), function(l) rbind(resmat[[l]][[2]]))
+      resmat_QTFP[,,d][j,] <- resmat[[(length(tau)+1)/2]][[3]]
       ####################################################################
       print("Q-GMM Estimates")
-      print(resmat)
-      print(proc.time()-q.time)
+      print(t(resmat_ACFQ[,,,d][j,,]))
   }
 }
 stopCluster(cl); print("Cluster stopped.")
@@ -316,8 +316,27 @@ betak3 <- alphak+etak[3]*qlnorm(tau, meanlog=location, sdlog=shape); betal3 <- a
 beta3 <- cbind(betak3, betal3)
 #Combined
 beta <- rbind(beta1, beta2, beta3)
+#Calculate Estimates for Mean TFP densities and Confidence Intervals
+#QTFP
+QTFP <- array(0, dim=c(n*t, length(DGPs)))
+QTFPUB <- array(0, dim=c(n*t, length(DGPs)))
+QTFPLB <- array(0, dim=c(n*t, length(DGPs)))
+#TFP
+TFP <- array(0, dim=c(n*t, length(DGPs)))
+TFPUB <- array(0, dim=c(n*t, length(DGPs)))
+TFPLB <- array(0, dim=c(n*t, length(DGPs)))
+for (i in 1:length(DGPs)){
+  #QTFP
+  QTFP[,i] <- colMeans(resmat_QTFP[,,i])
+  QTFPUB[,i] <- apply(resmat_QTFP[,,i], 2, function(q) quantile(q, probs=0.975))
+  QTFPLB[,i] <- apply(resmat_QTFP[,,i], 2, function(q) quantile(q, probs=0.025))
+  #TFP
+  TFP[,i] <- colMeans(resmat_TFP[,,i])
+  TFPUB[,i] <- apply(resmat_TFP[,,i], 2, function(q) quantile(q, probs=0.975))
+  TFPLB[,i] <- apply(resmat_TFP[,,i], 2, function(q) quantile(q, probs=0.025))
+}
 #Save Results
-# save(nreps, DGPs, resmat_ACFQ, resmat_ACF, resmat_QR, beta, tau, dB, file="PFQR/SIM/simulation_ACF.Rdata")
+save(nreps, DGPs, resmat_ACFQ, resmat_ACF, resmat_QR, QTFP, QTFPUB, QTFPLB, TFP, TFPUB, TFPLB, beta, tau, dB, file="PFQR/SIM/simulation_ACF.Rdata")
 
 
 
