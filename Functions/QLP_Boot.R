@@ -32,13 +32,6 @@ QLP_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20){
   qrhat <- trueboot$qrhat
   #Difference between QLP and QR
   qdifhat <- trueboot$qdifhat
-  #QTFP estimates
-  QTFPhat <- trueboot$QTFPhat
-  #TFP estimates
-  TFPhat <- trueboot$TFPhat
-  #Omega estimates
-  omegahat <- trueboot$omegahat
-  expost <- trueboot$expost
   #Initialize bootstrap#############################################################################
   #Indices used for resampling firm ID's
   bootind <- block.boot.resample(idvar, R, seed)
@@ -58,8 +51,8 @@ QLP_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20){
     qrboot[i,] <- boot$qrhat
     qdifboot[i,] <- boot$qdifhat
   }
-  return(list(betahat=betahat, LPhat=LPhat, qrhat=qrhat, qdifhat=qdifhat, QTFPhat=QTFPhat, TFPhat=TFPhat, omegahat=omegahat,  betaboot=betaboot, LPboot=LPboot, 
-    qrboot=qrboot, qdifboot=qdifboot, expost=expost))
+  return(list(betahat=betahat, LPhat=LPhat, qrhat=qrhat, qdifhat=qdifhat,  betaboot=betaboot, LPboot=LPboot, 
+    qrboot=qrboot, qdifboot=qdifboot))
 }
 ###########################################################################
 ###########################################################################
@@ -88,51 +81,45 @@ finalQLP <- function(tau, ind, data, binit, seed){
   #Labor Estimate for LP
   LPLabor <-  as.numeric(coef(LPfirststage)[3])
   #QR estimates
-  QR <- rq(data$Y~data$K+data$L, tau=tau)
+  QR <- rq(data$Y~data$K+data$L+data$proxy, tau=tau)
   qrhat <- as.numeric(coef(QR)[-1])
   #Linear regression estimates (used for starting values)
-  LM <- lm(data$Y~data$K+data$L)
+  LM <- lm(data$Y~data$K+data$L+data$proxy)
   #Clean Phi from the effects of free variables
   LPphi <- fitted(LPfirststage)-as.matrix(data$L)%*%LPLabor
-  #Ex-post shocks
-  expost <- data$Y-fitted(LPfirststage)
   #Calculate Contempory and Lag Values for 2nd stage estimation
   newdata <- lagdata(idvar=data$idvar, X=cbind(data$Y, data$K, data$L, data$proxy, LPphi))
   names(newdata) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "LPphicon", "Ylag", "Klag", "Llag", "Pxlag", "LPphilag")
   #LP Output net of labor
   LPmY <-  as.matrix(newdata$Ycon-newdata$Lcon*LPLabor)
   #LP Contemporary State Variables
-  LPmX <- as.matrix(newdata$Kcon)
+  LPmX <- cbind(newdata$Kcon, newdata$Pxcon)
   #LP Lagged State Variables
-  LPmlX <- as.matrix(newdata$Klag)
+  LPmlX <- cbind(newdata$Klag, newdata$Pxlag)
   #LP Contemporary phi estimates
   LPfitphi <- as.matrix(newdata$LPphicon)
   #LP Lagged phi estimates
   LPfitlagphi <- as.matrix(newdata$LPphilag)
   #LP Instruments (Exact Identification)
-  LPmZ <- as.matrix(newdata$Kcon)
+  LPmZ <- cbind(newdata$Kcon, newdata$Pxlag)
   #Starting values for LP estimates from OLS
-  LPkinit <- as.numeric(coef(LM)[2])
+  LPinit <- as.numeric(coef(LM)[c(2,4)])
   #LP estimates for Capital
-  LPkhat <- optim(par=LPkinit, fn=function(b) LPobj(b, mY=LPmY, mX=LPmX, mlX=LPmlX, mZ=LPmZ, fitphi=LPfitphi, fitlagphi=LPfitlagphi), gr=NULL, method="L-BFGS-B", lower=0, upper=1)$par
+  LPkmhat <- optim(par=LPinit, fn=function(b) LPobj(b, mY=LPmY, mX=LPmX, mlX=LPmlX, mZ=LPmZ, fitphi=LPfitphi, fitlagphi=LPfitlagphi), gr=NULL, method="L-BFGS-B", lower=c(0,0), upper=c(1,1))$par
   #Estimates of productivity from LP
-  omegahat <- LPphi-data$K*LPkhat
+  omegahat <- LPphi-cbind(data$K, data$proxy)%*%as.matrix(as.numeric(LPkmhat))
   #Output net of productivity
   mY <- as.matrix(data$Y-omegahat)
   #State Variables
-  mX <- cbind(data$K, data$L)
+  mX <- cbind(data$K, data$L, data$proxy)
   #QLP Estimates for Capital from (QR) good starting values as well
   mom <- rq(mY~mX-1, tau=tau)
   betahat <- as.numeric(coef(mom))
   #LP Estimates
-  LPhat <- c(LPkhat, LPLabor)
+  LPhat <- c(LPkmhat[1], LPLabor, LPkmhat[2])
   #Difference between QLP and QR estimates
   qdifhat <- betahat-qrhat
-  #QLP TFP estimates (in logs)
-  QTFPhat <- data$Y-cbind(data$K, data$L)%*%betahat
-  #LP TFP estimates (in logs)
-  TFPhat <- data$Y-cbind(data$K, data$L)%*%LPhat
-  return(list(betahat=betahat, LPhat=LPhat, qrhat=qrhat, qdifhat=qdifhat, QTFPhat=QTFPhat, TFPhat=TFPhat, omegahat=omegahat, expost=expost))
+  return(list(betahat=betahat, LPhat=LPhat, qrhat=qrhat, qdifhat=qdifhat))
 }
 ############################################################################################
 #Functions for Estimating LP Coefficients
@@ -142,9 +129,9 @@ LP_Lambda <- function(b, mY, mX, mlX, fitphi, fitlagphi){
   b <- as.matrix(as.numeric(b))
   A <- fitphi-mX%*%b[1:ncol(mX)]
   B <- fitlagphi-mlX%*%b[1:ncol(mX)]
-  step1 <- lm(A~B+I(B^2)+I(B^3))
+  step1 <- lm(A~B)
   step1param <- as.numeric(coef(step1))
-  wfit <- cbind(1, B, B^2, B^3)%*%step1param
+  wfit <- cbind(1, B)%*%step1param
   resid <- mY-mX%*%b[1:ncol(mX)]-wfit
   return(resid)
 } 
@@ -153,10 +140,10 @@ LPobj <- function(b, mY, mX, mlX, mZ, fitphi, fitlagphi){
   resid <- LP_Lambda(b=b, mY=mY, mX=mX, mlX=mlX, fitphi=fitphi, fitlagphi=fitlagphi)
   #Since capital is exogeneous in this model, we do not consider using instruments in estimation
   #Instead, simply use sum of squared errors to get a consistent estimate of capital elasticity
-  xi <- crossprod(resid)
-  # gni <- mZ*repmat(resid,1, ncol(mZ))
-  # gnic <- colSums(gni^2)
-  # xi <- sum(gnic)
+  # xi <- crossprod(resid)
+  gni <- mZ*repmat(resid,1, ncol(mZ))
+  gnic <- colSums(gni^2)
+  xi <- sum(gnic)
   return(xi)
 }
 

@@ -2,66 +2,31 @@ library(dplyr)
 library(stringr)
 library(reshape2)
 library(purrr)
-library(readstata13)
-#Data for output, materials, and labor deflators from NBER Manufacturing Productivity Database
-nberprod <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/naicsdef.csv', header=TRUE)
-#Data for capital deflators from the BLS: start date 1987 and 2010 base year. 
-# blsprod <- read.csv('cap_details.csv', header=TRUE, check.names=FALSE)
-#See which industries have NA's in the NBER database
-na.naics <- unique(nberprod[is.na(nberprod$emp),]$naics)
-print(na.naics)
-######################################################################################################
-#Clean the deflator data from NBER and aggregate to 3-digit NAICS
-nberdeflators <- select(nberprod, naics, year, emp, pay, invest, cap, piship, pimat, piinv) %>% na.omit() %>%
-	#Back out depreciation rates using real capital and investment (Becker et. al. (2016))
-	group_by(naics) %>% mutate(dep=ifelse(year==first(year), 0, (cap-(lag(invest/piinv)))/lag(cap))) %>%
-	#Calculate average industry wage, real investment flows, and extract first 3 digits of NAICS code
-	mutate(avgpay=(pay*1e6)/(emp*1e3), rinvest=invest/piinv, naics=str_extract(as.character(naics), "^.{3}")) %>% group_by(naics, year) %>% 
-	#Average deflators according to the 3 digit NAICS code for each year
-	summarise(yprice=mean(piship), mprice=mean(pimat), lprice=mean(avgpay), iprice=mean(piinv), dep=mean(dep))
-
-########################################################################################################
-#This is earlier code used to prepare a merge with the capital deflators from the BLS
-#This was abandoned due to lack of clarity of the deflators and differing base years
-#Clean the data with naics code beginning with 31
-# naics31 <- select(blsprod, NAICS, Measure, "Asset Category", "Duration Title", paste0(1987:2011)) %>%
-# 	rename(naics=NAICS, measure=Measure, category="Asset Category", duration="Duration Title") %>%
-# 	filter(str_detect(naics, "^31"), str_detect(measure, "^Investment"), str_detect(category, "^All"), str_detect(duration, "^Indexes")) %>%
-# 	mutate(naics=as.character(naics))
-# unlist31 <- cbind(paste0(311:316), naics31[rep(1:nrow(naics31), each=2),-1]) 
-# colnames(unlist31)[1] <- "naics"
-# #Clean the deflator data from BLS and aggregate to 3-digit NAICS
-# blsdeflators <- select(blsprod, NAICS, Measure, "Asset Category", "Duration Title", paste0(1987:2011)) %>%
-# 	rename(naics=NAICS, measure=Measure, category="Asset Category", duration="Duration Title") %>%
-# 	filter(str_detect(naics, "^32|^33"), str_detect(measure, "^Investment"), str_detect(category, "^All"), str_detect(duration, "^Indexes")) %>% 
-# 	add_row(unlist31) %>% select(naics, paste0(1987:2011)) %>% melt("naics") %>% arrange(naics) %>% 
-# 	mutate(variable=as.numeric(as.character(variable))) %>% rename(year=variable, blskprice=value)
-
-####################################################################################################
-
+#US GDP Deflator and Capital User Cost
+macro <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/macro_vars.csv')[,-1]
+#Data for other deflators from NBER
+nber <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/naicsdef.csv', header=TRUE)
+#Clean the NBER data a bit
+#I keep emp and pay to construct industry level average wage bill since XLR (staff expense) is often missing in compustat
+#EMP is measured in thousdands
+#PAY is measured in millions
+#I keep cap, invest, and piinv to construct industry level average depreciation rates on capital
+nberdef <- nber %>% select(naics, year, emp, pay, cap, invest, piinv) %>% na.omit() %>% group_by(naics) %>% 
+mutate(dep=ifelse(year==first(year), 0, (cap-(lag(invest/piinv)))/lag(cap)), avgpay=(pay)/(emp), naics3=str_extract(as.character(naics), "^.{3}")) %>%
+group_by(naics3, year) %>% summarise(lprice=mean(avgpay), drate=mean(dep))
+#lprice is measured in thousands of dollars per worker (in a year)
 #Cleaning and merging computstat data with price deflator data
-compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/Compustat.csv', header=TRUE) %>% rename(year=fyear, employ=emp) %>% 
-	select(gvkey, year, sale, employ, ppegt, ppent, cogs, dpact, dp, xsga, capx, naics, fic) %>% group_by(gvkey) %>%
-	#remove firms with nonpositive values
-	filter(!any(sale<=0), !any(employ<0.01), !any(ppegt<=0), !any(ppent<=0), !any(cogs<=0), !any(xsga<=0), !any(dp<=0), !any(capx<=0)) %>%
-	#Only manufacturing firms incorporated in the US between 1961 adn 2010
-	ungroup() %>% filter(str_detect(naics, "^31|^32|^33"), fic=="USA", year>=1961, year<=2010) %>%
-	#Merge with NBER price deflator data
-	mutate(naics=str_extract(as.character(naics), "^.{3}")) %>% inner_join(nberdeflators, c("naics", "year")) %>%
-	#Use PPI method to calculate capital stocks
-	#Or use PPENT 
-	group_by(gvkey) %>% 
-	# mutate(realcap=ifelse(year==first(year), ppent/iprice, 0)) %>% 
-	# mutate(realcap=ifelse(year==first(year), first(realcap), lag(dep)*lag(realcap)+lag(capx/iprice))) %>% ungroup() %>%
-	#Unit changes and deflate: Sales (by industry-level price index), Capital (by investment price index), Investment (by investment price index), Materials (by price-index)
-	transmute(id=gvkey, year=year, Y=(sale/yprice)*1e6, K=ppent*1e6/iprice, L=employ*1e3, M=(cogs*1e6+xsga*1e6-dp*1e6-employ*lprice*1e3)/yprice, I=capx*1e6/iprice, dep=dep, naics3=naics) %>% group_by(id) %>%
-	#Year-to-year changes for output and inputs, firms with extreme changes are dropped (optional)
-	# mutate(Yratio=ifelse(year==first(year), 0, abs((Y-lag(Y))/lag(Y))), Kratio=ifelse(year==first(year), 0, abs((K-lag(Y))/lag(K))), Lratio=ifelse(year==first(year), 0, abs((L-lag(L))/lag(L))), Mratio=ifelse(year==first(year), 0, abs((M-lag(M))/lag(M))), Iratio=ifelse(year==first(year), 0, abs((I-lag(I))/lag(I)))) %>%
-	#Year-to-year changes for total input/output ratio, firms with values extremely different from one are dropped (optional)
-	# mutate(IOratio=ifelse(year==first(year), 0, ((K+L+M-lag(K+L+M))/lag(K+L+M))/((Y-lag(Y))/lag(Y)))) %>%
-	# filter(!any(abs(IOratio)>500),!any(Yratio>500), !any(Kratio>500), !any(Lratio>500), !any(Mratio>500)) %%
-	filter(!any(M<=0)) %>% mutate(VA=Y-M) %>% filter(!any(VA<=0)) %>% ungroup() %>%
-	select(id, year, Y, VA, K, L, M, I, dep, naics3)
+#This is the main dataset, it includes all variables needed for production function estimation using OP, LP, ACF, or GNR
+compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/compustat.csv', header=TRUE) %>% rename(year=fyear, employ=emp) %>% 
+	select(gvkey, year, sale, employ, ppegt, ppent, cogs, xsga, capx, naics, fic, oibdp, dp, xad, xrd) %>%
+	filter(str_detect(naics, "^31|^32|^33"), fic=="USA", year>=1961, year<=2018) %>%
+	transmute(id=gvkey, year=year, sale=sale*1e3, oibdp=oibdp*1e3, cogs=cogs*1e3, xsga=xsga*1e3, ppegt=ppegt*1e3, ppent=ppent*1e3, employ=employ*1e3, capx=capx*1e3, dp=dp*1e3, adv=xad*1e3, rd=xrd*1e3, naics3=str_extract(as.character(naics), "^.{3}")) %>%
+	#Merge with US GDP deflator and NBER Data
+	inner_join(macro, "year") %>% inner_join(nberdef, c("naics3", "year")) %>% mutate(lexp=employ*lprice) %>% mutate(mexp=cogs+xsga-lexp) %>%
+	mutate(id=id, year=year, Y=(sale/USGDP)*100, K=(ppegt/USGDP)*100, K2=(ppent/USGDP)*100, M=(mexp/USGDP)*100, I=(capx/USGDP)*100, L=employ, dp=dp, adv=adv, rd=rd) %>% 
+	mutate(VA=((sale-mexp)/USGDP)*100, S=mexp/sale) %>%
+	group_by(id) %>% na.omit() %>% filter(Y>0, K>0, K2>0, M>0, I>0, L>0, VA>0, rd>=0, adv>0) %>% group_by(year)
+compstat <- compstat %>% select(id, year, Y, K, K2, M, I, L, VA, S, adv, rd, advB, rdB, naics3) %>% group_by(id) %>% filter(n()>=2)
 ####################################################################################################
 #Summary statistics for the cleaned data set
 print(summary(compstat))
@@ -72,12 +37,14 @@ print(avg_firms)
 unique_firms <- length(unique(compstat$id))
 print(unique_firms)
 #Panel time length
-panelT <- max(compstat$year)-min(compstat$year)
+panelT <- max(compstat$year)-min(compstat$year)+1
 print(panelT)
+#Average number of years a firm in the data
+avg_time <- summary(group_by(compstat, id) %>% summarise(time=n()))
+print(avg_time)
 #Total observations
 print(nrow(compstat))
 #Save clean data
 path_out <- '/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/'
 fileName <- paste(path_out, 'USdata.csv',sep = '')
 write.csv(compstat,fileName, row.names=FALSE)
-

@@ -32,14 +32,6 @@ QACF_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20)
   qrhat <- trueboot$qrhat
   #Difference between QACF and QR
   qdifhat <- trueboot$qdifhat
-  #QTFP estimates
-  QTFPhat <- trueboot$QTFPhat
-  #TFP estimates
-  TFPhat <- trueboot$TFPhat
-  #Omega estimates
-  omegahat <- trueboot$omegahat
-  #Estimates of Ex-post shock
-  expost <- trueboot$expost
   #Initialize bootstrap#############################################################################
   #Indices used for resampling firm ID's
   bootind <- block.boot.resample(idvar, R, seed)
@@ -60,8 +52,8 @@ QACF_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20)
     qrboot[i,] <- boot$qrhat
     qdifboot[i,] <- boot$qdifhat
   }
-  return(list(betahat=betahat, ACFhat=ACFhat, qrhat=qrhat, qdifhat=qdifhat, QTFPhat=QTFPhat, TFPhat=TFPhat, omegahat=omegahat,  betaboot=betaboot, ACFboot=ACFboot, 
-    qrboot=qrboot, qdifboot=qdifboot, expost=expost))
+  return(list(betahat=betahat, ACFhat=ACFhat, qrhat=qrhat, qdifhat=qdifhat,  betaboot=betaboot, ACFboot=ACFboot, 
+    qrboot=qrboot, qdifboot=qdifboot))
 }
 ###########################################################################
 ###########################################################################
@@ -96,35 +88,34 @@ finalQACF <- function(tau, ind, data, binit, seed){
   #First stage fitted values
   phi0 <- as.numeric(coef(ACFfirststage)[1])
   phihat <- fitted(ACFfirststage)
-  expost <- data$Y-phihat
   ACFphi <- phihat
   #Calculate Contempory and Lag Values for 2nd stage estimation
   lagdata1 <- lagdata(idvar=data$idvar, X=cbind(data$Y, data$K, data$L, data$proxy, ACFphi))
   names(lagdata1) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "ACFphicon", "Ylag1", "Klag1", "Llag1", "Pxlag1", "ACFphilag1")
-  lagdata2 <- lagdata(idvar=lagdata1$idvar, X=cbind(lagdata1$Ycon, lagdata1$Kcon, lagdata1$Lcon, 
-    lagdata1$Pxcon, lagdata1$ACFphicon, lagdata1$Ylag, lagdata1$Klag, lagdata1$Llag, 
-    lagdata1$Pxlag, lagdata1$ACFphilag))
-  #Naming convention below is bad practice, but used to prevent the copy of lag1 variables in the new dataset
-  names(lagdata2) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "ACFphicon", "Ylag1", "Klag1", "Llag1", "Pxlag1", "ACFphilag1",
-    "NA", "NA", "NA", "NA", "NA", "Ylag2", "Klag2", "Llag2", "Pxlag2", "ACFphilag2")
+  # lagdata2 <- lagdata(idvar=lagdata1$idvar, X=cbind(lagdata1$Ycon, lagdata1$Kcon, lagdata1$Lcon, 
+  #   lagdata1$Pxcon, lagdata1$ACFphicon, lagdata1$Ylag, lagdata1$Klag, lagdata1$Llag, 
+  #   lagdata1$Pxlag, lagdata1$ACFphilag))
+  # #Naming convention below is bad practice, but used to prevent the copy of lag1 variables in the new dataset
+  # names(lagdata2) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "ACFphicon", "Ylag1", "Klag1", "Llag1", "Pxlag1", "ACFphilag1",
+  #   "NA", "NA", "NA", "NA", "NA", "Ylag2", "Klag2", "Llag2", "Pxlag2", "ACFphilag2")
   #ACF Output
-  # ACFmY <-  as.matrix(lagdata1$Ycon)
-  ACFmY <-  as.matrix(lagdata2$Ycon)
+  ACFmY <-  as.matrix(lagdata1$Ycon)
+  # ACFmY <-  as.matrix(lagdata2$Ycon)
   #ACF Contemporary State Variables
-  # ACFmX <- cbind(lagdata1$Kcon, lagdata1$Lcon)
-  ACFmX <- cbind(lagdata2$Kcon, lagdata2$Lcon)
+  ACFmX <- cbind(lagdata1$Kcon, lagdata1$Lcon)
+  # ACFmX <- cbind(lagdata2$Kcon, lagdata2$Lcon)
   #ACF Lagged State Variables
-  # ACFmlX <- cbind(lagdata1$Klag1, lagdata1$Llag1)
-  ACFmlX <- cbind(lagdata2$Klag1, lagdata2$Llag1)
+  ACFmlX <- cbind(lagdata1$Klag1, lagdata1$Llag1)
+  # ACFmlX <- cbind(lagdata2$Klag1, lagdata2$Llag1)
   #ACF Contemporary phi estimates
-  # ACFfitphi <- as.matrix(lagdata1$ACFphicon)
-  ACFfitphi <- as.matrix(lagdata2$ACFphicon)
+  ACFfitphi <- as.matrix(lagdata1$ACFphicon)
+  # ACFfitphi <- as.matrix(lagdata2$ACFphicon)
   #ACF Lagged phi estimates
-  # ACFfitlagphi <- as.matrix(lagdata1$ACFphilag1)
-  ACFfitlagphi <- as.matrix(lagdata2$ACFphilag1)
+  ACFfitlagphi <- as.matrix(lagdata1$ACFphilag1)
+  # ACFfitlagphi <- as.matrix(lagdata2$ACFphilag1)
   #ACF Instruments 
-  # ACFmZ <- cbind(lagdata1$Kcon, lagdata1$Llag1)
-  ACFmZ <- cbind(1, lagdata2$Kcon, lagdata2$Llag1, lagdata2$Klag, lagdata2$Llag2)
+  ACFmZ <- cbind(lagdata1$Kcon, lagdata1$Llag1)
+  # ACFmZ <- cbind(lagdata2$Kcon, lagdata2$Llag1)
   #Starting values for ACF estimates from OLS
   ACFinit <- as.numeric(coef(LM)[-1])
   #ACF estimates for Capital
@@ -140,13 +131,7 @@ finalQACF <- function(tau, ind, data, binit, seed){
   betahat <- as.numeric(coef(mom))
   #Difference between QACF and QR estimates
   qdifhat <- betahat-qrhat
-  #QACF TFP estimates (in logs)
-  QTFPhat <- data$Y-cbind(data$K, data$L)%*%betahat
-  #ACF TFP estimates (in logs)
-  TFPhat <- data$Y-cbind(data$K, data$L)%*%as.matrix(as.numeric(ACFhat))
-  #QACF Productivity Estimates (in logs and unweighted)
-  omegahat <- wfit
-  return(list(betahat=betahat, ACFhat=ACFhat, qrhat=qrhat, qdifhat=qdifhat, QTFPhat=QTFPhat, TFPhat=TFPhat, omegahat=omegahat, expost=expost))
+  return(list(betahat=betahat, ACFhat=ACFhat, qrhat=qrhat, qdifhat=qdifhat))
 } 
 ############################################################################################
 #Functions for Estimating ACF Coefficients
@@ -156,11 +141,11 @@ ACF_Lambda <- function(b, mY, mX, mlX, fitphi, fitlagphi){
   b <- as.matrix(as.numeric(b))
   A <- fitphi-mX%*%b[1:ncol(mX)]
   B <- fitlagphi-mlX%*%b[1:ncol(mX)]
-  # step1 <- lm(A~B)
-  step1 <- lm(A~B-1)
+  step1 <- lm(A~B)
+  # step1 <- lm(A~B-1)
   step1param <- as.numeric(coef(step1))
-  # xifit <- A-cbind(1, B)%*%step1param
-  xifit <- A-B*step1param
+  xifit <- A-cbind(1, B)%*%step1param
+  # xifit <- A-B*step1param
   return(xifit)
 } 
 #ACF GMM objective function
