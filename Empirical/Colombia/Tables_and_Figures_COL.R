@@ -7,7 +7,7 @@ library(ggplot2)
 library(cowplot)
 source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/Aux_Fun.R')
 #Load COL dataset
-COLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/GNRCOLdata.csv") %>%
+COLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/COLdata.csv") %>%
   transmute(id=id, year=year, isic3=isic3, Y=log(Y), VA=log(VA), K=log(K), L=log(L), M=log(M))
 #Industries as listed in QLP_COL.R file
 ISIC <- c("311", "322", "381", "All")
@@ -66,6 +66,11 @@ QLP_RTS_SE <- array(0, c(length(tauvec), length(ISIC)))
 #Store QLP Capital Intensity Estimates and Standard Deviations
 QLP_IN <- array(0, c(length(tauvec), length(ISIC)))
 QLP_IN_SE <- array(0, c(length(tauvec), length(ISIC)))
+#Store QLP Productivity Estimates
+QLP_DSPB <- array(0, c(length(tauvec), 3, length(ISIC)))
+QLP_DSPB_SE <- array(0, c(length(tauvec), 3, length(ISIC)))
+QLP_DSPC <- array(0, c(length(tauvec), 3, length(ISIC)))
+QLP_DSPC_SE <- array(0, c(length(tauvec), 3, length(ISIC)))
 #############################################################################
 #Store LP Results
 #############################################################################
@@ -76,12 +81,17 @@ LP_betaSE <- array(0, c(length(ISIC), dZLP))
 LP_RTS_SE <- array(0, c(length(ISIC), 1))
 #Store LP Capital Intensity Standard Deviations
 LP_IN_SE <- array(0, c(length(ISIC), 1))
+#Store LP Productivity Estimates
+LP_PB <- array(0, c(length(ISIC), 3))
+LP_PB_SE <- array(0, c(length(ISIC), 3))
+LP_PC <- array(0, c(length(ISIC), 3))
+LP_PC_SE <- array(0, c(length(ISIC), 3))
 ##############################################################################
 #Load LP and QLP Results
 #############################################################################@
 for (i in 1:tau_n){
   for (j in 1:length(ISIC)){
-    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/QLP/QLP_Boot_COL_ISIC%s.RData", j))
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/QLP_Environments/QLP_Boot_COL_ISIC%s.RData", j))
     #QLP Estimates and Standard Deviations
     QLP_betahat[,,j][i,] <- QLPbetahat[,i]
     QLP_betaSE[,,j][i,] <- apply(QLPbetaboot[,,i], 2, sd)
@@ -97,16 +107,24 @@ for (i in 1:tau_n){
     #QLP Capital Intensity Estimates and Standard Deviations
     QLP_IN[i,j] <- QLPbetahat[,i][1]/QLPbetahat[,i][2]
     QLP_IN_SE[i,j] <- sd(apply(QLPbetaboot[,,i], 1, function(x) x[1]/x[2]))
-    #Load the LP estimates from a single quantile environment: they should be the same across quantiles
-    if (tauvec[i]==0.5){
-      #LP Estimates and Standard Deviations
-      LP_betahat[j,] <- LPhat[,i]
-      LP_betaSE[j,] <- apply(LPboot[,,i], 2, sd)
-      #Store LP RTS Standard Deviations
-      LP_RTS_SE[j,] <- sd(apply(LPboot[,,i], 1, sum))
-      #Store LP Capital Intensity Standard Deviations
-      LP_IN_SE[j,] <- sd(apply(LPboot[,,i], 1, function(x) x[1]/x[2]))
-    }
+    #QLP Productivity Estimates
+    QLP_DSPB[,,j][i,] <- QLPDSPB[,i]
+    QLP_DSPB_SE[,,j][i,] <- apply(QLPDSPB_boot[,,i], 2, sd)
+    QLP_DSPC[,,j][i,] <- QLPDSPC[,i]
+    QLP_DSPC_SE[,,j][i,] <- apply(QLPDSPC_boot[,,i], 2, sd)
+    #Load the LP estimates
+    #LP Estimates and Standard Deviations
+    LP_betahat[j,] <- LPhat
+    LP_betaSE[j,] <- apply(LPboot, 2, sd)
+    #Store LP RTS Standard Deviations
+    LP_RTS_SE[j,] <- sd(apply(LPboot, 1, sum))
+    #Store LP Capital Intensity Standard Deviations
+    LP_IN_SE[j,] <- sd(apply(LPboot, 1, function(x) x[1]/x[2]))
+    #LP Productivity Estimates
+    LP_PB[j,] <- LPPB
+    LP_PB_SE[j,] <- apply(LPPB_boot, 2, sd)
+    LP_PC[j,] <- LPPC
+    LP_PC_SE[j,] <- apply(LPPC_boot, 2, sd)
   }
 }
 #LP RTS Estimates
@@ -121,11 +139,20 @@ colnames(QLPestimates) <- c('Tau','K',"se_K", 'L', "se_L", "M", "se_M", 'RTS', '
 LP_betatable <- data.frame(cbind(LP_betahat, LP_betaSE)[,c(rbind(c(1:dZLP), dZLP+(1:dZLP)))])
 LPestimates <- cbind(LP_betatable, LP_RTS, LP_RTS_SE, LP_IN, LP_IN_SE)
 colnames(LPestimates) <- c('K',"se_K", 'L', "se_L", "M", "se_M", 'RTS', 'RTS_SE', 'In', 'In_SE')
-
+#Make an estimates table for the productivity differentials (Continuous)
+QLP_DSPC_estimates <- data.frame(cbind(rep(tauvec, length(ISIC)), cbind(do.call(rbind, lapply(seq(dim(QLP_DSPC)[3]), function(x) QLP_DSPC[ , , x])), do.call(rbind, lapply(seq(dim(QLP_DSPC_SE)[3]), function(x) QLP_DSPC_SE[ , , x])))[,c(rbind(c(1:3), 3+(1:3)))]))
+colnames(QLP_DSPC_estimates) <- c("Tau", "Ex", "Ex_SE", "Im", "Im_SE", "Adv", "Adv_SE")
+LPPC_estimates <- data.frame(cbind(LP_PC, LP_PC_SE)[,c(rbind(c(1:3), 3+(1:3)))])
+colnames(LPPC_estimates) <- c("Ex", "Ex_SE", "Im", "Im_SE", "Adv", "Adv_SE")
+#Make an estimates table for the productivity differentials (Discrete)
+QLP_DSPB_estimates <- data.frame(cbind(rep(tauvec, length(ISIC)), cbind(do.call(rbind, lapply(seq(dim(QLP_DSPB)[3]), function(x) QLP_DSPB[ , , x])), do.call(rbind, lapply(seq(dim(QLP_DSPB_SE)[3]), function(x) QLP_DSPB_SE[ , , x])))[,c(rbind(c(1:3), 3+(1:3)))]))
+colnames(QLP_DSPB_estimates) <- c("Tau", "Ex", "Ex_SE", "Im", "Im_SE", "Adv", "Adv_SE")
+LPPB_estimates <- data.frame(cbind(LP_PB, LP_PB_SE)[,c(rbind(c(1:3), 3+(1:3)))])
+colnames(LPPB_estimates) <- c("Ex", "Ex_SE", "Im", "Im_SE", "Adv", "Adv_SE")
 #Table Labels
 ISIC_labels <- array(NA, length(tau_t)*length(ISIC)); ISIC_labels[seq(1, length(tau_t)*length(ISIC), by=length(tau_t))] <- ISIC
 ISIC_labels[is.na(ISIC_labels)] <- ""
-
+#Tables for QLP Estimates
 QLP_Table <- cbind(ISIC_labels, QLPestimates[rep(tauvec, length(ISIC))%in%tau_t, ])
 colnames(QLP_Table) <- c("ISIC", "$\\tau$", rep(c("Coef.", "s.e"), dZLP+2))
 QLP_Table_X <- xtable(QLP_Table, digits=c(0,0,2,rep(c(3,4), dZLP+2)), type="latex")
@@ -135,8 +162,53 @@ addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Materials} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10} \\cmidrule(lr){11-12}'
 #For copy pasting to latex
 print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
-#For saving to file
-# print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_LP_Estimates.tex")
+#Tables for LP Estimates
+LP_Table <- cbind(c("311", "381", "321", "All"), LPestimates)
+colnames(LP_Table) <- c("ISIC", rep(c("Coef.", "s.e"), dZLP+2))
+LP_Table_X <- xtable(LP_Table, digits=c(0,2,rep(c(3,4), dZLP+2)), type="latex")
+align(LP_Table_X) <- rep('c', 6+dZLP*2)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{Capital} & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Materials} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5} \\cmidrule(lr){6-7} \\cmidrule(lr){8-9} \\cmidrule(lr){10-11}'
+#For copy pasting to latex
+print(LP_Table_X, hline.after=c(0,nrow(LP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#Tables for Productivity Differentials (Continous)
+QLP_DSPC_table <- cbind(ISIC_labels, QLP_DSPC_estimates[rep(tauvec, length(ISIC))%in%tau_t, ])
+colnames(QLP_DSPC_table) <- c("ISIC", "$\\tau$", rep(c("Coef.", "s.e"), 3))
+QLP_DSPC_Table_X <- xtable(QLP_DSPC_table, digits=c(0,0,2,rep(c(3,4), 3)), type="latex")
+align(QLP_DSPC_Table_X) <- rep('c', 9)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
+print(QLP_DSPC_Table_X, hline.after=c(0,nrow(QLP_DSPC_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#For LP
+LPPC_table <- cbind(c("311", "381", "321", "All"), LPPC_estimates)
+colnames(LPPC_table) <- c("ISIC", rep(c("Coef.", "s.e"), 3))
+LPPC_Table_X <- xtable(LPPC_table, digits=c(0,2,rep(c(3,4), 3)), type="latex")
+align(LPPC_Table_X) <- rep('c', 8)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5} \\cmidrule(lr){6-7}'
+print(LPPC_Table_X, hline.after=c(0,nrow(LPPC_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#Tables for Productivity Differentials (Discrete)
+QLP_DSPB_table <- cbind(ISIC_labels, QLP_DSPB_estimates[rep(tauvec, length(ISIC))%in%tau_t, ])
+colnames(QLP_DSPB_table) <- c("ISIC", "$\\tau$", rep(c("Coef.", "s.e"), 3))
+QLP_DSPB_Table_X <- xtable(QLP_DSPB_table, digits=c(0,0,2,rep(c(3,4), 3)), type="latex")
+align(QLP_DSPB_Table_X) <- rep('c', 9)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
+print(QLP_DSPB_Table_X, hline.after=c(0,nrow(QLP_DSPB_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#For LP
+LPPB_table <- cbind(c("311", "381", "321", "All"), LPPB_estimates)
+colnames(LPPB_table) <- c("ISIC", rep(c("Coef.", "s.e"), 3))
+LPPB_Table_X <- xtable(LPPB_table, digits=c(0,2,rep(c(3,4), 3)), type="latex")
+align(LPPB_Table_X) <- rep('c', 8)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5} \\cmidrule(lr){6-7}'
+print(LPPB_Table_X, hline.after=c(0,nrow(LPPB_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+
 #Industry ISIC Code Plot Labels
 QLP_Kplot <- list(); QLP_Lplot <- list(); QLP_Mplot <- list()
 QLP_QDIF_Kplot <- list(); QLP_QDIF_Lplot <- list(); QLP_QDIF_Mplot <- list()
@@ -169,17 +241,16 @@ for (p in 1:length(ISIC)){
   QLP_coef_row1 <- plot_grid(QLP_Kplot[[p]], QLP_Lplot[[p]], QLP_Mplot[[p]], nrow=1)
   QLP_coef_row2 <- plot_grid(QLP_QDIF_Kplot[[p]], QLP_QDIF_Lplot[[p]], QLP_QDIF_Mplot[[p]], nrow=1)
   QLP_Coef_Plot <- plot_grid(QLP_coef_row1, QLP_coef_row2, ncol=1, nrow=2, align="h", rel_heights = c(1, 1))
-  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_TEST", ISIC[p], ".png", sep=""), QLP_Coef_Plot, base_height=8, base_width=10)
+  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_", ISIC[p], ".png", sep=""), QLP_Coef_Plot, base_height=8, base_width=10)
   # Plot TFP densities at median and mean
   # TFP data for selected quantiles 
   COL <- filter(COLdata, str_detect(isic3, industries[p]))
   QLPTFP <- apply(QLPplotcoef[match(tau_t, tauvec), ], 1, function(x) COL$Y-cbind(COL$K, COL$L, COL$M)%*%x)
   LPTFP <- COL$Y-cbind(COL$K, COL$L, COL$M)%*%as.matrix(as.numeric(LPplotcoef))
-  LPMdat <- melt(data.frame(DS=QLPTFP[,match(0.5, tau_t)], LP=LPTFP))
-  LPks <- round(as.numeric(suppressWarnings(ks.test(x=LPMdat[LPMdat$variable=="DS", 2], y=LPMdat[LPMdat$variable=="LP",2])$statistic)), 2)
-  LPTFPM[[p]] <- ggplot(LPMdat, aes(x=value, fill=variable))+geom_density(alpha=0.5) + xlab("TFP") + ylab("")+ guides(fill=guide_legend(title="Estimator"))+ggtitle(paste("ISIC", ISIC[p]))+ theme(plot.title=element_text(face='plain')) + annotate("text", -Inf, Inf, hjust=0, vjust=1, label=paste("D-stat=", LPks, sep=""))
+  LPMdat <- melt(data.frame('TFP=0.1'=QLPTFP[,match(0.1, tau_t)], 'TFP=0.5'=QLPTFP[,match(0.5, tau_t)], 'TFP=0.9'=QLPTFP[,match(0.9, tau_t)] , LP=LPTFP))
+  LPTFPM[[p]] <- ggplot(LPMdat, aes(x=value, fill=variable))+geom_density(alpha=0.5) + xlab("TFP") + ylab("")+ guides(fill=guide_legend(title="Estimator"))+ggtitle(paste("ISIC", ISIC[p]))+ theme(plot.title=element_text(face='plain'))
   #Plot TFP growth over time
-  LPGdat <- data.frame(COL$id, COL$year, exp(QLPTFP), exp(LPTFP))
+  LPGdat <- data.frame(COL$id, COL$year, QLPTFP, LPTFP)
   colnames(LPGdat) <- c("id", "year", paste("QLP", tau_t, sep=""), "LPTFP")
   LPGdat <- LPGdat %>% group_by(year) %>% summarise_at(c(paste("QLP", tau_t, sep=""), "LPTFP"), mean, na.rm=TRUE) %>% mutate_at(vars(-year), function(z) z/z[1L]*100)
   LPGdat <- melt(LPGdat[,c("year", paste("QLP", tau_t, sep=""), "LPTFP")], "year")
@@ -189,12 +260,12 @@ for (p in 1:length(ISIC)){
 LPTFProw1 <- plot_grid(LPTFPM[[1]], LPTFPM[[2]])
 LPTFProw2 <- plot_grid(LPTFPM[[3]], LPTFPM[[4]])
 LPTFPplot <- plot_grid(LPTFProw1, LPTFProw2, ncol=1, align="h", rel_heights = c(1, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QLP_TFP_Plot_TEST.png", LPTFPplot, base_height=8, base_width=10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QLP_TFP_Plot.png", LPTFPplot, base_height=8, base_width=10)
 #Combine TFP growth plots over industries and save
 LPTFPgrowthrow1 <- plot_grid(LPTFPG[[1]], LPTFPG[[2]])
 LPTFPgrowthrow2 <- plot_grid(LPTFPG[[3]], LPTFPG[[4]])
 QLPTFPgrowthplot <- plot_grid(LPTFPgrowthrow1, LPTFPgrowthrow2, ncol=1, align="h", rel_heights = c(1, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QLP_TFPgrowth_Plot_TEST.png", QLPTFPgrowthplot, base_height=8, base_width=10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QLP_TFPgrowth_Plot.png", QLPTFPgrowthplot, base_height=8, base_width=10)
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -225,6 +296,11 @@ QACF_RTS_SE <- array(0, c(length(tauvec), length(ISIC)))
 #Store QACF Capital Intensity Estimates and Standard Deviations
 QACF_IN <- array(0, c(length(tauvec), length(ISIC)))
 QACF_IN_SE <- array(0, c(length(tauvec), length(ISIC)))
+#Store QACF Productivity Estimates
+QACF_DSPB <- array(0, c(length(tauvec), 3, length(ISIC)))
+QACF_DSPB_SE <- array(0, c(length(tauvec), 3, length(ISIC)))
+QACF_DSPC <- array(0, c(length(tauvec), 3, length(ISIC)))
+QACF_DSPC_SE <- array(0, c(length(tauvec), 3, length(ISIC)))
 #############################################################################
 #Store ACF Results
 #############################################################################
@@ -235,12 +311,17 @@ ACF_betaSE <- array(0, c(length(ISIC), dZ))
 ACF_RTS_SE <- array(0, c(length(ISIC), 1))
 #Store ACF Capital Intensity Standard Deviations
 ACF_IN_SE <- array(0, c(length(ISIC), 1))
+#Store ACF Productivity Estimates
+ACF_PB <- array(0, c(length(ISIC), 3))
+ACF_PB_SE <- array(0, c(length(ISIC), 3))
+ACF_PC <- array(0, c(length(ISIC), 3))
+ACF_PC_SE <- array(0, c(length(ISIC), 3))
 ##############################################################################
 #Load ACF and QACF Results
 #############################################################################@
 for (i in 1:tau_n){
   for (j in 1:length(ISIC)){
-    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Environments/QACF/QACF_Boot_COL_ISIC%s.RData", j))
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/QACF_Environments/QACF_Boot_COL_ISIC%s.RData", j))
     #QACF Estimates and Standard Deviations
     QACF_betahat[,,j][i,] <- QACFbetahat[,i]
     QACF_betaSE[,,j][i,] <- apply(QACFbetaboot[,,i], 2, sd)
@@ -256,16 +337,24 @@ for (i in 1:tau_n){
     #QACF Capital Intensity Estimates and Standard Deviations
     QACF_IN[i,j] <- QACFbetahat[,i][1]/QACFbetahat[,i][2]
     QACF_IN_SE[i,j] <- sd(apply(QACFbetaboot[,,i], 1, function(x) x[1]/x[2]))
-    #Load the ACF estimates from a single quantile environment: they should be the same across quantiles
-    if (tauvec[i]==0.5){
-      #ACF Estimates and Standard Deviations
-      ACF_betahat[j,] <- ACFhat[,i]
-      ACF_betaSE[j,] <- apply(ACFboot[,,i], 2, sd)
-      #Store ACF RTS Standard Deviations
-      ACF_RTS_SE[j,] <- sd(apply(ACFboot[,,i], 1, sum))
-      #Store ACF Capital Intensity Standard Deviations
-      ACF_IN_SE[j,] <- sd(apply(ACFboot[,,i], 1, function(x) x[1]/x[2]))
-    }
+    #QACF Productivity Estimates
+    QACF_DSPB[,,j][i,] <- QACFDSPB[,i]
+    QACF_DSPB_SE[,,j][i,] <- apply(QACFDSPB_boot[,,i], 2, sd)
+    QACF_DSPC[,,j][i,] <- QACFDSPC[,i]
+    QACF_DSPC_SE[,,j][i,] <- apply(QACFDSPC_boot[,,i], 2, sd)
+    #Load the ACF estimates
+    #ACF Estimates and Standard Deviations
+    ACF_betahat[j,] <- ACFhat
+    ACF_betaSE[j,] <- apply(ACFboot, 2, sd)
+    #Store ACF RTS Standard Deviations
+    ACF_RTS_SE[j,] <- sd(apply(ACFboot, 1, sum))
+    #Store ACF Capital Intensity Standard Deviations
+    ACF_IN_SE[j,] <- sd(apply(ACFboot, 1, function(x) x[1]/x[2]))
+    #ACF Productivity Estimates
+    ACF_PB[j,] <- ACFPB
+    ACF_PB_SE[j,] <- apply(ACFPB_boot, 2, sd)
+    ACF_PC[j,] <- ACFPC
+    ACF_PC_SE[j,] <- apply(ACFPC_boot, 2, sd)
   }
 }
 #ACF RTS Estimates
@@ -280,7 +369,16 @@ colnames(QACFestimates) <- c('Tau','K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In
 ACF_betatable <- data.frame(cbind(ACF_betahat, ACF_betaSE)[,c(rbind(c(1:dZ), dZ+(1:dZ)))])
 ACFestimates <- cbind(ACF_betatable, ACF_RTS, ACF_RTS_SE, ACF_IN, ACF_IN_SE)
 colnames(ACFestimates) <- c('K',"se_K", 'L', "se_L", 'RTS', 'RTS_SE', 'In', 'In_SE')
-
+#Make an estimates table for the productivity differentials (Continuous)
+QACF_DSPC_estimates <- data.frame(cbind(rep(tauvec, length(ISIC)), cbind(do.call(rbind, lapply(seq(dim(QACF_DSPC)[3]), function(x) QACF_DSPC[ , , x])), do.call(rbind, lapply(seq(dim(QACF_DSPC_SE)[3]), function(x) QACF_DSPC_SE[ , , x])))[,c(rbind(c(1:3), 3+(1:3)))]))
+colnames(QACF_DSPC_estimates) <- c("Tau", "Ex", "Ex_SE", "Im", "Im_SE", "Adv", "Adv_SE")
+ACFPC_estimates <- data.frame(cbind(ACF_PC, ACF_PC_SE)[,c(rbind(c(1:3), 3+(1:3)))])
+colnames(ACFPC_estimates) <- c("Ex", "Ex_SE", "Im", "Im_SE", "Adv", "Adv_SE")
+#Make an estimates table for the productivity differentials (Discrete)
+QACF_DSPB_estimates <- data.frame(cbind(rep(tauvec, length(ISIC)), cbind(do.call(rbind, lapply(seq(dim(QACF_DSPB)[3]), function(x) QACF_DSPB[ , , x])), do.call(rbind, lapply(seq(dim(QACF_DSPB_SE)[3]), function(x) QACF_DSPB_SE[ , , x])))[,c(rbind(c(1:3), 3+(1:3)))]))
+colnames(QACF_DSPB_estimates) <- c("Tau", "Ex", "Ex_SE", "Im", "Im_SE", "Adv", "Adv_SE")
+ACFPB_estimates <- data.frame(cbind(ACF_PB, ACF_PB_SE)[,c(rbind(c(1:3), 3+(1:3)))])
+colnames(ACFPB_estimates) <- c("Ex", "Ex_SE", "Im", "Im_SE", "Adv", "Adv_SE")
 #Table Labels
 ISIC_labels <- array(NA, length(tau_t)*length(ISIC)); ISIC_labels[seq(1, length(tau_t)*length(ISIC), by=length(tau_t))] <- ISIC
 ISIC_labels[is.na(ISIC_labels)] <- ""
@@ -294,8 +392,58 @@ addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8} \\cmidrule(lr){9-10}'
 #For copy pasting to latex
 print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
-#For saving to file
-# print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Estimates/COL_ACF_Estimates.tex")
+
+#Tables for ACF Estimates
+ACF_Table <- cbind(c("311", "381", "321", "All"), ACFestimates)
+colnames(ACF_Table) <- c("ISIC", rep(c("Coef.", "s.e"), dZ+2))
+ACF_Table_X <- xtable(ACF_Table, digits=c(0,2,rep(c(3,4), dZ+2)), type="latex")
+align(ACF_Table_X) <- rep('c', 6+dZ*2)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{Capital} & \\multicolumn{2}{c}{Labor} & \\multicolumn{2}{c}{Returns to Scale} & \\multicolumn{2}{c}{Capital Intensity}\\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5} \\cmidrule(lr){6-7} \\cmidrule(lr){8-9}'
+#For copy pasting to latex
+print(ACF_Table_X, hline.after=c(0,nrow(ACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+
+
+#Tables for Productivity Differentials (Continous)
+QACF_DSPC_table <- cbind(ISIC_labels, QACF_DSPC_estimates[rep(tauvec, length(ISIC))%in%tau_t, ])
+colnames(QACF_DSPC_table) <- c("ISIC", "$\\tau$", rep(c("Coef.", "s.e"), 3))
+QACF_DSPC_Table_X <- xtable(QACF_DSPC_table, digits=c(0,0,2,rep(c(3,4), 3)), type="latex")
+align(QACF_DSPC_Table_X) <- rep('c', 9)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
+print(QACF_DSPC_Table_X, hline.after=c(0,nrow(QACF_DSPC_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#For ACF
+ACFPC_table <- cbind(c("311", "381", "321", "All"), ACFPC_estimates)
+colnames(ACFPC_table) <- c("ISIC", rep(c("Coef.", "s.e"), 3))
+ACFPC_Table_X <- xtable(ACFPC_table, digits=c(0,2,rep(c(3,4), 3)), type="latex")
+align(ACFPC_Table_X) <- rep('c', 8)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5} \\cmidrule(lr){6-7}'
+print(ACFPC_Table_X, hline.after=c(0,nrow(ACFPC_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#Tables for Productivity Differentials (Discrete)
+QACF_DSPB_table <- cbind(ISIC_labels, QACF_DSPB_estimates[rep(tauvec, length(ISIC))%in%tau_t, ])
+colnames(QACF_DSPB_table) <- c("ISIC", "$\\tau$", rep(c("Coef.", "s.e"), 3))
+QACF_DSPB_Table_X <- xtable(QACF_DSPB_table, digits=c(0,0,2,rep(c(3,4), 3)), type="latex")
+align(QACF_DSPB_Table_X) <- rep('c', 9)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
+print(QACF_DSPB_Table_X, hline.after=c(0,nrow(QACF_DSPB_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+#For ACF
+ACFPB_table <- cbind(c("311", "381", "321", "All"), ACFPB_estimates)
+colnames(ACFPB_table) <- c("ISIC", rep(c("Coef.", "s.e"), 3))
+ACFPB_Table_X <- xtable(ACFPB_table, digits=c(0,2,rep(c(3,4), 3)), type="latex")
+align(ACFPB_Table_X) <- rep('c', 8)
+addtorow <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5} \\cmidrule(lr){6-7}'
+print(ACFPB_Table_X, hline.after=c(0,nrow(ACFPB_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
+
+
+
 #Industry ISIC Code Plot Labels
 QACF_Kplot <- list(); QACF_Lplot <- list(); 
 QACF_QDIF_Kplot <- list(); QACF_QDIF_Lplot <- list(); 
@@ -326,17 +474,16 @@ for (p in 1:length(ISIC)){
   QACF_coef_row1 <- plot_grid(QACF_Kplot[[p]], QACF_Lplot[[p]])
   QACF_coef_row2 <- plot_grid(QACF_QDIF_Kplot[[p]], QACF_QDIF_Lplot[[p]])
   QACF_Coef_Plot <- plot_grid(QACF_coef_row1, QACF_coef_row2, ncol=1, align="h", rel_heights = c(1, 1))
-  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_TEST", ISIC[p], ".png", sep=""), QACF_Coef_Plot, base_height=8, base_width=10)
+  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_", ISIC[p], ".png", sep=""), QACF_Coef_Plot, base_height=8, base_width=10)
   # Plot TFP densities at median and mean
   # TFP data for selected quantiles 
   COL <- filter(COLdata, str_detect(isic3, industries[p]))
   QACFTFP <- apply(QACFplotcoef[match(tau_t, tauvec), ], 1, function(x) COL$VA-cbind(COL$K, COL$L)%*%x)
   ACFTFP <- COL$VA-cbind(COL$K, COL$L)%*%as.matrix(as.numeric(ACFplotcoef))
-  ACFMdat <- melt(data.frame(DS=QACFTFP[,match(0.5, tau_t)], ACF=ACFTFP))
-  ACFks <- round(as.numeric(suppressWarnings(ks.test(x=ACFMdat[ACFMdat$variable=="DS", 2], y=ACFMdat[ACFMdat$variable=="ACF",2])$statistic)), 2)
-  ACFTFPM[[p]] <- ggplot(ACFMdat, aes(x=value, fill=variable))+geom_density(alpha=0.5) + xlab("TFP") + ylab("")+ guides(fill=guide_legend(title="Estimator"))+ggtitle(paste("ISIC", ISIC[p]))+ theme(plot.title=element_text(face='plain')) + annotate("text", -Inf, Inf, hjust=0, vjust=1, label=paste("D-stat=", ACFks, sep=""))
+  ACFMdat <- melt(data.frame('TFP=0.1'=QACFTFP[,match(0.1, tau_t)], 'TFP=0.5'=QACFTFP[,match(0.5, tau_t)], 'TFP=0.9'=QACFTFP[,match(0.9, tau_t)] , ACF=ACFTFP))
+  ACFTFPM[[p]] <- ggplot(ACFMdat, aes(x=value, fill=variable))+geom_density(alpha=0.5) + xlab("TFP") + ylab("")+ guides(fill=guide_legend(title="Estimator"))+ggtitle(paste("ISIC", ISIC[p]))+ theme(plot.title=element_text(face='plain'))
   #Plot TFP growth over time
-  ACFGdat <- data.frame(COL$id, COL$year, exp(QACFTFP), exp(ACFTFP))
+  ACFGdat <- data.frame(COL$id, COL$year, QACFTFP, ACFTFP)
   colnames(ACFGdat) <- c("id", "year", paste("QACF", tau_t, sep=""), "ACFTFP")
   ACFGdat <- ACFGdat %>% group_by(year) %>% summarise_at(c(paste("QACF", tau_t, sep=""), "ACFTFP"), mean, na.rm=TRUE) %>% mutate_at(vars(-year), function(z) z/z[1L]*100)
   ACFGdat <- melt(ACFGdat[,c("year", paste("QACF", tau_t, sep=""), "ACFTFP")], "year")
@@ -346,12 +493,14 @@ for (p in 1:length(ISIC)){
 ACFTFProw1 <- plot_grid(ACFTFPM[[1]], ACFTFPM[[2]])
 ACFTFProw2 <- plot_grid(ACFTFPM[[3]], ACFTFPM[[4]])
 ACFTFPplot <- plot_grid(ACFTFProw1, ACFTFProw2, ncol=1, align="h", rel_heights = c(1, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QACF_TFP_Plot_TEST.png", ACFTFPplot, base_height=8, base_width=10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QACF_TFP_Plot.png", ACFTFPplot, base_height=8, base_width=10)
 #Combine TFP growth plots over industries and save
 ACFTFPgrowthrow1 <- plot_grid(ACFTFPG[[1]], ACFTFPG[[2]])
 ACFTFPgrowthrow2 <- plot_grid(ACFTFPG[[3]], ACFTFPG[[4]])
 QACFTFPgrowthplot <- plot_grid(ACFTFPgrowthrow1, ACFTFPgrowthrow2, ncol=1, align="h", rel_heights = c(1, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QACF_TFPgrowth_Plot_TEST.png", QACFTFPgrowthplot, base_height=8, base_width=10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Colombia/Plots/TFP/QACF_TFPgrowth_Plot.png", QACFTFPgrowthplot, base_height=8, base_width=10)
+###########################################################################################
+
 
 
 

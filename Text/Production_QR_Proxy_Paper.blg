@@ -8,50 +8,51 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
 while executing---line 1580 of file ecca.bst.bst
 Warning--empty booktitle in Chamberlain1984
+Warning--empty journal in mert
 Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
 while executing---line 1647 of file ecca.bst.bst
 Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
 while executing---line 1647 of file ecca.bst.bst
 Warning--missing institution in Kumar1999
-You've used 35 entries,
+You've used 40 entries,
             3231 wiz_defined-function locations,
-            914 strings with 9911 characters,
-and the built_in function-call counts, 27458 in all, are:
-= -- 2283
-> -- 1622
-< -- 28
-+ -- 753
-- -- 264
-* -- 2181
-:= -- 4308
-add.period$ -- 101
-call.type$ -- 35
-change.case$ -- 243
-chr.to.int$ -- 35
-cite$ -- 37
-duplicate$ -- 2119
-empty$ -- 1546
-format.name$ -- 293
-if$ -- 4927
+            942 strings with 10595 characters,
+and the built_in function-call counts, 31151 in all, are:
+= -- 2592
+> -- 1830
+< -- 34
++ -- 852
+- -- 300
+* -- 2478
+:= -- 4886
+add.period$ -- 115
+call.type$ -- 40
+change.case$ -- 276
+chr.to.int$ -- 40
+cite$ -- 43
+duplicate$ -- 2407
+empty$ -- 1755
+format.name$ -- 341
+if$ -- 5589
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 289
-newline$ -- 109
-num.names$ -- 140
-pop$ -- 578
+missing$ -- 330
+newline$ -- 124
+num.names$ -- 160
+pop$ -- 668
 preamble$ -- 1
-purify$ -- 206
+purify$ -- 235
 quote$ -- 0
-skip$ -- 1034
+skip$ -- 1165
 stack$ -- 0
-substring$ -- 1537
-swap$ -- 1378
-text.length$ -- 515
+substring$ -- 1729
+swap$ -- 1561
+text.length$ -- 579
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 315
-warning$ -- 2
-while$ -- 195
+type$ -- 360
+warning$ -- 3
+while$ -- 221
 width$ -- 0
-write$ -- 382
+write$ -- 435
 (There were 3 error messages)

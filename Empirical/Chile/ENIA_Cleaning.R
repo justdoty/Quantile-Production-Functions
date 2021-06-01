@@ -26,8 +26,8 @@ write.csv(CHLdata, "/Users/justindoty/Documents/Research/Dissertation/Data/GNR/C
 CHL <- read.dta13("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/Raw_Data/chile_data.dta") %>%
 select(plantID, year, salesTotal, salesDeflTotal, totalEmp, totlab, matDeflTotal, capDeflTotal, matTotal, salesTotal, exports, rawmatsi, adverts, ind3Digit) %>%
 mutate(id=plantID, year=year, Y=salesDeflTotal, VA=salesDeflTotal-matDeflTotal, K=capDeflTotal, L=totlab, M=matDeflTotal) %>%
-	mutate(Export=ifelse(exports!=0, 1, 0), Import=ifelse(rawmatsi!=0, 1, 0), Adv=ifelse(adverts!=0, 1, 0), isic3=ind3Digit) %>%
-	filter(Y>0, VA>0, K>0, M>0) %>% mutate(VA=Y-M) %>% select(id, year, Y, VA, K, L, M, Export, Import, Adv, isic3) %>% arrange(id, year)
+	mutate(ExportB=ifelse(exports!=0, 1, 0), ImportB=ifelse(rawmatsi!=0, 1, 0), AdvB=ifelse(adverts!=0, 1, 0), isic3=ind3Digit) %>%
+	filter(Y>0, VA>0, K>0, M>0) %>% mutate(VA=Y-M) %>% select(id, year, Y, VA, K, L, M, ExportB, ImportB, AdvB, exports, rawmatsi, adverts, isic3) %>% arrange(id, year)
 CHL <- CHL %>% group_by(id) %>% filter(n()>2)
 ####################################################################################################
 #Summary statistics for the cleaned data set
