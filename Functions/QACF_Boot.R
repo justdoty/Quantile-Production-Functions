@@ -114,7 +114,7 @@ finalQACF <- function(tau, ind, data, binit, seed){
   ACFfitlagphi <- as.matrix(lagdata1$ACFphilag1)
   # ACFfitlagphi <- as.matrix(lagdata2$ACFphilag1)
   #ACF Instruments 
-  ACFmZ <- cbind(lagdata1$Kcon, lagdata1$Llag1)
+  ACFmZ <- cbind(1, lagdata1$Kcon, lagdata1$Llag1)
   # ACFmZ <- cbind(lagdata2$Kcon, lagdata2$Llag1)
   #Starting values for ACF estimates from OLS
   ACFinit <- as.numeric(coef(LM)[-1])
@@ -141,11 +141,11 @@ ACF_Lambda <- function(b, mY, mX, mlX, fitphi, fitlagphi){
   b <- as.matrix(as.numeric(b))
   A <- fitphi-mX%*%b[1:ncol(mX)]
   B <- fitlagphi-mlX%*%b[1:ncol(mX)]
-  step1 <- lm(A~B)
-  # step1 <- lm(A~B-1)
+  # step1 <- lm(A~B)
+  step1 <- lm(A~B-1)
   step1param <- as.numeric(coef(step1))
-  xifit <- A-cbind(1, B)%*%step1param
-  # xifit <- A-B*step1param
+  # xifit <- A-cbind(1, B)%*%step1param
+  xifit <- A-B*step1param
   return(xifit)
 } 
 #ACF GMM objective function

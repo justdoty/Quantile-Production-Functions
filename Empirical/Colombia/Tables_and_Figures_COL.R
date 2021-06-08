@@ -163,7 +163,7 @@ addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multic
 #For copy pasting to latex
 print(QLP_Table_X, hline.after=c(0,nrow(QLP_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 #Tables for LP Estimates
-LP_Table <- cbind(c("311", "381", "321", "All"), LPestimates)
+LP_Table <- cbind(c("311", "322", "381", "All"), LPestimates)
 colnames(LP_Table) <- c("ISIC", rep(c("Coef.", "s.e"), dZLP+2))
 LP_Table_X <- xtable(LP_Table, digits=c(0,2,rep(c(3,4), dZLP+2)), type="latex")
 align(LP_Table_X) <- rep('c', 6+dZLP*2)
@@ -182,7 +182,7 @@ addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
 print(QLP_DSPC_Table_X, hline.after=c(0,nrow(QLP_DSPC_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 #For LP
-LPPC_table <- cbind(c("311", "381", "321", "All"), LPPC_estimates)
+LPPC_table <- cbind(c("311", "322", "381", "All"), LPPC_estimates)
 colnames(LPPC_table) <- c("ISIC", rep(c("Coef.", "s.e"), 3))
 LPPC_Table_X <- xtable(LPPC_table, digits=c(0,2,rep(c(3,4), 3)), type="latex")
 align(LPPC_Table_X) <- rep('c', 8)
@@ -200,7 +200,7 @@ addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
 print(QLP_DSPB_Table_X, hline.after=c(0,nrow(QLP_DSPB_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 #For LP
-LPPB_table <- cbind(c("311", "381", "321", "All"), LPPB_estimates)
+LPPB_table <- cbind(c("311", "322", "381", "All"), LPPB_estimates)
 colnames(LPPB_table) <- c("ISIC", rep(c("Coef.", "s.e"), 3))
 LPPB_Table_X <- xtable(LPPB_table, digits=c(0,2,rep(c(3,4), 3)), type="latex")
 align(LPPB_Table_X) <- rep('c', 8)
@@ -394,7 +394,7 @@ addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Capital}  & \\multic
 print(QACF_Table_X, hline.after=c(0,nrow(QACF_Table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 
 #Tables for ACF Estimates
-ACF_Table <- cbind(c("311", "381", "321", "All"), ACFestimates)
+ACF_Table <- cbind(c("311", "322", "381", "All"), ACFestimates)
 colnames(ACF_Table) <- c("ISIC", rep(c("Coef.", "s.e"), dZ+2))
 ACF_Table_X <- xtable(ACF_Table, digits=c(0,2,rep(c(3,4), dZ+2)), type="latex")
 align(ACF_Table_X) <- rep('c', 6+dZ*2)
@@ -415,7 +415,7 @@ addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
 print(QACF_DSPC_Table_X, hline.after=c(0,nrow(QACF_DSPC_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 #For ACF
-ACFPC_table <- cbind(c("311", "381", "321", "All"), ACFPC_estimates)
+ACFPC_table <- cbind(c("311", "322", "381", "All"), ACFPC_estimates)
 colnames(ACFPC_table) <- c("ISIC", rep(c("Coef.", "s.e"), 3))
 ACFPC_Table_X <- xtable(ACFPC_table, digits=c(0,2,rep(c(3,4), 3)), type="latex")
 align(ACFPC_Table_X) <- rep('c', 8)
@@ -433,7 +433,7 @@ addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){3-4} \\cmidrule(lr){5-6} \\cmidrule(lr){7-8}'
 print(QACF_DSPB_Table_X, hline.after=c(0,nrow(QACF_DSPB_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 #For ACF
-ACFPB_table <- cbind(c("311", "381", "321", "All"), ACFPB_estimates)
+ACFPB_table <- cbind(c("311", "322", "381", "All"), ACFPB_estimates)
 colnames(ACFPB_table) <- c("ISIC", rep(c("Coef.", "s.e"), 3))
 ACFPB_Table_X <- xtable(ACFPB_table, digits=c(0,2,rep(c(3,4), 3)), type="latex")
 align(ACFPB_Table_X) <- rep('c', 8)

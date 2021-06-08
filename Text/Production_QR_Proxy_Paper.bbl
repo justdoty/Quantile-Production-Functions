@@ -1,4 +1,4 @@
-\begin{thebibliography}{40}
+\begin{thebibliography}{46}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -11,6 +11,17 @@
 \textsc{Ackerberg, D.}, \textsc{Caves, K.} and \textsc{Frazer, G.} (2015).
   Identification properties of recent production function estimators.
   \textit{Econometrica}, \textbf{83}~(6), 2411--2451.
+
+\bibitem[{Ackerberg \textit{et~al.}(2014)Ackerberg, Chen, Hahn and
+  Liao}]{Ackerberg2014}
+\textsc{---}, \textsc{Chen, X.}, \textsc{Hahn, J.} and \textsc{Liao, Z.}
+  (2014). Asymptotic efficiency of semiparametric two-step {GMM}. \textit{The
+  Review of Economic Studies}, \textbf{81}~(3), 919--943.
+
+\bibitem[{Ai and Chen(2003)}]{Ai2003}
+\textsc{Ai, C.} and \textsc{Chen, X.} (2003). Efficient estimation of models
+  with conditional moment restrictions containing unknown functions.
+  \textit{Econometrica}, \textbf{71}~(6), 1795--1843.
 
 \bibitem[{Aigner \textit{et~al.}(1977)Aigner, Lovell and Schmidt}]{Aigner1977}
 \textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
@@ -47,10 +58,19 @@
   Quantile estimation of frontier production function. \textit{Empirical
   Economics}, \textbf{29}~(2), 373--381.
 
+\bibitem[{Besstremyannaya and Golovan(2019)}]{Besstremyannaya2019}
+\textsc{Besstremyannaya, G.} and \textsc{Golovan, S.} (2019). Reconsideration
+  of a simple approach to quantile regression for panel data. \textit{The
+  Econometrics Journal}, \textbf{22}~(3), 292--308.
+
 \bibitem[{Bhattacharya(2009)}]{Bhattacharya2009}
 \textsc{Bhattacharya, D.} (2009). Inferring optimal peer assignment from
   experimental data. \textit{Journal of the American Statistical Association},
   \textbf{104}~(486), 486--500.
+
+\bibitem[{Bhattacharya(2019)}]{bhat2019}
+\textsc{Bhattacharya, J.} (2019). Quantile regression with generated dependent
+  variable and covariates, working paper.
 
 \bibitem[{Canay(2011)}]{Canay2011}
 \textsc{Canay, I.~A.} (2011). A simple approach to quantile regression for
@@ -72,6 +92,11 @@
 \bibitem[{Chernozhukov and Hansen(2005)}]{Chernozhukov2005}
 \textsc{---} and \textsc{Hansen, C.} (2005). An {IV} model of quantile
   treatment effects. \textit{Econometrica}, \textbf{73}~(1), 245--261.
+
+\bibitem[{Chernozhukov and Hansen(2006)}]{Chernozhukov2006}
+\textsc{---} and \textsc{---} (2006). Instrumental quantile regression
+  inference for structural and treatment effect models. \textit{Journal of
+  Econometrics}, \textbf{132}~(2), 491--525.
 
 \bibitem[{Chesher(2003)}]{Chesher2003}
 \textsc{Chesher, A.} (2003). Identification in nonseparable models.
@@ -100,13 +125,15 @@
   the identification of gross output production functions. \textit{Journal of
   Political Economy}, pp. 000--000.
 
-\bibitem[{Gil-Pelaez(1951)}]{gil}
-\textsc{Gil-Pelaez, J.} (1951). Note on the inversion theorem.
-  \textit{Biometrika}, \textbf{38}~(3-4), 481--482.
-
 \bibitem[{Griliches and Hausman(1986)}]{Griliches1986}
 \textsc{Griliches, Z.} and \textsc{Hausman, J.~A.} (1986). Errors in variables
   in panel data. \textit{Journal of Econometrics}, \textbf{31}~(1), 93--118.
+
+\bibitem[{Hausman \textit{et~al.}(2021)Hausman, Liu, Luo and
+  Palmer}]{Hausman2021}
+\textsc{Hausman, J.}, \textsc{Liu, H.}, \textsc{Luo, Y.} and \textsc{Palmer,
+  C.} (2021). Errors in the dependent variable of quantile regression models.
+  \textit{Econometrica}, \textbf{89}~(2), 849--873.
 
 \bibitem[{Holmes and Mitchell(2008)}]{Holmes2008}
 \textsc{Holmes, T.~J.} and \textsc{Mitchell, M.~F.} (2008). A theory of factor
@@ -180,6 +207,11 @@
 \textsc{Neumann, M.~H.} (2007). Deconvolution from panel data with unknown
   error distribution. \textit{Journal of Multivariate Analysis},
   \textbf{98}~(10), 1955--1968.
+
+\bibitem[{Newey and Powell(2003)}]{Newey2003}
+\textsc{Newey, W.~K.} and \textsc{Powell, J.~L.} (2003). Instrumental variable
+  estimation of nonparametric models. \textit{Econometrica}, \textbf{71}~(5),
+  1565--1578.
 
 \bibitem[{Olley and Pakes(1996)}]{Olley1996}
 \textsc{Olley, G.~S.} and \textsc{Pakes, A.} (1996). The dynamics of

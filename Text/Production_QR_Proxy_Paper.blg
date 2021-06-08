@@ -4,6 +4,7 @@ The top-level auxiliary file: Production_QR_Proxy_Paper.aux
 The style file: ecca.bst.bst
 Database file #1: references.bib
 Warning--I didn't find a database entry for "2009a"
+Warning--I didn't find a database entry for "gil"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
 while executing---line 1580 of file ecca.bst.bst
@@ -14,45 +15,45 @@ while executing---line 1647 of file ecca.bst.bst
 Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
 while executing---line 1647 of file ecca.bst.bst
 Warning--missing institution in Kumar1999
-You've used 40 entries,
+You've used 46 entries,
             3231 wiz_defined-function locations,
-            942 strings with 10595 characters,
-and the built_in function-call counts, 31151 in all, are:
-= -- 2592
-> -- 1830
-< -- 34
-+ -- 852
-- -- 300
-* -- 2478
-:= -- 4886
-add.period$ -- 115
-call.type$ -- 40
-change.case$ -- 276
-chr.to.int$ -- 40
-cite$ -- 43
-duplicate$ -- 2407
-empty$ -- 1755
-format.name$ -- 341
-if$ -- 5589
+            974 strings with 11496 characters,
+and the built_in function-call counts, 37099 in all, are:
+= -- 3073
+> -- 2260
+< -- 38
++ -- 1053
+- -- 364
+* -- 2982
+:= -- 5807
+add.period$ -- 132
+call.type$ -- 46
+change.case$ -- 323
+chr.to.int$ -- 46
+cite$ -- 49
+duplicate$ -- 2851
+empty$ -- 2035
+format.name$ -- 415
+if$ -- 6617
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 330
-newline$ -- 124
-num.names$ -- 160
-pop$ -- 668
+missing$ -- 384
+newline$ -- 142
+num.names$ -- 184
+pop$ -- 783
 preamble$ -- 1
-purify$ -- 235
+purify$ -- 275
 quote$ -- 0
-skip$ -- 1165
+skip$ -- 1391
 stack$ -- 0
-substring$ -- 1729
-swap$ -- 1561
-text.length$ -- 579
+substring$ -- 2071
+swap$ -- 1877
+text.length$ -- 724
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 360
+type$ -- 414
 warning$ -- 3
-while$ -- 221
+while$ -- 257
 width$ -- 0
-write$ -- 435
+write$ -- 500
 (There were 3 error messages)

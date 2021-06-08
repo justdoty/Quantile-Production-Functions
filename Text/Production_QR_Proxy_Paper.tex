@@ -173,13 +173,24 @@ We specify a \textit{value-added} production function as a random coefficient mo
 \end{equation}
 The variables in equation \eqref{pfrc} have the same interpretation as the ones we introduced in the ACF model. In this specification we allow the output elasticities to be functionally dependent on the production shock $\eta_{it}$ while productivity $\omega_{it}$ maintains its additive separability. The model presented here assumes that $\omega_{it}$ is only a location-shift of the conditional output distribution. We assume the constant in the production function does not vary over $\tau$ since the constant is not separately identified from the mean of productivity. The location-shift specification is crucial in our approach since $(\beta_{0}+\omega_{it})$ also appears in the conditional mean counterpart of equation \eqref{pfrc} so that if this object can be consistently estimated from popular proxy variable approaches such as OP, LP or ACF, then with additional restrictions from the quantile IV literature, the production function parameters $\beta_{k}(\tau)$ and $\beta_{l}(\tau)$ can also be consistently estimated.
 
-We should also mention that a value-added specification in equation \eqref{pfrc} is non-trivial. Value-added production functions are common in the empirical literature, however the objects recovered from a value-added model such as the output elasticities and TFP can only be mapped to its gross-output counterpart under special structural production functions such as Leontief value-added. Since the production shock $\eta_{it}$ enters \eqref{pfrc} non-separably, it is difficult to recover gross-output objects from value-added since the latter is composed of the additional error term. One consequence of a value-added model is that estimates of productivity may be more disperse than gross-output estimates which controls for material inputs. Therefore, in our empirical application we interpret the elasticities and productivity with some caution.
+ A value-added specification in equation \eqref{pfrc} is non-trivial. Value-added production functions are common in the empirical literature, however the objects recovered from a value-added model such as the output elasticities and TFP can only be mapped to its gross-output counterpart under special structural production functions such as Leontief value-added. For example, a Leontief value-added production function in our framework could be written as:
 
- One advantage of the value-added model is that the rank of $\eta_{it}$ can be interpreted as the rank of firm size measured by output net of material inputs. This way, we are able to measure firm size by the value of the firm's contribution to output rather than the value of the units they sell. The value-added approach also avoids the non-identification results of \cite{Gandhi2020}. We leave the connection between this value-added production function and its possibly underlying gross-output production function as future research agenda.
+\begin{equation*} 
+y_{it}=\min\{\beta_{k}(\eta_{it})k_{it}+\beta_{l}(\eta_{it})l_{it}+\omega_{it}, \beta_{m}+m_{it}\},
+\end{equation*}
+where, thanks to the equivariance properties of quantiles we have:
+\begin{equation*} 
+Q_{\tau}(y_{it}|\mathcal{I}_{it})=\min\{\beta_{k}(\tau)k_{it}+\beta_{l}(\tau)l_{it}+\omega_{it}, \beta_{m}+m_{it}\},
+\end{equation*}
+so that the conditional quantiles of a structural-value added production function could be written as:
+\begin{equation*}
+Q_{\tau}(y_{it}|\mathcal{I}_{it})=\beta_{k}(\tau)k_{it}+\beta_{l}(\tau)l_{it}+\omega_{it},
+\end{equation*}
+which corresponds directly to the conditional quantiles of equation \ref{pfrc}. The value-added approach avoids the non-identification results of \cite{Gandhi2020}. One consequence of this approach is that estimates of productivity may be more disperse than gross-output estimates which controls for material inputs. In the Appendix, we provide results using estimates from a gross-output production function, one which includes material inputs, to examine whether our estimator proposed in the next section can still reveal heterogeneity in the quantiles.
 
- An interesting question that follows from the firm size interpretation is then what are the determinants of firm size? Controlling for productivity also controls for firm size determinants such as managerial ability so variation in firm size might be limited in our model. There is a large and historical literature on the determinants of firm size. \cite{Kumar1999} survey some of the theories and test them using data. We offer a possible explanation below, but we focus on whether there is heterogeneity in firm size and its consequences. 
+A natural question that follows from our model specification in \ref{pfrc} is the interpretation of the unobservable $\eta_{it}$. Typically, in the production function literature, this shock has been interchangeably called an ``ex-post shock'' or measurement error in output. However, in the quantile regression literature, we must consider these interpretations separately because measurement error in the dependent variable will lead to bias in our estimator. For example, \cite{Hausman2021} shows that this bias (in a bivariate setting) understates the true dispersion in quantile regression estimates which they refer to as compression bias. In the Appendix, we discuss how our estimator may be adapted to measurement error in output using their approach. This type of measurement error may be non-negligible in many applications where deflated sales is used as the output measure where the deflator is only industry-specific (common to firms). 
 
-A special case of \eqref{pfrc} is the location-scale model,
+Having eliminated measurement error as an interpretation for $\eta_{it}$, another possibility is to prescribe the relationship between input usage and output variation that is contributed by uncertainty in realizations of $\eta_{it}$. For example consider the location-scale model, which is a special case of \eqref{pfrc}:
 
 \begin{equation} \label{locationscale}
     y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\mu_{k}k_{it}+\mu_{l}l_{it})\eta_{it}
@@ -195,7 +206,7 @@ The idea that input choices can impact firm's production beyond the conditional 
 
 The connection between production risk and heterogeneity in quantiles is interesting so we briefly mention that under quantile preferences, a firm who maximizes the $\tau$ level of utility of profits could explain heterogeneity in the output distribution. Unlike risk-neutral firms, firms could have a utility function that is represented by preferences of the firm manager(s) who decides the optimal expenditure on inputs. Different managers may have different preferences for risk. A short list of papers have considered quantile utility maximization such as \cite{Manski1988}, \cite{ROSTEK2009}, \cite{Chambers2007}, and \cite{Bhattacharya2009}. Dynamic input choices such as investment are much more difficult to solve using the quantile utility framework and the reader can refer to \cite{Castro2017} for a treatment of dynamic quantile utility models. As far as we know, the quantile utility framework has not been applied to firm decision problems and a more thorough treatment of such is outside the scope of this paper.
 
-A general quantile model such as the one specified in \eqref{pfrc} can be seen as an extension of the higher-order moment estimation of risk initiated by \cite{Antle1983}. However, it can also be seen purely as an econometric specification issue as we are unaware of any tests that could distinguish between higher order moment production risk and misspecification. We choose the latter interpretation for our model. 
+A general quantile model such as the one specified in \eqref{pfrc} can be seen as an extension of the higher-order moment estimation of risk initiated by \cite{Antle1983}. However, it can also be seen purely as an econometric specification issue as we are unaware of any tests that could distinguish between higher order moment production risk and misspecification. We choose the latter interpretation for our model. We briefly mention in the Appendix how a quantile maximization framework may be used in both the proxy variable approach and the approach of \cite{Gandhi2020}.
 
 \subsection{Identification}
 
@@ -232,13 +243,12 @@ Suppose the following set of assumptions
 		m_{it}=m_{t}(k_{it}. l_{it}, \omega_{it})
 		\end{equation*}
 		\item Strict Monotonicity: $m_{t}(k_{it}. l_{it}, \omega_{it})$ is strictly increasing in $\omega_{it}$
-		\item Location: $\boldsymbol{\beta}^{\mu}=(\beta_{k}^{\mu}, \beta_{l}^{\mu})=\mathbbm{E}[\boldsymbol{\beta}(\eta_{it})]$ is non-singular with finite norm
 	\end{enumerate}
 \end{assump}
 
 Assumption \ref{idpart1}(b)(i) implies that the ex-post production shocks are mutually independent over time and independent from productivity $\omega_{it}$. This is a potentially strong condition, but commonly used in nonseparable panel data models. Related conditions are used in \cite{Hu2019} who assume that $\eta_{it}$ is independent of $\omega_{it}$ conditional an $x_{i}$. Part (ii) of this assumption implies that the innovation shocks to productivity $\xi_{it}$ are independent of the ex-post shocks $\eta_{it}$ and that these shocks are independent of lagged productivity $\omega_{it-1}$. Assumption \ref{idpart1}(c) are mild technical conditions on characteristic functions. Most standard families of distributions satisfy this property. Lastly, \ref{idpart1} (d) extends the independence assumptions of $\eta_{it}$ and $\omega_{it}$ to $x_{i}$. A similar independence assumption is used in \cite{Gandhi2020}. This assumption is used to identify the relevant conditional quantiles.
 
-Assumption \ref{idpart2} extends some of the assumptions in \cite{Ackerberg2015} to identify $\boldsymbol{\beta}^{\mu}$ and $\rho$ which are necessary in our deconvolution argument. \ref{idpart2}(b) requires productivity to follow an linear AR(1) process. Although restrictive, this allows us to easily adapt a repeated measure type argument used for deconvolution. Strict stationarity is also restrictive and is used to achieve identification of the marginal distribution of productivity for each time period. \ref{idpart2}(f) implies that $\boldsymbol{\beta}^{\mu}$ exists which is also assumed in \cite{Canay2011} so that the location of $Z_{it}$ is well defined. With these assumptions stated we are now ready to state the main identification result.
+Assumption \ref{idpart2} extends some of the assumptions in \cite{Ackerberg2015} to identify $\boldsymbol{\beta}^{\mu}$ and $\rho$ which are necessary in our deconvolution argument. \ref{idpart2}(b) requires productivity to follow an linear AR(1) process. Although restrictive, this allows us to easily adapt a repeated measure type argument used for deconvolution. Strict stationarity is also restrictive and is used to achieve identification of the marginal distribution of productivity for each time period. With these assumptions stated we are now ready to state the main identification result.
 
 \begin{theorem}
 Under Assumptions \ref{idpart1} and \ref{idpart2}, the location $\boldsymbol{\beta}^{\mu}$, coefficient $\rho$ and function $\boldsymbol{\beta}(\tau)$ are identified
@@ -252,13 +262,13 @@ Using Assumption \ref{idpart1}(b)(i) we can write the characteristic functions o
 \end{split}
 \end{equation}
 The joint characteristic function of $(y_{i1}, \tilde{y}_{i2})|x_{i}$ can then be written as:
-% \begin{equation} \label{jointchar}
-% \begin{split}
-% \Psi_{&(y_{i1}, \tilde{y}_{i2})|x_{i}}(s_{1}, s_{2}|x_{i})=\mathbbm{E}[\exp(i[s_{1}y_{i1}+s_{2}\tilde{y}_{i2}])|x_{i}]\\
-% &=\mathbbm{E}[\exp(i[s_{1}Z_{i1}+s_{2}\tilde{Z}_{i2}+s_{2}\tilde{\xi}_{i2}+(s_{1}+s_{2})\omega_{i1}])|x_{i}]\\
-% &=\phi_{Z_{i1}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{Z}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{\xi}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\omega_{i1}|x_{i}}((s_{1}+s_{2})|x_{i})
-% \end{split}
-% \end{equation}
+\begin{equation} \label{jointchar}
+\begin{split}
+\Psi_{(y_{i1}, \tilde{y}_{i2})|x_{i}}(s_{1}, s_{2}|x_{i})&=\mathbbm{E}[\exp(i[s_{1}y_{i1}+s_{2}\tilde{y}_{i2}])|x_{i}]\\
+&=\mathbbm{E}[\exp(i[s_{1}Z_{i1}+s_{2}\tilde{Z}_{i2}+s_{2}\tilde{\xi}_{i2}+(s_{1}+s_{2})\omega_{i1}])|x_{i}]\\
+&=\phi_{Z_{i1}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{Z}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\tilde{\xi}_{i2}|x_{i}}(s_{1}|x_{i})\phi_{\omega_{i1}|x_{i}}((s_{1}+s_{2})|x_{i})
+\end{split}
+\end{equation}
 where the last equality of \eqref{jointchar} uses Assumption \ref{idpart1}(b)(i-ii). Taking the derivative of \eqref{jointchar} with respect to its first component yields
 \begin{equation*}
 \begin{split}
@@ -315,7 +325,7 @@ where the third equality in each equation follows from Assumption \eqref{idpart1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{A Two-Step Estimator for Quantile Production Functions}
+\subsection{A Two-Step Estimator for Quantile Production Functions} \label{2step}
 Instead of using sample analogues based on the identification approach in the previous section, we propose a more simple estimation routine. Let $\varepsilon_{it}=k_{it}[\beta_{k}(\eta_{it})-\beta^{\mu}_{k}]+l_{it}[\beta_{l}(\eta_{it})-\beta^{\mu}_{l}]$ where $(\beta_{k}^{\mu}, \beta_{l}^{\mu})=\boldsymbol{\beta}^{\mu}=\mathbbm{E}[\boldsymbol{\beta}(\eta_{it})]$ is the mean of the random coefficients. The conditional mean version of the random coefficient production function can then be written as
 \begin{equation}
 y_{it}=\beta_{k}^{\mu}k_{it}+\beta_{l}^{\mu}l_{it}+\omega_{it}+\varepsilon_{it},
@@ -332,14 +342,55 @@ can be obtained from a quantile regression of $\hat{y}_{it}=y_{it}-\hat{\omega}_
 	\end{equation*}
 	where $\mathcal{B}$ is a compact and convex parameter space, $\rho_{\tau}(u)=u[\tau-\mathbbm{I}\{u<0\}]$ and $\mathbbm{I}\{\cdot\}$ denotes the indicator function.
 \end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Large Sample Properties}
+Our two-step estimator in Section \ref{2step} relies on a consistent estimator of the first stage estimates of productivity. Standard errors from the asymptotic covariance matrix also include the variance imparted from these preliminary estimates. Therefore, our model falls under a class of generated dependent variables in quantile regression.\footnote{\cite{Canay2011} is an example of this type of generated dependent variable problem and proves consistency and asymptotic normality. Issues with his derivation is addressed by \cite{Besstremyannaya2019}. See also \cite{bhat2019} for a general treatment of these types of models.} The main challenge of our approach is that the first stage is semi-parametric due to the non-parametric function, $\Phi_{t}(k_{it}, l_{it}, m_{it})$ and the finite parameters $\beta_{k}^{\mu}$ and $\beta_{l}^{\mu}$ in the ACF procedure. Consistency and asymptotic normality of estimators of two-step conditional moment models is addressed by \cite{Newey2003} and asymptotic efficiency by \cite{Ai2003}. One could use any linear sieve with known basis functions to estimate these parameters using a sieve-minimum distance (SMD) criterion function. Then consistency and asymptotic normality follow directly from assumptions in those papers. 
 
+A consistent estimate for $\Phi_{t}(k_{it}, l_{it}, m_{it})$ can be obtained from a linear sieve estimator. We let $\Phi_{t}(k_{it}, l_{it}, m_{it};\theta)=p^{k_{n}}(z_{it})\theta_{(t)}$ where $z_{it}=(k_{it}, l_{it}, m_{it})$ and $p^{k_{n}}(z_{it})$ is chosen to be a tensor-product linear sieve basis, for example, B-spline, Fourier, or power series. The term $k_{n}$ is the smoothing parameter which is required to grow with the sample size.  In practice, we use a power series basis function of degree two which is consistent with the empirical implementations of \cite{Levinsohn2003} and \cite{Ackerberg2015}. For deriving the consistency and asymptotic normality of our estimator, we require the following assumptions.
+\begin{assump} \label{asymptotics1}
+\leavevmode
+	\begin{enumerate}[label=(\alph*)]
+		\item Sampling: $(y^{0}_{it}, k_{it}, l_{it}, m_{it}, \omega_{it})$ are iid defined on the probability space $(\Omega, F, P)$ and take values in a compact set
+		\item Compactness and Convexity: For all $\tau\in \mathcal{T}$, $\boldsymbol{\beta}(\tau)\in \text{int} \, \mathcal{B}$, where $\mathcal{B}$ is compact and convex
+		\item Full Rank and Continuity: $y^{0}$ has bounded conditional density a.s. $\sup_{y\in \mathbbm{R}}f_{y|k,l,\omega}(y)<K$ and
+		\begin{equation*}
+		\Pi(\beta, \tau, \omega)=\mathbbm{E}[g_{\tau}(y^{0},x,\omega,\beta(\tau))]=\mathbbm{E}[(\tau-\mathbbm{1}\{y<\beta_{k}k+\beta_{l}l+\omega\})(k,l)]
+		\end{equation*}
+		The Jacobian matrix $J_{\beta}(\beta, \tau, \omega)=\frac{\partial}{\partial\beta}\Pi(\beta, \tau, \omega)$ is continuous and has full rank uniformly over $\mathcal{B}\times\mathcal{T}\times\mathcal{W}$ and $J_{\omega}(\beta, \tau, \omega)=\frac{\partial}{\partial\omega}\Pi(\beta, \tau, \omega)$ is uniformly continuous over $\mathcal{B}\times\mathcal{T}\times\mathcal{W}$ 
+		\item First Stage Estimates: The first stage estimates $\boldsymbol{\alpha}^{\mu}=(\hat{\Phi}, \hat{\boldsymbol{\beta}^{\mu}}$) admits the following expansion:
+		\begin{equation*}
+			\sqrt{nT}(\hat{\boldsymbol{\alpha}}^{\mu}-\boldsymbol{\alpha}^{\mu})=\sqrt{nT}\mathbbm{E}_{nT}[\psi_{it}]+o_{p}(1),\quad \mathbbm{E}[\psi_{it}]=0, \quad \mathbbm{E}[\psi_{it}\psi_{it}^{'}]<\infty
+		\end{equation*}
+	\end{enumerate}
+\end{assump}
+Assumption \ref{asymptotics1} is similar to Assumption 2 in \cite{Chernozhukov2006}. The main differences lie in the conditions we place on the first stage estimates in our model. Assumption \ref{asymptotics1} is used to derive the influence of the variance of the first stage estimates in the covariance matrix of our quantile regression estimates. In the Appendix, we show how estimates of $\psi_{it}$ can be obtained using \cite{Ackerberg2014}. We now state the main asymptotic results:
+\begin{theorem}
+Suppose Assumption \ref{asymptotics1} holds, then for any $T$, as $n\rightarrow\infty$
+\begin{equation*}
+\underset{\tau\in\mathcal{T}}{\operatorname{\sup}}||\hat{\boldsymbol{\beta}}(\tau)-\boldsymbol{\beta}(\tau)||\rightarrow_{p} 0,
+\end{equation*}
+and
+\begin{equation*}
+\sqrt{nT}(\hat{\boldsymbol{\beta}}(\cdot)-\boldsymbol{\beta}(\cdot))=[-J_{\beta}(\cdot)]^{-1}\mathbbm{E}_{nT}[\varphi_{\tau}(u_{it}(\tau))x_{it}+J_{\omega}(\cdot)\delta_{it}]+o_{p}(1)\rightarrow_{d} \mathbbm{G}(\cdot) \quad \text{in}\: \ell^{\infty}(\mathcal{T})
+\end{equation*}
+where $u_{it}(\tau)\equiv y^{0}_{it}-x_{it}\beta(\tau), \delta_{it}\equiv\mu_{xz}\psi_{it}, \mu_{xz}\equiv(E[x_{it}], E[p^{k_{n}}(z_{it})]), \varphi_{\tau}(u)\equiv\tau-\mathbbm{1}\{u<0\}, J_{\beta}(\tau)\equiv J_{\beta}(\beta, \tau, 0), J_{\omega}(\tau)\equiv J_{\omega}(\beta, \tau, 0), \mathbbm{G}$ is a mean-zero Gaussian process with variance function $E[\mathbbm{G}(\tau)\mathbbm{G}(\tau^{'})]=J_{\beta}(\tau)^{-1}\Sigma(\tau, \tau^{'})[J_{\beta}(\tau)^{-1}]^{'}$ where $\Sigma(\tau, \tau^{'})$ is given by
+\begin{equation*}
+\Sigma(\tau, \tau^{'})=S(\tau,\tau^{'})+J_{\omega}(\tau)\Gamma_{\delta g}(\tau^{'})+\Gamma_{g\delta}(\tau)J_{\omega}(\tau^{'})+J_{\omega}(\tau)\Gamma_{\delta\delta}J_{\omega}(\tau^{'})^{'}
+\end{equation*}
+where $S(\tau,\tau^{'})=(\min\{\tau,\tau^{'}\}-\tau\tau^{'})E[xx^{'}], \Gamma_{g\delta}(\tau)=E[g_{\tau}(y^{0},x,\beta(\tau))\delta]$, and $\Gamma_{\delta\delta}=E[\delta^{2}]$
+\end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%{}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%{}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Monte Carlo Experiments} \label{montecarlo}
 In this section we investigate the performance of our estimator in a set of Monte Carlo experiments. We use a location-scale model for production given by Equation \eqref{locationscale} which we provide again in Equation \eqref{simmodel} below.
 
 \begin{equation} \label{simmodel}
 y_{it}=\beta_{k}k_{it}+\beta_{l}l_{it}+\omega_{it}+(\gamma_{k}k_{it}+\gamma_{l}l_{it})\eta_{it},
 \end{equation}
-where $\beta_{0}=0, \beta_{k}=0.4$ and $\beta_{l}=0.6$. We replicate \cite{Ackerberg2015} simulations by sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. We consider three different data generating processes (DGPs) for the scale parameters and the distribution of $\eta_{it}$. For DGP1, we let $\gamma_{k}=0.6$, $\gamma_{l}=-0.6$ and $\eta_{it}\sim N(0,\sigma_{\eta}^{2})$ where $\sigma_{\eta}^{2}=0.01$. This follows the original specification for the error term in \cite{Ackerberg2015}. In DGP2, $\gamma_{k}=0.4$, $\gamma_{l}=-0.4$ and $\eta_{it}\sim (\sqrt{3\sigma_{\eta}^{2}/5})t_{5}$ so that the error variance is the same as that of DGP1. In DGP3, we add considerable skewness to the ex-post shocks by letting $\gamma_{k}=0.5$, $\gamma_{l}=-0.5$ and $\eta_{it}\sim Lognormal(0.15,\sigma_{\eta}^{2})$. 
+where $\beta_{k}=0.4$ and $\beta_{l}=0.6$. We replicate \cite{Ackerberg2015} simulations by sampling 1000 datasets consisting of 1000 firms. We simulate optimal input choices for 100 time periods, using the last 10 periods for estimation. We consider three different data generating processes (DGPs) for the scale parameters and the distribution of $\eta_{it}$. For DGP1, we let $\gamma_{k}=0.6$, $\gamma_{l}=-0.6$ and $\eta_{it}\sim N(0,\sigma_{\eta}^{2})$ where $\sigma_{\eta}^{2}=0.01$. This follows the original specification for the error term in \cite{Ackerberg2015}. In DGP2, $\gamma_{k}=0.4$, $\gamma_{l}=-0.4$ and $\eta_{it}\sim (\sqrt{3\sigma_{\eta}^{2}/5})t_{5}$ so that the error variance is the same as that of DGP1. In DGP3, we add considerable skewness to the ex-post shocks by letting $\gamma_{k}=0.5$, $\gamma_{l}=-0.5$ and $\eta_{it}\sim Lognormal(0.15,\sigma_{\eta}^{2})$. 
 
 We show that our estimator is flexible using previously proposed proxy variable estimators. It should only matter that $\hat{\beta}_{k}^{\mu}$ and $\hat{\beta}_{l}^{\mu}$ can be identified and consistently estimated. It is well known that under certain timing assumptions, that the labor elasticity may not be identified using the first stage of \cite{Levinsohn2003}. Clearly, this would affect our estimates of productivity which we use in the second stage of our estimator. Therefore, we follow \cite{Ackerberg2015} in considering two DGPs where labor can and cannot be identified\footnote{Refer to \cite{Ackerberg2015} for a detailed discussion on how to generate the simulated data.}. In the DGPs prefixed by ``LP'' in Table \ref{simresults}, we add optimization error to labor which breaks the functional dependence problem argued by ACF. Therefore, LP and ACF estimates of labor and hence productivity, should be consistent. We use the LP estimator for this DGP. In the DGPs prefixed by ``ACF'' we add serially correlated wages and allow for labor to be chosen in a sub-period $t-b$, where $b=0.5$. In this setup, we know that the ACF estimates will be consistent since their estimator conditions on labor in the first stage whereas LP does not. Therefore, we use the ACF estimator for this DGP. An AR(1) process is specified for productivity $\omega_{it}=\rho\omega_{it-1}+\xi_{it}$ where $\rho=0.7$. The variance of $\xi_{it}$ and initial value $\omega_{i0}$ is set so that the standard deviation of $\omega_{it}$ is constant over time and equal to $0.3$. 
 
@@ -442,29 +493,28 @@ In each industry we compare the differences between QLP and QR estimates to test
 
 We use the estimates from the output elasticities to construct measures of returns to scale and capital intensity in Table 3. The results for returns to scale are puzzling as they are all significantly different from constant returns to scale. Each sample and each quantile of firm size exhibits large decreasing returns to scale and these returns decrease when $\tau$ increases. Previous papers that estimate returns to scale using the Compustat dataset such as \cite{Keller2009} and \cite{mert} show constant returns to scale using a gross-output production function. Therefore it is possible that the empirical value-added (deflated sales minus intermediate input expenditure) is a poor proxy for value-added in our model and that value-added biases the returns to scale estimates. Differences in returns to scale in value-added and gross-output production functions are explored by \cite{Basu1997}. We also report estimates of capital intensity measured by the ratio of capital to labor elasticity for each quantile. Each industry has estimates of capital intensity that increases with $\tau$. This result is consistent with previous findings such as \cite{Holmes2008}, \cite{Kumar1999} and \cite{mert}.
 
-
 \begin{table}[H]
 \centering
 \caption{Coefficient Estimates and Standard Errors for US Manufacturing Firms}
 \begin{tabular}{cccccccccc}
   \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}NAICS & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
   \hline
-31 & 0.10 & 0.578 & 0.1882 & 0.366 & 0.2271 & 0.944 & 0.0736 & 1.580 & 0.9630 \\ 
-   & 0.25 & 0.627 & 0.1870 & 0.311 & 0.2247 & 0.938 & 0.0728 & 2.013 & 1.9174 \\ 
-   & 0.50 & 0.714 & 0.1878 & 0.202 & 0.2255 & 0.916 & 0.0726 & 3.526 & 100.4640 \\ 
-   & 0.90 & 0.887 & 0.1889 & -0.007 & 0.2281 & 0.880 & 0.0734 & -124.841 & 2133.8129 \\ 
-  32 & 0.10 & 0.535 & 0.1082 & 0.380 & 0.1629 & 0.915 & 0.0622 & 1.406 & 0.4381 \\ 
-   & 0.25 & 0.646 & 0.1067 & 0.235 & 0.1606 & 0.881 & 0.0614 & 2.752 & 1.4235 \\ 
-   & 0.50 & 0.722 & 0.1066 & 0.145 & 0.1605 & 0.867 & 0.0614 & 4.991 & 20.1187 \\ 
-   & 0.90 & 0.920 & 0.1109 & -0.100 & 0.1668 & 0.820 & 0.0631 & -9.233 & 121.5833 \\ 
-  33 & 0.10 & 0.159 & 0.0355 & 0.907 & 0.0482 & 1.067 & 0.0155 & 0.176 & 0.0397 \\ 
-   & 0.25 & 0.306 & 0.0332 & 0.714 & 0.0448 & 1.021 & 0.0145 & 0.429 & 0.0582 \\ 
-   & 0.50 & 0.407 & 0.0329 & 0.585 & 0.0445 & 0.992 & 0.0144 & 0.697 & 0.0833 \\ 
-   & 0.90 & 0.551 & 0.0334 & 0.418 & 0.0453 & 0.969 & 0.0149 & 1.316 & 0.1575 \\ 
-  All & 0.10 & 0.259 & 0.0375 & 0.768 & 0.0514 & 1.027 & 0.0166 & 0.337 & 0.0552 \\ 
-   & 0.25 & 0.394 & 0.0361 & 0.592 & 0.0495 & 0.986 & 0.0161 & 0.666 & 0.0853 \\ 
-   & 0.50 & 0.487 & 0.0357 & 0.476 & 0.0487 & 0.963 & 0.0159 & 1.022 & 0.1238 \\ 
-   & 0.90 & 0.632 & 0.0367 & 0.309 & 0.0503 & 0.941 & 0.0164 & 2.049 & 0.2707 \\ 
+31 & 0.10 & 0.478 & 0.1022 & 0.643 & 0.1385 & 1.121 & 0.0504 & 0.743 & 0.2789 \\ 
+   & 0.25 & 0.560 & 0.0939 & 0.532 & 0.1192 & 1.092 & 0.0399 & 1.053 & 0.3465 \\ 
+   & 0.50 & 0.635 & 0.0911 & 0.430 & 0.1125 & 1.065 & 0.0363 & 1.477 & 0.5403 \\ 
+   & 0.90 & 0.815 & 0.0934 & 0.171 & 0.1232 & 0.986 & 0.0463 & 4.755 & 224.0343 \\ 
+  32 & 0.10 & 0.097 & 0.0555 & 1.023 & 0.0785 & 1.120 & 0.0297 & 0.095 & 0.0635 \\ 
+   & 0.25 & 0.198 & 0.0507 & 0.875 & 0.0655 & 1.073 & 0.0212 & 0.226 & 0.0783 \\ 
+   & 0.50 & 0.260 & 0.0489 & 0.794 & 0.0606 & 1.054 & 0.0184 & 0.327 & 0.0916 \\ 
+   & 0.90 & 0.399 & 0.0480 & 0.589 & 0.0595 & 0.988 & 0.0185 & 0.677 & 0.1641 \\ 
+  33 & 0.10 & 0.058 & 0.0250 & 1.095 & 0.0383 & 1.154 & 0.0169 & 0.053 & 0.0248 \\ 
+   & 0.25 & 0.180 & 0.0213 & 0.903 & 0.0280 & 1.083 & 0.0106 & 0.199 & 0.0299 \\ 
+   & 0.50 & 0.262 & 0.0207 & 0.774 & 0.0257 & 1.036 & 0.0089 & 0.339 & 0.0380 \\ 
+   & 0.90 & 0.362 & 0.0221 & 0.633 & 0.0281 & 0.995 & 0.0095 & 0.573 & 0.0606 \\ 
+  All & 0.10 & 0.100 & 0.0304 & 1.002 & 0.0436 & 1.102 & 0.0161 & 0.100 & 0.0350 \\ 
+   & 0.25 & 0.208 & 0.0286 & 0.850 & 0.0394 & 1.058 & 0.0136 & 0.245 & 0.0451 \\ 
+   & 0.50 & 0.277 & 0.0279 & 0.757 & 0.0372 & 1.034 & 0.0120 & 0.366 & 0.0554 \\ 
+   & 0.90 & 0.382 & 0.0291 & 0.612 & 0.0389 & 0.994 & 0.0122 & 0.624 & 0.0885 \\ 
    \hline
 \end{tabular}
 \caption*{\footnotesize $^{*}$Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using ACF}
@@ -477,10 +527,10 @@ We use the estimates from the output elasticities to construct measures of retur
 \begin{tabular}{ccccccccc}
   \hline\hline & \multicolumn{2}{c}{Capital} & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9}NAICS & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
   \hline
-31 & 0.717 & 0.1866 & 0.199 & 0.2247 & 0.916 & 0.0731 & 3.597 &  \\ 
-  32 & 0.702 & 0.1069 & 0.175 & 0.1606 & 0.877 & 0.0612 & 4.013 &  \\ 
-  33 & 0.364 & 0.0331 & 0.647 & 0.0446 & 1.011 & 0.0144 & 0.563 & 0.0697 \\ 
-  All & 0.448 & 0.0357 & 0.533 & 0.0487 & 0.981 & 0.0158 & 0.841 & 0.1020 \\ 
+31 & 0.633 & 0.0920 & 0.432 & 0.1149 & 1.064 & 0.0381 & 1.466 & 0.5068 \\ 
+  32 & 0.249 & 0.0488 & 0.807 & 0.0599 & 1.056 & 0.0172 & 0.309 & 0.0877 \\ 
+  33 & 0.222 & 0.0211 & 0.842 & 0.0263 & 1.065 & 0.0089 & 0.264 & 0.0334 \\ 
+  All & 0.252 & 0.0285 & 0.794 & 0.0380 & 1.045 & 0.0118 & 0.317 & 0.0515 \\ 
    \hline
 \end{tabular}
 \label{USACFCoef}
@@ -512,22 +562,22 @@ We use these measures to compare productivity growth over time to LP estimates o
 \begin{tabular}{cccccc}
   \hline\hline & & \multicolumn{2}{c}{R\&D}  & \multicolumn{2}{c}{Advertising} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6}NAICS & $\tau$ & Coef. & s.e & Coef. & s.e \\ 
   \hline
-31 & 0.10 & 0.067 & 0.0405 & 0.078 & 0.0473 \\ 
-   & 0.25 & 0.065 & 0.0403 & 0.074 & 0.0471 \\ 
-   & 0.50 & 0.068 & 0.0403 & 0.075 & 0.0469 \\ 
-   & 0.90 & 0.071 & 0.0410 & 0.072 & 0.0474 \\ 
-  32 & 0.10 & 0.096 & 0.0330 & 0.086 & 0.0310 \\ 
-   & 0.25 & 0.110 & 0.0329 & 0.095 & 0.0310 \\ 
-   & 0.50 & 0.113 & 0.0331 & 0.095 & 0.0311 \\ 
-   & 0.90 & 0.128 & 0.0342 & 0.102 & 0.0322 \\ 
-  33 & 0.10 & 0.011 & 0.0080 & 0.025 & 0.0063 \\ 
-   & 0.25 & 0.027 & 0.0076 & 0.032 & 0.0060 \\ 
-   & 0.50 & 0.036 & 0.0077 & 0.035 & 0.0060 \\ 
-   & 0.90 & 0.037 & 0.0080 & 0.029 & 0.0063 \\ 
-  All & 0.10 & 0.033 & 0.0079 & 0.041 & 0.0070 \\ 
-   & 0.25 & 0.045 & 0.0078 & 0.048 & 0.0069 \\ 
-   & 0.50 & 0.050 & 0.0078 & 0.049 & 0.0068 \\ 
-   & 0.90 & 0.049 & 0.0081 & 0.042 & 0.0072 \\ 
+31 & 0.10 & 0.028 & 0.0191 & 0.044 & 0.0218 \\ 
+   & 0.25 & 0.033 & 0.0160 & 0.047 & 0.0169 \\ 
+   & 0.50 & 0.038 & 0.0155 & 0.050 & 0.0158 \\ 
+   & 0.90 & 0.058 & 0.0189 & 0.067 & 0.0206 \\ 
+  32 & 0.10 & -0.003 & 0.0142 & 0.026 & 0.0139 \\ 
+   & 0.25 & 0.018 & 0.0099 & 0.043 & 0.0097 \\ 
+   & 0.50 & 0.025 & 0.0085 & 0.047 & 0.0086 \\ 
+   & 0.90 & 0.054 & 0.0101 & 0.070 & 0.0107 \\ 
+  33 & 0.10 & -0.029 & 0.0069 & -0.006 & 0.0065 \\ 
+   & 0.25 & 0.004 & 0.0040 & 0.016 & 0.0043 \\ 
+   & 0.50 & 0.025 & 0.0038 & 0.030 & 0.0039 \\ 
+   & 0.90 & 0.039 & 0.0052 & 0.037 & 0.0043 \\ 
+  All & 0.10 & 0.004 & 0.0061 & 0.035 & 0.0069 \\ 
+   & 0.25 & 0.019 & 0.0048 & 0.044 & 0.0054 \\ 
+   & 0.50 & 0.025 & 0.0046 & 0.047 & 0.0045 \\ 
+   & 0.90 & 0.037 & 0.0052 & 0.054 & 0.0049 \\ 
    \hline
 \end{tabular}
 \caption*{\footnotesize $^{*}$Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using the DS-ACF estimator}
@@ -539,10 +589,10 @@ We use these measures to compare productivity growth over time to LP estimates o
 \begin{tabular}{ccccc}
   \hline\hline & \multicolumn{2}{c}{R\&D}  & \multicolumn{2}{c}{Advertising} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5}NAICS & Coef. & s.e & Coef. & s.e \\ 
   \hline
-31 & 0.068 & 0.0405 & 0.075 & 0.0471 \\ 
-  32 & 0.108 & 0.0330 & 0.091 & 0.0310 \\ 
-  33 & 0.027 & 0.0076 & 0.029 & 0.0060 \\ 
-  All & 0.043 & 0.0077 & 0.043 & 0.0068 \\ 
+31 & 0.038 & 0.0143 & 0.051 & 0.0156 \\ 
+  32 & 0.024 & 0.0082 & 0.046 & 0.0084 \\ 
+  33 & 0.010 & 0.0034 & 0.019 & 0.0037 \\ 
+  All & 0.021 & 0.0042 & 0.045 & 0.0046 \\ 
    \hline
 \end{tabular}
 \caption*{\footnotesize $^{*}$Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using the ACF estimator}
@@ -641,47 +691,47 @@ Figure \ref{fig:ACFCHLpgrowth} reports average productivity for all Chilean plan
 \label{fig:ACFCHLpgrowth}
 \end{figure}
 
-\begin{table}[H]
-\centering
-\caption{Productivity Differentials for Chilean Manufacturing Plants using DS-ACF}
-\begin{tabular}{cccccccc}
-  \hline\hline & & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-311 & 0.10 & 0.260 & 0.0192 & 0.172 & 0.0137 & 0.620 & 0.0305 \\ 
-   & 0.25 & 0.256 & 0.0189 & 0.170 & 0.0135 & 0.615 & 0.0302 \\ 
-   & 0.50 & 0.252 & 0.0185 & 0.167 & 0.0133 & 0.611 & 0.0300 \\ 
-   & 0.90 & 0.243 & 0.0178 & 0.163 & 0.0130 & 0.601 & 0.0296 \\ 
-  381 & 0.10 & 0.207 & 0.0253 & 0.427 & 0.0424 & 1.086 & 0.0905 \\ 
-   & 0.25 & 0.204 & 0.0250 & 0.423 & 0.0420 & 1.079 & 0.0900 \\ 
-   & 0.50 & 0.202 & 0.0248 & 0.419 & 0.0416 & 1.073 & 0.0896 \\ 
-   & 0.90 & 0.197 & 0.0242 & 0.411 & 0.0409 & 1.060 & 0.0887 \\ 
-  321 & 0.10 & 0.328 & 0.0383 & 0.685 & 0.0645 & 1.331 & 0.1228 \\ 
-   & 0.25 & 0.324 & 0.0380 & 0.681 & 0.0643 & 1.322 & 0.1223 \\ 
-   & 0.50 & 0.323 & 0.0380 & 0.679 & 0.0644 & 1.318 & 0.1223 \\ 
-   & 0.90 & 0.317 & 0.0378 & 0.671 & 0.0645 & 1.302 & 0.1220 \\ 
-  All & 0.10 & 0.328 & 0.0109 & 0.422 & 0.0129 & 1.061 & 0.0270 \\ 
-   & 0.25 & 0.323 & 0.0107 & 0.418 & 0.0127 & 1.054 & 0.0268 \\ 
-   & 0.50 & 0.319 & 0.0106 & 0.414 & 0.0126 & 1.047 & 0.0266 \\ 
-   & 0.90 & 0.307 & 0.0103 & 0.404 & 0.0124 & 1.028 & 0.0262 \\ 
-   \hline
-\end{tabular}
-\caption*{Standard errors are obtained using bootstrap with 500 replications. Exporter, Importer, and Advertiser are discrete variables indicating whether a plant exports any of its output, imports raw materials from abroad or advertises}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \caption{Productivity Differentials for Chilean Manufacturing Plants using DS-ACF}
+% \begin{tabular}{cccccccc}
+%   \hline\hline & & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+%   \hline
+% 311 & 0.10 & 0.260 & 0.0192 & 0.172 & 0.0137 & 0.620 & 0.0305 \\ 
+%    & 0.25 & 0.256 & 0.0189 & 0.170 & 0.0135 & 0.615 & 0.0302 \\ 
+%    & 0.50 & 0.252 & 0.0185 & 0.167 & 0.0133 & 0.611 & 0.0300 \\ 
+%    & 0.90 & 0.243 & 0.0178 & 0.163 & 0.0130 & 0.601 & 0.0296 \\ 
+%   381 & 0.10 & 0.207 & 0.0253 & 0.427 & 0.0424 & 1.086 & 0.0905 \\ 
+%    & 0.25 & 0.204 & 0.0250 & 0.423 & 0.0420 & 1.079 & 0.0900 \\ 
+%    & 0.50 & 0.202 & 0.0248 & 0.419 & 0.0416 & 1.073 & 0.0896 \\ 
+%    & 0.90 & 0.197 & 0.0242 & 0.411 & 0.0409 & 1.060 & 0.0887 \\ 
+%   321 & 0.10 & 0.328 & 0.0383 & 0.685 & 0.0645 & 1.331 & 0.1228 \\ 
+%    & 0.25 & 0.324 & 0.0380 & 0.681 & 0.0643 & 1.322 & 0.1223 \\ 
+%    & 0.50 & 0.323 & 0.0380 & 0.679 & 0.0644 & 1.318 & 0.1223 \\ 
+%    & 0.90 & 0.317 & 0.0378 & 0.671 & 0.0645 & 1.302 & 0.1220 \\ 
+%   All & 0.10 & 0.328 & 0.0109 & 0.422 & 0.0129 & 1.061 & 0.0270 \\ 
+%    & 0.25 & 0.323 & 0.0107 & 0.418 & 0.0127 & 1.054 & 0.0268 \\ 
+%    & 0.50 & 0.319 & 0.0106 & 0.414 & 0.0126 & 1.047 & 0.0266 \\ 
+%    & 0.90 & 0.307 & 0.0103 & 0.404 & 0.0124 & 1.028 & 0.0262 \\ 
+%    \hline
+% \end{tabular}
+% \caption*{Standard errors are obtained using bootstrap with 500 replications. Exporter, Importer, and Advertiser are discrete variables indicating whether a plant exports any of its output, imports raw materials from abroad or advertises}
+% \end{table}
 
-\begin{table}[H]
-\centering
-\caption{Productivity Differentials for Chilean Manufacturing Plants using ACF}
-\begin{tabular}{ccccccc}
-  \hline\hline & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}ISIC & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-311 & 0.252 & 0.0186 & 0.168 & 0.0133 & 0.612 & 0.0301 \\ 
-  381 & 0.202 & 0.0248 & 0.420 & 0.0417 & 1.074 & 0.0897 \\ 
-  321 & 0.323 & 0.0380 & 0.679 & 0.0644 & 1.318 & 0.1222 \\ 
-  All & 0.319 & 0.0106 & 0.414 & 0.0126 & 1.048 & 0.0266 \\ 
-   \hline
-\end{tabular}
-\caption*{Standard errors are obtained using bootstrap with 500 replications. Exporter, Importer, and Advertiser are discrete variables indicating whether a plant exports any of its output, imports raw materials from abroad or advertises}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \caption{Productivity Differentials for Chilean Manufacturing Plants using ACF}
+% \begin{tabular}{ccccccc}
+%   \hline\hline & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}ISIC & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+%   \hline
+% 311 & 0.252 & 0.0186 & 0.168 & 0.0133 & 0.612 & 0.0301 \\ 
+%   381 & 0.202 & 0.0248 & 0.420 & 0.0417 & 1.074 & 0.0897 \\ 
+%   321 & 0.323 & 0.0380 & 0.679 & 0.0644 & 1.318 & 0.1222 \\ 
+%   All & 0.319 & 0.0106 & 0.414 & 0.0126 & 1.048 & 0.0266 \\ 
+%    \hline
+% \end{tabular}
+% \caption*{Standard errors are obtained using bootstrap with 500 replications. Exporter, Importer, and Advertiser are discrete variables indicating whether a plant exports any of its output, imports raw materials from abroad or advertises}
+% \end{table}
 
 \begin{table}[H]
 \centering
@@ -823,47 +873,47 @@ Figure \ref{fig:ACFCOACFgrowth} reports average productivity for all Colombian p
 \label{fig:ACFCOLpgrowth}
 \end{figure}
 
-\begin{table}[H]
-\centering
-\caption{Productivity Differentials for Colombian Manufacturing Plants using DS-ACF}
-\begin{tabular}{cccccccc}
-  \hline\hline & & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-311 & 0.10 & 0.101 & 0.0104 & 0.129 & 0.0113 & 3.391 & 0.1563 \\ 
-   & 0.25 & 0.100 & 0.0103 & 0.128 & 0.0112 & 3.385 & 0.1565 \\ 
-   & 0.50 & 0.100 & 0.0102 & 0.127 & 0.0111 & 3.384 & 0.1569 \\ 
-   & 0.90 & 0.098 & 0.0101 & 0.125 & 0.0109 & 3.385 & 0.1581 \\ 
-  322 & 0.10 & 0.169 & 0.0185 & 0.320 & 0.0300 & 4.793 & 0.3138 \\ 
-   & 0.25 & 0.166 & 0.0182 & 0.315 & 0.0297 & 4.754 & 0.3128 \\ 
-   & 0.50 & 0.163 & 0.0181 & 0.311 & 0.0294 & 4.726 & 0.3128 \\ 
-   & 0.90 & 0.154 & 0.0176 & 0.298 & 0.0288 & 4.631 & 0.3123 \\ 
-  381 & 0.10 & 0.193 & 0.0206 & 0.280 & 0.0273 & 2.303 & 0.1603 \\ 
-   & 0.25 & 0.192 & 0.0205 & 0.277 & 0.0271 & 2.298 & 0.1602 \\ 
-   & 0.50 & 0.192 & 0.0206 & 0.274 & 0.0270 & 2.294 & 0.1601 \\ 
-   & 0.90 & 0.189 & 0.0204 & 0.266 & 0.0266 & 2.281 & 0.1597 \\ 
-  All & 0.10 & 0.171 & 0.0051 & 0.283 & 0.0076 & 3.837 & 0.0719 \\ 
-   & 0.25 & 0.169 & 0.0051 & 0.279 & 0.0075 & 3.817 & 0.0717 \\ 
-   & 0.50 & 0.167 & 0.0050 & 0.275 & 0.0075 & 3.801 & 0.0716 \\ 
-   & 0.90 & 0.163 & 0.0049 & 0.266 & 0.0073 & 3.760 & 0.0715 \\ 
-   \hline
-\end{tabular}
-\caption*{Standard errors are obtained using bootstrap with 500 replications. Exporter, Importer, and Advertiser are discrete variables indicating whether a plant exports any of its output, imports raw materials from abroad or advertises}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \caption{Productivity Differentials for Colombian Manufacturing Plants using DS-ACF}
+% \begin{tabular}{cccccccc}
+%   \hline\hline & & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+%   \hline
+% 311 & 0.10 & 0.101 & 0.0104 & 0.129 & 0.0113 & 3.391 & 0.1563 \\ 
+%    & 0.25 & 0.100 & 0.0103 & 0.128 & 0.0112 & 3.385 & 0.1565 \\ 
+%    & 0.50 & 0.100 & 0.0102 & 0.127 & 0.0111 & 3.384 & 0.1569 \\ 
+%    & 0.90 & 0.098 & 0.0101 & 0.125 & 0.0109 & 3.385 & 0.1581 \\ 
+%   322 & 0.10 & 0.169 & 0.0185 & 0.320 & 0.0300 & 4.793 & 0.3138 \\ 
+%    & 0.25 & 0.166 & 0.0182 & 0.315 & 0.0297 & 4.754 & 0.3128 \\ 
+%    & 0.50 & 0.163 & 0.0181 & 0.311 & 0.0294 & 4.726 & 0.3128 \\ 
+%    & 0.90 & 0.154 & 0.0176 & 0.298 & 0.0288 & 4.631 & 0.3123 \\ 
+%   381 & 0.10 & 0.193 & 0.0206 & 0.280 & 0.0273 & 2.303 & 0.1603 \\ 
+%    & 0.25 & 0.192 & 0.0205 & 0.277 & 0.0271 & 2.298 & 0.1602 \\ 
+%    & 0.50 & 0.192 & 0.0206 & 0.274 & 0.0270 & 2.294 & 0.1601 \\ 
+%    & 0.90 & 0.189 & 0.0204 & 0.266 & 0.0266 & 2.281 & 0.1597 \\ 
+%   All & 0.10 & 0.171 & 0.0051 & 0.283 & 0.0076 & 3.837 & 0.0719 \\ 
+%    & 0.25 & 0.169 & 0.0051 & 0.279 & 0.0075 & 3.817 & 0.0717 \\ 
+%    & 0.50 & 0.167 & 0.0050 & 0.275 & 0.0075 & 3.801 & 0.0716 \\ 
+%    & 0.90 & 0.163 & 0.0049 & 0.266 & 0.0073 & 3.760 & 0.0715 \\ 
+%    \hline
+% \end{tabular}
+% \caption*{Standard errors are obtained using bootstrap with 500 replications. Exporter, Importer, and Advertiser are discrete variables indicating whether a plant exports any of its output, imports raw materials from abroad or advertises}
+% \end{table}
 
-\begin{table}[H]
-\centering
-\caption{Productivity Differentials for Colombian Manufacturing Plants using ACF}
-\begin{tabular}{ccccccc}
-  \hline\hline & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}ISIC & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-311 & 0.100 & 0.0103 & 0.127 & 0.0111 & 3.390 & 0.1570 \\ 
-  322 & 0.163 & 0.0181 & 0.311 & 0.0294 & 4.730 & 0.3124 \\ 
-  381 & 0.192 & 0.0206 & 0.275 & 0.0271 & 2.299 & 0.1602 \\ 
-  All & 0.168 & 0.0051 & 0.276 & 0.0075 & 3.806 & 0.0716 \\ 
-   \hline
-\end{tabular}
-\caption*{Standard errors are obtained using bootstrap with 500 replications. Exporter, Importer, and Advertiser are discrete variables indicating whether a plant exports any of its output, imports raw materials from abroad or advertises}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \caption{Productivity Differentials for Colombian Manufacturing Plants using ACF}
+% \begin{tabular}{ccccccc}
+%   \hline\hline & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}ISIC & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+%   \hline
+% 311 & 0.100 & 0.0103 & 0.127 & 0.0111 & 3.390 & 0.1570 \\ 
+%   322 & 0.163 & 0.0181 & 0.311 & 0.0294 & 4.730 & 0.3124 \\ 
+%   381 & 0.192 & 0.0206 & 0.275 & 0.0271 & 2.299 & 0.1602 \\ 
+%   All & 0.168 & 0.0051 & 0.276 & 0.0075 & 3.806 & 0.0716 \\ 
+%    \hline
+% \end{tabular}
+% \caption*{Standard errors are obtained using bootstrap with 500 replications. Exporter, Importer, and Advertiser are discrete variables indicating whether a plant exports any of its output, imports raw materials from abroad or advertises}
+% \end{table}
 
 \begin{table}[H]
 \centering
@@ -953,22 +1003,22 @@ This paper contributes to the growing literature on production functions with un
 \begin{tabular}{ccccccc}
   \hline\hline Industry (NAICS code) &   & 1st Qu. & Median & 3rd Qu. & Mean & sd \\ 
   \hline
-31 (Total=1972) & Output & 12.41 & 14.14 & 15.62 & 13.9 & 2.08 \\ 
-   & Capital & 10.92 & 12.84 & 14.85 & 12.8 & 2.49 \\ 
-   & Labor & 10.29 & 11.66 & 13.22 & 11.83 & 2.12 \\ 
-   & Materials & 10.48 & 12.04 & 13.87 & 12.21 & 2.29 \\ 
-  32 (Total=5217) & Output & 10.99 & 13.04 & 14.73 & 12.76 & 2.29 \\ 
-   & Capital & 9.65 & 11.81 & 14.06 & 11.83 & 2.73 \\ 
-   & Labor & 8.97 & 10.49 & 12.11 & 10.63 & 2.33 \\ 
-   & Materials & 9.19 & 10.87 & 12.85 & 11.06 & 2.52 \\ 
-  33 (Total=16848) & Output & 7.24 & 8.73 & 9.99 & 8.47 & 2.03 \\ 
-   & Capital & 5.51 & 7.24 & 9.46 & 7.36 & 2.39 \\ 
-   & Labor & 5.11 & 6.44 & 7.91 & 6.62 & 2.01 \\ 
-   & Materials & 5.27 & 6.75 & 8.48 & 6.93 & 2.17 \\ 
-  All (Total=24037) & Output & 12.06 & 13.79 & 15.21 & 13.51 & 2.09 \\ 
-   & Capital & 10.47 & 12.44 & 14.36 & 12.31 & 2.52 \\ 
-   & Labor & 9.76 & 11.17 & 12.75 & 11.33 & 2.17 \\ 
-   & Materials & 9.97 & 11.56 & 13.41 & 11.72 & 2.34 \\ 
+31 (Total=1788) & Output & 17.02 & 18.86 & 20.3 & 18.58 & 2.11 \\ 
+   & Capital & 15.65 & 17.61 & 19.58 & 17.53 & 2.49 \\ 
+   & Labor & 15.12 & 16.7 & 18.28 & 16.74 & 2.2 \\ 
+   & Materials & 15.42 & 17.09 & 18.89 & 17.15 & 2.35 \\ 
+  32 (Total=5070) & Output & 15.65 & 17.76 & 19.38 & 17.45 & 2.29 \\ 
+   & Capital & 14.24 & 16.34 & 18.54 & 16.35 & 2.71 \\ 
+   & Labor & 13.79 & 15.39 & 17.06 & 15.46 & 2.4 \\ 
+   & Materials & 14.04 & 15.8 & 17.81 & 15.91 & 2.56 \\ 
+  33 (Total=11117) & Output & 7.47 & 8.85 & 10.13 & 8.61 & 2 \\ 
+   & Capital & 5.59 & 7.32 & 9.5 & 7.43 & 2.37 \\ 
+   & Labor & 5.37 & 6.9 & 8.27 & 6.93 & 2.05 \\ 
+   & Materials & 5.55 & 7.17 & 8.85 & 7.24 & 2.2 \\ 
+  All (Total=17975) & Output & 16.72 & 18.54 & 19.96 & 18.26 & 2.1 \\ 
+   & Capital & 15.26 & 17.27 & 19.17 & 17.09 & 2.52 \\ 
+   & Labor & 14.64 & 16.23 & 17.83 & 16.25 & 2.25 \\ 
+   & Materials & 14.96 & 16.66 & 18.45 & 16.69 & 2.4 \\ 
    \hline
 \end{tabular}
 \label{USsum}
@@ -1042,22 +1092,22 @@ This paper contributes to the growing literature on production functions with un
 \begin{tabular}{cccccccccccc}
   \hline\hline & & \multicolumn{2}{c}{Capital}  & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Materials} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10} \cmidrule(lr){11-12}NAICS & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
   \hline
-31 & 0.10 & 0.074 & 0.0410 & 0.184 & 0.0153 & 0.761 & 0.0637 & 1.019 & 0.0278 & 0.400 & 0.2300 \\ 
-   & 0.25 & 0.095 & 0.0404 & 0.145 & 0.0118 & 0.770 & 0.0627 & 1.010 & 0.0277 & 0.660 & 0.2690 \\ 
-   & 0.50 & 0.099 & 0.0408 & 0.133 & 0.0113 & 0.776 & 0.0624 & 1.008 & 0.0279 & 0.746 & 0.3091 \\ 
-   & 0.90 & 0.175 & 0.0467 & 0.098 & 0.0196 & 0.740 & 0.0645 & 1.013 & 0.0283 & 1.774 & 0.6868 \\ 
-  32 & 0.10 & 0.181 & 0.0315 & 0.288 & 0.0198 & 0.600 & 0.0467 & 1.069 & 0.0179 & 0.631 & 0.1184 \\ 
-   & 0.25 & 0.182 & 0.0315 & 0.250 & 0.0173 & 0.629 & 0.0456 & 1.062 & 0.0179 & 0.729 & 0.1386 \\ 
-   & 0.50 & 0.194 & 0.0323 & 0.225 & 0.0144 & 0.639 & 0.0460 & 1.059 & 0.0181 & 0.861 & 0.1548 \\ 
-   & 0.90 & 0.268 & 0.0406 & 0.141 & 0.0189 & 0.636 & 0.0509 & 1.045 & 0.0185 & 1.895 & 0.4307 \\ 
-  33 & 0.10 & 0.093 & 0.0149 & 0.345 & 0.0088 & 0.601 & 0.0252 & 1.039 & 0.0093 & 0.268 & 0.0429 \\ 
-   & 0.25 & 0.112 & 0.0151 & 0.305 & 0.0078 & 0.614 & 0.0254 & 1.031 & 0.0093 & 0.367 & 0.0490 \\ 
-   & 0.50 & 0.129 & 0.0159 & 0.271 & 0.0071 & 0.624 & 0.0257 & 1.025 & 0.0094 & 0.475 & 0.0582 \\ 
-   & 0.90 & 0.180 & 0.0186 & 0.233 & 0.0095 & 0.615 & 0.0277 & 1.028 & 0.0097 & 0.774 & 0.0854 \\ 
-  All & 0.10 & 0.114 & 0.0140 & 0.312 & 0.0093 & 0.613 & 0.0231 & 1.040 & 0.0087 & 0.367 & 0.0460 \\ 
-   & 0.25 & 0.128 & 0.0138 & 0.275 & 0.0087 & 0.631 & 0.0227 & 1.033 & 0.0086 & 0.465 & 0.0524 \\ 
-   & 0.50 & 0.144 & 0.0145 & 0.245 & 0.0076 & 0.639 & 0.0233 & 1.028 & 0.0087 & 0.587 & 0.0607 \\ 
-   & 0.90 & 0.200 & 0.0172 & 0.198 & 0.0082 & 0.630 & 0.0250 & 1.028 & 0.0089 & 1.015 & 0.0987 \\ 
+31 & 0.10 & 0.138 & 0.0482 & 0.101 & 0.0188 & 0.718 & 0.0741 & 0.958 & 0.0387 & 1.362 & 0.5810 \\ 
+   & 0.25 & 0.159 & 0.0479 & 0.088 & 0.0151 & 0.708 & 0.0738 & 0.956 & 0.0389 & 1.817 & 0.6859 \\ 
+   & 0.50 & 0.180 & 0.0494 & 0.074 & 0.0141 & 0.700 & 0.0741 & 0.954 & 0.0396 & 2.418 & 0.9637 \\ 
+   & 0.90 & 0.247 & 0.0603 & 0.043 & 0.0312 & 0.667 & 0.0780 & 0.957 & 0.0409 & 5.679 & 172.2314 \\ 
+  32 & 0.10 & 0.134 & 0.0220 & 0.221 & 0.0185 & 0.623 & 0.0389 & 0.978 & 0.0221 & 0.605 & 0.1186 \\ 
+   & 0.25 & 0.148 & 0.0219 & 0.206 & 0.0165 & 0.623 & 0.0386 & 0.976 & 0.0219 & 0.717 & 0.1304 \\ 
+   & 0.50 & 0.160 & 0.0232 & 0.190 & 0.0146 & 0.624 & 0.0394 & 0.975 & 0.0223 & 0.842 & 0.1497 \\ 
+   & 0.90 & 0.252 & 0.0317 & 0.097 & 0.0202 & 0.596 & 0.0431 & 0.945 & 0.0234 & 2.607 & 0.9094 \\ 
+  33 & 0.10 & 0.082 & 0.0179 & 0.300 & 0.0119 & 0.585 & 0.0343 & 0.967 & 0.0167 & 0.273 & 0.0610 \\ 
+   & 0.25 & 0.118 & 0.0167 & 0.265 & 0.0109 & 0.574 & 0.0338 & 0.957 & 0.0166 & 0.443 & 0.0648 \\ 
+   & 0.50 & 0.145 & 0.0166 & 0.234 & 0.0108 & 0.568 & 0.0334 & 0.947 & 0.0165 & 0.620 & 0.0756 \\ 
+   & 0.90 & 0.210 & 0.0178 & 0.185 & 0.0129 & 0.544 & 0.0337 & 0.938 & 0.0160 & 1.136 & 0.1260 \\ 
+  All & 0.10 & 0.114 & 0.0132 & 0.244 & 0.0106 & 0.605 & 0.0256 & 0.963 & 0.0130 & 0.467 & 0.0586 \\ 
+   & 0.25 & 0.136 & 0.0130 & 0.224 & 0.0090 & 0.601 & 0.0256 & 0.960 & 0.0131 & 0.606 & 0.0629 \\ 
+   & 0.50 & 0.156 & 0.0133 & 0.203 & 0.0086 & 0.598 & 0.0254 & 0.956 & 0.0133 & 0.767 & 0.0746 \\ 
+   & 0.90 & 0.233 & 0.0158 & 0.143 & 0.0098 & 0.567 & 0.0261 & 0.943 & 0.0134 & 1.629 & 0.1733 \\ 
    \hline
 \end{tabular}
 \caption*{\footnotesize Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using LP.}
@@ -1069,10 +1119,10 @@ This paper contributes to the growing literature on production functions with un
 \begin{tabular}{ccccccccccc}
   \hline\hline & \multicolumn{2}{c}{Capital} & \multicolumn{2}{c}{Labor} & \multicolumn{2}{c}{Materials} & \multicolumn{2}{c}{Returns to Scale} & \multicolumn{2}{c}{Capital Intensity}\\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11}NAICS & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
   \hline
-31 & 0.108 & 0.0387 & 0.138 & 0.0143 & 0.767 & 0.0617 & 1.013 & 0.0274 & 0.778 & 0.2846 \\ 
-  32 & 0.204 & 0.0329 & 0.225 & 0.0148 & 0.631 & 0.0475 & 1.060 & 0.0179 & 0.907 & 0.1563 \\ 
-  33 & 0.123 & 0.0155 & 0.292 & 0.0080 & 0.619 & 0.0257 & 1.034 & 0.0092 & 0.420 & 0.0522 \\ 
-  All & 0.144 & 0.0140 & 0.259 & 0.0078 & 0.632 & 0.0234 & 1.035 & 0.0085 & 0.554 & 0.0544 \\ 
+31 & 0.167 & 0.0468 & 0.084 & 0.0161 & 0.708 & 0.0728 & 0.960 & 0.0386 & 1.983 & 0.8032 \\ 
+  32 & 0.170 & 0.0234 & 0.181 & 0.0151 & 0.620 & 0.0396 & 0.971 & 0.0221 & 0.936 & 0.1643 \\ 
+  33 & 0.134 & 0.0156 & 0.248 & 0.0120 & 0.572 & 0.0330 & 0.954 & 0.0160 & 0.541 & 0.0663 \\ 
+  All & 0.156 & 0.0128 & 0.205 & 0.0091 & 0.597 & 0.0253 & 0.958 & 0.0129 & 0.760 & 0.0702 \\ 
    \hline
 \end{tabular}
 \caption*{\footnotesize Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using LP.}
@@ -1126,22 +1176,22 @@ This paper contributes to the growing literature on production functions with un
 \begin{tabular}{cccccc}
   \hline\hline & & \multicolumn{2}{c}{R\&D}  & \multicolumn{2}{c}{Advertising} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6}NAICS & $\tau$ & Coef. & s.e & Coef. & s.e \\ 
   \hline
-31 & 0.10 & 0.002 & 0.0163 & 0.006 & 0.0193 \\ 
-   & 0.25 & 0.005 & 0.0163 & 0.008 & 0.0193 \\ 
-   & 0.50 & 0.004 & 0.0163 & 0.007 & 0.0192 \\ 
-   & 0.90 & -0.004 & 0.0163 & -0.004 & 0.0191 \\ 
-  32 & 0.10 & -0.036 & 0.0125 & -0.041 & 0.0124 \\ 
-   & 0.25 & -0.033 & 0.0125 & -0.038 & 0.0124 \\ 
-   & 0.50 & -0.033 & 0.0126 & -0.038 & 0.0125 \\ 
-   & 0.90 & -0.029 & 0.0129 & -0.038 & 0.0128 \\ 
-  33 & 0.10 & -0.015 & 0.0073 & -0.006 & 0.0068 \\ 
-   & 0.25 & -0.012 & 0.0073 & -0.005 & 0.0068 \\ 
-   & 0.50 & -0.011 & 0.0073 & -0.005 & 0.0068 \\ 
-   & 0.90 & -0.017 & 0.0073 & -0.013 & 0.0067 \\ 
-  All & 0.10 & -0.016 & 0.0064 & -0.011 & 0.0064 \\ 
-   & 0.25 & -0.014 & 0.0064 & -0.010 & 0.0063 \\ 
-   & 0.50 & -0.014 & 0.0063 & -0.010 & 0.0063 \\ 
-   & 0.90 & -0.019 & 0.0064 & -0.017 & 0.0063 \\ 
+31 & 0.10 & 0.041 & 0.0236 & 0.049 & 0.0276 \\ 
+   & 0.25 & 0.040 & 0.0236 & 0.047 & 0.0277 \\ 
+   & 0.50 & 0.039 & 0.0238 & 0.046 & 0.0279 \\ 
+   & 0.90 & 0.030 & 0.0235 & 0.035 & 0.0274 \\ 
+  32 & 0.10 & 0.023 & 0.0153 & 0.028 & 0.0158 \\ 
+   & 0.25 & 0.023 & 0.0152 & 0.027 & 0.0157 \\ 
+   & 0.50 & 0.023 & 0.0155 & 0.026 & 0.0159 \\ 
+   & 0.90 & 0.036 & 0.0161 & 0.035 & 0.0165 \\ 
+  33 & 0.10 & 0.038 & 0.0121 & 0.044 & 0.0111 \\ 
+   & 0.25 & 0.041 & 0.0121 & 0.045 & 0.0111 \\ 
+   & 0.50 & 0.044 & 0.0121 & 0.046 & 0.0111 \\ 
+   & 0.90 & 0.045 & 0.0118 & 0.044 & 0.0108 \\ 
+  All & 0.10 & 0.034 & 0.0091 & 0.042 & 0.0089 \\ 
+   & 0.25 & 0.033 & 0.0092 & 0.041 & 0.0090 \\ 
+   & 0.50 & 0.034 & 0.0093 & 0.040 & 0.0091 \\ 
+   & 0.90 & 0.035 & 0.0094 & 0.039 & 0.0091 \\ 
    \hline
 \end{tabular}
 \caption*{\footnotesize $^{*}$Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using the DS-LP estimator}
@@ -1153,15 +1203,14 @@ This paper contributes to the growing literature on production functions with un
 \begin{tabular}{ccccc}
   \hline\hline & \multicolumn{2}{c}{R\&D}  & \multicolumn{2}{c}{Advertising} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5}NAICS & Coef. & s.e & Coef. & s.e \\ 
   \hline
-31 & 0.002 & 0.0161 & 0.004 & 0.0190 \\ 
-  32 & -0.034 & 0.0126 & -0.040 & 0.0124 \\ 
-  33 & -0.016 & 0.0072 & -0.009 & 0.0067 \\ 
-  All & -0.018 & 0.0063 & -0.014 & 0.0063 \\ 
+31 & 0.036 & 0.0234 & 0.043 & 0.0274 \\ 
+  32 & 0.024 & 0.0154 & 0.027 & 0.0158 \\ 
+  33 & 0.041 & 0.0118 & 0.044 & 0.0108 \\ 
+  All & 0.033 & 0.0091 & 0.039 & 0.0089 \\ 
    \hline
 \end{tabular}
 \caption*{\footnotesize $^{*}$Standard errors are obtained using bootstrap with 500 replications. Productivity is estimated using the LP estimator}
 \end{table}
-
 
 \subsubsection{Chile}
 
@@ -1251,43 +1300,43 @@ This paper contributes to the growing literature on production functions with un
 \label{fig:LPCHLpgrowth}
 \end{figure}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{cccccccc}
-  \hline\hline & & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-311 & 0.10 & 0.257 & 0.0192 & 0.166 & 0.0132 & 0.608 & 0.0298 \\ 
-   & 0.25 & 0.254 & 0.0190 & 0.164 & 0.0131 & 0.605 & 0.0296 \\ 
-   & 0.50 & 0.250 & 0.0187 & 0.162 & 0.0129 & 0.600 & 0.0294 \\ 
-   & 0.90 & 0.241 & 0.0182 & 0.156 & 0.0125 & 0.589 & 0.0289 \\ 
-  381 & 0.10 & 0.202 & 0.0246 & 0.418 & 0.0414 & 1.071 & 0.0893 \\ 
-   & 0.25 & 0.200 & 0.0245 & 0.415 & 0.0412 & 1.067 & 0.0891 \\ 
-   & 0.50 & 0.199 & 0.0244 & 0.412 & 0.0410 & 1.062 & 0.0889 \\ 
-   & 0.90 & 0.194 & 0.0240 & 0.404 & 0.0404 & 1.050 & 0.0885 \\ 
-  321 & 0.10 & 0.325 & 0.0380 & 0.675 & 0.0631 & 1.317 & 0.1206 \\ 
-   & 0.25 & 0.324 & 0.0380 & 0.673 & 0.0631 & 1.313 & 0.1207 \\ 
-   & 0.50 & 0.323 & 0.0379 & 0.671 & 0.0630 & 1.310 & 0.1206 \\ 
-   & 0.90 & 0.320 & 0.0381 & 0.666 & 0.0631 & 1.301 & 0.1210 \\ 
-  All & 0.10 & 0.323 & 0.0107 & 0.415 & 0.0127 & 1.050 & 0.0266 \\ 
-   & 0.25 & 0.321 & 0.0107 & 0.412 & 0.0126 & 1.045 & 0.0265 \\ 
-   & 0.50 & 0.317 & 0.0106 & 0.408 & 0.0125 & 1.039 & 0.0264 \\ 
-   & 0.90 & 0.306 & 0.0103 & 0.398 & 0.0123 & 1.021 & 0.0260 \\ 
-   \hline
-\end{tabular}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{cccccccc}
+%   \hline\hline & & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+%   \hline
+% 311 & 0.10 & 0.257 & 0.0192 & 0.166 & 0.0132 & 0.608 & 0.0298 \\ 
+%    & 0.25 & 0.254 & 0.0190 & 0.164 & 0.0131 & 0.605 & 0.0296 \\ 
+%    & 0.50 & 0.250 & 0.0187 & 0.162 & 0.0129 & 0.600 & 0.0294 \\ 
+%    & 0.90 & 0.241 & 0.0182 & 0.156 & 0.0125 & 0.589 & 0.0289 \\ 
+%   381 & 0.10 & 0.202 & 0.0246 & 0.418 & 0.0414 & 1.071 & 0.0893 \\ 
+%    & 0.25 & 0.200 & 0.0245 & 0.415 & 0.0412 & 1.067 & 0.0891 \\ 
+%    & 0.50 & 0.199 & 0.0244 & 0.412 & 0.0410 & 1.062 & 0.0889 \\ 
+%    & 0.90 & 0.194 & 0.0240 & 0.404 & 0.0404 & 1.050 & 0.0885 \\ 
+%   321 & 0.10 & 0.325 & 0.0380 & 0.675 & 0.0631 & 1.317 & 0.1206 \\ 
+%    & 0.25 & 0.324 & 0.0380 & 0.673 & 0.0631 & 1.313 & 0.1207 \\ 
+%    & 0.50 & 0.323 & 0.0379 & 0.671 & 0.0630 & 1.310 & 0.1206 \\ 
+%    & 0.90 & 0.320 & 0.0381 & 0.666 & 0.0631 & 1.301 & 0.1210 \\ 
+%   All & 0.10 & 0.323 & 0.0107 & 0.415 & 0.0127 & 1.050 & 0.0266 \\ 
+%    & 0.25 & 0.321 & 0.0107 & 0.412 & 0.0126 & 1.045 & 0.0265 \\ 
+%    & 0.50 & 0.317 & 0.0106 & 0.408 & 0.0125 & 1.039 & 0.0264 \\ 
+%    & 0.90 & 0.306 & 0.0103 & 0.398 & 0.0123 & 1.021 & 0.0260 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{ccccccc}
-  \hline\hline & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}ISIC & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-311 & 0.249 & 0.0186 & 0.161 & 0.0129 & 0.599 & 0.0294 \\ 
-  381 & 0.199 & 0.0244 & 0.412 & 0.0410 & 1.063 & 0.0890 \\ 
-  321 & 0.323 & 0.0380 & 0.671 & 0.0630 & 1.310 & 0.1207 \\ 
-  All & 0.317 & 0.0106 & 0.408 & 0.0125 & 1.039 & 0.0264 \\ 
-   \hline
-\end{tabular}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{ccccccc}
+%   \hline\hline & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}ISIC & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+%   \hline
+% 311 & 0.249 & 0.0186 & 0.161 & 0.0129 & 0.599 & 0.0294 \\ 
+%   381 & 0.199 & 0.0244 & 0.412 & 0.0410 & 1.063 & 0.0890 \\ 
+%   321 & 0.323 & 0.0380 & 0.671 & 0.0630 & 1.310 & 0.1207 \\ 
+%   All & 0.317 & 0.0106 & 0.408 & 0.0125 & 1.039 & 0.0264 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
 
 \begin{table}[H]
 \centering
@@ -1415,43 +1464,43 @@ This paper contributes to the growing literature on production functions with un
 \label{fig:LPCHLpgrowth}
 \end{figure}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{cccccccc}
-  \hline\hline & & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-311 & 0.10 & 0.098 & 0.0098 & 0.124 & 0.0108 & 3.218 & 0.1469 \\ 
-   & 0.25 & 0.097 & 0.0098 & 0.123 & 0.0107 & 3.211 & 0.1469 \\ 
-   & 0.50 & 0.097 & 0.0097 & 0.122 & 0.0106 & 3.205 & 0.1467 \\ 
-   & 0.90 & 0.094 & 0.0094 & 0.118 & 0.0103 & 3.174 & 0.1460 \\ 
-  322 & 0.10 & 0.170 & 0.0184 & 0.318 & 0.0296 & 4.787 & 0.3099 \\ 
-   & 0.25 & 0.170 & 0.0183 & 0.317 & 0.0295 & 4.778 & 0.3096 \\ 
-   & 0.50 & 0.169 & 0.0183 & 0.316 & 0.0294 & 4.771 & 0.3095 \\ 
-   & 0.90 & 0.166 & 0.0180 & 0.311 & 0.0289 & 4.736 & 0.3077 \\ 
-  381 & 0.10 & 0.193 & 0.0198 & 0.280 & 0.0264 & 2.314 & 0.1572 \\ 
-   & 0.25 & 0.193 & 0.0198 & 0.279 & 0.0263 & 2.316 & 0.1571 \\ 
-   & 0.50 & 0.192 & 0.0198 & 0.278 & 0.0263 & 2.317 & 0.1569 \\ 
-   & 0.90 & 0.190 & 0.0196 & 0.273 & 0.0259 & 2.316 & 0.1562 \\ 
-  All & 0.10 & 0.169 & 0.0050 & 0.280 & 0.0075 & 3.771 & 0.0701 \\ 
-   & 0.25 & 0.168 & 0.0050 & 0.278 & 0.0074 & 3.761 & 0.0700 \\ 
-   & 0.50 & 0.167 & 0.0049 & 0.276 & 0.0074 & 3.752 & 0.0699 \\ 
-   & 0.90 & 0.163 & 0.0048 & 0.269 & 0.0072 & 3.716 & 0.0695 \\ 
-   \hline
-\end{tabular}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{cccccccc}
+%   \hline\hline & & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}ISIC & $\tau$ & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+%   \hline
+% 311 & 0.10 & 0.098 & 0.0098 & 0.124 & 0.0108 & 3.218 & 0.1469 \\ 
+%    & 0.25 & 0.097 & 0.0098 & 0.123 & 0.0107 & 3.211 & 0.1469 \\ 
+%    & 0.50 & 0.097 & 0.0097 & 0.122 & 0.0106 & 3.205 & 0.1467 \\ 
+%    & 0.90 & 0.094 & 0.0094 & 0.118 & 0.0103 & 3.174 & 0.1460 \\ 
+%   322 & 0.10 & 0.170 & 0.0184 & 0.318 & 0.0296 & 4.787 & 0.3099 \\ 
+%    & 0.25 & 0.170 & 0.0183 & 0.317 & 0.0295 & 4.778 & 0.3096 \\ 
+%    & 0.50 & 0.169 & 0.0183 & 0.316 & 0.0294 & 4.771 & 0.3095 \\ 
+%    & 0.90 & 0.166 & 0.0180 & 0.311 & 0.0289 & 4.736 & 0.3077 \\ 
+%   381 & 0.10 & 0.193 & 0.0198 & 0.280 & 0.0264 & 2.314 & 0.1572 \\ 
+%    & 0.25 & 0.193 & 0.0198 & 0.279 & 0.0263 & 2.316 & 0.1571 \\ 
+%    & 0.50 & 0.192 & 0.0198 & 0.278 & 0.0263 & 2.317 & 0.1569 \\ 
+%    & 0.90 & 0.190 & 0.0196 & 0.273 & 0.0259 & 2.316 & 0.1562 \\ 
+%   All & 0.10 & 0.169 & 0.0050 & 0.280 & 0.0075 & 3.771 & 0.0701 \\ 
+%    & 0.25 & 0.168 & 0.0050 & 0.278 & 0.0074 & 3.761 & 0.0700 \\ 
+%    & 0.50 & 0.167 & 0.0049 & 0.276 & 0.0074 & 3.752 & 0.0699 \\ 
+%    & 0.90 & 0.163 & 0.0048 & 0.269 & 0.0072 & 3.716 & 0.0695 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{ccccccc}
-  \hline\hline & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}ISIC & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
-  \hline
-311 & 0.096 & 0.0097 & 0.121 & 0.0106 & 3.200 & 0.1465 \\ 
-  322 & 0.169 & 0.0183 & 0.316 & 0.0294 & 4.770 & 0.3093 \\ 
-  381 & 0.192 & 0.0198 & 0.278 & 0.0263 & 2.317 & 0.1569 \\ 
-  All & 0.167 & 0.0049 & 0.276 & 0.0074 & 3.749 & 0.0699 \\ 
-   \hline
-\end{tabular}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{ccccccc}
+%   \hline\hline & \multicolumn{2}{c}{Exporter}  & \multicolumn{2}{c}{Importer} & \multicolumn{2}{c}{Advertiser} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}ISIC & Coef. & s.e & Coef. & s.e & Coef. & s.e \\ 
+%   \hline
+% 311 & 0.096 & 0.0097 & 0.121 & 0.0106 & 3.200 & 0.1465 \\ 
+%   322 & 0.169 & 0.0183 & 0.316 & 0.0294 & 4.770 & 0.3093 \\ 
+%   381 & 0.192 & 0.0198 & 0.278 & 0.0263 & 2.317 & 0.1569 \\ 
+%   All & 0.167 & 0.0049 & 0.276 & 0.0074 & 3.749 & 0.0699 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
 
 \begin{table}[H]
 \centering
@@ -1490,6 +1539,12 @@ This paper contributes to the growing literature on production functions with un
    \hline
 \end{tabular}
 \end{table}
+
+\subsection{Ex-Post Shocks and Measurement Error in Output}
+
+\subsection{Identification of Gross-Output Production Functions}
+
+\subsection{Proofs}
 
 
 
