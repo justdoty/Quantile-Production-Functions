@@ -1,4 +1,4 @@
-\begin{thebibliography}{46}
+\begin{thebibliography}{48}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abrevaya and Dahl(2008)}]{Abrevaya2008}
@@ -22,6 +22,11 @@
 \textsc{Ai, C.} and \textsc{Chen, X.} (2003). Efficient estimation of models
   with conditional moment restrictions containing unknown functions.
   \textit{Econometrica}, \textbf{71}~(6), 1795--1843.
+
+\bibitem[{Ai and Chen(2012)}]{Ai2012}
+\textsc{---} and \textsc{---} (2012). The semiparametric efficiency bound for
+  models of sequential moment restrictions containing unknown functions.
+  \textit{Journal of Econometrics}, \textbf{170}~(2), 442--457.
 
 \bibitem[{Aigner \textit{et~al.}(1977)Aigner, Lovell and Schmidt}]{Aigner1977}
 \textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
@@ -221,5 +226,10 @@
 \bibitem[{Rostek(2009)}]{ROSTEK2009}
 \textsc{Rostek, M.} (2009). Quantile maximization in decision theory.
   \textit{The Review of Economic Studies}, \textbf{77}~(1), 339--371.
+
+\bibitem[{Wooldridge(2009)}]{Wooldridge2009}
+\textsc{Wooldridge, J.~M.} (2009). On estimating firm-level production
+  functions using proxy variables to control for unobservables.
+  \textit{Economics Letters}, \textbf{104}~(3), 112--114.
 
 \end{thebibliography}

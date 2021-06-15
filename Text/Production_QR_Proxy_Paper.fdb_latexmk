@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex Production_QR_Proxy_Paper"] 1623173671 "Production_QR_Proxy_Paper.aux" "Production_QR_Proxy_Paper.bbl" "Production_QR_Proxy_Paper" 1623173693
-  "Production_QR_Proxy_Paper.aux" 1623173692 28457 07b3505bc2563b1c8396e9d69d8d64ee ""
+["bibtex Production_QR_Proxy_Paper"] 1623708970 "Production_QR_Proxy_Paper.aux" "Production_QR_Proxy_Paper.bbl" "Production_QR_Proxy_Paper" 1623779835
+  "Production_QR_Proxy_Paper.aux" 1623779835 28556 163abcec70ab7d8eb51f968d426057f5 ""
   "ecca.bst.bst" 0 -1 0 ""
-  "references.bib" 1623165497 30007 c459784af947303f9db87cdf74b2cb0d ""
+  "references.bib" 1623707092 30608 60d066e6f2d4fc18dcd9012b6a817c1d ""
   (generated)
   "Production_QR_Proxy_Paper.blg"
   "Production_QR_Proxy_Paper.bbl"
-["pdflatex"] 1623173671 "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.tex" "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf" "Production_QR_Proxy_Paper" 1623173693
+["pdflatex"] 1623779813 "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.tex" "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf" "Production_QR_Proxy_Paper" 1623779835
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_311.png" 1622570451 285369 6e63cf68fc59a8c22cd6f768d6b0a44e ""
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_321.png" 1622570454 290832 e3641d956b13c8d410a63c7f466ceb70 ""
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_381.png" 1622570452 282655 f30fb6b658c0a901919a997e736de296 ""
@@ -44,8 +44,8 @@
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/TFP/QLP_TFP_Plot.png" 1623160772 494442 52733caf4213f8bbabb34f3ab9fbe9c0 ""
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Plots/TFP/QLP_TFPgrowth_Plot.png" 1623160774 784288 e4197b61ef536619caa5dc590d5b06e0 ""
   "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/TFPplot.png" 1620242936 528427 60f13fa52460589bcd2a7e13f7348199 ""
-  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.aux" 1623173692 28457 07b3505bc2563b1c8396e9d69d8d64ee ""
-  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.tex" 1623173649 122596 0811ea8f8dad1de2b81f9c49ee493956 ""
+  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.aux" 1623779835 28556 163abcec70ab7d8eb51f968d426057f5 ""
+  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.tex" 1623779813 128306 6dabaeeb88f60b4a3390fe7b22b225de ""
   "/Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.657pk" 1539021063 7808 e48bf2d5d194b20a406f7079e8b1dbd5 ""
   "/Users/justindoty/Library/texlive/2017/texmf-var/fonts/pk/ljfour/public/bbm/bbm8.600pk" 1551321554 5580 bd32c0487d3d5990758b67c0c93fa636 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
@@ -193,14 +193,14 @@
   "/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1495593472 2350277 a699055bee05bf8a40b0504752487295 ""
   "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1495593487 4129592 0e6cfee100d68e6d96b92c0258f2ff73 ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
-  "Production_QR_Proxy_Paper.aux" 1623173692 28457 07b3505bc2563b1c8396e9d69d8d64ee ""
-  "Production_QR_Proxy_Paper.bbl" 1623173671 10566 0a595ad4816fc02a88617cdaf4874746 "bibtex Production_QR_Proxy_Paper"
-  "Production_QR_Proxy_Paper.out" 1623173692 1751 3f7072645382b876cfe6cd6f3e41d7dd ""
-  "Production_QR_Proxy_Paper.tex" 1623173649 122596 0811ea8f8dad1de2b81f9c49ee493956 ""
+  "Production_QR_Proxy_Paper.aux" 1623779835 28556 163abcec70ab7d8eb51f968d426057f5 ""
+  "Production_QR_Proxy_Paper.bbl" 1623708970 11059 57f946a972ca493dcdc4317588c9a2be "bibtex Production_QR_Proxy_Paper"
+  "Production_QR_Proxy_Paper.out" 1623779835 1689 e3b32bb25dfe4a2551a4eaa6925e45f7 ""
+  "Production_QR_Proxy_Paper.tex" 1623779813 128306 6dabaeeb88f60b4a3390fe7b22b225de ""
   (generated)
-  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.log"
   "Production_QR_Proxy_Paper.log"
-  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf"
   "Production_QR_Proxy_Paper.pdf"
   "Production_QR_Proxy_Paper.out"
   "Production_QR_Proxy_Paper.aux"
+  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.log"
+  "/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Text/Production_QR_Proxy_Paper.pdf"
