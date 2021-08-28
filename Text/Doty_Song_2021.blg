@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: Doty_Song_2021.aux
+The style file: ecca.bst.bst
+Database file #1: references.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
+while executing---line 1580 of file ecca.bst.bst
+Warning--empty note in balat
+Warning--empty note in mert
+Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
+while executing---line 1647 of file ecca.bst.bst
+Name 2 in "Hiroyuki Kasahara and Paul Schrimpf, and Michio Suzuki" has a comma at the end for entry Kasahara2015
+while executing---line 1647 of file ecca.bst.bst
+Warning--empty note in Kasahara2015
+Warning--empty note in Li2017
+You've used 41 entries,
+            3231 wiz_defined-function locations,
+            951 strings with 11017 characters,
+and the built_in function-call counts, 34793 in all, are:
+= -- 2863
+> -- 2170
+< -- 27
++ -- 1012
+- -- 344
+* -- 2870
+:= -- 5423
+add.period$ -- 119
+call.type$ -- 41
+change.case$ -- 291
+chr.to.int$ -- 41
+cite$ -- 45
+duplicate$ -- 2638
+empty$ -- 1905
+format.name$ -- 383
+if$ -- 6165
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 353
+newline$ -- 127
+num.names$ -- 164
+pop$ -- 689
+preamble$ -- 1
+purify$ -- 250
+quote$ -- 0
+skip$ -- 1270
+stack$ -- 0
+substring$ -- 2050
+swap$ -- 1787
+text.length$ -- 700
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 369
+warning$ -- 4
+while$ -- 244
+width$ -- 0
+write$ -- 446
+(There were 3 error messages)

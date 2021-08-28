@@ -1,0 +1,209 @@
+\begin{thebibliography}{41}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Ackerberg \textit{et~al.}(2015)Ackerberg, Caves and
+  Frazer}]{Ackerberg2015}
+\textsc{Ackerberg, D.}, \textsc{Caves, K.} and \textsc{Frazer, G.} (2015).
+  Identification properties of recent production function estimators.
+  \textit{Econometrica}, \textbf{83}~(6), 2411--2451.
+
+\bibitem[{Ackerberg \textit{et~al.}(2014)Ackerberg, Chen, Hahn and
+  Liao}]{Ackerberg2014}
+\textsc{---}, \textsc{Chen, X.}, \textsc{Hahn, J.} and \textsc{Liao, Z.}
+  (2014). Asymptotic efficiency of semiparametric two-step {GMM}. \textit{The
+  Review of Economic Studies}, \textbf{81}~(3), 919--943.
+
+\bibitem[{Ai and Chen(2012)}]{Ai2012}
+\textsc{Ai, C.} and \textsc{Chen, X.} (2012). The semiparametric efficiency
+  bound for models of sequential moment restrictions containing unknown
+  functions. \textit{Journal of Econometrics}, \textbf{170}~(2), 442--457.
+
+\bibitem[{Aigner \textit{et~al.}(1977)Aigner, Lovell and Schmidt}]{Aigner1977}
+\textsc{Aigner, D.}, \textsc{Lovell, C.} and \textsc{Schmidt, P.} (1977).
+  Formulation and estimation of stochastic frontier production function models.
+  \textit{Journal of Econometrics}, \textbf{6}~(1), 21--37.
+
+\bibitem[{Aragon \textit{et~al.}(2005)Aragon, Daouia and
+  Thomas-Agnan}]{Aragon2005}
+\textsc{Aragon, Y.}, \textsc{Daouia, A.} and \textsc{Thomas-Agnan, C.} (2005).
+  Nonparametric frontier estimation: A conditional quantile based approach.
+  \textit{Econometric Theory}, \textbf{21}~(2), 358--389.
+
+\bibitem[{Balat \textit{et~al.}(2019)Balat, Brambilla and Sasaki}]{balat}
+\textsc{Balat, J.}, \textsc{Brambilla, I.} and \textsc{Sasaki, Y.} (2019).
+  {Heterogeneous firms: skilled-labor productivity and the destination of
+  exports. Working paper}.
+
+\bibitem[{Bhattacharya(2009)}]{Bhattacharya2009}
+\textsc{Bhattacharya, D.} (2009). Inferring optimal peer assignment from
+  experimental data. \textit{Journal of the American Statistical Association},
+  \textbf{104}~(486), 486--500.
+
+\bibitem[{Cai \textit{et~al.}(2018)Cai, Chen and Fang}]{Cai2018}
+\textsc{Cai, Z.}, \textsc{Chen, L.} and \textsc{Fang, Y.} (2018). A
+  semiparametric quantile panel data model with an application to estimating
+  the growth effect of {FDI}. \textit{Journal of Econometrics},
+  \textbf{206}~(2), 531--553.
+
+\bibitem[{Chambers(2007)}]{Chambers2007}
+\textsc{Chambers, C.~P.} (2007). Ordinal aggregation and quantiles.
+  \textit{Journal of Economic Theory}, \textbf{137}~(1), 416--431.
+
+\bibitem[{Chernozhukov(2005)}]{Chernozhukov2005a}
+\textsc{Chernozhukov, V.} (2005). Extremal quantile regression. \textit{The
+  Annals of Statistics}, \textbf{33}~(2), 806--839.
+
+\bibitem[{Chernozhukov and Hansen(2005)}]{Chernozhukov2005}
+\textsc{---} and \textsc{Hansen, C.} (2005). An {IV} model of quantile
+  treatment effects. \textit{Econometrica}, \textbf{73}~(1), 245--261.
+
+\bibitem[{Chernozhukov and Hansen(2006)}]{Chernozhukov2006}
+\textsc{---} and \textsc{---} (2006). Instrumental quantile regression
+  inference for structural and treatment effect models. \textit{Journal of
+  Econometrics}, \textbf{132}~(2), 491--525.
+
+\bibitem[{Chesher(2003)}]{Chesher2003}
+\textsc{Chesher, A.} (2003). Identification in nonseparable models.
+  \textit{Econometrica}, \textbf{71}~(5), 1405--1441.
+
+\bibitem[{de~Castro and Galvao(2019)}]{Castro2019}
+\textsc{de~Castro, L.} and \textsc{Galvao, A.~F.} (2019). Dynamic quantile
+  models of rational behavior. \textit{Econometrica}, \textbf{87}~(6),
+  1893--1939.
+
+\bibitem[{de~Castro \textit{et~al.}(2019)de~Castro, Galvao, Kaplan and
+  Liu}]{qgmm}
+\textsc{---}, \textsc{---}, \textsc{Kaplan, D.~M.} and \textsc{Liu, X.} (2019).
+  Smoothed {GMM} for quantile models. \textit{Journal of Econometrics},
+  \textbf{213}~(1), 121--144.
+
+\bibitem[{Dermirer(2020)}]{mert}
+\textsc{Dermirer, M.} (2020). {Production function estimation with factor
+  augmenting technology: An application to markups. Working paper.}
+
+\bibitem[{Firpo \textit{et~al.}(2017)Firpo, Galvao and Song}]{Firpo2017}
+\textsc{Firpo, S.}, \textsc{Galvao, A.~F.} and \textsc{Song, S.} (2017).
+  Measurement errors in quantile regression models. \textit{Journal of
+  Econometrics}, \textbf{198}~(1), 146--164.
+
+\bibitem[{Gandhi \textit{et~al.}(2020)Gandhi, Navarro and Rivers}]{Gandhi2020}
+\textsc{Gandhi, A.}, \textsc{Navarro, S.} and \textsc{Rivers, D.~A.} (2020). On
+  the identification of gross output production functions. \textit{Journal of
+  Political Economy}, \textbf{128}~(8), 2973--3016.
+
+\bibitem[{Gil-Pelaez(1951)}]{g}
+\textsc{Gil-Pelaez, J.} (1951). Note on the inversion theorem.
+  \textit{Biometrika}, \textbf{38}~(3-4), 481--482.
+
+\bibitem[{Harding and Lamarche(2016)}]{Harding2016}
+\textsc{Harding, M.} and \textsc{Lamarche, C.} (2016). Penalized quantile
+  regression with semiparametric correlated effects: An application with
+  heterogeneous preferences. \textit{Journal of Applied Econometrics},
+  \textbf{32}~(2), 342--358.
+
+\bibitem[{Hausman \textit{et~al.}(2021)Hausman, Liu, Luo and
+  Palmer}]{Hausman2021}
+\textsc{Hausman, J.}, \textsc{Liu, H.}, \textsc{Luo, Y.} and \textsc{Palmer,
+  C.} (2021). Errors in the dependent variable of quantile regression models.
+  \textit{Econometrica}, \textbf{89}~(2), 849--873.
+
+\bibitem[{Hu \textit{et~al.}(2020)Hu, Huang and Sasaki}]{Hu2019}
+\textsc{Hu, Y.}, \textsc{Huang, G.} and \textsc{Sasaki, Y.} (2020). Estimating
+  production functions with robustness against errors in the proxy variables.
+  \textit{Journal of Econometrics}, \textbf{215}~(2), 375--398.
+
+\bibitem[{Just and Pope(1978)}]{Just1978}
+\textsc{Just, R.~E.} and \textsc{Pope, R.~D.} (1978). Stochastic specification
+  of production functions and economic implications. \textit{Journal of
+  Econometrics}, \textbf{7}~(1), 67--86.
+
+\bibitem[{Just and Pope(1979)}]{Just1979}
+\textsc{---} and \textsc{---} (1979). Production function estimation and
+  related risk considerations. \textit{American Journal of Agricultural
+  Economics}, \textbf{61}~(2), 276--284.
+
+\bibitem[{Kasahara \textit{et~al.}(2017)Kasahara, Schrimpf and
+  Suzuki}]{Kasahara2015}
+\textsc{Kasahara, H.}, \textsc{Schrimpf, P.} and \textsc{Suzuki, M.} (2017).
+  {Identification and estimation of production function with unobserved
+  heterogeneity. Working paper.}
+
+\bibitem[{Keller and Yeaple(2009)}]{Keller2009}
+\textsc{Keller, W.} and \textsc{Yeaple, S.~R.} (2009). Multinational
+  enterprises, international trade, and productivity growth: Firm-level
+  evidence from the united states. \textit{Review of Economics and Statistics},
+  \textbf{91}~(4), 821--831.
+
+\bibitem[{Kyoo-ilKim \textit{et~al.}(2016)Kyoo-ilKim, Petrin and Song}]{song}
+\textsc{Kyoo-ilKim}, \textsc{Petrin, A.} and \textsc{Song, S.} (2016).
+  Estimating production functions with control functions when capital is
+  measured with error. \textit{Journal of Econometrics}, \textbf{190}~(2),
+  267--279.
+
+\bibitem[{Lee(2007)}]{Lee2007}
+\textsc{Lee, S.} (2007). Endogeneity in quantile regression models: A control
+  function approach. \textit{Journal of Econometrics}, \textbf{141}~(2),
+  1131--1158.
+
+\bibitem[{Levinsohn and Petrin(2003)}]{Levinsohn2003}
+\textsc{Levinsohn, J.} and \textsc{Petrin, A.} (2003). Estimating production
+  functions using inputs to control for unobservables. \textit{Review of
+  Economic Studies}, \textbf{70}~(2), 317--341.
+
+\bibitem[{Li and Sasaki(2017)}]{Li2017}
+\textsc{Li, T.} and \textsc{Sasaki, Y.} (2017). {Constructive identification of
+  heterogeneous elasticities in the cobb-douglas production function. Working
+  paper.}
+
+\bibitem[{Li and Vuong(1998)}]{Li1998}
+\textsc{---} and \textsc{Vuong, Q.} (1998). Nonparametric estimation of the
+  measurement error model using multiple indicators. \textit{Journal of
+  Multivariate Analysis}, \textbf{65}~(2), 139--165.
+
+\bibitem[{Ma and Koenker(2006)}]{Ma2006}
+\textsc{Ma, L.} and \textsc{Koenker, R.} (2006). Quantile regression methods
+  for recursive structural equation models. \textit{Journal of Econometrics},
+  \textbf{134}~(2), 471--506.
+
+\bibitem[{Manski(1988)}]{Manski1988}
+\textsc{Manski, C.~F.} (1988). Ordinal utility models of decision making under
+  uncertainty. \textit{Theory and Decision}, \textbf{25}~(1), 79--104.
+
+\bibitem[{Neumann(2007)}]{Neumann2007}
+\textsc{Neumann, M.~H.} (2007). Deconvolution from panel data with unknown
+  error distribution. \textit{Journal of Multivariate Analysis},
+  \textbf{98}~(10), 1955--1968.
+
+\bibitem[{Olley and Pakes(1996)}]{Olley1996}
+\textsc{Olley, G.~S.} and \textsc{Pakes, A.} (1996). The dynamics of
+  productivity in the telecommunications equipment industry.
+  \textit{Econometrica}, \textbf{64}~(6), 1263.
+
+\bibitem[{Rostek(2009)}]{ROSTEK2009}
+\textsc{Rostek, M.} (2009). Quantile maximization in decision theory.
+  \textit{The Review of Economic Studies}, \textbf{77}~(1), 339--371.
+
+\bibitem[{Schennach(2004)}]{Schennach2004}
+\textsc{Schennach, S.~M.} (2004). Estimation of nonlinear models with
+  measurement error. \textit{Econometrica}, \textbf{72}~(1), 33--75.
+
+\bibitem[{Schennach(2008)}]{Schennach2008}
+\textsc{---} (2008). Quantile regression with mismeasured covariates.
+  \textit{Econometric Theory}, \textbf{24}~(4), 1010--1043.
+
+\bibitem[{Song \textit{et~al.}(2015)Song, Schennach and White}]{Song2015}
+\textsc{Song, S.}, \textsc{Schennach, S.~M.} and \textsc{White, H.} (2015).
+  Estimating nonseparable models with mismeasured endogenous variables.
+  \textit{Quantitative Economics}, \textbf{6}~(3), 749--794.
+
+\bibitem[{Wei and Carroll(2009)}]{Wei2009}
+\textsc{Wei, Y.} and \textsc{Carroll, R.~J.} (2009). Quantile regression with
+  measurement error. \textit{Journal of the American Statistical Association},
+  \textbf{104}~(487), 1129--1143.
+
+\bibitem[{Wooldridge(2009)}]{Wooldridge2009}
+\textsc{Wooldridge, J.~M.} (2009). On estimating firm-level production
+  functions using proxy variables to control for unobservables.
+  \textit{Economics Letters}, \textbf{104}~(3), 112--114.
+
+\end{thebibliography}
