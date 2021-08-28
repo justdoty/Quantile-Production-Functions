@@ -10,9 +10,9 @@ All code is written in R language and evaluated in batches on an HPC system.
 The following folders contain replication files for the tables and figures in the paper.
 1. [Environments](/Environments): A folder containing all R environments used in the analysis
 2. [Figures](/Figures): A folder containing all figures in the paper
-	1. [US Tables and Figures](/Figures/US/Tables_and_Figures_US.R): File used to produce all tables and figures from the US application
-	2. [Chile Tables and Figures](/Figures/Chile/Tables_and_Figures_CHL.R): File used to produce all tables and figures from the Chile application
-	3. [Colombia Tables and Figures](/Figures/Colombia/Tables_and_Figures_COL.R): File used to produce all tables and figures from the Colombia application
+	- [US Tables and Figures](/Figures/US/Tables_and_Figures_US.R): File used to produce all tables and figures from the US application
+	- [Chile Tables and Figures](/Figures/Chile/Tables_and_Figures_CHL.R): File used to produce all tables and figures from the Chile application
+	- [Colombia Tables and Figures](/Figures/Colombia/Tables_and_Figures_COL.R): File used to produce all tables and figures from the Colombia application
 3. [Functions](/Functions): A folder containing all the replication files
 	- [Auxiliary Files](/Functions/Aux_Fun.R): Contains auxiliary files used in estimation procedures
 	- [US Data Cleaning](/Functions/Compustat_Cleaning.R): File detailing methodology for cleaning data from Compustat
