@@ -90,7 +90,7 @@ LP_PC_SE <- array(0, c(length(ISIC), 3))
 #############################################################################@
 for (i in 1:tau_n){
   for (j in 1:length(ISIC)){
-    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/QLP_Environments/QLP_Boot_CHL_ISIC%s.RData", j))
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Environments/Chile/QLP_Environments/QLP_Boot_CHL_ISIC%s.RData", j))
     #QLP Estimates and Standard Deviations
     QLP_betahat[,,j][i,] <- QLPbetahat[,i]
     QLP_betaSE[,,j][i,] <- apply(QLPbetaboot[,,i], 2, sd)
@@ -240,7 +240,7 @@ for (p in 1:length(ISIC)){
   QLP_coef_row1 <- plot_grid(QLP_Kplot[[p]], QLP_Lplot[[p]], QLP_Mplot[[p]], nrow=1)
   QLP_coef_row2 <- plot_grid(QLP_QDIF_Kplot[[p]], QLP_QDIF_Lplot[[p]], QLP_QDIF_Mplot[[p]], nrow=1)
   QLP_Coef_Plot <- plot_grid(QLP_coef_row1, QLP_coef_row2, ncol=1, nrow=2, align="h", rel_heights = c(1, 1))
-  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/LP/QLP_Coef_Plot_ISIC_", ISIC[p], ".png", sep=""), QLP_Coef_Plot, base_height=8, base_width=10)
+  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/Chile/QLP_Coef_Plot_ISIC_", ISIC[p], ".png", sep=""), QLP_Coef_Plot, base_height=8, base_width=10)
   # Plot TFP densities at median and mean
   # TFP data for selected quantiles 
   CHL <- filter(CHLdata, str_detect(isic3, industries[p]))
@@ -259,12 +259,12 @@ for (p in 1:length(ISIC)){
 LPTFProw1 <- plot_grid(LPTFPM[[1]], LPTFPM[[2]])
 LPTFProw2 <- plot_grid(LPTFPM[[3]], LPTFPM[[4]])
 LPTFPplot <- plot_grid(LPTFProw1, LPTFProw2, ncol=1, align="h", rel_heights = c(1, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP/QLP_TFP_Plot.png", LPTFPplot, base_height=8, base_width=10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/Chile/QLP_TFP_Plot.png", LPTFPplot, base_height=8, base_width=10)
 #Combine TFP growth plots over industries and save
 LPTFPgrowthrow1 <- plot_grid(LPTFPG[[1]], LPTFPG[[2]])
 LPTFPgrowthrow2 <- plot_grid(LPTFPG[[3]], LPTFPG[[4]])
 QLPTFPgrowthplot <- plot_grid(LPTFPgrowthrow1, LPTFPgrowthrow2, ncol=1, align="h", rel_heights = c(1, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP/QLP_TFPgrowth_Plot.png", QLPTFPgrowthplot, base_height=8, base_width=10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/Chile/QLP_TFPgrowth_Plot.png", QLPTFPgrowthplot, base_height=8, base_width=10)
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -320,7 +320,7 @@ ACF_PC_SE <- array(0, c(length(ISIC), 3))
 #############################################################################@
 for (i in 1:tau_n){
   for (j in 1:length(ISIC)){
-    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/QACF_Environments/QACF_Boot_CHL_ISIC%s.RData", j))
+    load(sprintf("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Environments/Chile/QACF_Environments/QACF_Boot_CHL_ISIC%s.RData", j))
     #QACF Estimates and Standard Deviations
     QACF_betahat[,,j][i,] <- QACFbetahat[,i]
     QACF_betaSE[,,j][i,] <- apply(QACFbetaboot[,,i], 2, sd)
@@ -473,7 +473,7 @@ for (p in 1:length(ISIC)){
   QACF_coef_row1 <- plot_grid(QACF_Kplot[[p]], QACF_Lplot[[p]])
   QACF_coef_row2 <- plot_grid(QACF_QDIF_Kplot[[p]], QACF_QDIF_Lplot[[p]])
   QACF_Coef_Plot <- plot_grid(QACF_coef_row1, QACF_coef_row2, ncol=1, align="h", rel_heights = c(1, 1))
-  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/Coefficients/ACF/QACF_Coef_Plot_ISIC_", ISIC[p], ".png", sep=""), QACF_Coef_Plot, base_height=8, base_width=10)
+  save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/Chile/QACF_Coef_Plot_ISIC_", ISIC[p], ".png", sep=""), QACF_Coef_Plot, base_height=8, base_width=10)
   # Plot TFP densities at median and mean
   # TFP data for selected quantiles 
   CHL <- filter(CHLdata, str_detect(isic3, industries[p]))
@@ -492,12 +492,12 @@ for (p in 1:length(ISIC)){
 ACFTFProw1 <- plot_grid(ACFTFPM[[1]], ACFTFPM[[2]])
 ACFTFProw2 <- plot_grid(ACFTFPM[[3]], ACFTFPM[[4]])
 ACFTFPplot <- plot_grid(ACFTFProw1, ACFTFProw2, ncol=1, align="h", rel_heights = c(1, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP/QACF_TFP_Plot.png", ACFTFPplot, base_height=8, base_width=10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/Chile/QACF_TFP_Plot.png", ACFTFPplot, base_height=8, base_width=10)
 #Combine TFP growth plots over industries and save
 ACFTFPgrowthrow1 <- plot_grid(ACFTFPG[[1]], ACFTFPG[[2]])
 ACFTFPgrowthrow2 <- plot_grid(ACFTFPG[[3]], ACFTFPG[[4]])
 QACFTFPgrowthplot <- plot_grid(ACFTFPgrowthrow1, ACFTFPgrowthrow2, ncol=1, align="h", rel_heights = c(1, 1))
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/Chile/Plots/TFP/QACF_TFPgrowth_Plot.png", QACFTFPgrowthplot, base_height=8, base_width=10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/Chile/QACF_TFPgrowth_Plot.png", QACFTFPgrowthplot, base_height=8, base_width=10)
 ###########################################################################################
 
 

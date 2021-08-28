@@ -10,6 +10,9 @@ All code is written in R language and evaluated in batches on an HPC system.
 The following folders contain replication files for the tables and figures in the paper.
 1. [Environments](/Environments): A folder containing all R environments used in the analysis
 2. [Figures](/Figures): A folder containing all figures in the paper
+	1. [US Tables and Figures](/Figures/US/Tables_and_Figures_US.R): File used to produce all tables and figures from the US application
+	2. [Chile Tables and Figures](/Figures/Chile/Tables_and_Figures_CHL.R): File used to produce all tables and figures from the Chile application
+	3. [Colombia Tables and Figures](/Figures/Colombia/Tables_and_Figures_COL.R): File used to produce all tables and figures from the Colombia application
 3. [Functions](/Functions): A folder containing all the replication files
 	- [Auxiliary Files](/Functions/Aux_Fun.R): Contains auxiliary files used in estimation procedures
 	- [US Data Cleaning](/Functions/Compustat_Cleaning.R): File detailing methodology for cleaning data from Compustat
@@ -19,5 +22,5 @@ The following folders contain replication files for the tables and figures in th
 	- [Monte Carlo LP](/Functions/Monte_Carlo_LP.R): Monte Carlo code for LP data generating processes
 	- [DS ACF Estimator](/Functions/QACF_Boot.R): Estimation file when ACF is used as an initial estimate of productivity
 	- [DS LP Estimator](/Functions/QLP_Boot.R): Estimation file when LP is used as an initial estimate of productivity for gross-output production function
-	The remaining files found in this folder are used to send the code to the HPC system
+	- The remaining files found in this folder are used to send the code to the HPC system
 4. [Papers and Presentations](/Text): A folder containing files corresponding to the main paper and related presentations

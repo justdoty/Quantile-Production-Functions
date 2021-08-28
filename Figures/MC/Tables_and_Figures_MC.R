@@ -1,4 +1,4 @@
-setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo')
+setwd('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Environments/MC')
 require(xtable)
 require(ggplot2)
 require(cowplot)
@@ -105,10 +105,10 @@ addtorow_Bias_MSE$command <- '\\hline\\hline & & & \\multicolumn{2}{c}{DS} & & &
 #For copy and pasting directly into latex file
 print(Bias_MSE_table, hline.after=c(0, length(tau)*length(DGPs), nrow(Bias_MSE_table)), add.to.row=addtorow_Bias_MSE, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
 #For saving to file, more convenient, awful predefined formatting
-print(Bias_MSE_table, hline.after=c(0, length(tau)*length(DGPs), nrow(Bias_MSE_table)), add.to.row=addtorow_Bias_MSE, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/Bias_MSE.tex")
+print(Bias_MSE_table, hline.after=c(0, length(tau)*length(DGPs), nrow(Bias_MSE_table)), add.to.row=addtorow_Bias_MSE, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/MC/Bias_MSE.tex")
 #Combine LP and ACF TFP Plots
 TFPplot <- plot_grid(QLPTFPplot, QACFTFPplot, ncol=2)
-save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Monte_Carlo/TFPplot.png", TFPplot, base_height = 10)
+save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/MC/TFPplot.png", TFPplot, base_height = 10)
 
 
 
