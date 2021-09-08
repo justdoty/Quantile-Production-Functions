@@ -8,7 +8,7 @@ library(cowplot)
 source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/Aux_Fun.R')
 #Load US dataset
 USdata <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/USdata.csv') %>% 
-  select(id, year, Y, VA, K, L, M, adv, rd, naics3) %>% transmute(id=id, year=year, Y=log(Y), VA=log(VA), K=log(K), L=log(L), M=log(M), adv=adv, rd=rd, naics3=as.character(naics3), naics2=as.numeric(str_extract(as.character(naics3), "^.{2}")))
+  select(id, year, lny, lnva, lnk1, lnl, lnm, adv, rd, naics2) %>% transmute(id=id, year=year, Y=lny, VA=lnva, K=lnk1, L=lnl, M=lnm, adv=adv, rd=rd, naics2=naics2)
 #Industries as listed in Estimation_US.R file
 NAICS <- c("31", "32", "33", "All")
 industries <- c("31", "32", "33", "^3")
@@ -36,8 +36,6 @@ addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline '
 #For copy pasting into latex
 print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
-#Saves to file
-print(summary_table, hline.after=c(0,nrow(summary_table)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H", file="/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Empirical/US/Estimates/US_Summary.tex")
 ############################################################################################################
 #################################Load and prepare data frames for estimates#################################
 ############################################################################################################

@@ -22,7 +22,8 @@ colnames(sumALL)[1] <- "isic3"
 sizeISIC <- filter(CHLdata, isic3==311|isic3==381|isic3==321) %>% group_by(isic3) %>% summarise(Firms=length(unique(id)), Total=n())
 sizeALL <- c("All", length(unique(CHLdata$id)), nrow(CHLdata))
 size <- rbind(sizeISIC, sizeALL)
-sumstat <- round(matrix(as.numeric(as.matrix(rbind(sumISIC, sumALL))[,-1]), nrow=16, ncol=5), 2)
+sumstat <- data.frame(rbind(sumISIC, sumALL))[,-1]
+sumstat <- round(matrix(as.numeric(do.call(rbind, lapply(1:4, function(x) matrix(sumstat[x,], nrow=4, ncol=5)))), nrow=16), 2)
 #Some pretty formatting
 ISIC_labels <- array(NA, 4*length(ISIC)); ISIC_labels[seq(1, 4*length(ISIC), by=4)] <- paste(ISIC, paste("(Total=", size$Total, ")", sep=""))
 ISIC_labels[is.na(ISIC_labels)] <- ""

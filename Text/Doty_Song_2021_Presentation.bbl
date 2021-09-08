@@ -1,0 +1,630 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\sortlist[entry]{nyt/global/}
+  \entry{Ackerberg2015}{article}{}
+    \name{author}{3}{}{%
+      {{hash=AD}{%
+         family={Ackerberg},
+         familyi={A\bibinitperiod},
+         given={Daniel},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=CK}{%
+         family={Caves},
+         familyi={C\bibinitperiod},
+         given={Kevin},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=FG}{%
+         family={Frazer},
+         familyi={F\bibinitperiod},
+         given={Garth},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {The Econometric Society}%
+    }
+    \strng{namehash}{ADCKFG1}
+    \strng{fullhash}{ADCKFG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2015}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \verb{doi}
+    \verb 10.3982/ecta13408
+    \endverb
+    \field{number}{6}
+    \field{pages}{2411\bibrangedash 2451}
+    \field{title}{Identification Properties of Recent Production Function
+  Estimators}
+    \field{volume}{83}
+    \field{journaltitle}{Econometrica}
+    \field{year}{2015}
+  \endentry
+
+  \entry{Aigner1977}{article}{}
+    \name{author}{3}{}{%
+      {{hash=AD}{%
+         family={Aigner},
+         familyi={A\bibinitperiod},
+         given={Dennis},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=LC}{%
+         family={Lovell},
+         familyi={L\bibinitperiod},
+         given={C.A.Knox},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=SP}{%
+         family={Schmidt},
+         familyi={S\bibinitperiod},
+         given={Peter},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier {BV}}%
+    }
+    \strng{namehash}{ADLCSP1}
+    \strng{fullhash}{ADLCSP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1977}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \verb{doi}
+    \verb 10.1016/0304-4076(77)90052-5
+    \endverb
+    \field{number}{1}
+    \field{pages}{21\bibrangedash 37}
+    \field{title}{Formulation and estimation of stochastic frontier production
+  function models}
+    \field{volume}{6}
+    \field{journaltitle}{Journal of Econometrics}
+    \field{year}{1977}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Aragon2005}{article}{}
+    \name{author}{3}{}{%
+      {{hash=AY}{%
+         family={Aragon},
+         familyi={A\bibinitperiod},
+         given={Y.},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=DA}{%
+         family={Daouia},
+         familyi={D\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=TAC}{%
+         family={Thomas-Agnan},
+         familyi={T\bibinitperiod-A\bibinitperiod},
+         given={C.},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Cambridge University Press ({CUP})}%
+    }
+    \strng{namehash}{AYDATAC1}
+    \strng{fullhash}{AYDATAC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2005}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \verb{doi}
+    \verb 10.1017/s0266466605050206
+    \endverb
+    \field{number}{2}
+    \field{pages}{358\bibrangedash 389}
+    \field{title}{Nonparametric Frontier Estimation: A Conditional Quantile
+  Based Approach}
+    \field{volume}{21}
+    \field{journaltitle}{Econometric Theory}
+    \field{year}{2005}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Bhattacharya2009}{article}{}
+    \name{author}{1}{}{%
+      {{hash=BD}{%
+         family={Bhattacharya},
+         familyi={B\bibinitperiod},
+         given={Debopam},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Informa {UK} Limited}%
+    }
+    \strng{namehash}{BD1}
+    \strng{fullhash}{BD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2009}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \verb{doi}
+    \verb 10.1198/jasa.2009.0015
+    \endverb
+    \field{number}{486}
+    \field{pages}{486\bibrangedash 500}
+    \field{title}{Inferring Optimal Peer Assignment From Experimental Data}
+    \field{volume}{104}
+    \field{journaltitle}{Journal of the American Statistical Association}
+    \field{year}{2009}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Chambers2007}{article}{}
+    \name{author}{1}{}{%
+      {{hash=CCP}{%
+         family={Chambers},
+         familyi={C\bibinitperiod},
+         given={Christopher\bibnamedelima P.},
+         giveni={C\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier {BV}}%
+    }
+    \strng{namehash}{CCP1}
+    \strng{fullhash}{CCP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2007}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \verb{doi}
+    \verb 10.1016/j.jet.2006.12.002
+    \endverb
+    \field{number}{1}
+    \field{pages}{416\bibrangedash 431}
+    \field{title}{Ordinal aggregation and quantiles}
+    \field{volume}{137}
+    \field{journaltitle}{Journal of Economic Theory}
+    \field{year}{2007}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Chernozhukov2005a}{article}{}
+    \name{author}{1}{}{%
+      {{hash=CV}{%
+         family={Chernozhukov},
+         familyi={C\bibinitperiod},
+         given={Victor},
+         giveni={V\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Institute of Mathematical Statistics}%
+    }
+    \strng{namehash}{CV1}
+    \strng{fullhash}{CV1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2005}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \verb{doi}
+    \verb 10.1214/009053604000001165
+    \endverb
+    \field{number}{2}
+    \field{pages}{806\bibrangedash 839}
+    \field{title}{Extremal quantile regression}
+    \field{volume}{33}
+    \field{journaltitle}{The Annals of Statistics}
+    \field{year}{2005}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Chernozhukov2005}{article}{}
+    \name{author}{2}{}{%
+      {{hash=CV}{%
+         family={Chernozhukov},
+         familyi={C\bibinitperiod},
+         given={Victor},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=HC}{%
+         family={Hansen},
+         familyi={H\bibinitperiod},
+         given={Christian},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {The Econometric Society}%
+    }
+    \strng{namehash}{CVHC1}
+    \strng{fullhash}{CVHC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2005}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \verb{doi}
+    \verb 10.1111/j.1468-0262.2005.00570.x
+    \endverb
+    \field{number}{1}
+    \field{pages}{245\bibrangedash 261}
+    \field{title}{An {IV} Model of Quantile Treatment Effects}
+    \field{volume}{73}
+    \field{journaltitle}{Econometrica}
+    \field{year}{2005}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Castro2019}{article}{}
+    \name{author}{2}{}{%
+      {{hash=dCL}{%
+         prefix={de},
+         prefixi={d\bibinitperiod},
+         family={Castro},
+         familyi={C\bibinitperiod},
+         given={Luciano},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=GAF}{%
+         family={Galvao},
+         familyi={G\bibinitperiod},
+         given={Antonio\bibnamedelima F.},
+         giveni={A\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {The Econometric Society}%
+    }
+    \strng{namehash}{dCLGAF1}
+    \strng{fullhash}{dCLGAF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2019}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \verb{doi}
+    \verb 10.3982/ecta15146
+    \endverb
+    \field{number}{6}
+    \field{pages}{1893\bibrangedash 1939}
+    \field{title}{Dynamic Quantile Models of Rational Behavior}
+    \field{volume}{87}
+    \field{journaltitle}{Econometrica}
+    \field{year}{2019}
+  \endentry
+
+  \entry{evdo2010}{unpublished}{}
+    \name{author}{1}{}{%
+      {{hash=EK}{%
+         family={Evdokimov},
+         familyi={E\bibinitperiod},
+         given={Kirill},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{EK1}
+    \strng{fullhash}{EK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2010}
+    \field{sortinit}{E}
+    \field{sortinithash}{E}
+    \field{title}{{Identification and estimation of a nonparametric panel data
+  model with unobserved heterogeneity. Working paper.}}
+    \field{year}{2010}
+  \endentry
+
+  \entry{Gandhi2020}{article}{}
+    \name{author}{3}{}{%
+      {{hash=GA}{%
+         family={Gandhi},
+         familyi={G\bibinitperiod},
+         given={Amit},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=NS}{%
+         family={Navarro},
+         familyi={N\bibinitperiod},
+         given={Salvador},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=RDA}{%
+         family={Rivers},
+         familyi={R\bibinitperiod},
+         given={David\bibnamedelima A.},
+         giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {University of Chicago Press}%
+    }
+    \strng{namehash}{GANSRDA1}
+    \strng{fullhash}{GANSRDA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2020}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \verb{doi}
+    \verb 10.1086/707736
+    \endverb
+    \field{number}{8}
+    \field{pages}{2973\bibrangedash 3016}
+    \field{title}{On the Identification of Gross Output Production Functions}
+    \field{volume}{128}
+    \field{journaltitle}{Journal of Political Economy}
+    \field{year}{2020}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Just1978}{article}{}
+    \name{author}{2}{}{%
+      {{hash=JRE}{%
+         family={Just},
+         familyi={J\bibinitperiod},
+         given={Richard\bibnamedelima E.},
+         giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=PRD}{%
+         family={Pope},
+         familyi={P\bibinitperiod},
+         given={Rulon\bibnamedelima D.},
+         giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier {BV}}%
+    }
+    \strng{namehash}{JREPRD1}
+    \strng{fullhash}{JREPRD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1978}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \verb{doi}
+    \verb 10.1016/0304-4076(78)90006-4
+    \endverb
+    \field{number}{1}
+    \field{pages}{67\bibrangedash 86}
+    \field{title}{Stochastic specification of production functions and economic
+  implications}
+    \field{volume}{7}
+    \field{journaltitle}{Journal of Econometrics}
+    \field{year}{1978}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Just1979}{article}{}
+    \name{author}{2}{}{%
+      {{hash=JRE}{%
+         family={Just},
+         familyi={J\bibinitperiod},
+         given={Richard\bibnamedelima E.},
+         giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=PRD}{%
+         family={Pope},
+         familyi={P\bibinitperiod},
+         given={Rulon\bibnamedelima D.},
+         giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Wiley}%
+    }
+    \strng{namehash}{JREPRD1}
+    \strng{fullhash}{JREPRD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1979}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \verb{doi}
+    \verb 10.2307/1239732
+    \endverb
+    \field{number}{2}
+    \field{pages}{276\bibrangedash 284}
+    \field{title}{Production Function Estimation and Related Risk
+  Considerations}
+    \field{volume}{61}
+    \field{journaltitle}{American Journal of Agricultural Economics}
+    \field{year}{1979}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Levinsohn2003}{article}{}
+    \name{author}{2}{}{%
+      {{hash=LJ}{%
+         family={Levinsohn},
+         familyi={L\bibinitperiod},
+         given={James},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=PA}{%
+         family={Petrin},
+         familyi={P\bibinitperiod},
+         given={Amil},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Oxford University Press ({OUP})}%
+    }
+    \strng{namehash}{LJPA1}
+    \strng{fullhash}{LJPA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2003}
+    \field{sortinit}{L}
+    \field{sortinithash}{L}
+    \verb{doi}
+    \verb 10.1111/1467-937x.00246
+    \endverb
+    \field{number}{2}
+    \field{pages}{317\bibrangedash 341}
+    \field{title}{Estimating Production Functions Using Inputs to Control for
+  Unobservables}
+    \field{volume}{70}
+    \field{journaltitle}{Review of Economic Studies}
+    \field{year}{2003}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Manski1988}{article}{}
+    \name{author}{1}{}{%
+      {{hash=MCF}{%
+         family={Manski},
+         familyi={M\bibinitperiod},
+         given={Charles\bibnamedelima F.},
+         giveni={C\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{2}{%
+      {Springer Science}%
+      {Business Media {LLC}}%
+    }
+    \strng{namehash}{MCF1}
+    \strng{fullhash}{MCF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1988}
+    \field{sortinit}{M}
+    \field{sortinithash}{M}
+    \verb{doi}
+    \verb 10.1007/bf00129169
+    \endverb
+    \field{number}{1}
+    \field{pages}{79\bibrangedash 104}
+    \field{title}{Ordinal utility models of decision making under uncertainty}
+    \field{volume}{25}
+    \field{journaltitle}{Theory and Decision}
+    \field{year}{1988}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Neumann2007}{article}{}
+    \name{author}{1}{}{%
+      {{hash=NMH}{%
+         family={Neumann},
+         familyi={N\bibinitperiod},
+         given={Michael\bibnamedelima H.},
+         giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier {BV}}%
+    }
+    \strng{namehash}{NMH1}
+    \strng{fullhash}{NMH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2007}
+    \field{sortinit}{N}
+    \field{sortinithash}{N}
+    \verb{doi}
+    \verb 10.1016/j.jmva.2006.09.012
+    \endverb
+    \field{number}{10}
+    \field{pages}{1955\bibrangedash 1968}
+    \field{title}{Deconvolution from panel data with unknown error
+  distribution}
+    \field{volume}{98}
+    \field{journaltitle}{Journal of Multivariate Analysis}
+    \field{year}{2007}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{Olley1996}{article}{}
+    \name{author}{2}{}{%
+      {{hash=OGS}{%
+         family={Olley},
+         familyi={O\bibinitperiod},
+         given={G.\bibnamedelima Steven},
+         giveni={G\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=PA}{%
+         family={Pakes},
+         familyi={P\bibinitperiod},
+         given={Ariel},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {{JSTOR}}%
+    }
+    \strng{namehash}{OGSPA1}
+    \strng{fullhash}{OGSPA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1996}
+    \field{sortinit}{O}
+    \field{sortinithash}{O}
+    \verb{doi}
+    \verb 10.2307/2171831
+    \endverb
+    \field{number}{6}
+    \field{pages}{1263}
+    \field{title}{The Dynamics of Productivity in the Telecommunications
+  Equipment Industry}
+    \field{volume}{64}
+    \field{journaltitle}{Econometrica}
+    \field{year}{1996}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{ROSTEK2009}{article}{}
+    \name{author}{1}{}{%
+      {{hash=RM}{%
+         family={Rostek},
+         familyi={R\bibinitperiod},
+         given={Marzena},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Oxford University Press ({OUP})}%
+    }
+    \strng{namehash}{RM1}
+    \strng{fullhash}{RM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2009}
+    \field{sortinit}{R}
+    \field{sortinithash}{R}
+    \verb{doi}
+    \verb 10.1111/j.1467-937x.2009.00564.x
+    \endverb
+    \field{number}{1}
+    \field{pages}{339\bibrangedash 371}
+    \field{title}{Quantile Maximization in Decision Theory}
+    \field{volume}{77}
+    \field{journaltitle}{The Review of Economic Studies}
+    \field{year}{2009}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+\endsortlist
+\endinput
