@@ -1,4 +1,4 @@
-\begin{thebibliography}{41}
+\begin{thebibliography}{42}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Ackerberg \textit{et~al.}(2015)Ackerberg, Caves and
@@ -81,10 +81,15 @@
 \textsc{Dermirer, M.} (2020). {Production function estimation with factor
   augmenting technology: An application to markups. Working paper.}
 
+\bibitem[{Firpo \textit{et~al.}(2009)Firpo, Fortin and Lemieux}]{2009a}
+\textsc{Firpo, S.}, \textsc{Fortin, N.~M.} and \textsc{Lemieux, T.} (2009).
+  Unconditional quantile regressions. \textit{Econometrica}, \textbf{77}~(3),
+  953--973.
+
 \bibitem[{Firpo \textit{et~al.}(2017)Firpo, Galvao and Song}]{Firpo2017}
-\textsc{Firpo, S.}, \textsc{Galvao, A.~F.} and \textsc{Song, S.} (2017).
-  Measurement errors in quantile regression models. \textit{Journal of
-  Econometrics}, \textbf{198}~(1), 146--164.
+\textsc{---}, \textsc{Galvao, A.~F.} and \textsc{Song, S.} (2017). Measurement
+  errors in quantile regression models. \textit{Journal of Econometrics},
+  \textbf{198}~(1), 146--164.
 
 \bibitem[{Gandhi \textit{et~al.}(2020)Gandhi, Navarro and Rivers}]{Gandhi2020}
 \textsc{Gandhi, A.}, \textsc{Navarro, S.} and \textsc{Rivers, D.~A.} (2020). On
@@ -134,8 +139,8 @@
   evidence from the united states. \textit{Review of Economics and Statistics},
   \textbf{91}~(4), 821--831.
 
-\bibitem[{Kyoo-ilKim \textit{et~al.}(2016)Kyoo-ilKim, Petrin and Song}]{song}
-\textsc{Kyoo-ilKim}, \textsc{Petrin, A.} and \textsc{Song, S.} (2016).
+\bibitem[{Kim \textit{et~al.}(2016)Kim, Petrin and Song}]{song}
+\textsc{Kim, K.~I.}, \textsc{Petrin, A.} and \textsc{Song, S.} (2016).
   Estimating production functions with control functions when capital is
   measured with error. \textit{Journal of Econometrics}, \textbf{190}~(2),
   267--279.

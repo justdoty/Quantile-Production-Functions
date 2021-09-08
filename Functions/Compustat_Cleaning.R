@@ -60,13 +60,10 @@ compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Producti
 	#Create indicator for RnD and Adv status
 	mutate(rdB=ifelse(rd==0, 0, 1), advB=ifelse(adv==0, 0, 1)) %>%
 	#Filtering only non-negative observations
-	filter(Y>0, !is.na(Y), K1>0, !is.na(K1), K2>0, !is.na(K2), L>0, !is.na(L), M>0, !is.na(M), I>0, !is.na(I), VA>0, !is.na(VA)) %>% 
-	#Trimming Outliers 
-	filter(Y>quantile(Y, wind), Y<quantile(Y, 1-wind), L>quantile(L, wind), L<quantile(L, 1-wind), M>quantile(M, wind), M<quantile(M, 1-wind), M>quantile(M, wind), M<quantile(M, 1-wind),
-		K1>quantile(K1, wind), K1<quantile(K1, 1-wind), K2>quantile(K2, wind), K2<quantile(K2, 1-wind), VA>quantile(VA, wind), VA<quantile(VA, 1-wind), VA>quantile(VA, wind), VA<quantile(VA, 1-wind)) %>%
+	group_by(id) %>% filter(Y>0, !is.na(Y), K1>0, !is.na(K1), K2>0, !is.na(K2), L>0, !is.na(L), M>0, !is.na(M), I>0, !is.na(I), VA>0, !is.na(VA)) %>% 
 	select(id, year, Y, VA, K1, K2, L, M, I, age, naics2, rd, adv, rdB, advB)
 #The main sample I consider contains firms with more than 3 firm-year observations
-compstat <- compstat %>% group_by(id) %>% filter(n()>=3)
+compstat <- compstat %>% group_by(id) %>% filter(n()>=2)
 USdata <- compstat %>% transmute(id=id, year=year, lny=log(Y), lnva=log(VA), lnk1=log(K1), lnk2=log(K2), lnl=log(L), lnm=log(M), lni=log(I), age=age, rd=rd, rdB=rdB, adv=adv, advB=advB, naics2=naics2)
 ####################################################################################################
 #Summary statistics for the cleaned data set
@@ -89,13 +86,13 @@ print(nrow(USdata))
 naicsfirms <- group_by(USdata, naics2) %>% summarise(firms=n())
 print(naicsfirms)
 #Prodest Test
-USind <- USdata %>% filter(naics2=="33")
+USind <- USdata %>% filter(naics2=="32")
 require(prodest)
-VA <- prodestACF(Y=USind$lnva, fX=USind$lnl, sX=USind$lnk1, pX=USind$lnm, idvar=USind$id, timevar=USind$year)
+VA <- prodestLP(Y=USind$lnva, fX=USind$lnl, sX=USind$lnk1, pX=USind$lnm, idvar=USind$id, timevar=USind$year)
 print(VA)
 # TFP <- USind$lnva-cbind(USind$lnl, USind$lnk1)%*%as.numeric(VA@Estimates$pars)
 # print(summary(TFP))
 #Save clean data
-# path_out <- '/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/'
-# fileName <- paste(path_out, 'USdata.csv',sep = '')
-# write.csv(compstat,fileName, row.names=FALSE)
+path_out <- '/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/'
+fileName <- paste(path_out, 'USdata.csv',sep = '')
+write.csv(USdata, fileName, row.names=FALSE)

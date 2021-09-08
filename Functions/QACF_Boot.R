@@ -1,15 +1,13 @@
-#We use the bootstrap code in prodest.R, an R package for production function estimation written by Gabrielle Rovigatti
 source('PFQR/FUN/Aux_Fun.R')
 require(quantreg)
 require(dplyr)
 require(pracma)
-require(GenSA)
 ###################################################################################
 ###################################################################################
 #This function initializes the estimation procedure which calls finalQACF
 ###################################################################################
 ###################################################################################
-QACF_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20){
+QACF_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20, XC, XB){
   seed <- 123456
   #Make all data arguments into matrices
   idvar <- as.matrix(idvar)
@@ -19,7 +17,7 @@ QACF_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20)
   L <- as.matrix(L)
   proxy <- as.matrix(proxy)
   #####################
-  data <- data.frame(idvar=idvar, timevar=timevar, Y=Y, K=K, L=L, proxy=proxy)
+  data <- data.frame(idvar=idvar, timevar=timevar, Y=Y, K=K, L=L, proxy=proxy, XC=XC, XB=XB)
   #This function computes the "true" beta and sample moments evaluated at the "true" parameters
   #using the "true" data used for recentering the moments in the bootstrap
   #Here ind denotes the index that does tells finalACF not resample the original data
@@ -32,6 +30,11 @@ QACF_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20)
   qrhat <- trueboot$qrhat
   #Difference between QACF and QR
   qdifhat <- trueboot$qdifhat
+  #Productivity Differentials
+  ACFPB <- trueboot$ACFPB
+  DSPB <- trueboot$DSPB
+  ACFPC <- trueboot$ACFPC
+  DSPC <- trueboot$DSPC
   #Initialize bootstrap#############################################################################
   #Indices used for resampling firm ID's
   bootind <- block.boot.resample(idvar, R, seed)
@@ -42,6 +45,11 @@ QACF_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20)
   qrboot <- matrix(0, nrow=R, ncol=dZ)
   #Bootstrapped differences between QACF and QR
   qdifboot <- matrix(0, nrow=R, ncol=dZ)
+  #Productivity Differentials
+  ACFPBboot <- matrix(0, nrow=R, ncol=ncol(XB))
+  DSPBboot <- matrix(0, nrow=R, ncol=ncol(XB))
+  ACFPCboot <- matrix(0, nrow=R, ncol=ncol(XC))
+  DSPCboot <- matrix(0, nrow=R, ncol=ncol(XC))
   #Bootstrap Procedure:
   for (i in 1:R){
     print(i)
@@ -51,9 +59,14 @@ QACF_Boot <- function(tau, idvar, timevar, Y, K, L, proxy, dZ, binit=NULL, R=20)
     ACFboot[i,] <- boot$ACFhat
     qrboot[i,] <- boot$qrhat
     qdifboot[i,] <- boot$qdifhat
+    ACFPBboot[i,] <- boot$ACFPB
+    DSPBboot[i,] <- boot$DSPB
+    ACFPCboot[i,] <- boot$ACFPC
+    DSPCboot[i,] <- boot$DSPC
   }
   return(list(betahat=betahat, ACFhat=ACFhat, qrhat=qrhat, qdifhat=qdifhat,  betaboot=betaboot, ACFboot=ACFboot, 
-    qrboot=qrboot, qdifboot=qdifboot))
+    qrboot=qrboot, qdifboot=qdifboot, ACFPB=ACFPB, DSPB=DSPB, ACFPC=ACFPC, DSPC=DSPC, ACFPBboot=ACFPBboot,
+    DSPBboot=DSPBboot, ACFPCboot=ACFPCboot, DSPCboot=DSPCboot))
 }
 ###########################################################################
 ###########################################################################
@@ -90,32 +103,28 @@ finalQACF <- function(tau, ind, data, binit, seed){
   phihat <- fitted(ACFfirststage)
   ACFphi <- phihat
   #Calculate Contempory and Lag Values for 2nd stage estimation
-  lagdata1 <- lagdata(idvar=data$idvar, X=cbind(data$Y, data$K, data$L, data$proxy, ACFphi))
-  names(lagdata1) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "ACFphicon", "Ylag1", "Klag1", "Llag1", "Pxlag1", "ACFphilag1")
-  # lagdata2 <- lagdata(idvar=lagdata1$idvar, X=cbind(lagdata1$Ycon, lagdata1$Kcon, lagdata1$Lcon, 
-  #   lagdata1$Pxcon, lagdata1$ACFphicon, lagdata1$Ylag, lagdata1$Klag, lagdata1$Llag, 
-  #   lagdata1$Pxlag, lagdata1$ACFphilag))
-  # #Naming convention below is bad practice, but used to prevent the copy of lag1 variables in the new dataset
-  # names(lagdata2) <- c("idvar", "Ycon", "Kcon", "Lcon", "Pxcon", "ACFphicon", "Ylag1", "Klag1", "Llag1", "Pxlag1", "ACFphilag1",
-  #   "NA", "NA", "NA", "NA", "NA", "Ylag2", "Klag2", "Llag2", "Pxlag2", "ACFphilag2")
+  idcon <- duplicated(data$idvar)
+  idcon1 <- duplicated(duplicated(data$idvar))
+  idlag <- duplicated(data$idvar, fromLast=TRUE)
+  idlag1 <- duplicated(duplicated(data$idvar, fromLast=TRUE))
+  idlag2 <- duplicated(duplicated(data$idvar, fromLast=TRUE))
   #ACF Output
-  ACFmY <-  as.matrix(lagdata1$Ycon)
-  # ACFmY <-  as.matrix(lagdata2$Ycon)
+  ACFmY <-  data$Y[idcon]
   #ACF Contemporary State Variables
-  ACFmX <- cbind(lagdata1$Kcon, lagdata1$Lcon)
+  ACFmX <- cbind(data$K[idcon], data$L[idcon])
   # ACFmX <- cbind(lagdata2$Kcon, lagdata2$Lcon)
   #ACF Lagged State Variables
-  ACFmlX <- cbind(lagdata1$Klag1, lagdata1$Llag1)
+  ACFmlX <- cbind(data$K[idlag], data$L[idlag])
   # ACFmlX <- cbind(lagdata2$Klag1, lagdata2$Llag1)
   #ACF Contemporary phi estimates
-  ACFfitphi <- as.matrix(lagdata1$ACFphicon)
+  ACFfitphi <- ACFphi[idcon]
   # ACFfitphi <- as.matrix(lagdata2$ACFphicon)
   #ACF Lagged phi estimates
-  ACFfitlagphi <- as.matrix(lagdata1$ACFphilag1)
+  ACFfitlagphi <- ACFphi[idlag]
   # ACFfitlagphi <- as.matrix(lagdata2$ACFphilag1)
   #ACF Instruments 
-  ACFmZ <- cbind(1, lagdata1$Kcon, lagdata1$Llag1)
-  # ACFmZ <- cbind(lagdata2$Kcon, lagdata2$Llag1)
+  ACFmZ <- cbind(1, data$K[idcon], data$L[idlag])
+  # ACFmZ <- cbind(1, lagdata2$Kcon, lagdata2$Llag1, lagdata2$Klag, lagdata2$Llag2)
   #Starting values for ACF estimates from OLS
   ACFinit <- as.numeric(coef(LM)[-1])
   #ACF estimates for Capital
@@ -131,7 +140,28 @@ finalQACF <- function(tau, ind, data, binit, seed){
   betahat <- as.numeric(coef(mom))
   #Difference between QACF and QR estimates
   qdifhat <- betahat-qrhat
-  return(list(betahat=betahat, ACFhat=ACFhat, qrhat=qrhat, qdifhat=qdifhat))
+  #Estimates of Total Factor Productivity from ACF
+  ACFTFPhat <- data$Y-cbind(data$K, data$L)%*%as.matrix(ACFhat)
+  #Estimates of Total Factor Productivity from DS
+  DSTFPhat <- data$Y-cbind(data$K, data$L)%*%as.matrix(betahat)
+  XC <- as.matrix(data[,grepl("XC", names(data))])
+  XB <- as.matrix(data[,grepl("XB", names(data))])
+  pdata <- data.frame(ACF=ACFTFPhat, DS=DSTFPhat, XC=XC, XB=XB) %>% na.omit()
+  XC <- as.matrix(pdata[,grepl("XC", names(pdata))])
+  XB <- as.matrix(pdata[,grepl("XB", names(pdata))])
+  XCind <- apply(XC==0, 1, sum)<1
+  XC <- XC[XCind,]
+  #Estimates of Productivity Differentials from ACF
+  ACFPB <- apply(XB, 2, function(x) mean(pdata$ACF*x)/mean(pdata$ACF*!x))
+  #Estimates of Productivity Differentials from DS
+  DSPB <- apply(XB, 2, function(x) mean(pdata$DS*x)/mean(pdata$DS*!x))
+  #Estimates of Productivity Marginal Effects from ACF
+  ACFTFPhat <- pdata$ACF[XCind]
+  DSTFPhat <- pdata$DS[XCind]
+  ACFPC <- apply(XC, 2, function(x) as.numeric(lm(ACFTFPhat~log(x))$coef)[-1])
+  #Estimates of Productivity Marginal Effects from DS
+  DSPC <- apply(XC, 2, function(x) as.numeric(lm(DSTFPhat~log(x))$coef)[-1])
+  return(list(betahat=betahat, ACFhat=ACFhat, qrhat=qrhat, qdifhat=qdifhat, ACFPB=ACFPB, DSPB=DSPB, ACFPC=ACFPC, DSPC=DSPC))
 } 
 ############################################################################################
 #Functions for Estimating ACF Coefficients
@@ -141,7 +171,6 @@ ACF_Lambda <- function(b, mY, mX, mlX, fitphi, fitlagphi){
   b <- as.matrix(as.numeric(b))
   A <- fitphi-mX%*%b[1:ncol(mX)]
   B <- fitlagphi-mlX%*%b[1:ncol(mX)]
-  # step1 <- lm(A~B)
   step1 <- lm(A~B-1)
   step1param <- as.numeric(coef(step1))
   # xifit <- A-cbind(1, B)%*%step1param
