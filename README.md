@@ -23,4 +23,4 @@ The following folders contain replication files for the tables and figures in th
 	- [DS ACF Estimator](/Functions/QACF_Boot.R): Estimation file when ACF is used as an initial estimate of productivity
 	- [DS LP Estimator](/Functions/QLP_Boot.R): Estimation file when LP is used as an initial estimate of productivity for gross-output production function
 	- The remaining files found in this folder are used to send the code to the HPC system
-4. [Papers and Presentations](/Text): A folder containing files corresponding to the main paper and related presentations
+
