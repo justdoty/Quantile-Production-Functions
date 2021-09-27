@@ -85,13 +85,6 @@ print(nrow(USdata))
 #Industry Specific Sample Sizes
 naicsfirms <- group_by(USdata, naics2) %>% summarise(firms=n())
 print(naicsfirms)
-#Prodest Test
-USind <- USdata %>% filter(naics2=="32")
-require(prodest)
-VA <- prodestLP(Y=USind$lnva, fX=USind$lnl, sX=USind$lnk1, pX=USind$lnm, idvar=USind$id, timevar=USind$year)
-print(VA)
-# TFP <- USind$lnva-cbind(USind$lnl, USind$lnk1)%*%as.numeric(VA@Estimates$pars)
-# print(summary(TFP))
 #Save clean data
 path_out <- '/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/'
 fileName <- paste(path_out, 'USdata.csv',sep = '')

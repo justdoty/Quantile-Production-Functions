@@ -6,14 +6,14 @@ require(dplyr)
 #####################################################################################################
 #This function lags the data and returns both the lagged variables as well as its contemporaneous values
 #####################################################################################################
-lagdata <- function(idvar, X){
-  condata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-1)
-  lagdata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-n())
-  data <- cbind(data.frame(condata), data.frame(lagdata[,-1]))
-  return(data)
-}
+# lagdata <- function(idvar, X){
+#   condata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-1)
+#   lagdata <- data.frame(idvar, X) %>% group_by(idvar) %>% slice(-n())
+#   data <- cbind(data.frame(condata), data.frame(lagdata[,-1]))
+#   return(data)
+# }
 ########################################################################################################
-#boot resampling on IDs: bootstrapping on individuals (prodest.R)
+#boot resampling on IDs: bootstrapping on individuals (prodest.R-sGabriele Rovigatti)
 #######################################################################################################
 block.boot.resample <- function(idvar, R, seed){
   set.seed(seed)
@@ -30,17 +30,6 @@ block.boot.resample <- function(idvar, R, seed){
     }, boot.panel.id[,r], ind))) # return a fake ID (sequential number) as row name and the index referring to the true ID
   }
   return(new.indices)
-}
-##################################################################################################
-# Smoothing function Itilde() and its derviative Itilde'(); Vector input supported
-##################################################################################################
-Itilde.KS17 <- function(u) {  ifelse(u >= 1, 1, ifelse(u > -1, 1/2 + (105/64)*(u-(5/3)*u^3+(7/5)*u^5 -(3/7)*u^7), 0)) }
-Itilde.deriv.KS17 <- function(u) { ifelse(u > -1 & u < 1, (105/64)*(1-5*u^2+7*u^4-3*u^6), 0) }
-Gfn <- function(v,h){      
-  Itilde.KS17(v/h)    
-    }
-Gpfn <- function(v,h) {
-  Itilde.deriv.KS17(v/h)
 }
 ###########################################################################################################
 ###########################################################################################################

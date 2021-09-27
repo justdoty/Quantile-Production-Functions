@@ -6,9 +6,6 @@ require(snow)
 require(pracma)
 #For First Stage QR
 require(quantreg)
-#For GMM optimiztion
-require(GenSA)
-require(rmutil)
 #Initialzie clusters
 cl <- makeCluster(5)
 ################################################################################################

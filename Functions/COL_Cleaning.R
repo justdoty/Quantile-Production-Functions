@@ -1,24 +1,5 @@
 library(readstata13)
 library(dplyr)
-# RGO: Real Gross Output
-# RVA: Real Value-Added
-# si: log material share of revenue
-# K: Capital
-# L: Labor
-# RI: Real Intermediate Inputs
-# Import/Export: Whether a firm exports output or inputs intermediate inputs
-# adv: Wheter a firm advertises or not
-# hiwag: Whether a firm pays higher than median wages
-COLlist <- list()
-datind <- c("311", "321", "322", "331", "381")
-for (i in 1:5){
-	COLGNR <- read.dta13(sprintf("/Users/justindoty/Documents/Research/Dissertation/Data/GNR/Colombia/data_col_%s.dta", datind[i])) %>% 
-	select(id, year, RGO, RVA, si, K, L, RI, import, export, adv, hiwag) %>% group_by(id) %>% na.omit() %>%
-	transmute(id=id, year=year, Y=RGO, VA=RVA, share=si, K=K, L=L, M=RI, import=import, export=export, adv=adv, hiwag=hiwag, isic3=datind[i])
-	COLlist[[i]] <- data.frame(COLGNR)
-}
-COLGNRdata <- do.call(rbind, COLlist)
-write.csv(COLGNRdata, "/Users/justindoty/Documents/Research/Dissertation/Data/GNR/Colombia/GNRCOLdata.csv", row.names=FALSE)
 #####################For the data from Greenstreet########################################
 #Note that dropping the NA's in Exports reduced sample size greatly
 COL <- read.dta13("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Colombia/Raw Data/data/colombia_panel.dta") %>%

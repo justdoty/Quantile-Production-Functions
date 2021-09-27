@@ -2,13 +2,9 @@
 source('PFQR/FUN/Aux_Fun.R')
 #For Paralelization
 require(snow)
-#For MM 
 require(pracma)
 #For First Stage QR
 require(quantreg)
-#For GMM optimiztion
-require(GenSA)
-require(rmutil)
 #Initialzie clusters
 cl <- makeCluster(5)
 ################################################################################################

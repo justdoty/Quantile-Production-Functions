@@ -1,26 +1,5 @@
 library(readstata13)
 library(dplyr)
-####################For merging data from GNR (2020)#################################################
-#RGO: Real Gross Output
-#RVA: Real Value-Added
-#si: log material share of revenue
-#K: Capital
-#L: Labor
-#RI: Real Intermediate Inputs
-#Import/Export: Whether a firm exports output or inputs intermediate inputs
-#adv: Wheter a firm advertises or not
-#hiwag: Whether a firm pays higher than median wages
-CHLlist <- list()
-datind <- c("311", "321", "322", "331", "381")
-for (i in 1:5){
-	CHLGNR <- read.dta13(sprintf("/Users/justindoty/Documents/Research/Dissertation/Data/GNR/Chile/data_chi_%s.dta", datind[i])) %>% 
-	select(id, year, RGO, RVA, si, K, L, RI, import, export, adv, hiwag) %>% group_by(id) %>%
-	filter(RGO!=-1000, RVA!=-1000, si!=-1000, K!=-1000, L!=-1000, RI!=-1000, import!=-1000, export!=-1000, hiwag!=-1000, adv!=-1000) %>%
-	transmute(id=id, year=year, Y=RGO, VA=RVA, share=si, K=K, L=L, M=RI, import=import, export=export, adv=adv, hiwag=hiwag, isic3=datind[i]) %>% arrange(id, year)
-	CHLlist[[i]] <- data.frame(CHLGNR)
-}
-CHLGNRdata <- do.call(rbind, CHLlist)
-write.csv(CHLdata, "/Users/justindoty/Documents/Research/Dissertation/Data/GNR/Chile/GNRCHLdata.csv", row.names=FALSE)
 #####################For the data from Greenstreet########################################
 #Note that dropping the NA's in Exports reduced sample size greatly
 CHL <- read.dta13("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/Raw_Data/chile_data.dta") %>%
