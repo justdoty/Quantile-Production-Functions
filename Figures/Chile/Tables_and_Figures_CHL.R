@@ -8,7 +8,7 @@ library(cowplot)
 source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/Aux_Fun.R')
 #Load CHL dataset
 CHLdata <- read.csv("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/Chile/CHLdata.csv") %>%
-  transmute(id=id, year=year, isic3=isic3, Y=log(Y), VA=log(VA), K=log(K), L=log(L), M=log(M), Ex=exports, Im=rawmatsi, Adv=adverts)
+  transmute(id=id, year=year, isic3=isic3, Y=log(Y), sale=sale, VA=log(VA), vsale=vsales, K=log(K), L=log(L), lexp=lexp, M=log(M), mexp=mexp, Ex=exports, Im=rawmatsi, Adv=adverts)
 ISIC <- c("311", "381", "321", "All")
 industries <- c("311", "381", "321", "^3")
 ISIC_des <- c("Food Products", "Fabricated Metal Products", "Textiles", "All Manufacturing")
@@ -249,6 +249,10 @@ for (p in 1:length(ISIC)){
   LPTFP <- CHL$Y-cbind(CHL$K, CHL$L, CHL$M)%*%as.matrix(as.numeric(LPplotcoef))
   LPMdat <- melt(data.frame('TFP=0.1'=QLPTFP[,match(0.1, tau_t)], 'TFP=0.5'=QLPTFP[,match(0.5, tau_t)], 'TFP=0.9'=QLPTFP[,match(0.9, tau_t)] , LP=LPTFP))
   LPTFPM[[p]] <- ggplot(LPMdat, aes(x=value, fill=variable))+geom_density(alpha=0.5) + xlab("TFP") + ylab("")+ guides(fill=guide_legend(title="Estimator"))+ggtitle(paste("ISIC", ISIC[p]))+ theme(plot.title=element_text(face='plain')) + scale_fill_discrete(name="", labels=c(paste("TFP" ,c(0.1, 0.5, 0.9)), "LP TFP"))
+  #QLP Markups using labor elasticity
+  QLPmu <- sapply(QLPplotcoef[match(tau_t, tauvec), 2], function(x) x/(CHL$lexp/CHL$sale))
+  #LP Markups using labor elasticity
+  LPmu <- as.numeric(LPplotcoef)[2]/(CHL$lexp/CHL$sale)
   #Plot TFP growth over time
   LPGdat <- data.frame(CHL$id, CHL$year, exp(QLPTFP), exp(LPTFP))
   colnames(LPGdat) <- c("id", "year", paste("QLP", tau_t, sep=""), "LPTFP")
@@ -441,9 +445,6 @@ addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{Exporter}  & \\multicolumn{2}{c}{Importer} & \\multicolumn{2}{c}{Advertiser} \\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5} \\cmidrule(lr){6-7}'
 print(ACFPB_Table_X, hline.after=c(0,nrow(ACFPB_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
-
-
-
 #Industry ISIC Code Plot Labels
 QACF_Kplot <- list(); QACF_Lplot <- list(); 
 QACF_QDIF_Kplot <- list(); QACF_QDIF_Lplot <- list(); 
@@ -482,6 +483,10 @@ for (p in 1:length(ISIC)){
   ACFTFP <- CHL$VA-cbind(CHL$K, CHL$L)%*%as.matrix(as.numeric(ACFplotcoef))
   ACFMdat <- melt(data.frame('TFP=0.1'=QACFTFP[,match(0.1, tau_t)], 'TFP=0.5'=QACFTFP[,match(0.5, tau_t)], 'TFP=0.9'=QACFTFP[,match(0.9, tau_t)] , ACF=ACFTFP))
   ACFTFPM[[p]] <- ggplot(ACFMdat, aes(x=value, fill=variable))+geom_density(alpha=0.5) + xlab("TFP") + ylab("")+ guides(fill=guide_legend(title="Estimator"))+ggtitle(paste("ISIC", ISIC[p]))+ theme(plot.title=element_text(face='plain')) + scale_fill_discrete(name="", labels=c(paste("TFP" ,c(0.1, 0.5, 0.9)), "ACF TFP"))
+  #QLP Markups using labor elasticity
+  QACFmu <- sapply(QACFplotcoef[match(tau_t, tauvec), 2], function(x) x/(CHL$lexp/CHL$vsale))
+  #LP Markups using labor elasticity
+  ACFmu <- as.numeric(ACFplotcoef)[2]/(CHL$lexp/CHL$vsale)
   #Plot TFP growth over time
   ACFGdat <- data.frame(CHL$id, CHL$year, exp(QACFTFP), exp(ACFTFP))
   colnames(ACFGdat) <- c("id", "year", paste("QACF", tau_t, sep=""), "ACFTFP")

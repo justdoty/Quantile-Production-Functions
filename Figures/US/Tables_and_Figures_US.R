@@ -8,7 +8,7 @@ library(cowplot)
 source('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Functions/Aux_Fun.R')
 #Load US dataset
 USdata <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Data/US/USdata.csv') %>% 
-  select(id, year, lny, lnva, lnk1, lnl, lnm, adv, rd, naics2) %>% transmute(id=id, year=year, Y=lny, VA=lnva, K=lnk1, L=lnl, M=lnm, adv=adv, rd=rd, naics2=naics2)
+  select(id, year, lny, pY, lnva, vsale, lnk1, lnl, wL, lnm, mexp, adv, rd, naics2) %>% transmute(id=id, year=year, Y=lny, sale=pY, VA=lnva, vsale=vsale, K=lnk1, L=lnl, lexp=wL, M=lnm, mexp=mexp, adv=adv, rd=rd, naics2=naics2)
 #Industries as listed in Estimation_US.R file
 NAICS <- c("31", "32", "33", "All")
 industries <- c("31", "32", "33", "^3")
@@ -185,8 +185,6 @@ addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{R\\&D}  & \\multicolumn{2}{c}{Advertising} \\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5}'
 print(LPPC_Table_X, hline.after=c(0,nrow(LPPC_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
-
-
 #Industry NAICS Code Plot Labels
 QLP_Kplot <- list(); QLP_Lplot <- list(); QLP_Mplot <- list()
 QLP_QDIF_Kplot <- list(); QLP_QDIF_Lplot <- list(); QLP_QDIF_Mplot <- list()
@@ -220,19 +218,20 @@ for (p in 1:length(NAICS)){
   QLP_coef_row2 <- plot_grid(QLP_QDIF_Kplot[[p]], QLP_QDIF_Lplot[[p]], QLP_QDIF_Mplot[[p]], nrow=1)
   QLP_Coef_Plot <- plot_grid(QLP_coef_row1, QLP_coef_row2, ncol=1, nrow=2, align="h", rel_heights = c(1, 1))
   save_plot(paste("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/US/QLP_Coef_Plot_NAICS_", NAICS[p], ".png", sep=""), QLP_Coef_Plot, base_height=8, base_width=10)
-  # Plot TFP densities at median and mean
+  # Plot TFP densities 
   # TFP data for selected quantiles 
   US <- filter(USdata, str_detect(naics2, industries[p]))
   QLPTFP <- apply(QLPplotcoef[match(tau_t, tauvec), ], 1, function(x) US$Y-cbind(US$K, US$L, US$M)%*%x)
   LPTFP <- US$Y-cbind(US$K, US$L, US$M)%*%as.matrix(as.numeric(LPplotcoef))
   LPMdat <- melt(data.frame('TFP=0.1'=QLPTFP[,match(0.1, tau_t)], 'TFP=0.5'=QLPTFP[,match(0.5, tau_t)], 'TFP=0.9'=QLPTFP[,match(0.9, tau_t)] , LP=LPTFP))
   LPTFPM[[p]] <- ggplot(LPMdat, aes(x=value, fill=variable))+geom_density(alpha=0.5) + xlab("TFP") + ylab("")+ guides(fill=guide_legend(title="Estimator"))+ggtitle(paste("NAICS", NAICS[p]))+ theme(plot.title=element_text(face='plain')) + scale_fill_discrete(name="", labels=c(paste("TFP" ,c(0.1, 0.5, 0.9)), "LP TFP"))
-  #Plot TFP growth over time
+  #Plot TFP growth over time (Unweighted Average)
   LPGdat <- data.frame(US$id, US$year, exp(QLPTFP), exp(LPTFP))
   colnames(LPGdat) <- c("id", "year", paste("QLP", tau_t, sep=""), "LPTFP")
   LPGdat <- LPGdat %>% group_by(year) %>% summarise_at(c(paste("QLP", tau_t, sep=""), "LPTFP"), mean, na.rm=TRUE) %>% mutate_at(vars(-year), function(z) z/z[1L]*100)
   LPGdat <- melt(LPGdat[,c("year", paste("QLP", tau_t, sep=""), "LPTFP")], "year")
   LPTFPG[[p]] <- ggplot(LPGdat, aes(x=year, y=value, group=variable, linetype=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + scale_colour_manual(name="", labels=c(paste("TFP" ,tau_t), "LP TFP"), values=c(pcolour, "black")) + theme(legend.text.align = 0) + scale_linetype_manual(name="", labels=c(paste("TFP" ,tau_t), "LP TFP"), values=c("TFP 0.1"="solid", "TFP 0.25"="solid", "TFP 0.5"="solid","TFP 0.9"="solid", "TFP"="longdash", "NA"))+ggtitle(paste("NAICS", NAICS[p]))+ theme(plot.title=element_text(face='plain'))
+
 }
 #Combine TFP median vs mean plots over industries and save
 LPTFProw1 <- plot_grid(LPTFPM[[1]], LPTFPM[[2]])
@@ -244,6 +243,7 @@ LPTFPgrowthrow1 <- plot_grid(LPTFPG[[1]], LPTFPG[[2]])
 LPTFPgrowthrow2 <- plot_grid(LPTFPG[[3]], LPTFPG[[4]])
 QLPTFPgrowthplot <- plot_grid(LPTFPgrowthrow1, LPTFPgrowthrow2, ncol=1, align="h", rel_heights = c(1, 1))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/US/QLP_TFPgrowth_Plot.png", QLPTFPgrowthplot, base_height=8, base_width=10)
+#Combine markup growth plots over industries and save
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -383,8 +383,6 @@ addtorow <- list()
 addtorow$pos <- list(-1)
 addtorow$command <- '\\hline\\hline & \\multicolumn{2}{c}{R\\&D}  & \\multicolumn{2}{c}{Advertising} \\\\ \\cmidrule(lr){2-3} \\cmidrule(lr){4-5}'
 print(ACFPC_Table_X, hline.after=c(0,nrow(ACFPC_Table_X)), add.to.row=addtorow, auto=FALSE, include.rownames=FALSE, sanitize.text.function=function(x) x, table.placement="H")
-
-
 #Tables for ACF Estimates
 ACF_Table <- cbind(c("31", "32", "33", "All"), ACFestimates)
 colnames(ACF_Table) <- c("NAICS", rep(c("Coef.", "s.e"), dZ+2))
@@ -439,6 +437,7 @@ for (p in 1:length(NAICS)){
   ACFGdat <- ACFGdat %>% group_by(year) %>% summarise_at(c(paste("QACF", tau_t, sep=""), "ACFTFP"), mean, na.rm=TRUE) %>% mutate_at(vars(-year), function(z) z/z[1L]*100)
   ACFGdat <- melt(ACFGdat[,c("year", paste("QACF", tau_t, sep=""), "ACFTFP")], "year")
   ACFTFPG[[p]] <- ggplot(ACFGdat, aes(x=year, y=value, group=variable, linetype=variable)) + geom_line(aes(colour=variable)) + xlab("Year") + ylab("") + scale_colour_manual(name="", labels=c(paste("TFP" ,tau_t), "ACF TFP"), values=c(pcolour, "black")) + theme(legend.text.align = 0) + scale_linetype_manual(name="", labels=c(paste("TFP" ,tau_t), "ACF TFP"), values=c("TFP 0.1"="solid", "TFP 0.25"="solid", "TFP 0.5"="solid","TFP 0.9"="solid", "TFP"="longdash", "NA"))+ggtitle(paste("NAICS", NAICS[p]))+ theme(plot.title=element_text(face='plain'))
+
 }
 #Combine TFP median vs mean plots over industries and save
 ACFTFProw1 <- plot_grid(ACFTFPM[[1]], ACFTFPM[[2]])
@@ -450,8 +449,6 @@ ACFTFPgrowthrow1 <- plot_grid(ACFTFPG[[1]], ACFTFPG[[2]])
 ACFTFPgrowthrow2 <- plot_grid(ACFTFPG[[3]], ACFTFPG[[4]])
 QACFTFPgrowthplot <- plot_grid(ACFTFPgrowthrow1, ACFTFPgrowthrow2, ncol=1, align="h", rel_heights = c(1, 1))
 save_plot("/Users/justindoty/Documents/Research/Dissertation/Production_QR_Proxy/Code/Figures/US/QACF_TFPgrowth_Plot.png", QACFTFPgrowthplot, base_height=8, base_width=10)
-###########################################################################################
-
 
 
 

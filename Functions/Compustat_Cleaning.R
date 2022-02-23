@@ -56,15 +56,15 @@ compstat <- read.csv('/Users/justindoty/Documents/Research/Dissertation/Producti
 	#Omitting NA data and deflating output, capital, and investment and constructing labor expense: COGS and XSGA are filtered in the construction of intermediate inputs
 	mutate(Y=sale/yprice, K1=ppegt/kprice, K2=ppent/kprice, L=employ, I=capx/iprice, lexp=employ*lprice, oibdp=oibdp) %>% filter(cogs>0, xsga>0) %>%	
 	#Construct interemdiate input expense, deflate with material price deflator and construct deflated value added. Construct 2-digit NAICS codes
-	mutate(mexp=(sale-oibdp)-lexp) %>% mutate(M=mexp/mprice) %>% mutate(VA=(oibdp+lexp)/yprice, naics2=str_extract(as.character(naics), "^.{2}")) %>% 
+	mutate(mexp=(sale-oibdp)-lexp) %>% mutate(M=mexp/mprice) %>% mutate(vsale=oibdp+lexp, VA=(oibdp+lexp)/yprice, naics2=str_extract(as.character(naics), "^.{2}")) %>% 
 	#Create indicator for RnD and Adv status
 	mutate(rdB=ifelse(rd==0, 0, 1), advB=ifelse(adv==0, 0, 1)) %>%
 	#Filtering only non-negative observations
 	group_by(id) %>% filter(Y>0, !is.na(Y), K1>0, !is.na(K1), K2>0, !is.na(K2), L>0, !is.na(L), M>0, !is.na(M), I>0, !is.na(I), VA>0, !is.na(VA)) %>% 
-	select(id, year, Y, VA, K1, K2, L, M, I, age, naics2, rd, adv, rdB, advB)
+	select(id, year, Y, sale, vsale, VA, K1, K2, L, lexp, M, mexp, I, age, naics2, rd, adv, rdB, advB)
 #The main sample I consider contains firms with more than 3 firm-year observations
 compstat <- compstat %>% group_by(id) %>% filter(n()>=2)
-USdata <- compstat %>% transmute(id=id, year=year, lny=log(Y), lnva=log(VA), lnk1=log(K1), lnk2=log(K2), lnl=log(L), lnm=log(M), lni=log(I), age=age, rd=rd, rdB=rdB, adv=adv, advB=advB, naics2=naics2)
+USdata <- compstat %>% transmute(id=id, year=year, lny=log(Y), vsale=vsale, pY=sale, wL=lexp, lnva=log(VA), lnk1=log(K1), lnk2=log(K2), lnl=log(L), lnm=log(M), mexp=mexp, lni=log(I), age=age, rd=rd, rdB=rdB, adv=adv, advB=advB, naics2=naics2)
 ####################################################################################################
 #Summary statistics for the cleaned data set
 print(summary(USdata))
